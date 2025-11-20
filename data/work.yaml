@@ -1,0 +1,23 @@
+- title: "Collaborative Researcher"
+  company: "InstaDeep"
+  location: "London, UK"
+  period: "2023 - Present"
+  description: "Development of the Protein Structure Prediction Pipeline for Structural Immunology. Collaborating with BioNTech to support cancer vaccine design."
+
+- title: "Research Fellow"
+  company: "University of Reading"
+  location: "Reading, UK"
+  period: "2020 - Present"
+  description: "Leading the improvement of the IntFOLD server. Developed FunFOLD5 for protein-ligand interaction prediction, surpassing AlphaFold3 capabilities in specific tasks."
+
+- title: "PhD Researcher"
+  company: "University of Reading"
+  location: "Reading, UK"
+  period: "2016 - 2020"
+  description: "Refinement of protein 3D structures and ligand binding sites. Developed ReFOLD methods ranking in top 10 in CASP13."
+
+- title: "Teaching Assistant"
+  company: "University of Reading"
+  location: "Reading, UK"
+  period: "2016 - 2020"
+  description: "Demonstrated in Bioinformatics practicals for Molecular Genetics modules. Taught BLAST, PDB, PyMol to ~150 students."

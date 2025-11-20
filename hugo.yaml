@@ -1,0 +1,44 @@
+baseURL: 'https://recepadiyaman.com/'
+languageCode: 'en-us'
+title: 'Recep Adiyaman | Bioinformatician'
+theme: []
+
+module:
+  hugoVersion:
+    extended: true
+
+build:
+  writeStats: true
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
+menu:
+  main:
+    - identifier: about
+      name: About
+      url: "/#about"
+      weight: 10
+    - identifier: work
+      name: Work
+      url: "/#work"
+      weight: 20
+    - identifier: education
+      name: Education
+      url: "/#education"
+      weight: 25
+    - identifier: skills
+      name: Skills
+      url: "/#skills"
+      weight: 30
+    - identifier: publications
+      name: Publications
+      url: "/#publications"
+      weight: 40
+    - identifier: contact
+      name: Contact
+      url: "/#contact"
+      weight: 50
+

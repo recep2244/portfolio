@@ -1,0 +1,23 @@
+- title: "PhD in Biological Sciences"
+  company: "University of Reading"
+  location: "Reading, UK"
+  period: "2017 - 2021"
+  description: "Thesis: 'The Molecular Dynamics Based Refinement of the Predicted 3D models using different restraint strategies'. Supervisor: Prof. Liam McGuffin. Developed ReFOLD2 and ReFOLD3 methods."
+
+- title: "MSc in Bioengineering"
+  company: "Yildiz Technical University"
+  location: "Istanbul, Turkey"
+  period: "2012 - 2014"
+  description: "GPA: 3.86/4.00. Research: 'In Silico Optimization of Zinc Binding Proteins for Biosensor Applications'."
+
+- title: "MSc in Physics"
+  company: "Trakya University"
+  location: "Edirne, Turkey"
+  period: "2011 - 2013"
+  description: "Dissertation: 'GaAs/GaAlAs Quantum Well'. GPA: 67/100."
+
+- title: "BSc in Physics"
+  company: "Trakya University"
+  location: "Edirne, Turkey"
+  period: "2007 - 2011"
+  description: "GPA: 2.78/4.00."

@@ -1,0 +1,218 @@
+RECEP ADIYAMAN, PHD
+POSTDOCTORAL RESEARCHER
+Structural Bioinformatics Scientist / Protein Structure and Drug Design Researcher
+Career Summary:
+●​ 2023-Present Collaborative Researcher, Instadeep, London,UK
+Development of the Protein Structure Prediction Pipeline for Structural
+Immunology
+●​ 2020-Present Research Fellow, McGuffin Lab, University of Reading, UK
+Improvement of the IntFOLD server for 3D protein model prediction,
+including quality assessment, refinement, ligand binding site prediction,
+disordered region identification, and protein-protein interactions.
+●​ 2016-2020
+PhD Studentship, McGuffin Lab, University of Reading, UK
+​
+​
+​
+Refinement of protein 3D structures and ligand binding sites.
+Instadeep​
+
+​
+
+​
+
+PROFESSIONAL EXPERIENCE
+​
+​
+​
+​
+​
+​
+
+​
+
+2023-Present
+
+Collaborative Researcher (Part-Time) in Industry Setting, focused on the development of a protein
+structure prediction pipeline for structural immunology, in collaboration with BioNTech to support
+cancer vaccine design. This project combines experimental and computational immunology to
+enhance personalized vaccine target identification and optimization. (Confidential project)
+University of Reading​
+
+​
+
+​
+
+​
+
+​
+
+​
+
+​
+
+​
+
+2020-Present
+
+Research Fellow at McGuffin Lab, University of Reading, UK, working on a BBSRC-funded
+project to enhance the IntFOLD server for 3D protein model prediction. As the main developer, I
+have led the refinement of protein 3D structures, prediction of protein-ligand interactions, and
+ensemble prediction, with a focus on improving model quality assessment, structural refinement,
+ligand binding site prediction, disordered region identification, and protein-protein interaction
+analysis.
+Selected Achievement
+Adapting ReFOLD4 to refine 3D predictions beyond AlphaFold2 accuracy, integrating local
+quality estimation and MD simulations, resulting in a recent publication. Contributing to
+MultiFOLD protocol development, achieving top rankings in CASP15.
+In CASP16, I led the development of FunFOLD5, surpassing the capabilities of the AlphaFold3
+server method in protein-ligand interaction prediction. FunFOLD5 efficiently utilizes blind docking
+and template-based docking methods to facilitate drug design, providing alternative poses, global
+scores, and accurate affinity predictions. This advancement addresses the specific limitations
+observed in AlphaFold3's approach to these critical aspects of protein-ligand interactions.
+Education
+University of Reading (2017-2021)
+PhD
+The research titled 'The Molecular Dynamics Based Refinement of the Predicted 3D models using
+different restraint strategies'. Supervisor: Professor Liam McGuffin, Biological Sciences,
+University of Reading.
+The accuracy of predicted models is crucial for various biological applications, including drug
+design, protein docking, and protein function prediction. Improving the quality of predicted models
+refers to the refinement of the models, and the refinement of predicted models aims at bringing
+them closer to the native structure. In this study, our primary objective is to develop a refinement
+
+protocol based on molecular dynamics (MD) simulations. By employing different restraint
+strategies to guide the MD-based refinements, we aim to achieve higher accuracy in the refined
+models, ultimately bringing them closer to the native structure.
+MD-based refinement protocols were also used to improve the local quality of the protein-ligand
+binding site predictions in addition to the global accuracy.
+Selected Achievements
+Published a comprehensive review of the field in an invited special issue and a result paper as a
+book chapter, and co-authored two papers.
+ReFOLD2 which was developed during the research, ranked among the top 10 refinement methods
+according to cumulative GDT-TS score in CASP13.
+ReFOLD3 which was also developed during my PhD ranked among the top 5 refinement methods
+according to cumulative GDT-TS score in CASP13 for the highly accurate predictions which is
+difficult targets for the refinement category. Its server application was published in NAR Web
+Server Issue and it is live at and it has been the top refinement server application in CASP14.
+https://www.reading.ac.uk/bioinf/ReFOLD/ReFOLD3_form.html.
+Yildiz Technical University (2012 –2014)​
+MSc in Bioengineering
+The research titled ‘In Silico Optimization of Zinc Binding Proteins for Biosensor Applications
+In our research, we focused on using zinc binding peptides and attempted to increase their affinity
+for zinc ions by mutating single residues with the 20 standard amino acids. Through targeted
+mutagenesis, we systematically introduced substitutions in individual amino acid residues and
+assessed their impact on zinc binding. Our goal was to identify specific mutations that could
+enhance the interaction between the peptides and zinc ions. By conducting binding assays and
+structural studies, we aimed to uncover amino acid substitutions that would lead to a significant
+increase in zinc ion affinity. The findings from this research have the potential to inform the design
+of zinc binding peptides with improved properties, benefiting fields such as bioinorganic chemistry
+and molecular biology.
+. Supervisor: Assistant Professor Gundog Yucesan and Assistant Professor Alper Yilmaz
+GPA: 3.86 /4.00
+Trakya University (2011-2013)
+MSc in Physics
+The dissertation titled ‘GaAs/GaAlAs Quantum Well’ Supervisor: Professor Hasan Akbas.GPA:
+67/100
+Trakya University (2007-2011)
+BSc in Physics
+Modules included Classical Mechanics & Relativity and the Quantum Mechanics and its
+Applications.​ GPA: 2.78/4.00​
+Publications
+Google Scholar H-index: 9 Total Citations :469
+●​ Adiyaman, R., Edmunds, N. S., Genc, A. G., Alharbi, S. M. A., & McGuffin, L. J. (2023).
+Improvement of protein tertiary and quaternary structure predictions using the ReFOLD
+refinement method and the AlphaFold2 recycling process. Bioinformatics Advances (Total
+citations :19)
+●​ Adiyaman, R., & McGuffin, L. J. (2023). Using local protein model quality estimates to
+guide a molecular dynamics-based refinement strategy. In Homology Modeling: Methods
+and Protocols (pp. 119-140). Springer US. (Total citations :1)
+●​ Adiyaman, R., & McGuffin, L. J. (2021). ReFOLD3: refinement of 3D protein models with
+gradual restraints based on predicted local quality and residue contacts. Nucleic Acids
+Research, 49(W1). (Total citations :22)
+
+●​ Adiyaman, R., & McGuffin, L. J. (2019). Methods for the Refinement of Protein Structure
+3D Models. International Journal of Molecular Sciences, 20(9), 2301. (Total citations :80)
+●​ Taylor, K. A., Elgheznawy, A., Adiyaman, R., Horn, T. L., Parkes, S., Hughes, C. E.,
+McGuffin, L. J., & Gibbins, J. M. (2025). Inter-platelet communication driving thrombus
+formation is regulated by extracellular calpain-1 cleavage of connexin 62. Haematologica,
+110(8), 1822–1833. https://doi.org/10.3324/haematol.2024.286466
+●​ McGuffin, L. J., Alhaddad, S. N., Behzadi, B., Edmunds, N. S., Genc, A. G., & Adiyaman,
+R. (2025). Prediction and quality assessment of protein quaternary structure models using
+the MultiFOLD2 and ModFOLDdock2 servers . Nucleic Acids Research, gkaf336.
+●​ Fadini, A., Adiyaman, R., Alhaddad, S. N., et al. (2025). Highlights of model quality
+assessment in CASP16. Proteins: Structure, Function, and Bioinformatics, 1–16.
+https://doi.org/10.1002/prot.70035
+●​ McGuffin, L. J., Edmunds, N. S., Genc, A. G., Alharbi, S. M. A., Salehe, B. R., &
+Adiyaman, R. (2023). Prediction of protein structures, functions and interactions using the
+IntFOLD7, MultiFOLD and ModFOLDdock servers. Nucleic Acids Research, 51(W1),
+W274-W280. (Total citations :67)
+●​ Edmunds, N. S., Alharbi, S. M. A., Genc, A. G., Adiyaman, R., & McGuffin, L. J. (2023).
+Estimation of model accuracy in CASP15 using the ModFOLDdock server. Proteins:
+Structure, Function, and Bioinformatics. (Total citations :20)
+●​ McGuffin, L. J., Adiyaman, R., Maghrabi, A. H. A., Shuid, A. N., Brackenridge, D. A.,
+Nealon, J. O., & Philomina, L. S. (2019). IntFOLD: An integrated web resource for
+high-performance protein structure and function prediction. Nucleic Acids Research.
+(Total citations :145)
+●​ McGuffin, L. J., Aldowsari, F. M. F., Alharbi, S. M. A., & Adiyaman, R. (2021).
+ModFOLD8: Accurate global and local quality estimates for 3D protein models. Nucleic
+Acids Research. (Total citations :78)
+●​ Sahli, K. A., Flora, G. D., Sasikumar, P., Maghrabi, A. H., Holbrook, L. M., AlOuda, S. K.,
+Elgheznawy, A., Sage, T., Stainer, A. R., Adiyaman, R., & AboHassan, M. (2021).
+Structural, functional, and mechanistic insights uncover the fundamental role of orphan
+connexin-62 in platelets. Blood, 137(6), 830-843. (Total citations :12)
+●​ Kryshtafovych, A., Moult, J., Billings, W. M., Della Corte, D., Fidelis, K., Kwon, S.,
+Olechnovič, K., Seok, C., Venclovas, Č., Won, J., & CASP-COVID participants
+(Adiyaman, R.). (2021). Modelling SARS‐CoV‐2 proteins in the CASP‐commons
+experiment. Proteins: Structure, Function, and Bioinformatics, 89(12), 1987-1996. (Total
+citations :22)
+●​ Yucesan, G., Yilmaz, A., & Adiyaman, R. (2014). Design and synthesis of small peptide
+sequences to detect concentrations of free transition metal ions. In Abstracts of Papers of
+the American Chemical Society, 247. Washington, DC: American Chemical Society.
+Research skills
+●​ Using Molecular Dynamics Simulations
+●​ Analysis of data by R, python scripts, Shell scripting
+●​ Application of Bioinformatics Tools( BLAST, NCBI, EMBOSS, Rosetta, SWISS-MODEL,
+Modeller, HHpred, PyMol, Chimera)
+●​ Application of Machine Learning Tools (scikit-learn, TensorFlow , PyTorch )
+●​ Using Cloud Services (AWS, MMM Hub Young Server-UCL)
+●​ Protein ligand interactions (blind and redocking using Vina, gnina, SwissDock, DiffDock,
+Rosetta software family)
+Conferences and presentations
+Oral
+●​ Adıyaman, R., Yılmaz, A., Yücesan, G., (2014). Design of metal ions binding small
+peptides, 1. National Biosensor Congress, Tekirdag, Turkey
+
+●​ Recep Adiyaman ‘Molecular Dynamics Based Refinement of Protein Models with the
+Guidance of Local Quality Assessment’, University of Reading Biological Sciences
+Symposium, Reading, The UK
+●​ Recep Adıyaman, Liam James McGuffin ‘ ReFOLD4 for the refinement of the
+AlphaFOLD2 predictions’, ISMB 2023 - (3D-SIG)
+●​
+Poster
+●​ Recep Adıyaman, Liam James McGuffin ‘ ReFOLD2’, 13th Community Wide Experiment
+on the Critical Assessment of Techniques for Protein Structure Prediction, Cancun, Mexico
+2018
+●​ Recep Adıyaman, Liam James McGuffin ‘ The refinement of theoretical 3D models of
+proteins using the ReFOLD3 web server’, ISMB 2021 - (3D-SIG)
+●​ ReFOLD3: refinement of 3D protein models with gradual restraints based on predicted
+local quality and residue contacts. 14th Community Wide Experiment on the Critical
+Assessment of Techniques for Protein Structure Prediction, Virtual due to COVID
+pandemic
+Employment
+Teaching assistant, Reading (2016-2020)
+●​ Demonstrating in Bioinformatics practical of Molecular and Genetics and Introduction to
+Bioinformatics Modules. The practical included the application of the bioinformatics tools
+such as BLAST, PDB, CATH, PDBsum and PyMol. Around 150 students attended the
+practicals and the fundamentals of the tools were introduced to them.
+Research Associate, Reading (2020-present)
+●​ Working on the further improvement of the IntFOLD server for the prediction of protein
+3D models, and their global and local assessment , refinement stages, protein ligand binding
+site and disordered region predictions.
+References
+Professor Liam McGuffin, School of Biological Sciences, The University of Reading,
+Whiteknights, PO Box 221 ,Reading RG6 6AS UK, l.j.mcguffin@reading.ac.uk
+Assist.Prof.Dr. Alper YILMAZ, Yildiz Technical University Bioengineering Department, YTU
+Bioengineering Department, Room KM-A129, Esenler, Istanbul, Turkey, alperyilmaz@gmail.com
+
+

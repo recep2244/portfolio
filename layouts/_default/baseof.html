@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+{{ partial "head.html" . }}
+
+<body class="bg-primary text-text antialiased selection:bg-accent selection:text-white">
+    <div
+        class="fixed inset-0 z-[-1] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-secondary/20 via-primary to-primary pointer-events-none">
+    </div>
+
+    {{ partial "header.html" . }}
+
+    <main class="min-h-screen pt-20">
+        {{ block "main" . }}{{ end }}
+    </main>
+
+    {{ partial "footer.html" . }}
+</body>
+
+</html>
