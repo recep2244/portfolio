@@ -1,22 +1,25 @@
 <section id="skills" class="py-20 bg-secondary/30">
-    <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold mb-12 text-center">Technical Skills</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+    <div class="container mx-auto px-6 space-y-10">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <span class="eyebrow">Capabilities</span>
+                <h2 class="section-heading mt-3">Technical Skills</h2>
+            </div>
+            <div class="pill">ML + MD + Cloud</div>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {{ range .Site.Data.skills.categories }}
-            <div
-                class="bg-slate-800/50 p-8 rounded-2xl border border-slate-700/50 hover:border-accent/30 transition-all hover:-translate-y-1 duration-300">
-                <h3 class="text-xl font-bold mb-6 text-accent">{{ .name }}</h3>
-                <ul class="space-y-3">
+            <div class="glass-card p-7 flex flex-col gap-4 hover:-translate-y-1 transition-transform duration-300">
+                <div class="flex items-center justify-between gap-3">
+                    <h3 class="text-xl font-semibold text-white">{{ .name }}</h3>
+                    <span class="h-2.5 w-2.5 rounded-full bg-accent shadow-[0_0_0_6px_rgba(34,211,238,0.18)]"></span>
+                </div>
+                <div class="flex flex-wrap gap-2">
                     {{ range .items }}
-                    <li class="flex items-center text-slate-300">
-                        <svg class="w-4 h-4 mr-3 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
-                            </path>
-                        </svg>
-                        {{ . }}
-                    </li>
+                    <span class="pill">{{ . }}</span>
                     {{ end }}
-                </ul>
+                </div>
             </div>
             {{ end }}
         </div>

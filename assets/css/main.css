@@ -1,11 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #0f172a;
-  --color-secondary: #1e293b;
-  --color-accent: #0ea5e9;
-  --color-text: #f8fafc;
-  --font-sans: "Inter", sans-serif;
+  --color-primary: #030712;
+  --color-secondary: #0b1224;
+  --color-surface: #0f1b33;
+  --color-panel: #0d162b;
+  --color-accent: #22d3ee;
+  --color-text: #e7efff;
+  --font-sans: "Space Grotesk", "Inter", system-ui, -apple-system, sans-serif;
 
   --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
   --animate-float: float 6s ease-in-out infinite;
@@ -38,12 +40,51 @@
 @layer base {
   body {
     @apply bg-primary text-text antialiased;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.08), transparent 25%),
+      radial-gradient(circle at 80% 0%, rgba(56, 189, 248, 0.06), transparent 30%),
+      radial-gradient(circle at 10% 70%, rgba(99, 102, 241, 0.05), transparent 25%),
+      var(--color-primary);
   }
 
   h1,
   h2,
   h3 {
     @apply tracking-tight;
+  }
+
+  ::selection {
+    background-color: rgba(34, 211, 238, 0.25);
+    color: #e7efff;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md shadow-[0_20px_80px_rgba(0,0,0,0.35)];
+  }
+
+  .glass-card::before {
+    content: "";
+    @apply absolute inset-0 pointer-events-none bg-gradient-to-br from-white/5 via-transparent to-transparent;
+  }
+
+  .pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200/90;
+  }
+
+  .section-heading {
+    @apply text-3xl md:text-4xl font-semibold text-white;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-300/80;
+  }
+
+  .gradient-text {
+    background: linear-gradient(120deg, #e7efff, #22d3ee 40%, #7dd3fc);
+    -webkit-background-clip: text;
+    color: transparent;
   }
 }
 

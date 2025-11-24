@@ -1,0 +1,10 @@
+[build]
+  command = "npx hugo --minify"
+  publish = "public"
+
+[build.environment]
+  HUGO_VERSION = "0.152.2"
+  HUGO_ENABLEGITINFO = "true"
+
+[context.production.environment]
+  NODE_VERSION = "20"
