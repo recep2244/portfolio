@@ -1,3 +1,4 @@
+{{ $cv := .Site.Data.cv }}
 <section id="work" class="py-20">
     <div class="container mx-auto px-6 space-y-10">
         <div class="flex flex-wrap items-center justify-between gap-4">
@@ -9,7 +10,7 @@
         </div>
 
         <div class="grid gap-6">
-            {{ range .Site.Data.work }}
+            {{ range $cv.experience }}
             <div class="glass-card p-6 md:p-7">
                 <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                     <div class="space-y-2 md:max-w-3xl">
@@ -20,8 +21,14 @@
                                 {{ .period }}
                             </span>
                         </div>
-                        <div class="text-slate-300 font-medium">{{ .company }} • {{ .location }}</div>
-                        <p class="text-slate-400 leading-relaxed text-sm md:text-base">{{ .description }}</p>
+                        <div class="text-slate-300 font-medium">{{ .org }} • {{ .location }}</div>
+                        {{ if .bullets }}
+                        <ul class="text-slate-400 leading-relaxed text-sm md:text-base list-disc list-inside space-y-1.5">
+                            {{ range .bullets }}
+                            <li>{{ . }}</li>
+                            {{ end }}
+                        </ul>
+                        {{ end }}
                     </div>
                     <div class="flex items-start gap-2 text-slate-400 text-sm md:flex-col md:items-end">
                         <span

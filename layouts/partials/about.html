@@ -1,3 +1,4 @@
+{{ $cv := .Site.Data.cv }}
 <section id="about" class="py-20 bg-secondary/30">
     <div class="container mx-auto px-6 space-y-10">
         <div class="flex flex-wrap items-center justify-between gap-4">
@@ -10,17 +11,7 @@
 
         <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-start">
             <div class="space-y-5 text-lg text-slate-200 leading-relaxed">
-                <p>
-                    I am a dedicated Bioinformatician with a unique academic background spanning Physics and
-                    Bioengineering. Currently serving as a Research Associate at the University of Reading, I focus on
-                    improving protein tertiary and quaternary structure predictions for real-world research teams.
-                </p>
-                <p>
-                    My work involves developing and refining tools like the IntFOLD server, using Molecular Dynamics
-                    simulations, and applying Machine Learning to solve complex biological problems. I am passionate
-                    about bridging the gap between computational physics and molecular biology to unlock reliable,
-                    reproducible structure insights.
-                </p>
+                <p>{{ $cv.summary }}</p>
             </div>
 
             <div class="grid gap-4">
@@ -57,13 +48,9 @@
                 <div class="glass-card p-6 space-y-2">
                     <div class="text-sm uppercase tracking-wide text-slate-400">Recent highlights</div>
                     <ul class="space-y-2 text-slate-200 text-sm leading-relaxed">
-                        <li>Improved IntFOLD for tertiary/quaternary predictions and ligand interaction discovery.</li>
-                        <li>Developed FunFOLD5 for protein-ligand interaction prediction, surpassing AlphaFold3 in
-                            targeted tasks.</li>
-                        <li>Benchmarked molecular dynamics refinements to elevate model quality for downstream
-                            research.</li>
-                        <li>Google Scholar: H-index 9 with 460+ citations across structure prediction and refinement
-                            work.</li>
+                        {{ range $cv.highlights }}
+                        <li>{{ . }}</li>
+                        {{ end }}
                     </ul>
                 </div>
             </div>

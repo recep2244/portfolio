@@ -1,3 +1,4 @@
+{{ $cv := .Site.Data.cv }}
 <section id="contact" class="py-20 bg-secondary/30">
     <div class="container mx-auto px-6">
         <div class="glass-card p-8 md:p-10 max-w-4xl mx-auto text-center space-y-6">
@@ -10,7 +11,7 @@
                 </p>
             </div>
             <div class="flex flex-wrap justify-center gap-4">
-                <a href="mailto:recepadiyaman2244@gmail.com"
+                <a href="mailto:{{ $cv.contact.email }}"
                     class="px-7 py-3 rounded-full bg-accent text-slate-900 font-semibold shadow-[0_10px_40px_rgba(34,211,238,0.35)] hover:-translate-y-0.5 transition-transform">
                     Email Recep
                 </a>
@@ -20,7 +21,7 @@
                 </a>
             </div>
             <div class="flex justify-center gap-4">
-                <a href="https://www.linkedin.com/in/recep-ad%C4%B1yaman/" target="_blank" rel="noreferrer"
+                <a href="{{ $cv.contact.linkedin }}" target="_blank" rel="noreferrer"
                     class="pill hover:border-accent hover:text-accent transition-colors">
                     <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path
@@ -28,7 +29,7 @@
                     </svg>
                     LinkedIn
                 </a>
-                <a href="https://github.com/recep2244" target="_blank" rel="noreferrer"
+                <a href="{{ $cv.contact.github }}" target="_blank" rel="noreferrer"
                     class="pill hover:border-accent hover:text-accent transition-colors">
                     <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path fill-rule="evenodd" clip-rule="evenodd"

@@ -1,3 +1,4 @@
+{{ $cv := .Site.Data.cv }}
 <section class="relative overflow-hidden py-24 sm:py-32">
     <div class="absolute inset-0">
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,#1f2937_1px,transparent_0)] opacity-20"></div>
@@ -10,21 +11,19 @@
             <div class="eyebrow w-fit">
                 <span
                     class="h-2 w-2 rounded-full bg-accent shadow-[0_0_0_6px_rgba(34,211,238,0.15)] animate-pulse"></span>
-                Bioinformatician
+                {{ $cv.contact.title }}
             </div>
             <h1 class="text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.05]">
-                <span class="gradient-text">Recep Adiyaman</span>
+                <span class="gradient-text">{{ $cv.contact.name }}</span>
             </h1>
             <p class="text-lg md:text-xl text-slate-300/90 max-w-2xl">
-                Specializing in protein structure prediction, molecular dynamics, and machine learning applications in
-                biology—bridging physics, bioengineering, and computational pipelines to ship better models faster.
+                {{ $cv.summary }}
             </p>
 
             <div class="flex flex-wrap gap-3">
-                <span class="pill">Protein structure prediction</span>
-                <span class="pill">Molecular dynamics refinement</span>
-                <span class="pill">Machine learning for biology</span>
-                <span class="pill">Pipeline optimisation</span>
+                {{ range $cv.highlights }}
+                <span class="pill">{{ . }}</span>
+                {{ end }}
             </div>
 
             <div class="flex flex-wrap items-center gap-4 pt-1">
@@ -46,7 +45,7 @@
                     <span class="pill py-1 px-3">Impact-driven</span>
                 </div>
                 <div class="grid gap-4">
-                    {{ $roles := .Site.Data.work }}
+                    {{ $roles := $cv.experience }}
                     {{ if gt (len $roles) 0 }}
                     {{ with index $roles 0 }}
                     <div class="rounded-2xl border border-white/5 bg-white/5 p-4">
@@ -57,8 +56,10 @@
                             </span>
                         </div>
                         <div class="text-lg font-semibold text-white mt-1">{{ .title }}</div>
-                        <div class="text-slate-300 text-sm">{{ .company }} • {{ .location }}</div>
-                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">{{ .description }}</p>
+                        <div class="text-slate-300 text-sm">{{ .org }} • {{ .location }}</div>
+                        {{ if .bullets }}
+                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">{{ index .bullets 0 }}</p>
+                        {{ end }}
                     </div>
                     {{ end }}
                     {{ end }}
@@ -73,8 +74,10 @@
                             </span>
                         </div>
                         <div class="text-lg font-semibold text-white mt-1">{{ .title }}</div>
-                        <div class="text-slate-300 text-sm">{{ .company }} • {{ .location }}</div>
-                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">{{ .description }}</p>
+                        <div class="text-slate-300 text-sm">{{ .org }} • {{ .location }}</div>
+                        {{ if .bullets }}
+                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">{{ index .bullets 0 }}</p>
+                        {{ end }}
                     </div>
                     {{ end }}
                     {{ end }}
