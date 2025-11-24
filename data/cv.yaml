@@ -124,6 +124,28 @@ references:
     role: "Yildiz Technical University Bioengineering Department"
     contact: "alperyilmaz@gmail.com"
 
+projects:
+  - name: "Structural Immunology Pipeline"
+    org: "InstaDeep / BioNTech"
+    period: "2023 – Present"
+    summary: "End-to-end protein structure + ligand workflow to speed cancer vaccine target discovery; bridges wet-lab readouts with computational prioritisation."
+    tags: ["Pipeline", "Structural immunology", "Docking"]
+  - name: "IntFOLD / MultiFOLD Refinement"
+    org: "University of Reading"
+    period: "2020 – Present"
+    summary: "Integrated MD recycling and QA to push models beyond AlphaFold2; shipped ensemble prediction, ligand site, disorder, and PPI modules."
+    tags: ["MD recycling", "QA", "Ensemble"]
+  - name: "FunFOLD5"
+    org: "University of Reading"
+    period: "2023 – 2024"
+    summary: "Ligand interaction prediction that outperforms AlphaFold3 on targeted docking tasks via blind + template docking and affinity scoring."
+    tags: ["Ligand prediction", "Docking", "Benchmarking"]
+  - name: "ReFOLD2/3"
+    org: "University of Reading"
+    period: "2016 – 2020"
+    summary: "Top-10 CASP13 refinement methods using MD restraint strategies to lift predicted structures toward native and improve ligand-site fidelity."
+    tags: ["Refinement", "CASP", "MD"]
+
 blogs:
   - title: "Closing the loop: MD recycling beyond AlphaFold2"
     summary: "How restrained MD cycles and local QA signals can push structural predictions past AF2 baselines for real targets."
