@@ -1,0 +1,124 @@
+contact:
+  name: "Recep Adiyaman, PhD"
+  title: "Structural Bioinformatics Scientist | Protein Structure, MD Refinement, Drug Design"
+  location: "Reading, UK"
+  email: "recepadiyaman@gmail.com"
+  linkedin: "https://www.linkedin.com/in/recep-ad%C4%B1yaman/"
+  github: "https://github.com/recep2244"
+  website: "https://recepadiyaman.com"
+
+summary: "Bioinformatician blending physics, bioengineering, and ML to ship protein structure pipelines. Specializes in MD-based refinement, ligand interaction prediction, and quality assessment for deployable research tools."
+
+highlights:
+  - "FunFOLD5 ligand interaction prediction surpassing AlphaFold3 on targeted tasks."
+  - "MD-based recycling for IntFOLD/MultiFOLD pushing models beyond AlphaFold2 accuracy."
+  - "H-index 9 with 460+ citations across structure prediction and refinement work."
+
+experience:
+  - title: "Collaborative Researcher (Part-Time)"
+    org: "InstaDeep"
+    location: "London, UK"
+    period: "2023 – Present"
+    bullets:
+      - "Build structural immunology pipeline with BioNTech to accelerate cancer vaccine target discovery."
+      - "Bridge experimental readouts and computational prediction for faster candidate prioritisation."
+
+  - title: "Research Fellow"
+    org: "McGuffin Lab, University of Reading"
+    location: "Reading, UK"
+    period: "2020 – Present"
+    bullets:
+      - "Lead developer for IntFOLD/MultiFOLD refinement; integrated MD recycling to exceed AlphaFold2 accuracy."
+      - "Created FunFOLD5 for ligand interactions; blind + template docking outperforming AlphaFold3 in targeted tasks."
+      - "Advanced ensemble prediction, QA, ligand site, disorder, and PPI pipelines for deployable tools."
+
+  - title: "PhD Researcher"
+    org: "University of Reading"
+    location: "Reading, UK"
+    period: "2016 – 2020"
+    bullets:
+      - "Developed ReFOLD2/3 MD restraint strategies; top-10 in CASP13 refinement, improving structure and ligand-site fidelity."
+      - "Published MD-based refinement and quality estimation work; co-led benchmarking of refinement protocols."
+
+  - title: "Teaching Assistant"
+    org: "University of Reading"
+    location: "Reading, UK"
+    period: "2016 – 2020"
+    bullets:
+      - "Delivered bioinformatics practicals (BLAST, PDB/CATH, PyMOL) to ~150 students per cohort."
+
+education:
+  - degree: "PhD, Biological Sciences"
+    school: "University of Reading"
+    location: "Reading, UK"
+    period: "2017 – 2021"
+    details: "MD-based refinement of predicted 3D protein models with restraint strategies; developed ReFOLD2/3 (CASP13 top-ranked). Supervisor: Prof. Liam McGuffin."
+
+  - degree: "MSc, Bioengineering"
+    school: "Yildiz Technical University"
+    location: "Istanbul, Turkey"
+    period: "2012 – 2014"
+    details: "GPA 3.86/4.00. In silico optimisation of zinc-binding proteins for biosensors (Supervisors: Gundog Yucesan, Alper Yilmaz)."
+
+  - degree: "MSc, Physics"
+    school: "Trakya University"
+    location: "Edirne, Turkey"
+    period: "2011 – 2013"
+    details: "Research on GaAs/GaAlAs quantum wells; GPA 67/100."
+
+  - degree: "BSc, Physics"
+    school: "Trakya University"
+    location: "Edirne, Turkey"
+    period: "2007 – 2011"
+    details: "Coursework in classical mechanics, relativity, and quantum mechanics; GPA 2.78/4.00."
+
+publications:
+  - title: "ReFOLD + AlphaFold2 recycling for tertiary/quaternary prediction"
+    venue: "Bioinformatics Advances, 2023"
+    note: "Recycling with refinement lifts model quality beyond AF2."
+  - title: "MD-guided refinement using local quality estimates"
+    venue: "Homology Modeling: Methods and Protocols (Springer US), 2023"
+    note: "Protocol for MD refinement directed by local QA."
+  - title: "ReFOLD3 refinement with gradual restraints"
+    venue: "Nucleic Acids Research, 2021"
+    note: "Gradual restraints improve difficult targets; top CASP performance."
+  - title: "IntFOLD7 / MultiFOLD / ModFOLDdock servers"
+    venue: "Nucleic Acids Research, 2023"
+    note: "Integrated prediction and QA servers."
+  - title: "ModFOLD8 quality estimates"
+    venue: "Nucleic Acids Research, 2021"
+    note: "Accurate global/local QA for 3D protein models."
+
+skills:
+  - name: "Protein / MD"
+    items:
+      - "MD refinement pipelines (restraints, ensembles)"
+      - "Structure prediction (AlphaFold2, ReFOLD, IntFOLD/MultiFOLD)"
+      - "Ligand interactions (Vina, gnina, SwissDock, DiffDock, Rosetta)"
+      - "QA and docking evaluation (ModFOLD/quality estimation)"
+
+  - name: "Data / ML"
+    items:
+      - "Python, R, shell for analysis and automation"
+      - "scikit-learn, TensorFlow, PyTorch for structural ML tasks"
+      - "Feature engineering for quality/affinity scoring"
+      - "Reproducible benchmarking and experiment tracking"
+
+  - name: "Collaboration"
+    items:
+      - "AWS and HPC (MMM Hub Young Server-UCL)"
+      - "Code review, documentation, mentoring"
+      - "Teaching bioinformatics toolchains (BLAST, HHpred, PyMOL, Chimera)"
+
+talks:
+  - "ReFOLD4 for refinement of AlphaFold2 predictions — ISMB 2023 (3D-SIG)"
+  - "MD-based refinement guided by local quality — University of Reading BioSci Symposium"
+  - "ReFOLD2/3 refinement posters — CASP13/14/16, ISMB 2021, 3D-SIG"
+
+references:
+  - name: "Prof. Liam McGuffin"
+    role: "School of Biological Sciences, University of Reading"
+    contact: "l.j.mcguffin@reading.ac.uk"
+  - name: "Assist. Prof. Alper Yilmaz"
+    role: "Yildiz Technical University Bioengineering Department"
+    contact: "alperyilmaz@gmail.com"

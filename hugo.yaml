@@ -45,3 +45,7 @@ menu:
       name: Contact
       url: "/#contact"
       weight: 50
+    - identifier: cv
+      name: CV
+      url: "/cv"
+      weight: 60
