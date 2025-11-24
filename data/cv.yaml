@@ -2,7 +2,7 @@ contact:
   name: "Recep Adiyaman, PhD"
   title: "Structural Bioinformatics Scientist | Protein Structure, MD Refinement, Drug Design"
   location: "Reading, UK"
-  email: "recepadiyaman@gmail.com"
+  email: "recepadiyaman2244@gmail.com"
   linkedin: "https://www.linkedin.com/in/recep-ad%C4%B1yaman/"
   github: "https://github.com/recep2244"
   website: "https://recepadiyaman.com"
@@ -20,8 +20,8 @@ experience:
     location: "London, UK"
     period: "2023 – Present"
     bullets:
-      - "Build structural immunology pipeline with BioNTech to accelerate cancer vaccine target discovery."
-      - "Bridge experimental readouts and computational prediction for faster candidate prioritisation."
+      - "Built structural immunology pipeline with BioNTech to accelerate cancer vaccine target discovery."
+      - "Bridged experimental readouts and computational prediction for faster candidate prioritisation."
 
   - title: "Research Fellow"
     org: "McGuffin Lab, University of Reading"
@@ -29,7 +29,7 @@ experience:
     period: "2020 – Present"
     bullets:
       - "Lead developer for IntFOLD/MultiFOLD refinement; integrated MD recycling to exceed AlphaFold2 accuracy."
-      - "Created FunFOLD5 for ligand interactions; blind + template docking outperforming AlphaFold3 in targeted tasks."
+      - "Created FunFOLD5 for ligand interactions; blind + template docking outperform AlphaFold3 in targeted tasks."
       - "Advanced ensemble prediction, QA, ligand site, disorder, and PPI pipelines for deployable tools."
 
   - title: "PhD Researcher"

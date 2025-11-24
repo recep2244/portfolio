@@ -1,5 +1,5 @@
 ---
 title: "Curriculum Vitae"
-layout: "cv/single"
+layout: "cv/compact"
 url: "/cv"
 ---
