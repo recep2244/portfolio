@@ -1,19 +1,20 @@
 categories:
-  - name: "Bioinformatics & Simulation"
+  - name: "Protein structure & simulation"
     items:
-      - "Molecular Dynamics Simulations"
-      - "Protein Ligand Interactions (Vina, gnina, SwissDock, DiffDock, Rosetta)"
-      - "Protein Structure Prediction (AlphaFold2, ReFOLD, IntFOLD)"
-      - "Bioinformatics Tools (BLAST, NCBI, EMBOSS, SWISS-MODEL, Modeller, HHpred, PyMol, Chimera)"
+      - "MD refinement pipelines (restraint strategies, ensemble evaluation)"
+      - "Protein structure prediction (AlphaFold2, ReFOLD, IntFOLD/MultiFOLD)"
+      - "Protein-ligand interactions (Vina, gnina, SwissDock, DiffDock, Rosetta)"
+      - "Structure assessment and docking QA (ModFOLD/quality estimation)"
 
-  - name: "Programming & Data Analysis"
+  - name: "Data & machine learning"
     items:
-      - "Python"
-      - "R"
-      - "Shell Scripting"
-      - "Machine Learning (scikit-learn, TensorFlow, PyTorch)"
+      - "Python, R, Shell scripting for analysis and automation"
+      - "scikit-learn, TensorFlow, PyTorch for structural ML tasks"
+      - "Feature engineering for model quality estimation and rescoring"
+      - "Reproducible workflows and benchmarking"
 
-  - name: "Cloud & Infrastructure"
+  - name: "Platforms & collaboration"
     items:
-      - "AWS"
-      - "MMM Hub Young Server-UCL"
+      - "AWS and HPC (MMM Hub Young Server-UCL)"
+      - "Team practices: code review, experiment tracking, documentation"
+      - "Teaching & mentoring in bioinformatics toolchains (BLAST, HHpred, PyMOL, Chimera)"
