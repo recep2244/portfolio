@@ -6,6 +6,7 @@ contact:
   linkedin: "https://www.linkedin.com/in/recep-ad%C4%B1yaman/"
   github: "https://github.com/recep2244"
   website: "https://recepadiyaman.com"
+  twitter: "https://x.com/RcpAdymn"
 
 summary: "Bioinformatician blending physics, bioengineering, and ML to ship protein structure pipelines. Specializes in MD-based refinement, ligand interaction prediction, and quality assessment for deployable research tools."
 
@@ -122,3 +123,17 @@ references:
   - name: "Assist. Prof. Alper Yilmaz"
     role: "Yildiz Technical University Bioengineering Department"
     contact: "alperyilmaz@gmail.com"
+
+blogs:
+  - title: "Closing the loop: MD recycling beyond AlphaFold2"
+    summary: "How restrained MD cycles and local QA signals can push structural predictions past AF2 baselines for real targets."
+    link: "https://recepadiyaman.com/blog/md-recycling-beyond-af2"
+    tags: ["MD refinement", "AlphaFold2", "QA"]
+  - title: "FunFOLD5 vs AlphaFold3 on ligand tasks"
+    summary: "A breakdown of blind + template docking results and where FunFOLD5 outperforms AF3 on actionable poses."
+    link: "https://recepadiyaman.com/blog/funfold5-ligand-benchmarks"
+    tags: ["Ligand prediction", "Docking", "Benchmarks"]
+  - title: "Building reproducible protein pipelines"
+    summary: "Practical steps for combining structure prediction, docking, and QA into shareable, reproducible workflows."
+    link: "https://recepadiyaman.com/blog/reproducible-protein-pipelines"
+    tags: ["Pipelines", "Reproducibility", "ML/ops"]

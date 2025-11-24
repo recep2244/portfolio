@@ -98,6 +98,7 @@
       "hover:opacity-80",
       "hover:text-accent",
       "hover:text-white",
+      "inline-flex",
       "inset-0",
       "items-center",
       "items-start",
@@ -107,6 +108,7 @@
       "last:pb-0",
       "leading-[1.05]",
       "leading-relaxed",
+      "leading-snug",
       "left-0",
       "lg:grid-cols-3",
       "lg:grid-cols-[1.05fr_0.95fr]",
@@ -236,6 +238,7 @@
     ],
     "ids": [
       "about",
+      "blog",
       "contact",
       "education",
       "publications",
