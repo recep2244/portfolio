@@ -1,39 +1,59 @@
 # How to Deploy Your Hugo Site
 
-## Option 1: Netlify (Recommended)
-1.  **Create a GitHub Repository**:
-    *   Go to GitHub and create a new repository (e.g., `my-portfolio`).
-    *   Push your code to this repository:
-        ```bash
-        git init
-        git add .
-        git commit -m "Initial commit"
-        git branch -M main
-        git remote add origin https://github.com/YOUR_USERNAME/my-portfolio.git
-        git push -u origin main
-        ```
-2.  **Connect to Netlify**:
-    *   Go to [Netlify.com](https://www.netlify.com) and sign up.
-    *   Click "Add new site" -> "Import from an existing project".
-    *   Select "GitHub" and choose your repository.
-3.  **Configure Build Settings**:
-    *   **Build command**: `hugo`
-    *   **Publish directory**: `public`
-    *   Netlify should detect these automatically.
-4.  **Deploy**: Click "Deploy site". It will be live in seconds!
+Since you want to avoid Netlify, here are the two best alternatives. **Your project is already pre-configured for Option 1 (GitHub Pages).**
 
-## Option 2: GitHub Pages
-1.  Update `hugo.yaml`:
-    ```yaml
-    baseURL: "https://YOUR_USERNAME.github.io/my-portfolio/"
+## Option 1: GitHub Pages (Recommended & Pre-configured)
+Your project already includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) to automatically deploy to GitHub Pages.
+
+### Steps to Activate:
+1.  **Push to GitHub**:
+    Ensure your code is pushed to a GitHub repository (e.g., named `portfolio`).
+    ```bash
+    git add .
+    git commit -m "Ready for deployment"
+    git push origin main
     ```
-2.  Push your code to GitHub.
-3.  Go to Repository Settings -> Pages.
-4.  Select "GitHub Actions" as the source.
-5.  Hugo provides a pre-built action for this.
+
+2.  **Configure Repository Settings**:
+    *   Go to your repository on GitHub.
+    *   Navigate to **Settings** > **Pages** (in the left sidebar).
+    *   Under **Build and deployment** > **Source**, select **GitHub Actions**.
+    *   *Note: Do not select "Deploy from a branch". You must select "GitHub Actions" because we are using a custom workflow.*
+
+3.  **Verify `baseURL`**:
+    *   Open `hugo.yaml`.
+    *   Ensure `baseURL` matches your GitHub Pages URL:
+        *   Format: `https://<USERNAME>.github.io/<REPO_NAME>/`
+        *   Current value: `https://recep2244.github.io/portfolio/` (Make sure your repo is named `portfolio`)
+
+4.  **Check Deployment**:
+    *   Go to the **Actions** tab in your repository.
+    *   You should see a workflow running. Once green, your site is live!
+
+---
+
+## Option 2: Vercel (Easiest Setup)
+Vercel is incredibly fast and requires zero configuration files.
+
+1.  **Sign Up**: Go to [vercel.com](https://vercel.com) and sign up with GitHub.
+2.  **Import Project**:
+    *   Click **"Add New..."** > **"Project"**.
+    *   Select your GitHub repository.
+3.  **Configure**:
+    *   **Framework Preset**: Vercel usually detects "Hugo" automatically.
+    *   **Build Command**: `hugo --gc --minify` (default is usually fine).
+    *   **Output Directory**: `public` (default).
+4.  **Deploy**: Click **Deploy**.
+5.  **Update BaseURL**:
+    *   Once deployed, Vercel gives you a URL (e.g., `project-name.vercel.app`).
+    *   Update `baseURL` in `hugo.yaml` to this new URL if you want links to work perfectly, although Vercel handles relative links well.
+
+---
 
 ## Running Locally
 Always check your site locally before deploying:
 ```bash
+npm run dev
+# OR
 hugo server
 ```
