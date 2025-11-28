@@ -2,8 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://recep2244.github.io/portfolio/cv/</loc>
+    <loc>http://localhost:1313/portfolio/cv/</loc>
   </url><url>
-    <loc>https://recep2244.github.io/portfolio/</loc>
+    <loc>http://localhost:1313/portfolio/</loc>
   </url>
 </urlset>

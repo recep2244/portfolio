@@ -1,0 +1,121 @@
+<section class="py-24 relative overflow-hidden">
+    <div class="container mx-auto px-6">
+        <div class="mb-20 md:text-center max-w-3xl mx-auto">
+            <h2 class="section-heading mb-4">Research Simulations</h2>
+            <p class="text-slate-400 text-lg">Visualizing complex biological systems through computational modeling and
+                design.</p>
+        </div>
+
+        <div class="space-y-24">
+            <!-- Protein Design (Zigzag Item 1) -->
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div
+                    class="glass-card p-8 h-80 relative flex items-center justify-center bg-slate-900/50 rounded-2xl overflow-hidden border border-white/5 order-2 md:order-1">
+                    <!-- Organic Growth Animation -->
+                    <div class="relative w-full h-full flex items-end justify-center pb-8">
+                        <div
+                            class="absolute bottom-8 w-4 h-4 bg-slate-500 rounded-full animate-[pulse-glow_2s_infinite]">
+                        </div>
+                        <svg width="200" height="200" viewBox="0 0 100 120"
+                            class="origin-bottom animate-[grow-up_5s_ease-in-out_infinite]">
+                            <path
+                                d="M50,120 C50,90 20,80 20,50 C20,30 40,20 50,10 C60,20 80,30 80,50 C80,80 50,90 50,120"
+                                fill="none" stroke="#22d3ee" stroke-width="2" class="opacity-50" />
+                            <path d="M50,120 C50,100 80,90 80,60 C80,40 60,30 50,20" fill="none" stroke="#22d3ee"
+                                stroke-width="3" />
+                            <path d="M50,120 C50,100 20,90 20,60 C20,40 40,30 50,20" fill="none" stroke="#22d3ee"
+                                stroke-width="3" />
+                            <circle cx="50" cy="20" r="12" fill="#22d3ee" class="animate-pulse" />
+                            <circle cx="20" cy="50" r="6" fill="#22d3ee" class="animate-pulse delay-100" />
+                            <circle cx="80" cy="50" r="6" fill="#22d3ee" class="animate-pulse delay-200" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 space-y-4">
+                    <h3 class="text-2xl font-semibold text-white">Protein Design</h3>
+                    <p class="text-slate-400 leading-relaxed text-lg">
+                        Simulating mutational effects where single changes lead to significant functional gains.
+                        Imagine a single residue change enhancing crop yield or resilience—small changes, massive
+                        impact.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Protein Engineering (Zigzag Item 2) -->
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-4 order-1">
+                    <h3 class="text-2xl font-semibold text-white">Protein Engineering</h3>
+                    <p class="text-slate-400 leading-relaxed text-lg">
+                        Engineering proteins for regenerative applications. We design proteins that enable biological
+                        cycles,
+                        such as stimulating hair growth or tissue regeneration, creating sustainable biological
+                        solutions.
+                    </p>
+                </div>
+                <div
+                    class="glass-card p-8 h-80 relative flex items-center justify-center bg-slate-900/50 rounded-2xl overflow-hidden border border-white/5 order-2">
+                    <!-- Wave/Hair Cycle Animation -->
+                    <div class="relative w-full h-full flex items-end justify-center gap-2 pb-8">
+                        <div class="w-full h-1 absolute bottom-8 bg-slate-700 rounded-full"></div>
+                        <!-- Multiple growing filaments with wave motion -->
+                        <div class="w-3 bg-indigo-500 rounded-t-full animate-[grow-up_4s_ease-in-out_infinite]"
+                            style="height: 60%;"></div>
+                        <div class="w-3 bg-indigo-400 rounded-t-full animate-[grow-up_4s_ease-in-out_infinite_0.5s]"
+                            style="height: 80%;"></div>
+                        <div class="w-3 bg-indigo-500 rounded-t-full animate-[grow-up_4s_ease-in-out_infinite_1s]"
+                            style="height: 50%;"></div>
+                        <div class="w-3 bg-indigo-400 rounded-t-full animate-[grow-up_4s_ease-in-out_infinite_1.5s]"
+                            style="height: 90%;"></div>
+                        <div class="w-3 bg-indigo-500 rounded-t-full animate-[grow-up_4s_ease-in-out_infinite_2s]"
+                            style="height: 70%;"></div>
+                        <div class="w-3 bg-indigo-400 rounded-t-full animate-[grow-up_4s_ease-in-out_infinite_2.5s]"
+                            style="height: 40%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Antibody Engineering (Zigzag Item 3) -->
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div
+                    class="glass-card p-8 h-80 relative flex items-center justify-center bg-slate-900/50 rounded-2xl overflow-hidden border border-white/5 order-2 md:order-1">
+                    <!-- Lock and Key Binding Animation -->
+                    <svg width="180" height="180" viewBox="0 0 100 100">
+                        <defs>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur" />
+                                    <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <!-- Antibody -->
+                        <path d="M50,95 L50,55 L20,25" fill="none" stroke="#cbd5e1" stroke-width="8"
+                            stroke-linecap="round" />
+                        <path d="M50,55 L80,25" fill="none" stroke="#cbd5e1" stroke-width="8" stroke-linecap="round" />
+                        <path d="M25,30 L15,40" fill="none" stroke="#94a3b8" stroke-width="6" stroke-linecap="round" />
+                        <path d="M75,30 L85,40" fill="none" stroke="#94a3b8" stroke-width="6" stroke-linecap="round" />
+
+                        <!-- Antigen (Binding Partner) -->
+                        <g class="animate-[bind-lock_5s_ease-in-out_infinite]">
+                            <path d="M50,40 L30,15 L70,15 Z" fill="#f472b6" filter="url(#glow)" />
+                        </g>
+
+                        <!-- Interaction Zone -->
+                        <circle cx="50" cy="40" r="15" fill="none" stroke="#22d3ee" stroke-width="2" opacity="0"
+                            class="animate-[pulse-glow_5s_infinite_2.5s]" />
+                    </svg>
+                </div>
+                <div class="order-1 md:order-2 space-y-4">
+                    <h3 class="text-2xl font-semibold text-white">Antibody Engineering</h3>
+                    <p class="text-slate-400 leading-relaxed text-lg">
+                        Precision binding analysis. I utilize <strong>ReFOLD</strong> and <strong>ModFOLDdock2</strong>
+                        for structure prediction,
+                        validating interface quality with <strong>DockQ</strong>, <strong>ICS</strong>,
+                        <strong>IPS</strong>, and <strong>QS metrics</strong>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

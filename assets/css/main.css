@@ -35,6 +35,78 @@
       transform: translateY(-20px);
     }
   }
+
+  @keyframes orbit {
+    from {
+      transform: rotate(0deg) translateX(100px) rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg) translateX(100px) rotate(-360deg);
+    }
+  }
+
+  @keyframes pulse-glow {
+
+    0%,
+    100% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
+
+  @keyframes grow-up {
+    0% {
+      transform: scaleY(0);
+      opacity: 0;
+    }
+
+    50% {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+
+    90% {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+
+    100% {
+      transform: scaleY(0);
+      opacity: 0;
+    }
+  }
+
+  @keyframes bind-lock {
+    0% {
+      transform: translate(0, -40px);
+      opacity: 0;
+    }
+
+    30% {
+      transform: translate(0, -40px);
+      opacity: 1;
+    }
+
+    60% {
+      transform: translate(0, 0);
+    }
+
+    90% {
+      transform: translate(0, 0);
+      opacity: 1;
+    }
+
+    100% {
+      transform: translate(0, 0);
+      opacity: 0;
+    }
+  }
 }
 
 @layer base {
@@ -61,7 +133,8 @@
 
 @layer components {
   .glass-card {
-    @apply relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md shadow-[0_20px_80px_rgba(0,0,0,0.35)];
+    @apply relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md;
+    box-shadow: 0 20px 80px rgba(0, 0, 0, 0.35);
   }
 
   .glass-card::before {
@@ -92,7 +165,8 @@
   }
 
   .cv-card {
-    @apply relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md shadow-[0_20px_80px_rgba(0,0,0,0.35)] p-6 md:p-7;
+    @apply relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-6 md:p-7;
+    box-shadow: 0 20px 80px rgba(0, 0, 0, 0.35);
   }
 }
 
