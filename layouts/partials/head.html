@@ -6,7 +6,7 @@
 
   {{ $styles := resources.Get "css/main.css" }}
   {{ if $styles }}
-  {{ $styles = $styles | css.PostCSS (dict "inlineImports" true) }}
+  {{ $styles = $styles | resources.PostCSS }}
   {{ if hugo.IsProduction }}
   {{ $styles = $styles | fingerprint }}
   {{ end }}
