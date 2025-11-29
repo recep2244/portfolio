@@ -2,8 +2,6 @@ baseURL: 'https://recep2244.github.io/portfolio/'
 languageCode: 'en-us'
 title: 'Recep Adiyaman | Bioinformatician'
 theme: []
-relativeURLs: true
-canonifyURLs: true
 
 module:
   hugoVersion:
