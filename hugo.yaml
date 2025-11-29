@@ -53,6 +53,10 @@ menu:
       name: Blog
       url: "/#blog"
       weight: 45
+    - identifier: updates
+      name: Updates
+      url: "/#twitter"
+      weight: 46
     - identifier: podcasts
       name: Podcasts
       url: "/#podcasts"

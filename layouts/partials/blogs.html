@@ -21,7 +21,7 @@
                     <span class="pill text-xs font-bold">{{ . }}</span>
                     {{ end }}
                 </div>
-                <a href="{{ .link }}" target="_blank" rel="noreferrer"
+                <a href="{{ .link }}" {{ if hasPrefix .link "http" }}target="_blank" rel="noreferrer" {{ end }}
                     class="inline-flex items-center gap-2 text-accent mt-5 text-sm font-bold hover:underline">
                     Read more
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
