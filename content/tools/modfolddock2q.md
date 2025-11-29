@@ -3,7 +3,6 @@ title: "ModFOLDdock2Q"
 summary: "Quality assessment of protein-protein complex models using deep learning and structural features."
 date: 2024-01-01
 tags: ["Docker", "Protein-Protein Docking", "Quality Assessment"]
-layout: "tool"
 ---
 
 # ModFOLDdock2Q

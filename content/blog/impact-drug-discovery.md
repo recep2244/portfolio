@@ -3,7 +3,6 @@ title: "Impact on Drug Discovery & Synthetic Biology"
 date: 2024-11-27
 summary: "How dynamic modelling will accelerate therapeutic discovery and the design of next-generation enzymes."
 tags: ["Drug Discovery", "Synthetic Biology", "Impact"]
-layout: "blog"
 ---
 
 # Impact on Drug Discovery & Synthetic Biology
