@@ -1,0 +1,27 @@
+projects:
+  - name: "ReFOLD3"
+    description: "Refinement of 3D protein models using molecular dynamics simulations and quality assessment."
+    url: "https://www.reading.ac.uk/bioinf/ReFOLD/ReFOLD3_form.html"
+    type: "Web Server"
+    embed: true
+    icon: "server"
+
+  - name: "ModFOLDdock2Q"
+    description: "Quality assessment of protein-protein complex models using deep learning and structural features."
+    url: "https://hub.docker.com/r/radiyaman/modfolddock2q"
+    docker_pull: "docker pull radiyaman/modfolddock2q"
+    type: "Docker Image"
+    icon: "docker"
+    instructions: |
+      # Run ModFOLDdock2Q
+      docker run -v $(pwd):/data radiyaman/modfolddock2q -i /data/input.pdb -o /data/output
+
+  - name: "FunFOLD5"
+    description: "Template-based ligand binding site prediction using structural alignment and quality assessment."
+    url: "https://hub.docker.com/r/radiyaman/funfold5_template"
+    docker_pull: "docker pull radiyaman/funfold5_template"
+    type: "Docker Image"
+    icon: "docker"
+    instructions: |
+      # Run FunFOLD5
+      docker run -v $(pwd):/data radiyaman/funfold5_template -i /data/target.pdb -o /data/results
