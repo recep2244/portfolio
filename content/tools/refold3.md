@@ -3,7 +3,6 @@ title: "ReFOLD3 Server"
 summary: "Refinement of 3D protein models using molecular dynamics simulations and quality assessment."
 date: 2024-01-01
 tags: ["Protein Refinement", "MD Simulations", "Web Server"]
-layout: "tool"
 ---
 
 # ReFOLD3: Refinement of 3D Protein Models

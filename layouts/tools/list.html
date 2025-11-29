@@ -1,0 +1,20 @@
+{{ define "main" }}
+<div class="py-24 bg-white">
+    <div class="container mx-auto px-6 max-w-4xl">
+        <h1 class="text-4xl font-extrabold text-slate-900 mb-6">{{ .Title }}</h1>
+        <div class="grid gap-8">
+            {{ range .Pages }}
+            <article class="glass-card p-6 hover:-translate-y-1 transition-transform duration-300">
+                <h2 class="text-2xl font-bold text-slate-900 mb-3">
+                    <a href="{{ .Permalink }}" class="hover:text-blue-600 transition-colors">{{ .Title }}</a>
+                </h2>
+                <p class="text-slate-600 font-medium">{{ .Summary }}</p>
+                <div class="mt-4">
+                    <a href="{{ .Permalink }}" class="text-blue-600 font-bold hover:underline">Learn More →</a>
+                </div>
+            </article>
+            {{ end }}
+        </div>
+    </div>
+</div>
+{{ end }}

@@ -3,7 +3,6 @@ title: "Bridging the Gap: AI, MD, and De Novo Design"
 date: 2024-11-28
 summary: "Integrating deep learning with molecular dynamics and local quality estimation to model mutants and novel folds."
 tags: ["AI", "Molecular Dynamics", "De Novo Design"]
-layout: "blog"
 ---
 
 # Bridging the Gap: AI, MD, and De Novo Design

@@ -3,7 +3,6 @@ title: "From Static to Dynamic: The Future of Protein Modelling"
 date: 2024-11-29
 summary: "Why we need to move beyond static snapshots to capture the full range of conformational dynamics in protein structure prediction."
 tags: ["Protein Dynamics", "AlphaFold", "Modelling"]
-layout: "blog"
 ---
 
 # From Static to Dynamic: The Future of Protein Modelling

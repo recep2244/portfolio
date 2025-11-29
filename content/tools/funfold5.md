@@ -3,7 +3,6 @@ title: "FunFOLD5"
 summary: "Template-based ligand binding site prediction using structural alignment and quality assessment."
 date: 2024-01-01
 tags: ["Docker", "Ligand Binding", "Structure Prediction"]
-layout: "tool"
 ---
 
 # FunFOLD5
