@@ -10,7 +10,7 @@
             <div class="space-y-4">
                 <span class="eyebrow">Collaborate</span>
                 <h2 class="section-heading">Let's build the future of biology</h2>
-                <p class="text-slate-400 text-lg leading-relaxed">
+                <p class="text-slate-600 text-lg leading-relaxed">
                     I am always open to research collaborations, consulting on protein design pipelines,
                     and partnering on structural biology products. Whether you have a question or a project in mind,
                     reach out.
@@ -27,9 +27,9 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm text-slate-400">Email me directly</p>
+                        <p class="text-sm text-slate-500">Email me directly</p>
                         <a href="mailto:{{ $cv.contact.email }}"
-                            class="text-white font-medium hover:text-accent transition-colors">{{ $cv.contact.email
+                            class="text-slate-900 font-medium hover:text-accent transition-colors">{{ $cv.contact.email
                             }}</a>
                     </div>
                 </div>
@@ -42,9 +42,9 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm text-slate-400">Connect professionally</p>
+                        <p class="text-sm text-slate-500">Connect professionally</p>
                         <a href="{{ $cv.contact.linkedin }}" target="_blank" rel="noreferrer"
-                            class="text-white font-medium hover:text-accent transition-colors">LinkedIn Profile</a>
+                            class="text-slate-900 font-medium hover:text-accent transition-colors">LinkedIn Profile</a>
                     </div>
                 </div>
             </div>
@@ -52,29 +52,29 @@
 
         <!-- Right Column: Contact Form -->
         <div class="glass-card p-8 md:p-10">
-            <h3 class="text-xl font-semibold text-white mb-6">Send a message</h3>
+            <h3 class="text-xl font-semibold text-slate-900 mb-6">Send a message</h3>
 
             <!-- Formspree Form -->
             <form action="https://formspree.io/f/xdkoqgyp" method="POST" class="space-y-5">
                 <div class="grid md:grid-cols-2 gap-5">
                     <div class="space-y-2">
-                        <label for="name" class="text-sm font-medium text-slate-300">Name</label>
+                        <label for="name" class="text-sm font-medium text-slate-700">Name</label>
                         <input type="text" name="name" id="name" required
-                            class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                            class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                             placeholder="John Doe">
                     </div>
                     <div class="space-y-2">
-                        <label for="email" class="text-sm font-medium text-slate-300">Email</label>
+                        <label for="email" class="text-sm font-medium text-slate-700">Email</label>
                         <input type="email" name="email" id="email" required
-                            class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                            class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                             placeholder="john@example.com">
                     </div>
                 </div>
 
                 <div class="space-y-2">
-                    <label for="subject" class="text-sm font-medium text-slate-300">Subject</label>
+                    <label for="subject" class="text-sm font-medium text-slate-700">Subject</label>
                     <select name="subject" id="subject"
-                        class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all [&>option]:bg-slate-900">
+                        class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-slate-900 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all">
                         <option value="Collaboration">Research Collaboration</option>
                         <option value="Consulting">Consulting Inquiry</option>
                         <option value="Speaking">Speaking / Workshop</option>
@@ -83,14 +83,14 @@
                 </div>
 
                 <div class="space-y-2">
-                    <label for="message" class="text-sm font-medium text-slate-300">Message</label>
+                    <label for="message" class="text-sm font-medium text-slate-700">Message</label>
                     <textarea name="message" id="message" rows="4" required
-                        class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                        class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                         placeholder="How can we work together?"></textarea>
                 </div>
 
                 <button type="submit"
-                    class="w-full py-4 rounded-lg bg-accent text-slate-900 font-bold shadow-[0_0_20px_rgba(34,211,238,0.3)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:-translate-y-0.5 transition-all">
+                    class="w-full py-4 rounded-lg bg-accent text-white font-bold shadow-[0_0_20px_rgba(14,165,233,0.3)] hover:shadow-[0_0_30px_rgba(14,165,233,0.5)] hover:-translate-y-0.5 transition-all">
                     Send Message
                 </button>
                 <p class="text-xs text-center text-slate-500 mt-4">

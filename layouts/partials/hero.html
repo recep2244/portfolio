@@ -60,7 +60,7 @@
             <h1 class="text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.05]">
                 <span class="gradient-text">{{ $cv.contact.name }}</span>
             </h1>
-            <p class="text-lg md:text-xl text-slate-300/90 max-w-2xl">
+            <p class="text-lg md:text-xl text-slate-600 max-w-2xl">
                 {{ $cv.summary }}
             </p>
 
@@ -76,7 +76,7 @@
                     Work together
                 </a>
                 <a href="#publications"
-                    class="px-6 py-3 rounded-full border border-white/15 text-white hover:border-accent hover:text-accent transition-colors">
+                    class="px-6 py-3 rounded-full border border-slate-200 text-slate-700 hover:border-accent hover:text-accent transition-colors">
                     View research
                 </a>
             </div>
@@ -85,25 +85,25 @@
         <div class="grid gap-5">
             <div class="glass-card p-6 md:p-7">
                 <div class="flex items-center justify-between gap-3 mb-4">
-                    <h3 class="text-xl font-semibold text-white">Current roles</h3>
+                    <h3 class="text-xl font-semibold text-slate-900">Current roles</h3>
                     <span class="pill py-1 px-3">Impact-driven</span>
                 </div>
                 <div class="grid gap-4">
                     {{ $roles := $cv.experience }}
                     {{ if gt (len $roles) 0 }}
                     {{ with index $roles 0 }}
-                    <div class="rounded-2xl border border-white/5 bg-white/5 p-4">
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50/50 p-4">
                         <div class="flex items-start justify-between gap-3">
-                            <p class="text-sm uppercase tracking-wide text-slate-400">{{ .period }}</p>
+                            <p class="text-sm uppercase tracking-wide text-slate-500">{{ .period }}</p>
                             <span
                                 class="text-xs px-2 py-1 rounded-full bg-accent/10 text-accent border border-accent/30">
                                 Current
                             </span>
                         </div>
-                        <div class="text-lg font-semibold text-white mt-1">{{ .title }}</div>
-                        <div class="text-slate-300 text-sm">{{ .org }} • {{ .location }}</div>
+                        <div class="text-lg font-semibold text-slate-900 mt-1">{{ .title }}</div>
+                        <div class="text-slate-600 text-sm">{{ .org }} • {{ .location }}</div>
                         {{ if .bullets }}
-                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">{{ index .bullets 0 }}</p>
+                        <p class="text-slate-600 text-sm mt-2 leading-relaxed">{{ index .bullets 0 }}</p>
                         {{ end }}
                     </div>
                     {{ end }}
@@ -111,18 +111,18 @@
 
                     {{ if gt (len $roles) 1 }}
                     {{ with index $roles 1 }}
-                    <div class="rounded-2xl border border-white/5 bg-white/5 p-4">
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50/50 p-4">
                         <div class="flex items-start justify-between gap-3">
-                            <p class="text-sm uppercase tracking-wide text-slate-400">{{ .period }}</p>
+                            <p class="text-sm uppercase tracking-wide text-slate-500">{{ .period }}</p>
                             <span
-                                class="text-xs px-2 py-1 rounded-full bg-white/10 text-slate-200 border border-white/10">
+                                class="text-xs px-2 py-1 rounded-full bg-white text-slate-600 border border-slate-200">
                                 Research
                             </span>
                         </div>
-                        <div class="text-lg font-semibold text-white mt-1">{{ .title }}</div>
-                        <div class="text-slate-300 text-sm">{{ .org }} • {{ .location }}</div>
+                        <div class="text-lg font-semibold text-slate-900 mt-1">{{ .title }}</div>
+                        <div class="text-slate-600 text-sm">{{ .org }} • {{ .location }}</div>
                         {{ if .bullets }}
-                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">{{ index .bullets 0 }}</p>
+                        <p class="text-slate-600 text-sm mt-2 leading-relaxed">{{ index .bullets 0 }}</p>
                         {{ end }}
                     </div>
                     {{ end }}
@@ -137,35 +137,35 @@
 
             <div class="glass-card p-6 md:p-7 grid gap-4 md:grid-cols-2">
                 <div class="space-y-3">
-                    <div class="text-sm uppercase tracking-wide text-slate-400">Focus areas</div>
+                    <div class="text-sm uppercase tracking-wide text-slate-500">Focus areas</div>
                     <div class="space-y-2.5">
                         <div class="flex gap-3">
                             <span class="mt-1 h-2.5 w-2.5 rounded-full bg-accent"></span>
                             <div>
-                                <p class="text-white font-semibold">Pipeline design</p>
-                                <p class="text-slate-400 text-sm leading-relaxed">From structure prediction to ligand
+                                <p class="text-slate-900 font-semibold">Pipeline design</p>
+                                <p class="text-slate-600 text-sm leading-relaxed">From structure prediction to ligand
                                     binding analysis with reproducible tooling.</p>
                             </div>
                         </div>
                         <div class="flex gap-3">
                             <span class="mt-1 h-2.5 w-2.5 rounded-full bg-cyan-400"></span>
                             <div>
-                                <p class="text-white font-semibold">Simulation refinement</p>
-                                <p class="text-slate-400 text-sm leading-relaxed">Molecular dynamics to improve model
+                                <p class="text-slate-900 font-semibold">Simulation refinement</p>
+                                <p class="text-slate-600 text-sm leading-relaxed">Molecular dynamics to improve model
                                     quality and actionable binding sites.</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="space-y-3">
-                    <div class="text-sm uppercase tracking-wide text-slate-400">Tooling</div>
+                    <div class="text-sm uppercase tracking-wide text-slate-500">Tooling</div>
                     <div class="flex flex-wrap gap-2">
                         <span class="pill">AlphaFold & ReFOLD</span>
                         <span class="pill">MD engines</span>
                         <span class="pill">ML & MLOps</span>
                         <span class="pill">Cloud pipelines</span>
                     </div>
-                    <p class="text-slate-400 text-sm leading-relaxed">
+                    <p class="text-slate-600 text-sm leading-relaxed">
                         Blending physics-based methods with modern ML to de-risk translational biology projects.
                     </p>
                 </div>
