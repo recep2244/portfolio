@@ -6,7 +6,7 @@
 
   {{ $styles := resources.Get "css/main.css" }}
   {{ if $styles }}
-  {{ $styles = $styles | resources.PostCSS }}
+  {{ $styles = $styles | css.PostCSS }}
   {{ if hugo.IsProduction }}
   {{ $styles = $styles | fingerprint }}
   {{ end }}
