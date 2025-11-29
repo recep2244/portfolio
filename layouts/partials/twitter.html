@@ -1,0 +1,38 @@
+{{ $social := .Site.Data.social }}
+<section id="twitter" class="py-24 bg-white relative">
+    <div class="container mx-auto px-6">
+        <div class="mb-16 text-center">
+            <span class="eyebrow">Social Updates</span>
+            <h2 class="section-heading mt-3">Latest Research Insights</h2>
+            <p class="text-slate-600 text-lg mt-4 max-w-3xl mx-auto font-semibold">
+                Follow my research journey and insights on X (Twitter)
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {{ range $social.tweets }}
+            <div class="glass-card p-6 hover:-translate-y-1 transition-transform duration-300">
+                <!-- Twitter Embed -->
+                <blockquote class="twitter-tweet" data-theme="light" data-conversation="none">
+                    <a href="{{ .url }}"></a>
+                </blockquote>
+            </div>
+            {{ end }}
+        </div>
+
+        <!-- Follow Button -->
+        <div class="mt-12 text-center">
+            <a href="https://x.com/RcpAdymn" target="_blank" rel="noreferrer"
+                class="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+                Follow @RcpAdymn
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Twitter Widget Script -->
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
