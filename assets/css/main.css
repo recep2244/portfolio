@@ -162,6 +162,18 @@
   h2,
   h3 {
     @apply tracking-tight;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  p {
+    font-weight: 500;
+    color: #334155;
+  }
+
+  strong {
+    font-weight: 700;
+    color: #0f172a;
   }
 
   ::selection {
@@ -186,11 +198,15 @@
   }
 
   .section-heading {
-    @apply text-3xl md:text-4xl font-semibold text-slate-900;
+    @apply text-3xl md:text-4xl font-bold;
+    background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-slate-300/60 bg-white/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600;
+    @apply inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-accent mb-2;
   }
 
   .gradient-text {

@@ -7,6 +7,7 @@ contact:
   github: "https://github.com/recep2244"
   website: "https://recepadiyaman.com"
   twitter: "https://x.com/RcpAdymn"
+  youtube: "https://www.youtube.com/@YourChannelName"
 
 summary: "Bioinformatician blending physics, bioengineering, and ML to ship protein structure pipelines. Specializes in MD-based refinement, ligand interaction prediction, and quality assessment for deployable research tools."
 
@@ -159,3 +160,20 @@ blogs:
     summary: "Practical steps for combining structure prediction, docking, and QA into shareable, reproducible workflows."
     link: "https://recepadiyaman.com/blog/reproducible-protein-pipelines"
     tags: ["Pipelines", "Reproducibility", "ML/ops"]
+
+podcasts:
+  - title: "The Future of Protein Design with AI"
+    description: "Discussing how deep learning is revolutionizing protein engineering and drug discovery."
+    youtube_url: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID_1"
+    date: "2024-03-15"
+    duration: "45 min"
+  - title: "From AlphaFold to Clinical Applications"
+    description: "Exploring the journey from computational predictions to real-world therapeutic development."
+    youtube_url: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID_2"
+    date: "2024-02-20"
+    duration: "38 min"
+  - title: "Molecular Dynamics in Modern Drug Design"
+    description: "How MD simulations are being integrated into industrial protein engineering workflows."
+    youtube_url: "https://www.youtube.com/watch?v=YOUR_VIDEO_ID_3"
+    date: "2024-01-10"
+    duration: "52 min"
