@@ -2,7 +2,7 @@
     <div class="container mx-auto px-6">
         <div class="mb-20 md:text-center max-w-3xl mx-auto">
             <h2 class="section-heading mb-4">Research Simulations</h2>
-            <p class="text-slate-400 text-lg">Visualizing complex biological systems through computational modeling and
+            <p class="text-slate-600 text-lg">Visualizing complex biological systems through computational modeling and
                 design.</p>
         </div>
 
@@ -10,30 +10,53 @@
             <!-- Protein Design (Zigzag Item 1) -->
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div
-                    class="glass-card p-8 h-80 relative flex items-center justify-center bg-slate-900/50 rounded-2xl overflow-hidden border border-white/5 order-2 md:order-1">
-                    <!-- Organic Growth Animation -->
-                    <div class="relative w-full h-full flex items-end justify-center pb-8">
-                        <div
-                            class="absolute bottom-8 w-4 h-4 bg-slate-500 rounded-full animate-[pulse-glow_2s_infinite]">
-                        </div>
-                        <svg width="200" height="200" viewBox="0 0 100 120"
-                            class="origin-bottom animate-[grow-up_5s_ease-in-out_infinite]">
-                            <path
-                                d="M50,120 C50,90 20,80 20,50 C20,30 40,20 50,10 C60,20 80,30 80,50 C80,80 50,90 50,120"
-                                fill="none" stroke="#22d3ee" stroke-width="2" class="opacity-50" />
-                            <path d="M50,120 C50,100 80,90 80,60 C80,40 60,30 50,20" fill="none" stroke="#22d3ee"
-                                stroke-width="3" />
-                            <path d="M50,120 C50,100 20,90 20,60 C20,40 40,30 50,20" fill="none" stroke="#22d3ee"
-                                stroke-width="3" />
-                            <circle cx="50" cy="20" r="12" fill="#22d3ee" class="animate-pulse" />
-                            <circle cx="20" cy="50" r="6" fill="#22d3ee" class="animate-pulse delay-100" />
-                            <circle cx="80" cy="50" r="6" fill="#22d3ee" class="animate-pulse delay-200" />
+                    class="glass-card p-8 h-80 relative flex items-center justify-center bg-slate-50/50 rounded-2xl overflow-hidden border border-slate-200 order-2 md:order-1 group">
+                    <!-- 3D Helix Mutation Simulation -->
+                    <div class="relative w-full h-full flex items-center justify-center">
+                        <svg width="240" height="240" viewBox="0 0 100 100" class="animate-[spin_20s_linear_infinite]">
+                            <defs>
+                                <linearGradient id="helixGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#0ea5e9" />
+                                    <stop offset="100%" stop-color="#6366f1" />
+                                </linearGradient>
+                            </defs>
+                            <!-- Back Strand -->
+                            <path d="M30,10 Q50,30 30,50 T30,90" fill="none" stroke="url(#helixGradient)"
+                                stroke-width="4" opacity="0.3" />
+                            <path d="M70,10 Q50,30 70,50 T70,90" fill="none" stroke="url(#helixGradient)"
+                                stroke-width="4" opacity="0.3" />
+
+                            <!-- Connecting Bonds -->
+                            <g stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2">
+                                <line x1="30" y1="20" x2="70" y2="20" class="animate-pulse" />
+                                <line x1="40" y1="35" x2="60" y2="35" />
+                                <line x1="30" y1="50" x2="70" y2="50" class="animate-pulse delay-75" />
+                                <line x1="40" y1="65" x2="60" y2="65" />
+                                <line x1="30" y1="80" x2="70" y2="80" class="animate-pulse delay-150" />
+                            </g>
+
+                            <!-- Front Strand -->
+                            <path d="M30,10 Q10,30 30,50 T30,90" fill="none" stroke="url(#helixGradient)"
+                                stroke-width="4" />
+                            <path d="M70,10 Q90,30 70,50 T70,90" fill="none" stroke="url(#helixGradient)"
+                                stroke-width="4" />
+
+                            <!-- Mutation Hotspot -->
+                            <circle cx="30" cy="50" r="6" fill="#f43f5e"
+                                class="animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]" />
+                            <circle cx="30" cy="50" r="3" fill="#fff" />
                         </svg>
+
+                        <!-- Floating Stats -->
+                        <div
+                            class="absolute top-4 right-4 bg-white/80 backdrop-blur px-3 py-1 rounded-full border border-slate-200 text-xs font-mono text-slate-600 shadow-sm">
+                            ΔΔG: <span class="text-green-600 font-bold">-2.4 kcal/mol</span>
+                        </div>
                     </div>
                 </div>
                 <div class="order-1 md:order-2 space-y-4">
-                    <h3 class="text-2xl font-semibold text-white">Protein Design</h3>
-                    <p class="text-slate-400 leading-relaxed text-lg">
+                    <h3 class="text-2xl font-semibold text-slate-900">Protein Design</h3>
+                    <p class="text-slate-600 leading-relaxed text-lg">
                         Simulating mutational effects where single changes lead to significant functional gains.
                         Imagine a single residue change enhancing crop yield or resilience—small changes, massive
                         impact.
@@ -44,8 +67,8 @@
             <!-- Protein Engineering (Zigzag Item 2) -->
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="space-y-4 order-1">
-                    <h3 class="text-2xl font-semibold text-white">Protein Engineering</h3>
-                    <p class="text-slate-400 leading-relaxed text-lg">
+                    <h3 class="text-2xl font-semibold text-slate-900">Protein Engineering</h3>
+                    <p class="text-slate-600 leading-relaxed text-lg">
                         Engineering proteins for regenerative applications. We design proteins that enable biological
                         cycles,
                         such as stimulating hair growth or tissue regeneration, creating sustainable biological
@@ -53,23 +76,43 @@
                     </p>
                 </div>
                 <div
-                    class="glass-card p-8 h-80 relative flex items-center justify-center bg-slate-900/50 rounded-2xl overflow-hidden border border-white/5 order-2">
-                    <!-- Wave/Hair Cycle Animation -->
-                    <div class="relative w-full h-full flex items-end justify-center gap-2 pb-8">
-                        <div class="w-full h-1 absolute bottom-8 bg-slate-700 rounded-full"></div>
-                        <!-- Multiple growing filaments with wave motion -->
-                        <div class="w-3 bg-indigo-500 rounded-t-full animate-[grow-up_4s_ease-in-out_infinite]"
-                            style="height: 60%;"></div>
-                        <div class="w-3 bg-indigo-400 rounded-t-full animate-[grow-up_4s_ease-in-out_infinite_0.5s]"
-                            style="height: 80%;"></div>
-                        <div class="w-3 bg-indigo-500 rounded-t-full animate-[grow-up_4s_ease-in-out_infinite_1s]"
-                            style="height: 50%;"></div>
-                        <div class="w-3 bg-indigo-400 rounded-t-full animate-[grow-up_4s_ease-in-out_infinite_1.5s]"
-                            style="height: 90%;"></div>
-                        <div class="w-3 bg-indigo-500 rounded-t-full animate-[grow-up_4s_ease-in-out_infinite_2s]"
-                            style="height: 70%;"></div>
-                        <div class="w-3 bg-indigo-400 rounded-t-full animate-[grow-up_4s_ease-in-out_infinite_2.5s]"
-                            style="height: 40%;"></div>
+                    class="glass-card p-8 h-80 relative flex items-center justify-center bg-slate-50/50 rounded-2xl overflow-hidden border border-slate-200 order-2">
+                    <!-- Directed Evolution Tree -->
+                    <div class="relative w-full h-full flex items-end justify-center">
+                        <svg width="300" height="250" viewBox="0 0 200 150">
+                            <!-- Root -->
+                            <path d="M100,150 L100,130" stroke="#64748b" stroke-width="3" />
+
+                            <!-- Generation 1 -->
+                            <g class="animate-[grow-up_4s_ease-out_infinite]">
+                                <path d="M100,130 L70,100" stroke="#64748b" stroke-width="2" />
+                                <path d="M100,130 L130,100" stroke="#64748b" stroke-width="2" />
+                                <circle cx="70" cy="100" r="3" fill="#94a3b8" />
+                                <circle cx="130" cy="100" r="3" fill="#94a3b8" />
+                            </g>
+
+                            <!-- Generation 2 (Selection) -->
+                            <g class="animate-[grow-up_4s_ease-out_infinite_1s]">
+                                <path d="M70,100 L50,70" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4,4" />
+                                <!-- Dead end -->
+                                <path d="M70,100 L90,70" stroke="#0ea5e9" stroke-width="2" /> <!-- Selected -->
+                                <circle cx="90" cy="70" r="4" fill="#0ea5e9" />
+                            </g>
+
+                            <!-- Generation 3 (Optimization) -->
+                            <g class="animate-[grow-up_4s_ease-out_infinite_2s]">
+                                <path d="M90,70 L70,40" stroke="#0ea5e9" stroke-width="2" />
+                                <path d="M90,70 L110,40" stroke="#0ea5e9" stroke-width="2" />
+                                <circle cx="70" cy="40" r="5" fill="#0ea5e9" class="animate-pulse" />
+                                <circle cx="110" cy="40" r="5" fill="#0ea5e9" class="animate-pulse delay-100" />
+                            </g>
+                        </svg>
+
+                        <div class="absolute bottom-4 left-4 flex gap-2">
+                            <span class="w-2 h-2 rounded-full bg-slate-300"></span>
+                            <span class="w-2 h-2 rounded-full bg-slate-300"></span>
+                            <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -77,38 +120,55 @@
             <!-- Antibody Engineering (Zigzag Item 3) -->
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div
-                    class="glass-card p-8 h-80 relative flex items-center justify-center bg-slate-900/50 rounded-2xl overflow-hidden border border-white/5 order-2 md:order-1">
-                    <!-- Lock and Key Binding Animation -->
-                    <svg width="180" height="180" viewBox="0 0 100 100">
-                        <defs>
-                            <filter id="glow">
-                                <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
-                                <feMerge>
-                                    <feMergeNode in="coloredBlur" />
-                                    <feMergeNode in="SourceGraphic" />
-                                </feMerge>
-                            </filter>
-                        </defs>
-                        <!-- Antibody -->
-                        <path d="M50,95 L50,55 L20,25" fill="none" stroke="#cbd5e1" stroke-width="8"
-                            stroke-linecap="round" />
-                        <path d="M50,55 L80,25" fill="none" stroke="#cbd5e1" stroke-width="8" stroke-linecap="round" />
-                        <path d="M25,30 L15,40" fill="none" stroke="#94a3b8" stroke-width="6" stroke-linecap="round" />
-                        <path d="M75,30 L85,40" fill="none" stroke="#94a3b8" stroke-width="6" stroke-linecap="round" />
+                    class="glass-card p-8 h-80 relative flex items-center justify-center bg-slate-50/50 rounded-2xl overflow-hidden border border-slate-200 order-2 md:order-1">
+                    <!-- Docking Simulation Grid -->
+                    <div
+                        class="absolute inset-0 bg-[linear-gradient(rgba(14,165,233,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(14,165,233,0.05)_1px,transparent_1px)] bg-[size:20px_20px]">
+                    </div>
 
-                        <!-- Antigen (Binding Partner) -->
-                        <g class="animate-[bind-lock_5s_ease-in-out_infinite]">
-                            <path d="M50,40 L30,15 L70,15 Z" fill="#f472b6" filter="url(#glow)" />
-                        </g>
+                    <div class="relative z-10">
+                        <svg width="200" height="200" viewBox="0 0 100 100">
+                            <!-- Target Surface -->
+                            <path d="M20,60 Q50,40 80,60" fill="none" stroke="#94a3b8" stroke-width="2" />
+                            <path d="M20,65 Q50,45 80,65" fill="none" stroke="#cbd5e1" stroke-width="2" />
 
-                        <!-- Interaction Zone -->
-                        <circle cx="50" cy="40" r="15" fill="none" stroke="#22d3ee" stroke-width="2" opacity="0"
-                            class="animate-[pulse-glow_5s_infinite_2.5s]" />
-                    </svg>
+                            <!-- Antibody (Draggable/Scanning) -->
+                            <g class="animate-[float_6s_ease-in-out_infinite]">
+                                <path d="M40,30 L50,50 L60,30" fill="none" stroke="#6366f1" stroke-width="4"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M50,50 L50,20" fill="none" stroke="#6366f1" stroke-width="4"
+                                    stroke-linecap="round" />
+
+                                <!-- Scanning Beam -->
+                                <path d="M30,55 L70,55" stroke="#f43f5e" stroke-width="1" stroke-opacity="0.5"
+                                    class="animate-pulse" />
+                            </g>
+
+                            <!-- Docking Hits -->
+                            <circle cx="50" cy="50" r="15" fill="none" stroke="#22d3ee" stroke-width="1"
+                                stroke-dasharray="4,2" class="animate-[spin_4s_linear_infinite]" />
+                        </svg>
+
+                        <!-- Analysis Panel -->
+                        <div
+                            class="absolute -bottom-2 -right-2 bg-white/90 backdrop-blur p-3 rounded-xl border border-slate-200 shadow-lg text-xs font-mono space-y-1">
+                            <div class="flex justify-between gap-4 text-slate-500">
+                                <span>DockQ:</span>
+                                <span class="text-slate-900 font-bold">0.85</span>
+                            </div>
+                            <div class="flex justify-between gap-4 text-slate-500">
+                                <span>RMSD:</span>
+                                <span class="text-slate-900 font-bold">1.2Å</span>
+                            </div>
+                            <div class="h-1 w-full bg-slate-100 rounded-full overflow-hidden mt-1">
+                                <div class="h-full bg-green-500 w-[85%] animate-[grow-width_2s_ease-out]"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="order-1 md:order-2 space-y-4">
-                    <h3 class="text-2xl font-semibold text-white">Antibody Engineering</h3>
-                    <p class="text-slate-400 leading-relaxed text-lg">
+                    <h3 class="text-2xl font-semibold text-slate-900">Antibody Engineering</h3>
+                    <p class="text-slate-600 leading-relaxed text-lg">
                         Precision binding analysis. I utilize <strong>ReFOLD</strong> and <strong>ModFOLDdock2</strong>
                         for structure prediction,
                         validating interface quality with <strong>DockQ</strong>, <strong>ICS</strong>,

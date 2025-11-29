@@ -208,7 +208,49 @@
     @apply relative overflow-hidden rounded-3xl border border-slate-200/60 bg-white/80 backdrop-blur-md p-6 md:p-7;
     box-shadow: 0 20px 80px rgba(14, 165, 233, 0.15), 0 8px 32px rgba(0, 0, 0, 0.05);
   }
+
+  /* Scroll Reveal Animation */
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+  }
+
+  .reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ping {
+
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes grow-width {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 85%;
+  }
+}
+
 
 @utility delay-100 {
   animation-delay: 100ms;
