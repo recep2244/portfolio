@@ -21,6 +21,10 @@ disableKinds:
 
 menu:
   main:
+    - identifier: vision
+      name: Vision
+      url: "/vision"
+      weight: 5
     - identifier: about
       name: About
       url: "/#about"
