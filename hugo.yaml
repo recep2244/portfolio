@@ -1,4 +1,4 @@
-baseURL: 'https://recep2244.github.io/'
+baseURL: 'https://recep2244.github.io/portfolio/'
 languageCode: 'en-us'
 title: 'Recep Adiyaman | Bioinformatician'
 theme: []
@@ -43,6 +43,10 @@ menu:
       name: Publications
       url: "/#publications"
       weight: 40
+    - identifier: blog
+      name: Blog
+      url: "/#blog"
+      weight: 45
     - identifier: contact
       name: Contact
       url: "/#contact"
