@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #030712;
-  --color-secondary: #0b1224;
-  --color-surface: #0f1b33;
-  --color-panel: #0d162b;
-  --color-accent: #22d3ee;
-  --color-text: #e7efff;
+  --color-primary: #f8fafc;
+  --color-secondary: #f1f5f9;
+  --color-surface: #e2e8f0;
+  --color-panel: #cbd5e1;
+  --color-accent: #0ea5e9;
+  --color-text: #0f172a;
   --font-sans: "Space Grotesk", "Inter", system-ui, -apple-system, sans-serif;
 
   --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
@@ -152,9 +152,9 @@
   body {
     @apply bg-primary text-text antialiased;
     background:
-      radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.08), transparent 25%),
-      radial-gradient(circle at 80% 0%, rgba(56, 189, 248, 0.06), transparent 30%),
-      radial-gradient(circle at 10% 70%, rgba(99, 102, 241, 0.05), transparent 25%),
+      radial-gradient(circle at 20% 20%, rgba(14, 165, 233, 0.12), transparent 25%),
+      radial-gradient(circle at 80% 0%, rgba(59, 130, 246, 0.10), transparent 30%),
+      radial-gradient(circle at 10% 70%, rgba(139, 92, 246, 0.08), transparent 25%),
       var(--color-primary);
   }
 
@@ -165,37 +165,38 @@
   }
 
   ::selection {
-    background-color: rgba(34, 211, 238, 0.25);
-    color: #e7efff;
+    background-color: rgba(14, 165, 233, 0.3);
+    color: #0f172a;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md;
-    box-shadow: 0 20px 80px rgba(0, 0, 0, 0.35);
+    @apply relative overflow-hidden rounded-3xl border border-slate-200/60 bg-white/80 backdrop-blur-md;
+    box-shadow: 0 20px 80px rgba(14, 165, 233, 0.15), 0 8px 32px rgba(0, 0, 0, 0.05);
   }
 
   .glass-card::before {
     content: "";
-    @apply absolute inset-0 pointer-events-none bg-gradient-to-br from-white/5 via-transparent to-transparent;
+    @apply absolute inset-0 pointer-events-none bg-gradient-to-br from-white/40 via-transparent to-transparent;
   }
 
   .pill {
-    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200/90;
+    @apply inline-flex items-center gap-2 rounded-full border border-slate-300/60 bg-slate-50/80 px-4 py-2 text-sm text-slate-700;
   }
 
   .section-heading {
-    @apply text-3xl md:text-4xl font-semibold text-white;
+    @apply text-3xl md:text-4xl font-semibold text-slate-900;
   }
 
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-300/80;
+    @apply inline-flex items-center gap-2 rounded-full border border-slate-300/60 bg-white/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600;
   }
 
   .gradient-text {
-    background: linear-gradient(120deg, #e7efff, #22d3ee 40%, #7dd3fc);
+    background: linear-gradient(120deg, #0ea5e9, #3b82f6 40%, #8b5cf6);
     -webkit-background-clip: text;
+    background-clip: text;
     color: transparent;
   }
 
@@ -204,8 +205,8 @@
   }
 
   .cv-card {
-    @apply relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-6 md:p-7;
-    box-shadow: 0 20px 80px rgba(0, 0, 0, 0.35);
+    @apply relative overflow-hidden rounded-3xl border border-slate-200/60 bg-white/80 backdrop-blur-md p-6 md:p-7;
+    box-shadow: 0 20px 80px rgba(14, 165, 233, 0.15), 0 8px 32px rgba(0, 0, 0, 0.05);
   }
 }
 
