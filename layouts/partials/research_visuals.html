@@ -11,55 +11,66 @@
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div
                     class="glass-card p-8 h-80 relative flex items-center justify-center bg-slate-50/50 rounded-2xl overflow-hidden border border-slate-200 order-2 md:order-1 group">
-                    <!-- 3D Helix Mutation Simulation -->
+                    <!-- Full Protein Fold Animation -->
                     <div class="relative w-full h-full flex items-center justify-center">
-                        <svg width="240" height="240" viewBox="0 0 100 100" class="animate-[spin_20s_linear_infinite]">
+                        <svg width="260" height="260" viewBox="0 0 200 200"
+                            class="animate-[float_8s_ease-in-out_infinite]">
                             <defs>
-                                <linearGradient id="helixGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#0ea5e9" />
-                                    <stop offset="100%" stop-color="#6366f1" />
+                                <linearGradient id="proteinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#3b82f6" />
+                                    <stop offset="50%" stop-color="#8b5cf6" />
+                                    <stop offset="100%" stop-color="#ec4899" />
                                 </linearGradient>
+                                <filter id="glow-protein">
+                                    <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur" />
+                                        <feMergeNode in="SourceGraphic" />
+                                    </feMerge>
+                                </filter>
                             </defs>
-                            <!-- Back Strand -->
-                            <path d="M30,10 Q50,30 30,50 T30,90" fill="none" stroke="url(#helixGradient)"
-                                stroke-width="4" opacity="0.3" />
-                            <path d="M70,10 Q50,30 70,50 T70,90" fill="none" stroke="url(#helixGradient)"
-                                stroke-width="4" opacity="0.3" />
 
-                            <!-- Connecting Bonds -->
-                            <g stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2">
-                                <line x1="30" y1="20" x2="70" y2="20" class="animate-pulse" />
-                                <line x1="40" y1="35" x2="60" y2="35" />
-                                <line x1="30" y1="50" x2="70" y2="50" class="animate-pulse delay-75" />
-                                <line x1="40" y1="65" x2="60" y2="65" />
-                                <line x1="30" y1="80" x2="70" y2="80" class="animate-pulse delay-150" />
-                            </g>
+                            <!-- Beta Sheet Representation -->
+                            <path d="M40,140 L80,140 L70,110 L30,110 Z" fill="none" stroke="#cbd5e1" stroke-width="2"
+                                opacity="0.5" />
+                            <path d="M50,160 L90,160 L80,130 L40,130 Z" fill="none" stroke="#cbd5e1" stroke-width="2"
+                                opacity="0.5" />
 
-                            <!-- Front Strand -->
-                            <path d="M30,10 Q10,30 30,50 T30,90" fill="none" stroke="url(#helixGradient)"
-                                stroke-width="4" />
-                            <path d="M70,10 Q90,30 70,50 T70,90" fill="none" stroke="url(#helixGradient)"
-                                stroke-width="4" />
+                            <!-- Complex Protein Backbone (Alpha Helices + Loops) -->
+                            <path
+                                d="M40,150 C40,120 20,100 50,80 C80,60 100,40 120,70 C140,100 160,80 150,50 C140,20 100,20 80,40 C60,60 80,100 110,120 C140,140 170,120 160,90"
+                                fill="none" stroke="url(#proteinGradient)" stroke-width="6" stroke-linecap="round"
+                                stroke-linejoin="round" filter="url(#glow-protein)"
+                                class="animate-[pulse_4s_ease-in-out_infinite]" />
 
-                            <!-- Mutation Hotspot -->
-                            <circle cx="30" cy="50" r="6" fill="#f43f5e"
-                                class="animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]" />
-                            <circle cx="30" cy="50" r="3" fill="#fff" />
+                            <!-- Secondary Structure Elements -->
+                            <path d="M120,70 C130,85 135,90 140,80" stroke="#fff" stroke-width="2" fill="none"
+                                opacity="0.6" />
+                            <path d="M50,80 C60,70 65,65 70,75" stroke="#fff" stroke-width="2" fill="none"
+                                opacity="0.6" />
                         </svg>
 
-                        <!-- Floating Stats -->
+                        <!-- Stability Indicator -->
                         <div
-                            class="absolute top-4 right-4 bg-white/80 backdrop-blur px-3 py-1 rounded-full border border-slate-200 text-xs font-mono text-slate-600 shadow-sm">
-                            ΔΔG: <span class="text-green-600 font-bold">-2.4 kcal/mol</span>
+                            class="absolute bottom-4 left-4 bg-white/90 backdrop-blur px-3 py-2 rounded-lg border border-slate-200 shadow-sm">
+                            <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Stability</div>
+                            <div class="flex items-center gap-2 mt-1">
+                                <div class="h-1.5 w-24 bg-slate-100 rounded-full overflow-hidden">
+                                    <div
+                                        class="h-full bg-gradient-to-r from-blue-500 to-purple-500 w-[92%] animate-[grow-width_3s_ease-out]">
+                                    </div>
+                                </div>
+                                <span class="text-xs font-bold text-slate-700">High</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="order-1 md:order-2 space-y-4">
                     <h3 class="text-2xl font-semibold text-slate-900">Protein Design</h3>
                     <p class="text-slate-600 leading-relaxed text-lg">
-                        Simulating mutational effects where single changes lead to significant functional gains.
-                        Imagine a single residue change enhancing crop yield or resilience—small changes, massive
-                        impact.
+                        Designing novel protein folds with high stability. I use deep learning to hallucinate new
+                        backbones
+                        and sequence design to stabilize them, creating proteins that don't exist in nature.
                     </p>
                 </div>
             </div>
@@ -69,49 +80,50 @@
                 <div class="space-y-4 order-1">
                     <h3 class="text-2xl font-semibold text-slate-900">Protein Engineering</h3>
                     <p class="text-slate-600 leading-relaxed text-lg">
-                        Engineering proteins for regenerative applications. We design proteins that enable biological
-                        cycles,
-                        such as stimulating hair growth or tissue regeneration, creating sustainable biological
-                        solutions.
+                        Visualizing the impact of point mutations. See how changing a single residue from
+                        <span class="font-mono text-red-500 bg-red-50 px-1 rounded">Ala</span> to
+                        <span class="font-mono text-green-600 bg-green-50 px-1 rounded">Trp</span>
+                        alters local packing and surface properties, optimizing function.
                     </p>
                 </div>
                 <div
                     class="glass-card p-8 h-80 relative flex items-center justify-center bg-slate-50/50 rounded-2xl overflow-hidden border border-slate-200 order-2">
-                    <!-- Directed Evolution Tree -->
-                    <div class="relative w-full h-full flex items-end justify-center">
-                        <svg width="300" height="250" viewBox="0 0 200 150">
-                            <!-- Root -->
-                            <path d="M100,150 L100,130" stroke="#64748b" stroke-width="3" />
+                    <!-- Mutation Effect Simulation -->
+                    <div class="relative w-full h-full flex items-center justify-center">
+                        <svg width="280" height="240" viewBox="0 0 200 150">
+                            <!-- Protein Surface/Backbone -->
+                            <path d="M20,75 Q50,20 100,75 T180,75" fill="none" stroke="#94a3b8" stroke-width="4"
+                                opacity="0.3" />
 
-                            <!-- Generation 1 -->
-                            <g class="animate-[grow-up_4s_ease-out_infinite]">
-                                <path d="M100,130 L70,100" stroke="#64748b" stroke-width="2" />
-                                <path d="M100,130 L130,100" stroke="#64748b" stroke-width="2" />
-                                <circle cx="70" cy="100" r="3" fill="#94a3b8" />
-                                <circle cx="130" cy="100" r="3" fill="#94a3b8" />
+                            <!-- Wild Type State (Fades Out) -->
+                            <g class="animate-[fade-out-cycle_6s_infinite]">
+                                <circle cx="100" cy="75" r="8" fill="#f43f5e" /> <!-- Red residue -->
+                                <text x="100" y="60" text-anchor="middle" fill="#f43f5e" font-size="12"
+                                    font-weight="bold">Ala</text>
+                                <!-- Loose packing lines -->
+                                <path d="M90,85 L80,100" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="2,2" />
+                                <path d="M110,85 L120,100" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="2,2" />
                             </g>
 
-                            <!-- Generation 2 (Selection) -->
-                            <g class="animate-[grow-up_4s_ease-out_infinite_1s]">
-                                <path d="M70,100 L50,70" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4,4" />
-                                <!-- Dead end -->
-                                <path d="M70,100 L90,70" stroke="#0ea5e9" stroke-width="2" /> <!-- Selected -->
-                                <circle cx="90" cy="70" r="4" fill="#0ea5e9" />
-                            </g>
-
-                            <!-- Generation 3 (Optimization) -->
-                            <g class="animate-[grow-up_4s_ease-out_infinite_2s]">
-                                <path d="M90,70 L70,40" stroke="#0ea5e9" stroke-width="2" />
-                                <path d="M90,70 L110,40" stroke="#0ea5e9" stroke-width="2" />
-                                <circle cx="70" cy="40" r="5" fill="#0ea5e9" class="animate-pulse" />
-                                <circle cx="110" cy="40" r="5" fill="#0ea5e9" class="animate-pulse delay-100" />
+                            <!-- Mutant State (Fades In) -->
+                            <g class="animate-[fade-in-cycle_6s_infinite]">
+                                <circle cx="100" cy="75" r="14" fill="#10b981" /> <!-- Green bulky residue -->
+                                <text x="100" y="50" text-anchor="middle" fill="#10b981" font-size="12"
+                                    font-weight="bold">Trp</text>
+                                <!-- Tight packing/Interaction lines -->
+                                <path d="M90,85 L80,100" stroke="#10b981" stroke-width="2" />
+                                <path d="M110,85 L120,100" stroke="#10b981" stroke-width="2" />
+                                <circle cx="80" cy="100" r="3" fill="#64748b" />
+                                <circle cx="120" cy="100" r="3" fill="#64748b" />
+                                <!-- Energy flash -->
+                                <circle cx="100" cy="75" r="25" fill="none" stroke="#10b981" stroke-width="1"
+                                    class="animate-ping" opacity="0.5" />
                             </g>
                         </svg>
 
-                        <div class="absolute bottom-4 left-4 flex gap-2">
-                            <span class="w-2 h-2 rounded-full bg-slate-300"></span>
-                            <span class="w-2 h-2 rounded-full bg-slate-300"></span>
-                            <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+                        <div
+                            class="absolute top-4 left-4 bg-white/80 backdrop-blur px-3 py-1 rounded-full border border-slate-200 text-xs font-mono text-slate-600">
+                            Mutation: <span class="animate-[text-cycle_6s_infinite]">A124W</span>
                         </div>
                     </div>
                 </div>
@@ -121,47 +133,53 @@
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div
                     class="glass-card p-8 h-80 relative flex items-center justify-center bg-slate-50/50 rounded-2xl overflow-hidden border border-slate-200 order-2 md:order-1">
-                    <!-- Docking Simulation Grid -->
-                    <div
-                        class="absolute inset-0 bg-[linear-gradient(rgba(14,165,233,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(14,165,233,0.05)_1px,transparent_1px)] bg-[size:20px_20px]">
-                    </div>
-
-                    <div class="relative z-10">
-                        <svg width="200" height="200" viewBox="0 0 100 100">
-                            <!-- Target Surface -->
-                            <path d="M20,60 Q50,40 80,60" fill="none" stroke="#94a3b8" stroke-width="2" />
-                            <path d="M20,65 Q50,45 80,65" fill="none" stroke="#cbd5e1" stroke-width="2" />
-
-                            <!-- Antibody (Draggable/Scanning) -->
-                            <g class="animate-[float_6s_ease-in-out_infinite]">
-                                <path d="M40,30 L50,50 L60,30" fill="none" stroke="#6366f1" stroke-width="4"
+                    <!-- Dynamic Scoring Dashboard -->
+                    <div class="w-full h-full flex flex-col justify-between">
+                        <!-- Visual Representation -->
+                        <div class="flex-1 flex items-center justify-center relative">
+                            <svg width="150" height="120" viewBox="0 0 100 80">
+                                <!-- Antibody -->
+                                <path d="M30,10 L50,50 L70,10" fill="none" stroke="#6366f1" stroke-width="6"
                                     stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M50,50 L50,20" fill="none" stroke="#6366f1" stroke-width="4"
+                                <path d="M50,50 L50,80" fill="none" stroke="#6366f1" stroke-width="6"
                                     stroke-linecap="round" />
+                                <!-- Antigen -->
+                                <circle cx="50" cy="25" r="10" fill="#f472b6" class="animate-[bounce_2s_infinite]" />
+                                <!-- Interaction Sparks -->
+                                <g class="animate-[pulse_1s_infinite]">
+                                    <line x1="40" y1="25" x2="30" y2="25" stroke="#fbbf24" stroke-width="2" />
+                                    <line x1="60" y1="25" x2="70" y2="25" stroke="#fbbf24" stroke-width="2" />
+                                </g>
+                            </svg>
+                        </div>
 
-                                <!-- Scanning Beam -->
-                                <path d="M30,55 L70,55" stroke="#f43f5e" stroke-width="1" stroke-opacity="0.5"
-                                    class="animate-pulse" />
-                            </g>
-
-                            <!-- Docking Hits -->
-                            <circle cx="50" cy="50" r="15" fill="none" stroke="#22d3ee" stroke-width="1"
-                                stroke-dasharray="4,2" class="animate-[spin_4s_linear_infinite]" />
-                        </svg>
-
-                        <!-- Analysis Panel -->
+                        <!-- Live Metrics Panel -->
                         <div
-                            class="absolute -bottom-2 -right-2 bg-white/90 backdrop-blur p-3 rounded-xl border border-slate-200 shadow-lg text-xs font-mono space-y-1">
-                            <div class="flex justify-between gap-4 text-slate-500">
-                                <span>DockQ:</span>
-                                <span class="text-slate-900 font-bold">0.85</span>
+                            class="grid grid-cols-2 gap-3 bg-white/60 backdrop-blur p-4 rounded-xl border border-slate-200">
+                            <div class="space-y-1">
+                                <div class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">DockQ</div>
+                                <div
+                                    class="text-xl font-mono font-bold text-slate-900 animate-[score-update_4s_infinite]">
+                                    0.85</div>
                             </div>
-                            <div class="flex justify-between gap-4 text-slate-500">
-                                <span>RMSD:</span>
-                                <span class="text-slate-900 font-bold">1.2Å</span>
+                            <div class="space-y-1">
+                                <div class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">QS Score
+                                </div>
+                                <div
+                                    class="text-xl font-mono font-bold text-blue-600 animate-[score-update_4s_infinite_1s]">
+                                    0.92</div>
                             </div>
-                            <div class="h-1 w-full bg-slate-100 rounded-full overflow-hidden mt-1">
-                                <div class="h-full bg-green-500 w-[85%] animate-[grow-width_2s_ease-out]"></div>
+                            <div class="space-y-1">
+                                <div class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">ICS</div>
+                                <div
+                                    class="text-xl font-mono font-bold text-purple-600 animate-[score-update_4s_infinite_2s]">
+                                    0.88</div>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">ModFOLD</div>
+                                <div
+                                    class="text-xl font-mono font-bold text-green-600 animate-[score-update_4s_infinite_3s]">
+                                    0.76</div>
                             </div>
                         </div>
                     </div>
@@ -169,10 +187,9 @@
                 <div class="order-1 md:order-2 space-y-4">
                     <h3 class="text-2xl font-semibold text-slate-900">Antibody Engineering</h3>
                     <p class="text-slate-600 leading-relaxed text-lg">
-                        Precision binding analysis. I utilize <strong>ReFOLD</strong> and <strong>ModFOLDdock2</strong>
-                        for structure prediction,
-                        validating interface quality with <strong>DockQ</strong>, <strong>ICS</strong>,
-                        <strong>IPS</strong>, and <strong>QS metrics</strong>.
+                        Real-time scoring of antibody-antigen interfaces. I optimize sequences to maximize
+                        <strong>DockQ</strong> (structural quality), <strong>QS</strong> (quaternary structure),
+                        and <strong>ICS</strong> (interface contact score) metrics.
                     </p>
                 </div>
             </div>
