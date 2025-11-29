@@ -16,6 +16,8 @@ The global pharmaceutical market is projected to exceed **$1.7 trillion**, yet d
 - **Predict Resistance**: Model how mutations affect drug binding.
 - **Design Biologics**: Engineer antibodies with specific binding properties.
 
+![Figure 5: Application of the binding site-focused MD-based protocol for the refinement of the binding site in CASP13 target T1016.](/images/research/fig5_binding_site.jpg "Figure 5: Binding Site Refinement")
+
 ## Synthetic Biology & Enzymes
 Beyond health, this work fuels innovation in sustainable biotechnology. By rationally designing novel enzymes, we can create more efficient biocatalysts for industrial processes.
 
