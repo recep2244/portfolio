@@ -41,10 +41,18 @@ menu:
       name: Publications
       url: "/#publications"
       weight: 40
+    - identifier: tools
+      name: Tools
+      url: "/#opensource"
+      weight: 42
     - identifier: blog
       name: Blog
       url: "/#blog"
       weight: 45
+    - identifier: podcasts
+      name: Podcasts
+      url: "/#podcasts"
+      weight: 48
     - identifier: contact
       name: Contact
       url: "/#contact"
