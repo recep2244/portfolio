@@ -10,7 +10,7 @@
             <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 tracking-tight">
                 From Static Snapshots to <span class="gradient-text">Dynamic Ensembles</span>
             </h1>
-            <div class="glass-card p-6 md:p-8 inline-block">
+            <div class="glass-card p-6 md:p-8 inline-block animate-fade-in-up">
                 <p class="text-xl text-slate-700 max-w-3xl leading-relaxed">
                     {{ .Params.summary }}
                 </p>
@@ -19,9 +19,11 @@
     </div>
 
     <div class="container mx-auto px-6 max-w-4xl py-16 relative z-10">
-        <div
-            class="prose prose-lg max-w-none prose-headings:font-extrabold prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-accent hover:prose-a:text-slate-900 prose-strong:text-slate-900 prose-li:text-slate-700 prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-slate-50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:not-italic prose-img:rounded-2xl prose-img:shadow-xl">
-            {{ .Content }}
+        <div class="glass-card p-8 md:p-10 space-y-10 animate-fade-in-up">
+            <div
+                class="prose prose-lg max-w-none prose-headings:font-extrabold prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-accent hover:prose-a:text-slate-900 prose-strong:text-slate-900 prose-li:text-slate-700 prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-slate-50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:not-italic prose-img:rounded-2xl prose-img:shadow-xl">
+                {{ .Content }}
+            </div>
         </div>
     </div>
 </article>

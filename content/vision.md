@@ -11,6 +11,8 @@ layout: "vision"
 
 My work shatters this limitation.
 
+{{< figure src="/images/research/fig1_pipeline.jpg" title="Figure 1: Dynamic modelling pipeline from AI prediction → MD sampling → QA-guided refinement." class="rounded-2xl shadow-2xl border border-slate-200 my-8" >}}
+
 ## The Problem: Static Blindness
 Current methods fail where it matters most:
 *   **Mutations**: A single atom change can alter motion without changing the static fold.
