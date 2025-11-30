@@ -23,7 +23,7 @@ menu:
   main:
     - identifier: vision
       name: Vision
-      url: "vision"
+      url: "/vision/"
       weight: 5
     - identifier: about
       name: About
@@ -67,5 +67,5 @@ menu:
       weight: 50
     - identifier: cv
       name: CV
-      url: "cv"
+      url: "/cv/"
       weight: 60
