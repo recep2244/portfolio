@@ -56,11 +56,6 @@ tags: ["AI", "Molecular Dynamics", "De Novo Design"]
   </p>
 </div>
 
-<div class="my-12">
-  <img src="{{< relURL "images/research/fig5_1_funfold.jpg" >}}" alt="FunFOLD Protocols" class="w-full rounded-2xl shadow-2xl border border-slate-200 hover:scale-105 transition-transform duration-500" />
-  <p class="text-center text-sm text-slate-500 mt-4 italic">Figure: Template-based vs template-free protocols for CASP16 target</p>
-</div>
-
 <div class="grid md:grid-cols-2 gap-8">
   <div class="bg-blue-50 rounded-xl p-6 border-l-4 border-blue-600">
     <h3 class="text-xl font-bold text-slate-900 mb-3">De Novo Design</h3>
