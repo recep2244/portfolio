@@ -9,12 +9,11 @@
             </p>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {{ range $social.tweets }}
-            <div class="glass-card p-6 hover:-translate-y-1 transition-transform duration-300">
-                <!-- Twitter Embed -->
-                <blockquote class="twitter-tweet" data-theme="light" data-conversation="none">
-                    <a href="{{ .url }}"></a>
+            <div class="flex justify-center">
+                <blockquote class="twitter-tweet" data-theme="light" data-align="center">
+                    <a href="{{ .url }}">Loading Tweet...</a>
                 </blockquote>
             </div>
             {{ end }}
@@ -33,6 +32,3 @@
         </div>
     </div>
 </section>
-
-<!-- Twitter Widget Script -->
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
