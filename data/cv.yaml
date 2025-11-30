@@ -12,9 +12,9 @@ contact:
 summary: "Pioneering the shift from static snapshots to dynamic ensembles. Integrating AI with Molecular Dynamics to model mutants, de novo designs, and drug resistance."
 
 highlights:
-  - "FunFOLD5 ligand interaction prediction surpassing AlphaFold3 on targeted tasks."
-  - "MD-based recycling for IntFOLD/MultiFOLD pushing models beyond AlphaFold2 accuracy."
-  - "H-index 9 with 460+ citations across structure prediction and refinement work."
+  - "ReFOLD3: top refinement server in CASP14; best-in-class MD restraint workflows."
+  - "ReFOLD4: lifted model quality beyond AlphaFold2 using QA-guided recycling."
+  - "FunFOLD5: top-10 affinity prediction; top-2 self-ranking ligand interaction method."
 
 experience:
   - title: "Collaborative Researcher (Part-Time)"
@@ -95,8 +95,8 @@ skills:
   - name: "Protein / MD"
     items:
       - "MD refinement pipelines (restraints, ensembles)"
-      - "Structure prediction (AlphaFold2, ReFOLD, IntFOLD/MultiFOLD)"
-      - "Ligand interactions (Vina, gnina, SwissDock, DiffDock, Rosetta)"
+      - "Structure prediction (Boltz-2, Chai-2, AlphaFold2, ReFOLD, IntFOLD/MultiFOLD)"
+      - "Ligand interactions (AlphaFold ligand workflows, Vina, gnina, SwissDock, DiffDock, Rosetta)"
       - "QA and docking evaluation (ModFOLD/quality estimation)"
 
   - name: "Data / ML"
