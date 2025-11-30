@@ -1,10 +1,10 @@
 {{ $social := .Site.Data.social }}
-<section id="twitter" class="py-24 bg-white relative">
+<section id="twitter" class="py-24 relative">
     <div class="container mx-auto px-6">
         <div class="mb-16 text-center">
             <span class="eyebrow">Social Updates</span>
             <h2 class="section-heading mt-3">Latest Research Insights</h2>
-            <p class="text-slate-600 text-lg mt-4 max-w-3xl mx-auto font-semibold">
+            <p class="text-slate-300 text-lg mt-4 max-w-3xl mx-auto font-semibold">
                 Follow my research journey and insights on X (Twitter)
             </p>
         </div>
@@ -12,7 +12,7 @@
         <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {{ range $social.tweets }}
             <div class="flex justify-center">
-                <blockquote class="twitter-tweet" data-theme="light" data-align="center">
+                <blockquote class="twitter-tweet" data-theme="dark" data-align="center">
                     <a href="{{ .url }}">Loading Tweet...</a>
                 </blockquote>
             </div>
@@ -31,4 +31,5 @@
             </a>
         </div>
     </div>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </section>
