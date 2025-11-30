@@ -17,43 +17,29 @@
             <div class="grid gap-4">
                 <div class="glass-card p-6 space-y-3">
                     <div class="text-sm uppercase tracking-wide text-slate-500">How I work</div>
-                    <div class="space-y-3">
-                        <div class="flex gap-3">
-                            <span class="mt-1 h-2.5 w-2.5 rounded-full bg-accent"></span>
-                            <div>
-                                <p class="text-slate-900 font-semibold">Iterative refinement</p>
-                                <p class="text-slate-600 text-sm leading-relaxed">Blend physics-based models with
-                                    learning systems to close the loop from prediction to validation.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-3">
-                            <span class="mt-1 h-2.5 w-2.5 rounded-full bg-cyan-400"></span>
-                            <div>
-                                <p class="text-slate-900 font-semibold">Operational pipelines</p>
-                                <p class="text-slate-600 text-sm leading-relaxed">Ship pipelines that scientists can
-                                    run, monitor, and extend—across structure prediction, docking, and MD.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-3">
-                            <span class="mt-1 h-2.5 w-2.5 rounded-full bg-sky-500"></span>
-                            <div>
-                                <p class="text-slate-900 font-semibold">Collaboration-first</p>
-                                <p class="text-slate-600 text-sm leading-relaxed">Work closely with domain experts to
-                                    ensure the science stays rigorous while the tooling stays approachable.</p>
-                            </div>
-                        </div>
-                    </div>
+                    run, monitor, and extend—across structure prediction, docking, and MD.</p>
                 </div>
-
-                <div class="glass-card p-6 space-y-2">
-                    <div class="text-sm uppercase tracking-wide text-slate-500">Recent highlights</div>
-                    <ul class="space-y-2 text-slate-600 text-sm leading-relaxed">
-                        {{ range $cv.highlights }}
-                        <li>{{ . }}</li>
-                        {{ end }}
-                    </ul>
+            </div>
+            <div class="flex gap-3">
+                <span class="mt-1 h-2.5 w-2.5 rounded-full bg-sky-500"></span>
+                <div>
+                    <p class="text-slate-900 font-semibold">Collaboration-first</p>
+                    <p class="text-slate-600 text-sm leading-relaxed">Work closely with domain experts to
+                        ensure the science stays rigorous while the tooling stays approachable.</p>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="glass-card p-6 space-y-2">
+        <div class="text-sm uppercase tracking-wide text-slate-500">Recent highlights</div>
+        <ul class="space-y-2 text-slate-600 text-sm leading-relaxed">
+            {{ range $cv.highlights }}
+            <li>{{ . }}</li>
+            {{ end }}
+        </ul>
+    </div>
+    </div>
+    </div>
     </div>
 </section>

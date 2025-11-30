@@ -9,6 +9,8 @@ tags: ["Docker", "Ligand Binding", "Structure Prediction"]
 
 FunFOLD5 is a powerful tool for predicting ligand binding sites in protein structures. It uses a template-based approach, aligning your target structure against a library of known protein-ligand complexes to identify potential binding pockets.
 
+![Figure 5.1/5.2: Template-based vs Template-free Protocols](/images/research/fig5_1_funfold.jpg "FunFOLD5 Protocols")
+
 ## 🐳 Docker Installation
 
 Get the latest version from Docker Hub:

@@ -14,6 +14,8 @@ ReFOLD3 is a state-of-the-art web server for the refinement of 3D protein models
 - **Quality Assessment**: Integrates ModFOLD QA scores to select the best refined models.
 - **Automated Pipeline**: Simply upload your PDB file and let the server handle the rest.
 
+![Figure 3: ReFOLD4 Refinement Protocol](/images/research/fig3_refold4.jpg "ReFOLD Refinement Process")
+
 ## How to Use
 1. **Upload**: Submit your starting PDB model.
 2. **Configure**: Select refinement intensity (Quick vs. Intensive).

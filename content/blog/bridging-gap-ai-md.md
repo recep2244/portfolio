@@ -7,7 +7,7 @@ tags: ["AI", "Molecular Dynamics", "De Novo Design"]
 
 # Bridging the Gap: AI, MD, and De Novo Design
 
-My fellowship project targets a pivotal gap: the lack of effective tools for modelling mutants and de novo-designed proteins.
+My research project targets a pivotal gap: the lack of effective tools for modelling mutants and de novo-designed proteins.
 
 ## The Hybrid Approach
 I am developing a next-generation framework that integrates:

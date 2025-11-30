@@ -9,6 +9,8 @@ tags: ["Docker", "Protein-Protein Docking", "Quality Assessment"]
 
 ModFOLDdock2Q is a comprehensive tool for assessing the quality of protein-protein complex models. It leverages deep learning and structural features to predict the accuracy of docking poses.
 
+![Figure 1: Quality Assessment Pipeline](/images/research/fig1_pipeline.jpg "QA Pipeline Overview")
+
 ## 🐳 Docker Installation
 
 The easiest way to run ModFOLDdock2Q is via Docker. This ensures all dependencies are correctly configured.
