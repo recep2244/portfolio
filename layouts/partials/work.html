@@ -15,24 +15,24 @@
                 <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                     <div class="space-y-2 md:max-w-3xl">
                         <div class="flex flex-wrap items-center gap-3">
-                            <h3 class="text-xl font-semibold text-white">{{ .title }}</h3>
+                            <h3 class="text-xl font-semibold text-slate-900">{{ .title }}</h3>
                             <span
-                                class="text-xs uppercase tracking-wide rounded-full border border-white/10 bg-white/5 px-3 py-1 text-slate-300">
+                                class="text-xs uppercase tracking-wide rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-slate-700">
                                 {{ .period }}
                             </span>
                         </div>
-                        <div class="text-slate-300 font-medium">{{ .org }} • {{ .location }}</div>
+                        <div class="text-slate-700 font-semibold">{{ .org }} • {{ .location }}</div>
                         {{ if .bullets }}
-                        <ul class="text-slate-400 leading-relaxed text-sm md:text-base list-disc list-inside space-y-1.5">
+                        <ul class="text-slate-700 leading-relaxed text-sm md:text-base list-disc list-inside space-y-1.5">
                             {{ range .bullets }}
                             <li>{{ . }}</li>
                             {{ end }}
                         </ul>
                         {{ end }}
                     </div>
-                    <div class="flex items-start gap-2 text-slate-400 text-sm md:flex-col md:items-end">
+                    <div class="flex items-start gap-2 text-slate-600 text-sm md:flex-col md:items-end">
                         <span
-                            class="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-accent font-semibold">
+                            class="rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-accent font-semibold">
                             Structural biology
                         </span>
                     </div>
