@@ -11,13 +11,23 @@
 
         <div class="grid lg:grid-cols-3 gap-8">
             {{ range $data.projects }}
-            <div class="glass-card p-8 flex flex-col h-full border-t-4 {{ if eq .name " ReFOLD3" }}border-blue-500{{
-                else if eq .name "ModFOLDdock2Q" }}border-purple-500{{ else }}border-emerald-500{{ end }}
-                hover:-translate-y-2 transition-transform duration-300">
+            {{ $borderColor := "border-blue-500" }}
+            {{ $bgColor := "bg-blue-100 text-blue-600" }}
+            {{ $textColor := "text-blue-600 hover:text-blue-700" }}
+            {{ if eq .name "ModFOLDdock2Q" }}
+            {{ $borderColor = "border-purple-500" }}
+            {{ $bgColor = "bg-purple-100 text-purple-600" }}
+            {{ $textColor = "text-purple-600 hover:text-purple-700" }}
+            {{ else if eq .name "FunFOLD5" }}
+            {{ $borderColor = "border-emerald-500" }}
+            {{ $bgColor = "bg-emerald-100 text-emerald-600" }}
+            {{ $textColor = "text-emerald-600 hover:text-emerald-700" }}
+            {{ end }}
+
+            <div
+                class="glass-card p-8 flex flex-col h-full border-t-4 {{ $borderColor }} hover:-translate-y-2 transition-transform duration-300">
                 <div class="mb-6">
-                    <div class="w-14 h-14 rounded-xl {{ if eq .name " ReFOLD3" }}bg-blue-100 text-blue-600{{ else if eq
-                        .name "ModFOLDdock2Q" }}bg-purple-100 text-purple-600{{ else }}bg-emerald-100 text-emerald-600{{
-                        end }} flex items-center justify-center mb-4">
+                    <div class="w-14 h-14 rounded-xl {{ $bgColor }} flex items-center justify-center mb-4">
                         {{ if eq .icon "server" }}
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -33,7 +43,6 @@
                     <h3 class="text-2xl font-bold text-slate-900 mb-2">{{ .name }}</h3>
                     <p class="text-slate-600 font-medium mb-4">{{ .description }}</p>
 
-                    <!-- Deployment Badge -->
                     <div
                         class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200">
                         <span class="w-2 h-2 rounded-full {{ if eq .type " Web Server" }}bg-green-500{{ else
@@ -42,10 +51,8 @@
                     </div>
                 </div>
                 <div class="mt-auto pt-6 border-t border-slate-100">
-                    <a href="{{ .page_url | relURL }}" class="flex items-center justify-between {{ if eq .name "
-                        ReFOLD3" }}text-blue-600 hover:text-blue-700{{ else if eq .name "ModFOLDdock2Q"
-                        }}text-purple-600 hover:text-purple-700{{ else }}text-emerald-600 hover:text-emerald-700{{ end
-                        }} font-bold group">
+                    <a href="{{ .page_url | relURL }}"
+                        class="flex items-center justify-between {{ $textColor }} font-bold group">
                         View Documentation
                         <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
@@ -58,7 +65,6 @@
             {{ end }}
         </div>
 
-        <!-- Profile Links -->
         <div class="mt-12 flex flex-wrap justify-center gap-4">
             <a href="https://hub.docker.com/u/radiyaman" target="_blank"
                 class="inline-flex items-center gap-2 px-8 py-4 bg-white border-2 border-slate-200 hover:border-blue-500 text-slate-900 font-bold rounded-xl transition-all shadow-sm hover:shadow-md">
