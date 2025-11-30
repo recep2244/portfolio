@@ -10,7 +10,7 @@
             <div class="space-y-4">
                 <span class="eyebrow">Collaborate</span>
                 <h2 class="section-heading">Let's build the future of biology</h2>
-                <p class="text-slate-600 text-lg leading-relaxed">
+                <p class="text-slate-300 text-lg leading-relaxed">
                     I am always open to research collaborations, consulting on protein design pipelines,
                     and partnering on structural biology products. Whether you have a question or a project in mind,
                     reach out.
@@ -27,46 +27,62 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm text-slate-500">Email me directly</p>
+                        <p class="text-sm text-slate-400">Email me directly</p>
                         <a href="mailto:{{ $cv.contact.email }}"
-                            class="text-slate-900 font-medium hover:text-accent transition-colors">{{ $cv.contact.email
+                            class="text-slate-100 font-medium hover:text-accent transition-colors">{{ $cv.contact.email
                             }}</a>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
+                    <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-slate-100">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                             <path
                                 d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm text-slate-600 font-bold">Connect professionally</p>
+                        <p class="text-sm text-slate-400 font-bold">Connect professionally</p>
                         <a href="{{ $cv.contact.linkedin }}" target="_blank" rel="noreferrer"
-                            class="text-slate-900 font-bold hover:text-accent transition-colors">LinkedIn Profile</a>
+                            class="text-slate-100 font-bold hover:text-accent transition-colors">LinkedIn Profile</a>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700">
+                    <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-slate-100">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                             <path
                                 d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                         </svg>
                     </div>
                     <div>
-                        <p class="text-sm text-slate-600 font-bold">Follow my research</p>
+                        <p class="text-sm text-slate-400 font-bold">Follow my research</p>
                         <a href="{{ $cv.contact.twitter }}" target="_blank" rel="noreferrer"
-                            class="text-slate-900 font-bold hover:text-accent transition-colors">X (Twitter)</a>
+                            class="text-slate-100 font-bold hover:text-accent transition-colors">X (Twitter)</a>
                     </div>
                 </div>
+
+                {{ with $cv.contact.youtube }}
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-slate-100">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path
+                                d="M23.5 6.2s-.2-1.7-.9-2.4c-.9-.9-1.9-.9-2.4-1C16.9 2.5 12 2.5 12 2.5h-.1s-4.9 0-8.2.3c-.5.1-1.5.1-2.4 1C.7 4.5.5 6.2.5 6.2S.3 8 .3 9.8v1.5c0 1.8.2 3.6.2 3.6s.2 1.7.9 2.4c.9.9 2 .9 2.5 1 1.8.2 7.6.3 7.6.3s4.9 0 8.2-.3c.5-.1 1.5-.1 2.4-1 .7-.7.9-2.4.9-2.4s.2-1.8.2-3.6V9.8c0-1.8-.2-3.6-.2-3.6ZM9.7 13.9V7.9l6.4 3-6.4 3Z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm text-slate-400 font-bold">Watch demos</p>
+                        <a href="{{ . }}" target="_blank" rel="noreferrer"
+                            class="text-slate-100 font-bold hover:text-accent transition-colors">YouTube Channel</a>
+                    </div>
+                </div>
+                {{ end }}
             </div>
         </div>
 
         <!-- Right Column: Contact Form -->
         <div class="glass-card p-8 md:p-10">
-            <h3 class="text-xl font-semibold text-slate-900 mb-6">Send a message</h3>
+            <h3 class="text-xl font-semibold text-white mb-6">Send a message</h3>
 
             <!-- Contact Form (Formsubmit.co) -->
             <form action="https://formsubmit.co/recepadiyaman2244@gmail.com" method="POST" class="space-y-5">
@@ -75,23 +91,23 @@
                 <input type="hidden" name="_captcha" value="false">
                 <div class="grid md:grid-cols-2 gap-5">
                     <div class="space-y-2">
-                        <label for="name" class="text-sm font-medium text-slate-700">Name</label>
+                        <label for="name" class="text-sm font-medium text-slate-200">Name</label>
                         <input type="text" name="name" id="name" required
-                            class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                            class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                             placeholder="John Doe">
                     </div>
                     <div class="space-y-2">
-                        <label for="email" class="text-sm font-medium text-slate-700">Email</label>
+                        <label for="email" class="text-sm font-medium text-slate-200">Email</label>
                         <input type="email" name="email" id="email" required
-                            class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                            class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                             placeholder="john@example.com">
                     </div>
                 </div>
 
                 <div class="space-y-2">
-                    <label for="subject" class="text-sm font-medium text-slate-700">Subject</label>
+                    <label for="subject" class="text-sm font-medium text-slate-200">Subject</label>
                     <select name="subject" id="subject"
-                        class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-slate-900 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all">
+                        class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-slate-100 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all">
                         <option value="Collaboration">Research Collaboration</option>
                         <option value="Consulting">Consulting Inquiry</option>
                         <option value="Speaking">Speaking / Workshop</option>
@@ -100,14 +116,14 @@
                 </div>
 
                 <div class="space-y-2">
-                    <label for="message" class="text-sm font-medium text-slate-700">Message</label>
+                    <label for="message" class="text-sm font-medium text-slate-200">Message</label>
                     <textarea name="message" id="message" rows="4" required
-                        class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                        class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
                         placeholder="How can we work together?"></textarea>
                 </div>
 
                 <button type="submit"
-                    class="w-full py-4 rounded-lg bg-accent text-white font-bold shadow-[0_0_20px_rgba(14,165,233,0.3)] hover:shadow-[0_0_30px_rgba(14,165,233,0.5)] hover:-translate-y-0.5 transition-all">
+                    class="w-full py-4 rounded-lg bg-accent text-slate-900 font-bold shadow-[0_0_20px_rgba(34,211,238,0.35)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:-translate-y-0.5 transition-all">
                     Send Message
                 </button>
                 <p class="text-xs text-center text-slate-500 mt-4">
