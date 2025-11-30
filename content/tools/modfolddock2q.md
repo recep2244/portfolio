@@ -27,7 +27,7 @@ tags: ["Docker", "Protein-Protein Docking", "Quality Assessment"]
 </div>
 
 <div class="my-12">
-  <img src="/images/research/fig1_pipeline.jpg" alt="Quality Assessment Pipeline" class="w-full rounded-2xl shadow-2xl border border-slate-200 hover:scale-105 transition-transform duration-500" />
+  <img src="{{< relURL "images/research/fig1_pipeline.jpg" >}}" alt="Quality Assessment Pipeline" class="w-full rounded-2xl shadow-2xl border border-slate-200 hover:scale-105 transition-transform duration-500" />
   <p class="text-center text-sm text-slate-500 mt-4 italic">End-to-end quality assessment pipeline for protein complexes</p>
 </div>
 

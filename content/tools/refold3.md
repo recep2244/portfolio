@@ -27,7 +27,7 @@ tags: ["Protein Refinement", "MD Simulations", "Web Server"]
 </div>
 
 <div class="my-12">
-  <img src="/images/research/fig3_refold4.jpg" alt="ReFOLD4 Refinement Protocol" class="w-full rounded-2xl shadow-2xl border border-slate-200 hover:scale-105 transition-transform duration-500" />
+  <img src="{{< relURL "images/research/fig3_refold4.jpg" >}}" alt="ReFOLD4 Refinement Protocol" class="w-full rounded-2xl shadow-2xl border border-slate-200 hover:scale-105 transition-transform duration-500" />
   <p class="text-center text-sm text-slate-500 mt-4 italic">ReFOLD4 protocol: Fine-grained restraint strategies guided by local quality estimation</p>
 </div>
 
