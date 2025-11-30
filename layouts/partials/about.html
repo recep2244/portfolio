@@ -9,37 +9,50 @@
             <div class="pill">Physics & Bioengineering background</div>
         </div>
 
-        <div class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-start">
-            <div class="space-y-5 text-lg text-slate-600 leading-relaxed">
+        <div class="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] items-start">
+            <div class="space-y-5 text-lg text-slate-700 leading-relaxed">
                 <p>{{ $cv.summary }}</p>
+                <div class="grid gap-3">
+                    <div class="glass-card p-5 space-y-3">
+                        <div class="text-sm uppercase tracking-wide text-slate-500">How I work</div>
+                        <div class="space-y-3 text-sm text-slate-700">
+                            <div class="flex gap-3">
+                                <span class="mt-1 h-2.5 w-2.5 rounded-full bg-accent"></span>
+                                <div>
+                                    <p class="text-slate-900 font-semibold">Iterative refinement</p>
+                                    <p class="text-slate-700">Blend physics-based models with ML to close the loop from
+                                        prediction to validation.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <span class="mt-1 h-2.5 w-2.5 rounded-full bg-blue-500"></span>
+                                <div>
+                                    <p class="text-slate-900 font-semibold">Operational pipelines</p>
+                                    <p class="text-slate-700">Ship pipelines teams can run, monitor, and extend across
+                                        structure prediction, docking, and MD.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <span class="mt-1 h-2.5 w-2.5 rounded-full bg-purple-500"></span>
+                                <div>
+                                    <p class="text-slate-900 font-semibold">Collaboration-first</p>
+                                    <p class="text-slate-700">Work closely with domain experts so the science stays
+                                        rigorous while tooling stays approachable.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="grid gap-4">
-                <div class="glass-card p-6 space-y-3">
-                    <div class="text-sm uppercase tracking-wide text-slate-500">How I work</div>
-                    run, monitor, and extend—across structure prediction, docking, and MD.</p>
-                </div>
-            </div>
-            <div class="flex gap-3">
-                <span class="mt-1 h-2.5 w-2.5 rounded-full bg-sky-500"></span>
-                <div>
-                    <p class="text-slate-900 font-semibold">Collaboration-first</p>
-                    <p class="text-slate-600 text-sm leading-relaxed">Work closely with domain experts to
-                        ensure the science stays rigorous while the tooling stays approachable.</p>
-                </div>
+            <div class="glass-card p-6 space-y-2">
+                <div class="text-sm uppercase tracking-wide text-slate-500">Recent highlights</div>
+                <ul class="space-y-2 text-slate-700 text-sm leading-relaxed">
+                    {{ range $cv.highlights }}
+                    <li>{{ . }}</li>
+                    {{ end }}
+                </ul>
             </div>
         </div>
-    </div>
-
-    <div class="glass-card p-6 space-y-2">
-        <div class="text-sm uppercase tracking-wide text-slate-500">Recent highlights</div>
-        <ul class="space-y-2 text-slate-600 text-sm leading-relaxed">
-            {{ range $cv.highlights }}
-            <li>{{ . }}</li>
-            {{ end }}
-        </ul>
-    </div>
-    </div>
-    </div>
     </div>
 </section>
