@@ -20,23 +20,15 @@ Current methods fail where it matters most:
 ## The Solution: AI + Physics
 I am building the **next-generation dynamic modelling framework**. By fusing Deep Learning with Molecular Dynamics (MD) and local quality estimation, we can predict not just *structure*, but *behavior*.
 
-![Figure 1: Overview of the dynamic modelling pipeline.](/images/research/fig1_pipeline.jpg "The Dynamic Modelling Pipeline")
-
 ### 1. Beyond Evolution
 Standard AI leans on evolutionary history (MSA). My protocol integrates **MD-driven sampling** to explore conformational space for targets where evolution is silent—like **de novo designed proteins** and **orphan targets**.
 
-![Figure 5.1/5.2: Template-based vs Template-free results.](/images/research/fig5_1_funfold.jpg "Template-free Success")
-
 ### 2. Precision Refinement
 Using **Local Quality Estimation** as a guide, we apply "smart restraints." We lock down the stable core while letting the flexible loops and binding sites breathe. This captures the **true ensemble** of the protein.
-
-![Figure 3: ReFOLD4 Refinement.](/images/research/fig3_refold4.jpg "Precision Refinement with ReFOLD4")
 
 ### 3. Real-World Impact
 This isn't just theory. It's about engineering better enzymes and designing smarter drugs.
 *   **SARS-CoV-2**: We revealed hidden states in viral proteins.
 *   **Drug Discovery**: We uncover cryptic pockets invisible to static methods.
-
-![Figure 5: Binding site refinement.](/images/research/fig5_binding_site.jpg "Uncovering Hidden Binding Sites")
 
 **We are moving from predicting a single snapshot to simulating the movie of life.**
