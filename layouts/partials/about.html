@@ -45,13 +45,13 @@
                 </div>
             </div>
 
-            <div class="glass-card p-6 space-y-2">
+            <div class="glass-card p-6 space-y-3">
                 <div class="text-sm uppercase tracking-wide text-slate-500">Recent highlights</div>
-                <ul class="space-y-2 text-slate-700 text-sm leading-relaxed">
+                <div class="flex flex-wrap gap-2">
                     {{ range $cv.highlights }}
-                    <li>{{ . }}</li>
+                    <span class="pill text-xs font-semibold">{{ . }}</span>
                     {{ end }}
-                </ul>
+                </div>
             </div>
         </div>
     </div>
