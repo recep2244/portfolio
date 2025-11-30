@@ -1,29 +1,50 @@
 {{ define "main" }}
-<div class="py-24">
-    <div class="container mx-auto px-6 max-w-5xl space-y-8">
-        <div class="text-center">
-            <span class="eyebrow">Insights</span>
-            <h1 class="text-4xl font-extrabold text-slate-900">{{ .Title }}</h1>
-            <p class="text-slate-600 mt-3">Analyses on AI, MD, and dynamic protein design.</p>
+<div class="min-h-screen bg-slate-50 pt-32 pb-20">
+    <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto mb-16 text-center">
+            <span class="eyebrow text-accent mb-4 block">Our Thoughts</span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6">Latest Articles</h1>
+            <p class="text-xl text-slate-600">Insights into protein modelling, AI, and drug discovery.</p>
         </div>
-        <div class="grid gap-6 md:grid-cols-2">
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {{ range .Pages }}
             <article
-                class="glass-card p-6 hover:-translate-y-1 transition-transform duration-300 border border-slate-200/60 bg-white/90">
-                <h2 class="text-2xl font-bold text-slate-900 mb-3 leading-snug">
-                    <a href="{{ .Permalink }}" class="hover:text-accent transition-colors">{{ .Title }}</a>
-                </h2>
-                <p class="text-slate-600">{{ .Summary }}</p>
-                <div class="flex flex-wrap gap-2 mt-3">
-                    {{ range .Params.tags }}
-                    <span class="pill text-xs">{{ . }}</span>
-                    {{ end }}
-                </div>
-                <div class="mt-4 flex items-center gap-2 text-accent font-semibold">
-                    <a href="{{ .Permalink }}" class="hover:underline">Read More</a>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 12h14" />
-                    </svg>
+                class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 border border-slate-100 flex flex-col h-full">
+                <div class="p-8 flex flex-col h-full">
+                    <div class="flex items-center gap-2 mb-4 text-sm text-slate-500">
+                        <time>{{ .Date.Format "Jan 2, 2006" }}</time>
+                        <span>•</span>
+                        <span>{{ .ReadingTime }} min read</span>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-slate-900 mb-3 leading-tight">
+                        <a href="{{ .RelPermalink }}" class="hover:text-blue-600 transition-colors">
+                            {{ .Title }}
+                        </a>
+                    </h2>
+
+                    <p class="text-slate-600 mb-6 flex-grow leading-relaxed">
+                        {{ .Summary | truncate 120 }}
+                    </p>
+
+                    <div class="mt-auto pt-6 border-t border-slate-100 flex items-center justify-between">
+                        <div class="flex flex-wrap gap-2">
+                            {{ range first 2 .Params.tags }}
+                            <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded-md font-medium">{{ .
+                                }}</span>
+                            {{ end }}
+                        </div>
+                        <a href="{{ .RelPermalink }}"
+                            class="text-blue-600 font-bold text-sm hover:text-blue-700 flex items-center gap-1 group">
+                            Read
+                            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </article>
             {{ end }}
