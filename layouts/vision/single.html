@@ -1,19 +1,15 @@
 {{ define "main" }}
-<article class="bg-white">
-    <!-- Hero Header -->
-    <div class="relative py-24 bg-slate-900 overflow-hidden">
-        <div class="absolute inset-0 opacity-20">
-            <div class="absolute top-0 left-0 w-full h-full bg-[url('/images/grid.svg')]"></div>
+<article>
+    <div class="relative py-24 overflow-hidden">
+        <div class="absolute inset-0">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,#1f2937_1px,transparent_0)] opacity-20"></div>
+            <div class="absolute -left-32 top-0 h-96 w-96 rounded-full bg-accent/10 blur-3xl"></div>
+            <div class="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-cyan-500/10 blur-[120px]"></div>
         </div>
-        <div class="container mx-auto px-6 relative z-10 text-center">
-            <span
-                class="inline-block py-1 px-3 rounded-full bg-blue-500/20 text-blue-300 text-sm font-bold mb-6 border border-blue-500/30">
-                Research Vision
-            </span>
-            <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">
-                From Static Snapshots to <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Dynamic
-                    Ensembles</span>
+        <div class="container mx-auto px-6 relative z-10 text-center space-y-6">
+            <span class="eyebrow">Research Vision</span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight">
+                From Static Snapshots to <span class="gradient-text">Dynamic Ensembles</span>
             </h1>
             <p class="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
                 {{ .Params.summary }}
@@ -21,10 +17,9 @@
         </div>
     </div>
 
-    <!-- Content -->
     <div class="container mx-auto px-6 max-w-4xl py-16">
         <div
-            class="prose prose-lg prose-slate max-w-none prose-headings:font-extrabold prose-headings:text-slate-900 prose-p:text-slate-600 prose-a:text-blue-600 hover:prose-a:text-blue-700 prose-blockquote:border-l-blue-500 prose-blockquote:bg-slate-50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:not-italic prose-img:rounded-2xl prose-img:shadow-xl">
+            class="prose prose-lg max-w-none prose-headings:font-extrabold prose-headings:text-white prose-p:text-slate-300 prose-a:text-accent hover:prose-a:text-white prose-strong:text-white prose-li:text-slate-300 prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-white/5 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:not-italic prose-img:rounded-2xl prose-img:shadow-xl">
             {{ .Content }}
         </div>
     </div>
