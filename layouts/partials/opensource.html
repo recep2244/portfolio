@@ -3,84 +3,92 @@
     <div class="container mx-auto px-6">
         <div class="mb-16">
             <span class="eyebrow">Open Source & Tools</span>
-            <h2 class="section-heading mt-3">Tools & Resources</h2>
+            <h2 class="section-heading mt-3">Scientific Software</h2>
             <p class="text-slate-600 text-lg mt-4 max-w-3xl font-semibold">
-                Deployable bioinformatics tools, web servers, and Docker containers for the scientific community.
+                Next-generation tools for structure prediction, refinement, and quality assessment.
             </p>
         </div>
 
-        <div class="grid lg:grid-cols-2 gap-10">
-            <!-- ReFOLD3 Embed/Card -->
-            <div class="lg:col-span-2 glass-card p-8 border-l-4 border-blue-500">
-                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-                    <div>
-                        <h3 class="text-2xl font-bold text-slate-900">ReFOLD3 Server</h3>
-                        <p class="text-slate-600 font-medium">Refinement of 3D protein models via MD simulations</p>
-                    </div>
-                    <div class="flex gap-3">
-                        <a href="/tools/refold3"
-                            class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold rounded-lg transition-colors">
-                            View Details
-                        </a>
-                        <a href="https://www.reading.ac.uk/bioinf/ReFOLD/ReFOLD3_form.html" target="_blank"
-                            class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors flex items-center gap-2">
-                            Launch Server
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <!-- Iframe Embed -->
-                <div
-                    class="w-full h-[500px] bg-white rounded-xl border border-slate-200 overflow-hidden shadow-inner relative">
-                    <div class="absolute inset-0 flex items-center justify-center bg-slate-50 text-slate-400 z-0">
-                        Loading ReFOLD3 Interface...
-                    </div>
-                    <iframe src="https://www.reading.ac.uk/bioinf/ReFOLD/ReFOLD3_form.html"
-                        class="w-full h-full relative z-10" frameborder="0"
-                        sandbox="allow-scripts allow-same-origin allow-forms">
-                    </iframe>
-                </div>
-            </div>
-
-            <!-- Docker Projects -->
-            {{ range where $data.projects "type" "Docker Image" }}
-            <div class="glass-card p-8 flex flex-col h-full">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
-                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.119a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.186.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V3.574a.185.185 0 00-.184-.185h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.186.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V3.574a.185.185 0 00-.185-.185H2.136a.185.185 0 00-.186.185v1.888c0 .102.083.186.186.186m-2.93 5.43h2.12a.186.186 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.186.186 0 00.185-.185V9.006a.185.185 0 00-.185-.186H2.136a.186.186 0 00-.186.185v1.888c0 .102.083.185.186.185m-2.929 0h2.12a.186.186 0 00.185-.185V9.006a.185.185 0 00-.185-.186h-2.12a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185M8.018 3.575h2.119a.186.186 0 00.186-.185V1.502a.186.186 0 00-.186-.186H8.018a.185.185 0 00-.185.186v1.888c0 .102.083.185.185.185m-2.969 0h2.12a.186.186 0 00.184-.185V1.502a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.186v1.888c0 .102.083.185.184.185m6.905 5.636L11.32 9.212a.26.26 0 00-.097.133.262.262 0 00-.013.213l.258.847a.26.26 0 00.315.178l.835-.25a.266.266 0 00.17-.348l-.257-.843a.26.26 0 00-.58-.068zM24 11.078c0-2.843-2.292-5.152-5.115-5.152h-.825v-1.25c0-.102-.083-.185-.185-.185h-2.119a.185.185 0 00-.186.185v1.25h-2.924v-1.25a.186.186 0 00-.186-.185h-2.119a.185.185 0 00-.185.185v1.25H7.332v-1.25a.185.185 0 00-.185-.185H5.028a.185.185 0 00-.185.185v1.25H2.108v-1.25a.185.185 0 00-.185-.185H.804a.185.185 0 00-.186.185v1.25H.185A.185.185 0 000 6.11v12.923c0 .102.083.185.185.185h23.63c.102 0 .185-.083.185-.185V11.078z" />
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- ReFOLD3 Card -->
+            <div
+                class="glass-card p-8 flex flex-col h-full border-t-4 border-blue-500 hover:-translate-y-2 transition-transform duration-300">
+                <div class="mb-6">
+                    <div class="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                         </svg>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-slate-900">
-                            <a href="{{ .page_url }}" class="hover:text-blue-600 transition-colors">{{ .name }}</a>
-                        </h3>
-                        <a href="{{ .url }}" target="_blank"
-                            class="text-sm text-blue-600 font-bold hover:underline">View on Docker Hub</a>
-                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2">ReFOLD3</h3>
+                    <p class="text-slate-600 font-medium">MD-based refinement server for 3D protein models.</p>
                 </div>
-
-                <p class="text-slate-600 font-medium mb-6 flex-grow">{{ .description }}</p>
-
-                <div class="bg-slate-900 rounded-lg p-4 font-mono text-sm text-slate-300 overflow-x-auto mb-4">
-                    <div class="flex justify-between items-center mb-2 border-b border-slate-700 pb-2">
-                        <span class="text-xs text-slate-500 uppercase font-bold">Installation</span>
-                        <button class="text-xs text-blue-400 hover:text-blue-300 font-bold"
-                            onclick="navigator.clipboard.writeText('{{ .docker_pull }}')">Copy</button>
-                    </div>
-                    <code>{{ .docker_pull }}</code>
+                <div class="mt-auto pt-6 border-t border-slate-100">
+                    <a href="/tools/refold3"
+                        class="flex items-center justify-between text-blue-600 font-bold hover:text-blue-700 group">
+                        View Documentation
+                        <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
                 </div>
-
-                <a href="{{ .page_url }}"
-                    class="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold rounded-lg transition-colors text-center">
-                    View Documentation & Usage
-                </a>
             </div>
-            {{ end }}
+
+            <!-- ModFOLDdock2Q Card -->
+            <div
+                class="glass-card p-8 flex flex-col h-full border-t-4 border-purple-500 hover:-translate-y-2 transition-transform duration-300">
+                <div class="mb-6">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2">ModFOLDdock2Q</h3>
+                    <p class="text-slate-600 font-medium">Quality assessment for protein-protein complexes.</p>
+                </div>
+                <div class="mt-auto pt-6 border-t border-slate-100">
+                    <a href="/tools/modfolddock2q"
+                        class="flex items-center justify-between text-purple-600 font-bold hover:text-purple-700 group">
+                        View Documentation
+                        <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- FunFOLD5 Card -->
+            <div
+                class="glass-card p-8 flex flex-col h-full border-t-4 border-emerald-500 hover:-translate-y-2 transition-transform duration-300">
+                <div class="mb-6">
+                    <div
+                        class="w-14 h-14 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2">FunFOLD5</h3>
+                    <p class="text-slate-600 font-medium">Ligand binding site prediction & alignment.</p>
+                </div>
+                <div class="mt-auto pt-6 border-t border-slate-100">
+                    <a href="/tools/funfold5"
+                        class="flex items-center justify-between text-emerald-600 font-bold hover:text-emerald-700 group">
+                        View Documentation
+                        <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
         </div>
 
         <!-- Docker Profile Link -->
