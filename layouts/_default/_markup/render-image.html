@@ -1,0 +1,6 @@
+{{ $dest := .Destination }}
+{{ if hasPrefix $dest "/" }}
+{{ $dest = strings.TrimPrefix "/" $dest }}
+{{ end }}
+<img src="{{ $dest | relURL }}" alt="{{ .Text }}" {{ with .Title }} title="{{ . }}" {{ end }}
+    class="w-full rounded-2xl shadow-2xl border border-slate-200 hover:scale-105 transition-transform duration-500" />

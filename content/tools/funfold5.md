@@ -27,7 +27,7 @@ tags: ["Docker", "Ligand Binding", "Structure Prediction"]
 </div>
 
 <div class="my-12">
-  <img src="/images/research/fig5_1_funfold.jpg" alt="FunFOLD5 Protocols" class="w-full rounded-2xl shadow-2xl border border-slate-200 hover:scale-105 transition-transform duration-500" />
+  <img src="{{< relURL "images/research/fig5_1_funfold.jpg" >}}" alt="FunFOLD5 Protocols" class="w-full rounded-2xl shadow-2xl border border-slate-200 hover:scale-105 transition-transform duration-500" />
   <p class="text-center text-sm text-slate-500 mt-4 italic">Template-based vs template-free protocols for CASP16 target L2000</p>
 </div>
 

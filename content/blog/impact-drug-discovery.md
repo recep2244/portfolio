@@ -37,7 +37,7 @@ tags: ["Drug Discovery", "Synthetic Biology", "Impact"]
 </div>
 
 <div class="my-12">
-  <img src="/images/research/fig5_binding_site.jpg" alt="Binding Site Refinement" class="w-full rounded-2xl shadow-2xl border border-slate-200 hover:scale-105 transition-transform duration-500" />
+  <img src="{{< relURL "images/research/fig5_binding_site.jpg" >}}" alt="Binding Site Refinement" class="w-full rounded-2xl shadow-2xl border border-slate-200 hover:scale-105 transition-transform duration-500" />
   <p class="text-center text-sm text-slate-500 mt-4 italic">Figure: MD-based refinement revealing cryptic binding sites</p>
 </div>
 
