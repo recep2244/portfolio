@@ -150,15 +150,15 @@ projects:
 blogs:
   - title: "From Static to Dynamic: The Future of Protein Modelling"
     summary: "Why we need to move beyond static snapshots to capture the full range of conformational dynamics."
-    link: "/blog/static-to-dynamic"
+    link: "blog/static-to-dynamic"
     tags: ["Protein Dynamics", "AlphaFold", "Modelling"]
   - title: "Bridging the Gap: AI, MD, and De Novo Design"
     summary: "Integrating deep learning with molecular dynamics and local quality estimation to model mutants and novel folds."
-    link: "/blog/bridging-gap-ai-md"
+    link: "blog/bridging-gap-ai-md"
     tags: ["AI", "Molecular Dynamics", "De Novo Design"]
   - title: "Impact on Drug Discovery & Synthetic Biology"
     summary: "How dynamic modelling will accelerate therapeutic discovery and the design of next-generation enzymes."
-    link: "/blog/impact-drug-discovery"
+    link: "blog/impact-drug-discovery"
     tags: ["Drug Discovery", "Synthetic Biology", "Impact"]
   - title: "Closing the loop: MD recycling beyond AlphaFold2"
     summary: "How restrained MD cycles and local QA signals can push structural predictions past AF2 baselines for real targets."
