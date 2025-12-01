@@ -1,5 +1,6 @@
 <figure class="{{ .Get " class" }}">
-    <img src="{{ .Get " src" | relURL }}" alt="{{ .Get " title" }}" class="w-full rounded-2xl" />
+    <img src="{{ .Get " src" | relURL }}" alt="{{ .Get " title" }}"
+        class="w-full max-h-[600px] object-contain mx-auto rounded-2xl" />
     {{ with .Get "title" }}<figcaption class="text-center text-sm text-slate-500 mt-4 italic">{{ . }}</figcaption>{{ end
     }}
 </figure>
