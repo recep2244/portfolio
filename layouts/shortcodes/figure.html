@@ -1,6 +1,17 @@
-<figure class="{{ .Get " class" }}">
-    <img src="{{ .Get " src" | relURL }}" alt="{{ .Get " title" }}"
-        class="w-full max-h-[600px] object-contain mx-auto rounded-2xl" />
-    {{ with .Get "title" }}<figcaption class="text-center text-sm text-slate-500 mt-4 italic">{{ . }}</figcaption>{{ end
-    }}
+<figure class="group relative my-12 {{ .Get " class" }}">
+    <div
+        class="absolute -inset-1 bg-gradient-to-r from-accent to-blue-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200">
+    </div>
+    <div class="relative">
+        <img src="{{ .Get " src" | relURL }}" alt="{{ .Get " title" }}"
+            class="w-full max-h-[700px] object-contain mx-auto rounded-2xl shadow-2xl border border-slate-200 bg-white" />
+    </div>
+    {{ with .Get "title" }}
+    <figcaption class="text-center mt-6">
+        <span
+            class="inline-block px-4 py-2 rounded-full bg-slate-100 text-slate-700 font-bold text-sm border border-slate-200 shadow-sm">
+            {{ . }}
+        </span>
+    </figcaption>
+    {{ end }}
 </figure>
