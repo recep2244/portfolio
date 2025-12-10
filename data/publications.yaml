@@ -3,14 +3,14 @@
   journal: "Bioinformatics Advances"
   year: "2023"
   citations: "19"
-  link: "https://doi.org/10.1093/bioadv/vbad123"
+  link: "https://doi.org/10.1093/bioadv/vbad078"
 
 - title: "Using local protein model quality estimates to guide a molecular dynamics-based refinement strategy"
   authors: "Adiyaman, R., & McGuffin, L. J."
   journal: "Homology Modeling: Methods and Protocols (Springer US)"
   year: "2023"
   citations: "1"
-  link: "https://doi.org/10.1007/978-1-0716-2993-7_7"
+  link: "https://doi.org/10.1007/978-1-0716-2974-1_7"
 
 - title: "ReFOLD3: refinement of 3D protein models with gradual restraints based on predicted local quality and residue contacts"
   authors: "Adiyaman, R., & McGuffin, L. J."
@@ -37,6 +37,7 @@
   authors: "McGuffin, L. J., Alhaddad, S. N., Behzadi, B., Edmunds, N. S., Genc, A. G., & Adiyaman, R."
   journal: "Nucleic Acids Research"
   year: "2025"
+  link: "https://doi.org/10.1093/nar/gkaf336"
 
 - title: "Highlights of model quality assessment in CASP16"
   authors: "Fadini, A., Adiyaman, R., Alhaddad, S. N., et al."
@@ -78,7 +79,7 @@
   journal: "Blood"
   year: "2021"
   citations: "12"
-  link: "https://doi.org/10.1182/blood.2020008762"
+  link: "https://doi.org/10.1182/blood.2019004575"
 
 - title: "Modelling SARS‐CoV‐2 proteins in the CASP‐commons experiment"
   authors: "Kryshtafovych, A., ... Adiyaman, R. (CASP-COVID participants), et al."
