@@ -8,6 +8,16 @@
 
     <div class="relative py-24">
         <div class="container mx-auto px-6 relative z-10 text-center space-y-6 max-w-5xl">
+            <div class="text-left mb-8">
+                <a href="{{ " /" | relURL }}"
+                    class="inline-flex items-center gap-2 text-slate-600 hover:text-accent font-bold transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to Home
+                </a>
+            </div>
             <span class="eyebrow">Research Vision</span>
             <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 tracking-tight">
                 From Static Snapshots to <span class="gradient-text">Dynamic Ensembles</span>
@@ -23,7 +33,7 @@
     <div class="container mx-auto px-6 max-w-4xl py-16 relative z-10">
         <div class="glass-card p-8 md:p-10 space-y-10 animate-fade-in-up">
             <div
-                class="prose prose-lg max-w-none prose-headings:font-extrabold prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-accent hover:prose-a:text-slate-900 prose-strong:text-slate-900 prose-li:text-slate-700 prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-slate-50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:not-italic prose-img:rounded-2xl prose-img:shadow-xl">
+                class="prose prose-xl max-w-none prose-headings:font-black prose-headings:tracking-tight prose-headings:text-slate-900 prose-p:text-slate-700 prose-p:font-medium prose-p:leading-loose prose-a:text-accent hover:prose-a:text-slate-900 prose-strong:text-slate-900 prose-strong:font-black prose-li:text-slate-700 prose-blockquote:border-l-8 prose-blockquote:border-accent prose-blockquote:bg-slate-50 prose-blockquote:py-4 prose-blockquote:px-8 prose-blockquote:not-italic prose-blockquote:rounded-r-2xl prose-blockquote:shadow-sm">
                 {{ .Content }}
             </div>
         </div>
