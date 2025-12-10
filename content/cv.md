@@ -1,5 +1,6 @@
 ---
 title: "Curriculum Vitae"
-layout: "cv/compact"
+type: "cv"
+layout: "compact"
 
 ---
