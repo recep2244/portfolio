@@ -127,28 +127,30 @@
                             <circle cx="100" cy="50" r="6" fill="#ef4444"
                                 class="opacity-0 group-hover:opacity-100 animate-ping" />
                             <text x="100" y="180" text-anchor="middle"
-                                class="font-black text-slate-400 text-sm uppercase tracking-widest group-hover:text-red-500 transition-colors">Static
-                                Model</text>
+                                class="font-black text-slate-400 text-xs uppercase tracking-widest group-hover:text-red-500 transition-colors">X-Ray
+                                Crystal Structure</text>
                         </svg>
                     </div>
                     <div
                         class="absolute top-6 right-6 bg-white/90 backdrop-blur px-4 py-2 rounded-xl border border-slate-200 shadow-sm opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
-                        <span class="text-xs font-black text-red-500 uppercase">Critical Failure</span>
-                        <p class="text-sm font-bold text-slate-700">Missed Mutation</p>
+                        <span class="text-xs font-black text-red-500 uppercase">Steric Clash</span>
+                        <p class="text-sm font-bold text-slate-700">Rotamer Conflict</p>
                     </div>
                 </div>
                 <div class="order-1 md:order-2 space-y-6">
                     <div
                         class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-slate-900 text-white font-black text-xl shadow-xl">
                         1</div>
-                    <h3 class="text-4xl font-black text-slate-900 leading-tight">The Static Blindspot</h3>
-                    <p class="text-xl font-bold text-slate-600 leading-relaxed">
-                        Traditional AI treats proteins as <span
-                            class="bg-slate-200 px-2 py-1 rounded text-slate-900">frozen sculptures</span>.
+                    <h3 class="text-3xl font-black text-slate-900 leading-tight">Limitations of Rigid-Body Assumptions
+                    </h3>
+                    <p class="text-lg font-bold text-slate-600 leading-relaxed">
+                        Conventional algorithms rely on <span
+                            class="bg-slate-200 px-2 py-1 rounded text-slate-900">static crystal structures</span>,
+                        ignoring thermodynamic fluctuations.
                     </p>
-                    <p class="text-lg font-medium text-slate-500">
-                        This approach fails to capture single-point mutations and resistance mechanisms. <span
-                            class="text-accent font-bold">Hover the visual</span> to reveal what static models miss.
+                    <p class="text-base font-medium text-slate-500">
+                        This leads to false negatives in mutation impact analysis, as steric clashes and entropy changes
+                        are overlooked.
                     </p>
                 </div>
             </div>
@@ -159,17 +161,18 @@
                     <div
                         class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-accent text-white font-black text-xl shadow-xl shadow-blue-200">
                         2</div>
-                    <h3 class="text-4xl font-black text-slate-900 leading-tight">Unleashing Dynamics</h3>
-                    <p class="text-xl font-bold text-slate-600 leading-relaxed">
-                        We fuse <span
+                    <h3 class="text-3xl font-black text-slate-900 leading-tight">Enhanced Sampling & Ensemble Generation
+                    </h3>
+                    <p class="text-lg font-bold text-slate-600 leading-relaxed">
+                        We integrate <span
                             class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Deep
-                            Learning</span> with <span
-                            class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500">Physics
-                            (MD)</span>.
+                            Learning Potentials</span> with <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500">Molecular
+                            Dynamics (MD)</span>.
                     </p>
-                    <p class="text-lg font-medium text-slate-500">
-                        By sampling the full conformational landscape, we predict not just structure, but
-                        <strong>behavior</strong>.
+                    <p class="text-base font-medium text-slate-500">
+                        By generating Boltzmann-weighted ensembles, we capture the full conformational landscape,
+                        revealing transient states critical for function.
                     </p>
                 </div>
                 <div
@@ -203,6 +206,10 @@
                                 </linearGradient>
                             </defs>
                         </svg>
+                        <div
+                            class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur px-3 py-1 rounded-full border border-white/10">
+                            <span class="text-[10px] font-mono text-blue-300">RMSD: 2.4Å</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -224,27 +231,29 @@
                         <div
                             class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-yellow-400 rounded-full shadow-lg border-2 border-yellow-600 transition-all duration-700 group-hover:scale-[2] group-hover:rotate-180 z-10 flex items-center justify-center">
                             <span
-                                class="text-[6px] font-bold text-yellow-900 opacity-0 group-hover:opacity-100">DRUG</span>
+                                class="text-[6px] font-bold text-yellow-900 opacity-0 group-hover:opacity-100">LIGAND</span>
                         </div>
                     </div>
                     <div
                         class="absolute bottom-6 left-6 bg-white/90 backdrop-blur px-4 py-2 rounded-xl border border-emerald-200 shadow-sm">
-                        <span class="text-xs font-black text-emerald-600 uppercase">Target Acquired</span>
-                        <p class="text-sm font-bold text-slate-700">Cryptic Pocket Found</p>
+                        <span class="text-xs font-black text-emerald-600 uppercase">Allosteric Site</span>
+                        <p class="text-sm font-bold text-slate-700">Cryptic Pocket Exposed</p>
                     </div>
                 </div>
                 <div class="order-1 md:order-2 space-y-6">
                     <div
                         class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-500 text-white font-black text-xl shadow-xl shadow-emerald-200">
                         3</div>
-                    <h3 class="text-4xl font-black text-slate-900 leading-tight">Designing Cures</h3>
-                    <p class="text-xl font-bold text-slate-600 leading-relaxed">
-                        We reveal <span class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded">cryptic pockets</span>
-                        invisible to static methods.
+                    <h3 class="text-3xl font-black text-slate-900 leading-tight">Cryptic Pocket Identification & Ligand
+                        Docking</h3>
+                    <p class="text-lg font-bold text-slate-600 leading-relaxed">
+                        We identify <span class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded">cryptic allosteric
+                            sites</span>
+                        that only open in specific conformational states.
                     </p>
-                    <p class="text-lg font-medium text-slate-500">
-                        This enables the design of drugs for "undruggable" targets and de novo enzymes for green
-                        chemistry.
+                    <p class="text-base font-medium text-slate-500">
+                        This facilitates the rational design of small molecules for "undruggable" targets and the
+                        engineering of de novo enzymes with novel catalytic functions.
                     </p>
                 </div>
             </div>
