@@ -117,17 +117,44 @@
                     <div
                         class="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:20px_20px] opacity-50">
                     </div>
-                    <!-- Visual: Static Protein -->
-                    <div class="relative w-48 h-48 grayscale group-hover:grayscale-0 transition-all duration-700">
-                        <svg viewBox="0 0 200 200" class="w-full h-full">
-                            <path d="M50,100 C50,50 150,50 150,100 C150,150 50,150 50,100" fill="none" stroke="#64748b"
-                                stroke-width="12" stroke-linecap="round" stroke-linejoin="round"
-                                class="group-hover:stroke-red-500 transition-colors duration-500" />
-                            <!-- Hidden Mutation -->
-                            <circle cx="100" cy="50" r="6" fill="#ef4444"
-                                class="opacity-0 group-hover:opacity-100 animate-ping" />
-                            <text x="100" y="180" text-anchor="middle"
-                                class="font-black text-slate-400 text-xs uppercase tracking-widest group-hover:text-red-500 transition-colors">X-Ray
+                    <!-- Visual: Static Crystal Structure (Cartoon) -->
+                    <div class="relative w-64 h-64 grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-xl">
+                            <defs>
+                                <linearGradient id="helixGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#3b82f6" />
+                                    <stop offset="50%" stop-color="#60a5fa" />
+                                    <stop offset="100%" stop-color="#2563eb" />
+                                </linearGradient>
+                            </defs>
+
+                            <!-- Alpha Helix 1 -->
+                            <path d="M40,140 Q50,110 40,80 Q30,50 60,40 Q90,30 100,60" fill="none"
+                                stroke="url(#helixGradient)" stroke-width="12" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M40,140 Q50,110 40,80 Q30,50 60,40 Q90,30 100,60" fill="none" stroke="white"
+                                stroke-width="2" stroke-opacity="0.3" />
+
+                            <!-- Beta Sheet (Arrow) -->
+                            <path d="M100,60 L140,60 L130,40 L170,70 L130,100 L140,80 L100,80" fill="#fbbf24"
+                                stroke="#d97706" stroke-width="2" />
+
+                            <!-- Alpha Helix 2 -->
+                            <path d="M100,80 Q110,110 100,140 Q90,170 120,180 Q150,190 160,160" fill="none"
+                                stroke="url(#helixGradient)" stroke-width="12" stroke-linecap="round"
+                                stroke-linejoin="round" />
+
+                            <!-- Mutated Side Chain (Stick) -->
+                            <g class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <line x1="100" y1="80" x2="120" y2="100" stroke="#ef4444" stroke-width="6"
+                                    stroke-linecap="round" />
+                                <circle cx="120" cy="100" r="6" fill="#ef4444" class="animate-ping" />
+                                <!-- Clash Indicator -->
+                                <path d="M115,95 L125,105 M125,95 L115,105" stroke="white" stroke-width="2" />
+                            </g>
+
+                            <text x="100" y="190" text-anchor="middle"
+                                class="font-black text-slate-400 text-xs uppercase tracking-widest group-hover:text-blue-600 transition-colors">X-Ray
                                 Crystal Structure</text>
                         </svg>
                     </div>
@@ -177,35 +204,40 @@
                 </div>
                 <div
                     class="relative h-80 bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl flex items-center justify-center group">
-                    <!-- Visual: Dynamic Sampling -->
+                    <!-- Visual: Dynamic Ensemble (Overlaid Cartoons) -->
                     <div
                         class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:20px_20px] opacity-20">
                     </div>
-                    <div class="relative w-full h-full flex items-center justify-center">
-                        <!-- Ghost Ensembles -->
+                    <div class="relative w-64 h-64 flex items-center justify-center">
+
+                        <!-- Ghost State 1 -->
                         <svg viewBox="0 0 200 200"
-                            class="w-64 h-64 absolute opacity-30 animate-[spin_10s_linear_infinite]">
-                            <path d="M50,100 C50,50 150,50 150,100 C150,150 50,150 50,100" fill="none" stroke="#38bdf8"
-                                stroke-width="4" stroke-dasharray="10,5" />
+                            class="w-full h-full absolute opacity-30 animate-[pulse_4s_ease-in-out_infinite]">
+                            <path d="M40,140 Q60,110 50,80 Q40,50 70,40 Q100,30 110,60" fill="none" stroke="#38bdf8"
+                                stroke-width="8" stroke-linecap="round" />
+                            <path d="M110,60 L150,60 L140,40 L180,70 L140,100 L150,80 L110,80" fill="none"
+                                stroke="#38bdf8" stroke-width="2" />
                         </svg>
+
+                        <!-- Ghost State 2 -->
                         <svg viewBox="0 0 200 200"
-                            class="w-64 h-64 absolute opacity-30 animate-[spin_15s_linear_infinite_reverse]">
-                            <path d="M40,110 C40,40 160,40 160,110 C160,170 40,170 40,110" fill="none" stroke="#818cf8"
-                                stroke-width="4" stroke-dasharray="10,5" />
+                            class="w-full h-full absolute opacity-30 animate-[pulse_4s_ease-in-out_infinite_1s]">
+                            <path d="M30,130 Q40,100 30,70 Q20,40 50,30 Q80,20 90,50" fill="none" stroke="#818cf8"
+                                stroke-width="8" stroke-linecap="round" />
+                            <path d="M90,50 L130,50 L120,30 L160,60 L120,90 L130,70 L90,70" fill="none" stroke="#818cf8"
+                                stroke-width="2" />
                         </svg>
-                        <!-- Main Structure -->
+
+                        <!-- Main Dynamic Structure -->
                         <svg viewBox="0 0 200 200"
-                            class="w-48 h-48 relative z-10 drop-shadow-[0_0_15px_rgba(56,189,248,0.5)]">
-                            <path d="M50,100 C50,50 150,50 150,100 C150,150 50,150 50,100" fill="none"
-                                stroke="url(#dynamicGradient2)" stroke-width="10" stroke-linecap="round"
-                                stroke-linejoin="round" class="animate-[pulse_3s_ease-in-out_infinite]" />
-                            <defs>
-                                <linearGradient id="dynamicGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#38bdf8" />
-                                    <stop offset="100%" stop-color="#c084fc" />
-                                </linearGradient>
-                            </defs>
+                            class="w-full h-full relative z-10 drop-shadow-[0_0_15px_rgba(56,189,248,0.5)]">
+                            <path d="M40,140 Q50,110 40,80 Q30,50 60,40 Q90,30 100,60" fill="none"
+                                stroke="url(#helixGradient)" stroke-width="12" stroke-linecap="round"
+                                stroke-linejoin="round" class="animate-[float_6s_ease-in-out_infinite]" />
+                            <path d="M100,60 L140,60 L130,40 L170,70 L130,100 L140,80 L100,80" fill="#fbbf24"
+                                stroke="#d97706" stroke-width="2" class="animate-[float_6s_ease-in-out_infinite_1s]" />
                         </svg>
+
                         <div
                             class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur px-3 py-1 rounded-full border border-white/10">
                             <span class="text-[10px] font-mono text-blue-300">RMSD: 2.4Å</span>
@@ -218,20 +250,45 @@
             <div class="group grid md:grid-cols-2 gap-12 items-center">
                 <div
                     class="order-2 md:order-1 relative h-80 bg-emerald-50 rounded-3xl border border-emerald-100 overflow-hidden shadow-lg flex items-center justify-center">
-                    <!-- Visual: Drug Docking -->
+                    <!-- Visual: Surface Representation & Ligand -->
                     <div class="relative w-64 h-64">
-                        <!-- Pocket -->
+                        <!-- Protein Surface (Blob) -->
                         <svg viewBox="0 0 200 200" class="w-full h-full absolute inset-0">
-                            <path d="M20,100 Q100,20 180,100 Q100,180 20,100" fill="#d1fae5" stroke="#10b981"
-                                stroke-width="4" />
-                            <path d="M80,100 Q100,80 120,100 Q100,120 80,100" fill="#047857"
-                                class="transition-all duration-500 group-hover:scale-125 origin-center" />
+                            <defs>
+                                <radialGradient id="surfaceGradient" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#34d399" />
+                                    <stop offset="100%" stop-color="#059669" />
+                                </radialGradient>
+                                <filter id="blobGlow">
+                                    <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
+                                    <feMerge>
+                                        <feMergeNode in="coloredBlur" />
+                                        <feMergeNode in="SourceGraphic" />
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            <!-- The Pocket -->
+                            <path d="M40,100 Q60,40 120,40 Q180,40 160,100 Q140,160 80,160 Q20,160 40,100"
+                                fill="url(#surfaceGradient)" filter="url(#blobGlow)" opacity="0.8" />
+                            <!-- Cryptic Pocket Opening -->
+                            <path d="M100,80 Q120,80 120,100 Q120,120 100,120 Q80,120 80,100 Q80,80 100,80"
+                                fill="#064e3b"
+                                class="transition-all duration-700 group-hover:scale-150 origin-center" />
                         </svg>
-                        <!-- Drug Molecule -->
+
+                        <!-- Ligand (Chemical Structure) -->
                         <div
-                            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-yellow-400 rounded-full shadow-lg border-2 border-yellow-600 transition-all duration-700 group-hover:scale-[2] group-hover:rotate-180 z-10 flex items-center justify-center">
-                            <span
-                                class="text-[6px] font-bold text-yellow-900 opacity-0 group-hover:opacity-100">LIGAND</span>
+                            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 transition-all duration-700 group-hover:scale-100 scale-0 z-10 flex items-center justify-center">
+                            <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-lg">
+                                <!-- Benzene Ring -->
+                                <path d="M30,50 L40,33 L60,33 L70,50 L60,67 L40,67 Z" fill="none" stroke="#fbbf24"
+                                    stroke-width="4" />
+                                <!-- Side Groups -->
+                                <line x1="70" y1="50" x2="85" y2="50" stroke="#fbbf24" stroke-width="4" />
+                                <circle cx="88" cy="50" r="4" fill="#ef4444" /> <!-- Oxygen -->
+                                <line x1="30" y1="50" x2="15" y2="50" stroke="#fbbf24" stroke-width="4" />
+                                <circle cx="12" cy="50" r="4" fill="#3b82f6" /> <!-- Nitrogen -->
+                            </svg>
                         </div>
                     </div>
                     <div
@@ -248,8 +305,7 @@
                         Docking</h3>
                     <p class="text-lg font-bold text-slate-600 leading-relaxed">
                         We identify <span class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded">cryptic allosteric
-                            sites</span>
-                        that only open in specific conformational states.
+                            sites</span> that only open in specific conformational states.
                     </p>
                     <p class="text-base font-medium text-slate-500">
                         This facilitates the rational design of small molecules for "undruggable" targets and the
