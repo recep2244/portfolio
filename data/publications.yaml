@@ -12,12 +12,12 @@
   citations: "1"
   link: "https://doi.org/10.1007/978-1-0716-2974-1_7"
 
-- title: "ReFOLD3: refinement of 3D protein models with gradual restraints based on predicted local quality and residue contacts"
+- title: "ReFOLD3: Refinement of 3D protein models with gradual restraints based on predicted local quality and residue contacts"
   authors: "Adiyaman, R., & McGuffin, L. J."
   journal: "Nucleic Acids Research"
   year: "2021"
   citations: "22"
-  link: "https://doi.org/10.1093/nar/gkab380"
+  link: "https://doi.org/10.1093/nar/gkab300"
 
 - title: "Methods for the Refinement of Protein Structure 3D Models"
   authors: "Adiyaman, R., & McGuffin, L. J."
@@ -51,14 +51,14 @@
   journal: "Nucleic Acids Research"
   year: "2023"
   citations: "67"
-  link: "https://doi.org/10.1093/nar/gkad403"
+  link: "https://doi.org/10.1093/nar/gkad297"
 
 - title: "Estimation of model accuracy in CASP15 using the ModFOLDdock server"
   authors: "Edmunds, N. S., Alharbi, S. M. A., Genc, A. G., Adiyaman, R., & McGuffin, L. J."
   journal: "Proteins: Structure, Function, and Bioinformatics"
   year: "2023"
   citations: "20"
-  link: "https://doi.org/10.1002/prot.26564"
+  link: "https://doi.org/10.1002/prot.26532"
 
 - title: "IntFOLD: An integrated web resource for high-performance protein structure and function prediction"
   authors: "McGuffin, L. J., Adiyaman, R., Maghrabi, A. H. A., et al."
@@ -72,7 +72,7 @@
   journal: "Nucleic Acids Research"
   year: "2021"
   citations: "78"
-  link: "https://doi.org/10.1093/nar/gkab505"
+  link: "https://doi.org/10.1093/nar/gkab321"
 
 - title: "Structural, functional, and mechanistic insights uncover the fundamental role of orphan connexin-62 in platelets"
   authors: "Sahli, K. A., Flora, G. D., ... Adiyaman, R., et al."
@@ -81,9 +81,15 @@
   citations: "12"
   link: "https://doi.org/10.1182/blood.2019004575"
 
-- title: "Modelling SARS‐CoV‐2 proteins in the CASP‐commons experiment"
+- title: "Modeling SARS‐CoV‐2 proteins in the CASP‐Commons experiment"
   authors: "Kryshtafovych, A., ... Adiyaman, R. (CASP-COVID participants), et al."
   journal: "Proteins: Structure, Function, and Bioinformatics"
   year: "2021"
   citations: "22"
-  link: "https://doi.org/10.1002/prot.26140"
+  link: "https://doi.org/10.1002/prot.26231"
+
+- title: "Design and synthesis of small peptide sequences to detect concentrations of free transition metal ions"
+  authors: "Yucesan, G., Yilmaz, A., & Adiyaman, R."
+  journal: "Abstracts of Papers of the American Chemical Society"
+  year: "2014"
+  link: ""
