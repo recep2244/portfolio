@@ -3,6 +3,7 @@ title: "The Future is Dynamic"
 summary: "Transforming protein structure prediction from static snapshots to dynamic ensembles for de novo design and drug discovery."
 date: 2024-11-29
 layout: "vision"
+type: "vision"
 ---
 
 # The Future is Dynamic
