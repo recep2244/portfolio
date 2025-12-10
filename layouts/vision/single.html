@@ -68,64 +68,53 @@
                         style="background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 20px 20px; opacity: 0.5;">
                     </div>
 
-                    <!-- Protein Animation -->
+                    <!-- Protein Animation (Crossfade State A / State B) -->
                     <div
-                        class="relative w-64 h-64 transition-all duration-1000 ease-in-out transform group-hover:scale-110">
-                        <!-- Core Glow -->
-                        <div
-                            class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full blur-3xl opacity-10 group-hover:opacity-20 transition-opacity duration-1000">
+                        class="relative w-64 h-64 transition-all duration-1000 ease-in-out transform group-hover:scale-105">
+
+                        <!-- State A: Closed / Inactive (Visible by default, Hidden on Hover) -->
+                        <div class="absolute inset-0 transition-opacity duration-700 ease-in-out group-hover:opacity-0">
+                            <svg viewBox="0 0 300 300" class="w-full h-full drop-shadow-xl">
+                                <defs>
+                                    <linearGradient id="gradA" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#3b82f6" />
+                                        <stop offset="100%" stop-color="#60a5fa" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Closed Conformation Path -->
+                                <path d="M100,150 C100,100 150,100 150,150 C150,200 100,200 100,150 Z" fill="none"
+                                    stroke="url(#gradA)" stroke-width="20" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <!-- Decorative Helix Lines -->
+                                <path d="M100,150 C100,100 150,100 150,150 C150,200 100,200 100,150" fill="none"
+                                    stroke="white" stroke-width="2" stroke-opacity="0.5" />
+                                <text x="150" y="260" text-anchor="middle"
+                                    class="font-bold text-slate-400 text-sm uppercase">State A (Closed)</text>
+                            </svg>
                         </div>
 
-                        <!-- Realistic Protein Backbone (Ribbon Representation) -->
-                        <svg viewBox="0 0 300 300" class="w-full h-full drop-shadow-2xl">
-                            <defs>
-                                <linearGradient id="backboneGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#3b82f6" /> <!-- Blue -->
-                                    <stop offset="50%" stop-color="#8b5cf6" /> <!-- Purple -->
-                                    <stop offset="100%" stop-color="#ec4899" /> <!-- Pink -->
-                                </linearGradient>
-                                <filter id="ribbonGlow">
-                                    <feGaussianBlur stdDeviation="1" result="coloredBlur" />
-                                    <feMerge>
-                                        <feMergeNode in="coloredBlur" />
-                                        <feMergeNode in="SourceGraphic" />
-                                    </feMerge>
-                                </filter>
-                            </defs>
+                        <!-- State B: Open / Active (Hidden by default, Visible on Hover) -->
+                        <div
+                            class="absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100">
+                            <svg viewBox="0 0 300 300" class="w-full h-full drop-shadow-xl">
+                                <defs>
+                                    <linearGradient id="gradB" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#8b5cf6" />
+                                        <stop offset="100%" stop-color="#ec4899" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Open Conformation Path (Unfolded/Shifted) -->
+                                <path d="M80,150 C80,80 220,80 220,150 C220,220 80,220 80,150" fill="none"
+                                    stroke="url(#gradB)" stroke-width="20" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <!-- Decorative Helix Lines -->
+                                <path d="M80,150 C80,80 220,80 220,150 C220,220 80,220 80,150" fill="none"
+                                    stroke="white" stroke-width="2" stroke-opacity="0.5" />
+                                <text x="150" y="260" text-anchor="middle"
+                                    class="font-bold text-purple-500 text-sm uppercase">State B (Open)</text>
+                            </svg>
+                        </div>
 
-                            <!-- Complex Fold (Alpha-Beta Domain) -->
-                            <!-- This path mimics a real protein fold with helices and loops -->
-                            <path d="M80,220 
-                                     C60,200 40,150 60,120 
-                                     S100,80 120,100 
-                                     S140,150 160,120 
-                                     S200,80 220,100 
-                                     S240,150 200,180 
-                                     S140,220 120,180 
-                                     S80,140 100,120" fill="none" stroke="url(#backboneGradient)" stroke-width="16"
-                                stroke-linecap="round" stroke-linejoin="round" filter="url(#ribbonGlow)"
-                                class="transition-all duration-1000 ease-in-out">
-                                <!-- Breathing Animation (Morphing Path) -->
-                                <animate attributeName="d" dur="6s" repeatCount="indefinite"
-                                    values="M80,220 C60,200 40,150 60,120 S100,80 120,100 S140,150 160,120 S200,80 220,100 S240,150 200,180 S140,220 120,180 S80,140 100,120;
-                                            M70,230 C50,210 30,160 50,110 S90,70 130,90 S150,160 170,110 S210,70 230,90 S250,160 210,190 S150,230 130,190 S90,130 110,110;
-                                            M80,220 C60,200 40,150 60,120 S100,80 120,100 S140,150 160,120 S200,80 220,100 S240,150 200,180 S140,220 120,180 S80,140 100,120" />
-                            </path>
-
-                            <!-- Secondary Structure Highlights (White Lines for 3D effect) -->
-                            <path
-                                d="M80,220 C60,200 40,150 60,120 S100,80 120,100 S140,150 160,120 S200,80 220,100 S240,150 200,180 S140,220 120,180 S80,140 100,120"
-                                fill="none" stroke="white" stroke-width="2" stroke-opacity="0.4" stroke-linecap="round">
-                                <animate attributeName="d" dur="6s" repeatCount="indefinite"
-                                    values="M80,220 C60,200 40,150 60,120 S100,80 120,100 S140,150 160,120 S200,80 220,100 S240,150 200,180 S140,220 120,180 S80,140 100,120;
-                                            M70,230 C50,210 30,160 50,110 S90,70 130,90 S150,160 170,110 S210,70 230,90 S250,160 210,190 S150,230 130,190 S90,130 110,110;
-                                            M80,220 C60,200 40,150 60,120 S100,80 120,100 S140,150 160,120 S200,80 220,100 S240,150 200,180 S140,220 120,180 S80,140 100,120" />
-                            </path>
-
-                            <!-- Floating Ligands (Hexagons) -->
-                            <path d="M240,60 L250,50 L260,60 L260,70 L250,80 L240,70 Z" fill="#fbbf24"
-                                class="animate-bounce opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300" />
-                        </svg>
                     </div>
                 </div>
             </div>
@@ -143,51 +132,28 @@
                     <div
                         class="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:20px_20px] opacity-50">
                     </div>
-                    <!-- Visual: Static Crystal Structure (Cartoon) -->
-                    <div class="relative w-64 h-64 grayscale group-hover:grayscale-0 transition-all duration-700">
-                        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-xl">
-                            <defs>
-                                <linearGradient id="helixGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="#3b82f6" />
-                                    <stop offset="50%" stop-color="#60a5fa" />
-                                    <stop offset="100%" stop-color="#2563eb" />
-                                </linearGradient>
-                            </defs>
 
-                            <!-- Alpha Helix 1 -->
-                            <path d="M40,140 Q50,110 40,80 Q30,50 60,40 Q90,30 100,60" fill="none"
-                                stroke="url(#helixGradient)" stroke-width="12" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M40,140 Q50,110 40,80 Q30,50 60,40 Q90,30 100,60" fill="none" stroke="white"
-                                stroke-width="2" stroke-opacity="0.3" />
-
-                            <!-- Beta Sheet (Arrow) -->
-                            <path d="M100,60 L140,60 L130,40 L170,70 L130,100 L140,80 L100,80" fill="#fbbf24"
-                                stroke="#d97706" stroke-width="2" />
-
-                            <!-- Alpha Helix 2 -->
-                            <path d="M100,80 Q110,110 100,140 Q90,170 120,180 Q150,190 160,160" fill="none"
-                                stroke="url(#helixGradient)" stroke-width="12" stroke-linecap="round"
-                                stroke-linejoin="round" />
-
-                            <!-- Mutated Side Chain (Stick) -->
-                            <g class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <line x1="100" y1="80" x2="120" y2="100" stroke="#ef4444" stroke-width="6"
-                                    stroke-linecap="round" />
-                                <circle cx="120" cy="100" r="6" fill="#ef4444" class="animate-ping" />
-                                <!-- Clash Indicator -->
-                                <path d="M115,95 L125,105 M125,95 L115,105" stroke="white" stroke-width="2" />
-                            </g>
-
-                            <text x="100" y="190" text-anchor="middle"
-                                class="font-black text-slate-400 text-xs uppercase tracking-widest group-hover:text-blue-600 transition-colors">X-Ray
-                                Crystal Structure</text>
-                        </svg>
-                    </div>
-                    <div
-                        class="absolute top-6 right-6 bg-white/90 backdrop-blur px-4 py-2 rounded-xl border border-slate-200 shadow-sm opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
-                        <span class="text-xs font-black text-red-500 uppercase">Steric Clash</span>
-                        <p class="text-sm font-bold text-slate-700">Rotamer Conflict</p>
+                    <!-- Visual: Static vs Dynamic (Crossfade) -->
+                    <div class="relative w-64 h-64">
+                        <!-- Static State (Visible Default) -->
+                        <div class="absolute inset-0 transition-opacity duration-500 group-hover:opacity-0">
+                            <svg viewBox="0 0 200 200" class="w-full h-full grayscale">
+                                <path d="M60,100 L140,100" stroke="#64748b" stroke-width="16" stroke-linecap="round" />
+                                <text x="100" y="160" text-anchor="middle"
+                                    class="font-bold text-slate-400 text-xs uppercase">Static Structure</text>
+                            </svg>
+                        </div>
+                        <!-- Dynamic State (Visible Hover) -->
+                        <div class="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                            <svg viewBox="0 0 200 200" class="w-full h-full">
+                                <!-- Vibrating/Clashing State -->
+                                <path d="M60,100 Q100,80 140,100" stroke="#ef4444" stroke-width="16"
+                                    stroke-linecap="round" class="animate-pulse" />
+                                <circle cx="100" cy="90" r="8" fill="#ef4444" class="animate-ping" />
+                                <text x="100" y="160" text-anchor="middle"
+                                    class="font-bold text-red-500 text-xs uppercase">Steric Clash Revealed</text>
+                            </svg>
+                        </div>
                     </div>
                 </div>
                 <div class="order-1 md:order-2 space-y-6">
@@ -230,44 +196,34 @@
                 </div>
                 <div
                     class="relative h-80 bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl flex items-center justify-center group">
-                    <!-- Visual: Dynamic Ensemble (Overlaid Cartoons) -->
+                    <!-- Visual: Dynamic Ensemble -->
                     <div
                         class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:20px_20px] opacity-20">
                     </div>
                     <div class="relative w-64 h-64 flex items-center justify-center">
-
-                        <!-- Ghost State 1 -->
+                        <!-- Ghost States -->
                         <svg viewBox="0 0 200 200"
-                            class="w-full h-full absolute opacity-30 animate-[pulse_4s_ease-in-out_infinite]">
-                            <path d="M40,140 Q60,110 50,80 Q40,50 70,40 Q100,30 110,60" fill="none" stroke="#38bdf8"
-                                stroke-width="8" stroke-linecap="round" />
-                            <path d="M110,60 L150,60 L140,40 L180,70 L140,100 L150,80 L110,80" fill="none"
-                                stroke="#38bdf8" stroke-width="2" />
+                            class="w-full h-full absolute opacity-30 animate-[spin_10s_linear_infinite]">
+                            <path d="M50,100 C50,50 150,50 150,100" stroke="#38bdf8" stroke-width="4" fill="none"
+                                stroke-dasharray="5,5" />
                         </svg>
-
-                        <!-- Ghost State 2 -->
                         <svg viewBox="0 0 200 200"
-                            class="w-full h-full absolute opacity-30 animate-[pulse_4s_ease-in-out_infinite_1s]">
-                            <path d="M30,130 Q40,100 30,70 Q20,40 50,30 Q80,20 90,50" fill="none" stroke="#818cf8"
-                                stroke-width="8" stroke-linecap="round" />
-                            <path d="M90,50 L130,50 L120,30 L160,60 L120,90 L130,70 L90,70" fill="none" stroke="#818cf8"
-                                stroke-width="2" />
+                            class="w-full h-full absolute opacity-30 animate-[spin_15s_linear_infinite_reverse]">
+                            <path d="M50,100 C50,150 150,150 150,100" stroke="#818cf8" stroke-width="4" fill="none"
+                                stroke-dasharray="5,5" />
                         </svg>
-
-                        <!-- Main Dynamic Structure -->
-                        <svg viewBox="0 0 200 200"
-                            class="w-full h-full relative z-10 drop-shadow-[0_0_15px_rgba(56,189,248,0.5)]">
-                            <path d="M40,140 Q50,110 40,80 Q30,50 60,40 Q90,30 100,60" fill="none"
-                                stroke="url(#helixGradient)" stroke-width="12" stroke-linecap="round"
-                                stroke-linejoin="round" class="animate-[float_6s_ease-in-out_infinite]" />
-                            <path d="M100,60 L140,60 L130,40 L170,70 L130,100 L140,80 L100,80" fill="#fbbf24"
-                                stroke="#d97706" stroke-width="2" class="animate-[float_6s_ease-in-out_infinite_1s]" />
+                        <!-- Main State -->
+                        <svg viewBox="0 0 200 200" class="w-full h-full relative z-10">
+                            <path d="M50,100 C50,50 150,50 150,100 C150,150 50,150 50,100" stroke="url(#helixGradient)"
+                                stroke-width="10" fill="none" stroke-linecap="round"
+                                class="animate-[pulse_3s_ease-in-out_infinite]" />
+                            <defs>
+                                <linearGradient id="helixGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#3b82f6" />
+                                    <stop offset="100%" stop-color="#ec4899" />
+                                </linearGradient>
+                            </defs>
                         </svg>
-
-                        <div
-                            class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur px-3 py-1 rounded-full border border-white/10">
-                            <span class="text-[10px] font-mono text-blue-300">RMSD: 2.4Å</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -276,51 +232,28 @@
             <div class="group grid md:grid-cols-2 gap-12 items-center">
                 <div
                     class="order-2 md:order-1 relative h-80 bg-emerald-50 rounded-3xl border border-emerald-100 overflow-hidden shadow-lg flex items-center justify-center">
-                    <!-- Visual: Surface Representation & Ligand -->
+                    <!-- Visual: Pocket Opening (Crossfade) -->
                     <div class="relative w-64 h-64">
-                        <!-- Protein Surface (Blob) -->
-                        <svg viewBox="0 0 200 200" class="w-full h-full absolute inset-0">
-                            <defs>
-                                <radialGradient id="surfaceGradient" cx="50%" cy="50%" r="50%">
-                                    <stop offset="0%" stop-color="#34d399" />
-                                    <stop offset="100%" stop-color="#059669" />
-                                </radialGradient>
-                                <filter id="blobGlow">
-                                    <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
-                                    <feMerge>
-                                        <feMergeNode in="coloredBlur" />
-                                        <feMergeNode in="SourceGraphic" />
-                                    </feMerge>
-                                </filter>
-                            </defs>
-                            <!-- The Pocket -->
-                            <path d="M40,100 Q60,40 120,40 Q180,40 160,100 Q140,160 80,160 Q20,160 40,100"
-                                fill="url(#surfaceGradient)" filter="url(#blobGlow)" opacity="0.8" />
-                            <!-- Cryptic Pocket Opening -->
-                            <path d="M100,80 Q120,80 120,100 Q120,120 100,120 Q80,120 80,100 Q80,80 100,80"
-                                fill="#064e3b"
-                                class="transition-all duration-700 group-hover:scale-150 origin-center" />
-                        </svg>
-
-                        <!-- Ligand (Chemical Structure) -->
-                        <div
-                            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 transition-all duration-700 group-hover:scale-100 scale-0 z-10 flex items-center justify-center">
-                            <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-lg">
-                                <!-- Benzene Ring -->
-                                <path d="M30,50 L40,33 L60,33 L70,50 L60,67 L40,67 Z" fill="none" stroke="#fbbf24"
-                                    stroke-width="4" />
-                                <!-- Side Groups -->
-                                <line x1="70" y1="50" x2="85" y2="50" stroke="#fbbf24" stroke-width="4" />
-                                <circle cx="88" cy="50" r="4" fill="#ef4444" /> <!-- Oxygen -->
-                                <line x1="30" y1="50" x2="15" y2="50" stroke="#fbbf24" stroke-width="4" />
-                                <circle cx="12" cy="50" r="4" fill="#3b82f6" /> <!-- Nitrogen -->
+                        <!-- Closed State -->
+                        <div class="absolute inset-0 transition-opacity duration-500 group-hover:opacity-0">
+                            <svg viewBox="0 0 200 200" class="w-full h-full">
+                                <path d="M50,100 Q100,100 150,100" stroke="#059669" stroke-width="20"
+                                    stroke-linecap="round" />
+                                <text x="100" y="160" text-anchor="middle"
+                                    class="font-bold text-emerald-600 text-xs uppercase">Pocket Closed</text>
                             </svg>
                         </div>
-                    </div>
-                    <div
-                        class="absolute bottom-6 left-6 bg-white/90 backdrop-blur px-4 py-2 rounded-xl border border-emerald-200 shadow-sm">
-                        <span class="text-xs font-black text-emerald-600 uppercase">Allosteric Site</span>
-                        <p class="text-sm font-bold text-slate-700">Cryptic Pocket Exposed</p>
+                        <!-- Open State -->
+                        <div class="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                            <svg viewBox="0 0 200 200" class="w-full h-full">
+                                <path d="M50,100 Q100,150 150,100" stroke="#059669" stroke-width="20"
+                                    stroke-linecap="round" fill="none" />
+                                <!-- Ligand -->
+                                <circle cx="100" cy="100" r="12" fill="#fbbf24" class="animate-bounce" />
+                                <text x="100" y="160" text-anchor="middle"
+                                    class="font-bold text-emerald-600 text-xs uppercase">Pocket Open & Bound</text>
+                            </svg>
+                        </div>
                     </div>
                 </div>
                 <div class="order-1 md:order-2 space-y-6">
