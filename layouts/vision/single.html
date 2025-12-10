@@ -106,12 +106,149 @@
         </div>
     </div>
 
-    <div class="container mx-auto px-6 max-w-4xl py-16 relative z-10">
-        <div class="glass-card p-8 md:p-12 space-y-10 animate-fade-in-up">
-            <div
-                class="prose prose-xl max-w-none prose-headings:font-black prose-headings:tracking-tight prose-headings:text-slate-900 prose-p:text-slate-800 prose-p:font-bold prose-p:leading-loose prose-a:text-accent hover:prose-a:text-slate-900 prose-strong:text-slate-900 prose-strong:font-black prose-li:text-slate-800 prose-li:font-bold prose-blockquote:border-l-8 prose-blockquote:border-accent prose-blockquote:bg-slate-50 prose-blockquote:py-6 prose-blockquote:px-8 prose-blockquote:not-italic prose-blockquote:rounded-r-2xl prose-blockquote:shadow-lg prose-blockquote:text-slate-900 prose-blockquote:font-black">
-                {{ .Content }}
+    <!-- Vision Steps Section -->
+    <div class="container mx-auto px-6 max-w-6xl py-16 relative z-10">
+        <div class="grid gap-24">
+
+            <!-- Step 1: The Problem -->
+            <div class="group grid md:grid-cols-2 gap-12 items-center">
+                <div
+                    class="order-2 md:order-1 relative h-80 bg-slate-100 rounded-3xl border border-slate-200 overflow-hidden shadow-lg flex items-center justify-center">
+                    <div
+                        class="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:20px_20px] opacity-50">
+                    </div>
+                    <!-- Visual: Static Protein -->
+                    <div class="relative w-48 h-48 grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <svg viewBox="0 0 200 200" class="w-full h-full">
+                            <path d="M50,100 C50,50 150,50 150,100 C150,150 50,150 50,100" fill="none" stroke="#64748b"
+                                stroke-width="12" stroke-linecap="round" stroke-linejoin="round"
+                                class="group-hover:stroke-red-500 transition-colors duration-500" />
+                            <!-- Hidden Mutation -->
+                            <circle cx="100" cy="50" r="6" fill="#ef4444"
+                                class="opacity-0 group-hover:opacity-100 animate-ping" />
+                            <text x="100" y="180" text-anchor="middle"
+                                class="font-black text-slate-400 text-sm uppercase tracking-widest group-hover:text-red-500 transition-colors">Static
+                                Model</text>
+                        </svg>
+                    </div>
+                    <div
+                        class="absolute top-6 right-6 bg-white/90 backdrop-blur px-4 py-2 rounded-xl border border-slate-200 shadow-sm opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
+                        <span class="text-xs font-black text-red-500 uppercase">Critical Failure</span>
+                        <p class="text-sm font-bold text-slate-700">Missed Mutation</p>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 space-y-6">
+                    <div
+                        class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-slate-900 text-white font-black text-xl shadow-xl">
+                        1</div>
+                    <h3 class="text-4xl font-black text-slate-900 leading-tight">The Static Blindspot</h3>
+                    <p class="text-xl font-bold text-slate-600 leading-relaxed">
+                        Traditional AI treats proteins as <span
+                            class="bg-slate-200 px-2 py-1 rounded text-slate-900">frozen sculptures</span>.
+                    </p>
+                    <p class="text-lg font-medium text-slate-500">
+                        This approach fails to capture single-point mutations and resistance mechanisms. <span
+                            class="text-accent font-bold">Hover the visual</span> to reveal what static models miss.
+                    </p>
+                </div>
             </div>
+
+            <!-- Step 2: The Solution -->
+            <div class="group grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div
+                        class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-accent text-white font-black text-xl shadow-xl shadow-blue-200">
+                        2</div>
+                    <h3 class="text-4xl font-black text-slate-900 leading-tight">Unleashing Dynamics</h3>
+                    <p class="text-xl font-bold text-slate-600 leading-relaxed">
+                        We fuse <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Deep
+                            Learning</span> with <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500">Physics
+                            (MD)</span>.
+                    </p>
+                    <p class="text-lg font-medium text-slate-500">
+                        By sampling the full conformational landscape, we predict not just structure, but
+                        <strong>behavior</strong>.
+                    </p>
+                </div>
+                <div
+                    class="relative h-80 bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl flex items-center justify-center group">
+                    <!-- Visual: Dynamic Sampling -->
+                    <div
+                        class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:20px_20px] opacity-20">
+                    </div>
+                    <div class="relative w-full h-full flex items-center justify-center">
+                        <!-- Ghost Ensembles -->
+                        <svg viewBox="0 0 200 200"
+                            class="w-64 h-64 absolute opacity-30 animate-[spin_10s_linear_infinite]">
+                            <path d="M50,100 C50,50 150,50 150,100 C150,150 50,150 50,100" fill="none" stroke="#38bdf8"
+                                stroke-width="4" stroke-dasharray="10,5" />
+                        </svg>
+                        <svg viewBox="0 0 200 200"
+                            class="w-64 h-64 absolute opacity-30 animate-[spin_15s_linear_infinite_reverse]">
+                            <path d="M40,110 C40,40 160,40 160,110 C160,170 40,170 40,110" fill="none" stroke="#818cf8"
+                                stroke-width="4" stroke-dasharray="10,5" />
+                        </svg>
+                        <!-- Main Structure -->
+                        <svg viewBox="0 0 200 200"
+                            class="w-48 h-48 relative z-10 drop-shadow-[0_0_15px_rgba(56,189,248,0.5)]">
+                            <path d="M50,100 C50,50 150,50 150,100 C150,150 50,150 50,100" fill="none"
+                                stroke="url(#dynamicGradient2)" stroke-width="10" stroke-linecap="round"
+                                stroke-linejoin="round" class="animate-[pulse_3s_ease-in-out_infinite]" />
+                            <defs>
+                                <linearGradient id="dynamicGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#38bdf8" />
+                                    <stop offset="100%" stop-color="#c084fc" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: The Impact -->
+            <div class="group grid md:grid-cols-2 gap-12 items-center">
+                <div
+                    class="order-2 md:order-1 relative h-80 bg-emerald-50 rounded-3xl border border-emerald-100 overflow-hidden shadow-lg flex items-center justify-center">
+                    <!-- Visual: Drug Docking -->
+                    <div class="relative w-64 h-64">
+                        <!-- Pocket -->
+                        <svg viewBox="0 0 200 200" class="w-full h-full absolute inset-0">
+                            <path d="M20,100 Q100,20 180,100 Q100,180 20,100" fill="#d1fae5" stroke="#10b981"
+                                stroke-width="4" />
+                            <path d="M80,100 Q100,80 120,100 Q100,120 80,100" fill="#047857"
+                                class="transition-all duration-500 group-hover:scale-125 origin-center" />
+                        </svg>
+                        <!-- Drug Molecule -->
+                        <div
+                            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-yellow-400 rounded-full shadow-lg border-2 border-yellow-600 transition-all duration-700 group-hover:scale-[2] group-hover:rotate-180 z-10 flex items-center justify-center">
+                            <span
+                                class="text-[6px] font-bold text-yellow-900 opacity-0 group-hover:opacity-100">DRUG</span>
+                        </div>
+                    </div>
+                    <div
+                        class="absolute bottom-6 left-6 bg-white/90 backdrop-blur px-4 py-2 rounded-xl border border-emerald-200 shadow-sm">
+                        <span class="text-xs font-black text-emerald-600 uppercase">Target Acquired</span>
+                        <p class="text-sm font-bold text-slate-700">Cryptic Pocket Found</p>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 space-y-6">
+                    <div
+                        class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-500 text-white font-black text-xl shadow-xl shadow-emerald-200">
+                        3</div>
+                    <h3 class="text-4xl font-black text-slate-900 leading-tight">Designing Cures</h3>
+                    <p class="text-xl font-bold text-slate-600 leading-relaxed">
+                        We reveal <span class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded">cryptic pockets</span>
+                        invisible to static methods.
+                    </p>
+                    <p class="text-lg font-medium text-slate-500">
+                        This enables the design of drugs for "undruggable" targets and de novo enzymes for green
+                        chemistry.
+                    </p>
+                </div>
+            </div>
+
         </div>
     </div>
 </article>
