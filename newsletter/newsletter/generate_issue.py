@@ -733,6 +733,29 @@ def build_issue(config, issue_date, timezone):
         day_index + 1,
         {"title": "Add a tool", "summary": "", "link": "https://example.com"},
     )
+    # Career / Job Alerts
+    job = pick_pool_item(config.get("community", {}).get("jobs", []), day_index + 1, {"title": "Hiring? Send your role", "org": "Your org", "link": "mailto:you@example.com"})
+    
+    # Try to find a dynamic job if enabled
+    job_cfg = config.get("community", {}).get("dynamic_jobs", {})
+    if job_cfg.get("enabled", False):
+        job_feeds = job_cfg.get("feeds", [])
+        all_jobs = []
+        for feed in job_feeds:
+            # RSS fetch specifically for jobs
+            url = feed.get("url", "")
+            if url:
+                raw_jobs = fetch_rss_feed(feed, ["protein", "design", "bioinformatics"], 5, user_agent, timezone)
+                for rj in raw_jobs:
+                    all_jobs.append({
+                        "title": rj.title,
+                        "org": feed.get("name", "Job Board"),
+                        "link": rj.link
+                    })
+        if all_jobs:
+            # Pick a job based on the day to keep it stable for that day
+            job = all_jobs[day_index % len(all_jobs)]
+            
     event = pick_pool_item(
         events,
         day_index,
