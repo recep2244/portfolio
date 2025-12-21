@@ -88,20 +88,34 @@ Missed a day? Here are the top research signals and tools from the past week, su
         if dataset and dataset.get('title') not in ["Add a dataset", "Add a dataset you like"]:
              md += f"- 💾 **Dataset**: [{dataset.get('title')}]({dataset.get('link')}) - {dataset.get('summary')}\n"
 
-    # 4. AI News
+    # 4. AI & Research News
     ai_news_items = []
     for issue in issues:
         ai_news_items.extend(issue.get('ai_news', []))
     
     if ai_news_items:
-        md += "\n---\n\n## 🤖 AI in Biology Recap\n\n"
-        # Dedupe by title
+        md += "\n---\n\n## 🤖 AI in Research Recap\n\n"
         seen_ai = set()
         count = 0
         for item in ai_news_items:
-            if item.get('title') not in seen_ai and count < 10:
+            if item.get('title') not in seen_ai and count < 8:
                 md += f"- **[{item.get('title')}]({item.get('link')})**: {item.get('abstract')}\n"
                 seen_ai.add(item.get('title'))
+                count += 1
+
+    # 5. Industry Insights
+    ind_news_items = []
+    for issue in issues:
+        ind_news_items.extend(issue.get('industry_news', []))
+    
+    if ind_news_items:
+        md += "\n---\n\n## 🏢 Industry & Real-World Applications\n\n"
+        seen_ind = set()
+        count = 0
+        for item in ind_news_items:
+            if item.get('title') not in seen_ind and count < 8:
+                md += f"- **[{item.get('title')}]({item.get('link')})**: {item.get('abstract')}\n"
+                seen_ind.add(item.get('title'))
                 count += 1
 
     md += "\n---\n\n_Enjoyed this digest? Subscribe above to get these dailies in your inbox every morning._\n"

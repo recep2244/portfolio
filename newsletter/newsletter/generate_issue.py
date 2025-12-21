@@ -524,9 +524,15 @@ def keyword_score(text, keywords, weight):
 
 
 def score_paper(paper, keywords):
+    # Base score from user keywords
     title_score = keyword_score(paper.title, keywords, 3)
     summary_score = keyword_score(paper.summary, keywords, 1)
-    return title_score + summary_score
+    
+    # Methodology & Tool Boost (User Preference)
+    methods_keywords = ["benchmark", "methodology", "tool", "software", "pipeline", "comparison", "dataset", "server", "algorithm", "protocol"]
+    method_boost = keyword_score(paper.title.lower(), methods_keywords, 6) + keyword_score(paper.summary.lower(), methods_keywords, 2)
+    
+    return title_score + summary_score + method_boost
 
 
 def summarize_paper(paper):
@@ -813,6 +819,20 @@ def build_issue(config, issue_date, timezone):
             strict_items.sort(key=lambda item: (item.published, score_paper(item, ai_keywords)), reverse=True)
             
             ai_news = [format_item(item) for item in strict_items[:ai_max]]
+    industry_news = []
+    ind_cfg = config.get("industry_news", {})
+    if ind_cfg.get("enabled", False):
+        ind_feeds = ind_cfg.get("feeds", [])
+        ind_keywords = [kw.lower() for kw in ind_cfg.get("keywords", [])]
+        ind_max = int(ind_cfg.get("max_items", 3))
+        ind_items = []
+        for feed in ind_feeds:
+            ind_items.extend(fetch_rss_feed(feed, ind_keywords, ind_max, user_agent, timezone))
+        if ind_items:
+            # Dedupe and sort by recency
+            ind_items = dedupe_papers(ind_items)
+            ind_items.sort(key=lambda item: item.published, reverse=True)
+            industry_news = [format_item(item) for item in ind_items[:ind_max]]
 
     issue = {
         "newsletter_name": config.get("newsletter_name", "Genome Daily"),
@@ -834,6 +854,7 @@ def build_issue(config, issue_date, timezone):
             format_item(paper) for paper in quick_papers
         ],
         "ai_news": ai_news,
+        "industry_news": industry_news,
         "dataset": dataset,
         "tool": tool,
         "pipeline_tip": pick_pool_item(
