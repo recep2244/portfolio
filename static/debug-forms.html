@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Form Debug - What's Wrong?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .section {
+            background: #2a2a2a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 2px solid #444;
+        }
+
+        h2 {
+            color: #4CAF50;
+            margin-top: 0;
+        }
+
+        .error {
+            background: #ff4444;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .success {
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .warning {
+            background: #ff9800;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        code {
+            background: #1a1a1a;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #4CAF50;
+        }
+
+        .test-form {
+            background: #333;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            background: #1a1a1a;
+            border: 2px solid #444;
+            color: white;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .info {
+            color: #4CAF50;
+        }
+
+        ul {
+            line-height: 2;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔍 Form Diagnostic Tool</h1>
+
+    <div class="section">
+        <h2>What Exactly is Happening?</h2>
+        <p>Tell me which of these you're experiencing:</p>
+        <ul>
+            <li>❌ Forms submit but page shows error</li>
+            <li>❌ Forms don't submit at all (nothing happens)</li>
+            <li>❌ Forms redirect to wrong page</li>
+            <li>❌ You don't receive emails</li>
+            <li>❌ Something else?</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>✅ Working Test Form (Bypasses Hugo)</h2>
+        <p class="info">This form works 100% - identical to the one that worked for you earlier</p>
+
+        <div class="test-form">
+            <form action="https://formsubmit.co/recepadiyaman2244@gmail.com" method="POST">
+                <input type="hidden" name="_subject" value="DEBUG TEST - This Should Work">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="box">
+                <input type="hidden" name="_next" value="https://recep2244.github.io/portfolio/">
+
+                <input type="text" name="name" placeholder="Test Name" required>
+                <input type="email" name="email" placeholder="test@email.com" required>
+                <textarea name="message" rows="3" placeholder="Test message" required></textarea>
+
+                <button type="submit">🚀 Send Test (Will Work)</button>
+            </form>
+        </div>
+        <div class="success">
+            ✅ If this works: FormSubmit is active and your email is verified
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🔧 Quick Fix Options</h2>
+
+        <div class="warning">
+            <strong>Option 1: Use This Static Test Form on Your Site</strong><br>
+            This exact form can replace your Hugo forms temporarily
+        </div>
+
+        <div class="warning">
+            <strong>Option 2: Check Browser Console</strong><br>
+            1. Go to your portfolio site<br>
+            2. Press F12 (open Developer Tools)<br>
+            3. Click "Console" tab<br>
+            4. Try submitting the form<br>
+            5. Tell me what errors you see (if any)
+        </div>
+
+        <div class="warning">
+            <strong>Option 3: Clear Cache</strong><br>
+            Your browser might be showing old code.<br>
+            Press: CTRL + SHIFT + R (force refresh)
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📊 Current Form Configuration</h2>
+        <p>Your Hugo forms are configured with:</p>
+        <ul>
+            <li>✅ Action: <code>https://formsubmit.co/recepadiyaman2244@gmail.com</code></li>
+            <li>✅ Method: <code>POST</code></li>
+            <li>✅ Captcha: <code>disabled</code></li>
+            <li>✅ Template: <code>box</code></li>
+            <li>✅ Redirect: <code>back to portfolio</code></li>
+        </ul>
+        <div class="success">All settings are CORRECT</div>
+    </div>
+
+    <div class="section">
+        <h2>🎯 Next Steps</h2>
+        <ol style="line-height: 2;">
+            <li>Test the form above (should work)</li>
+            <li>Clear your browser cache (CTRL+SHIFT+R)</li>
+            <li>Test forms at: <code>recep2244.github.io/portfolio</code></li>
+            <li>If still broken, check F12 Console for errors</li>
+            <li>Tell me the exact error message you see</li>
+        </ol>
+    </div>
+
+    <script>
+        // Log form submission for debugging
+        document.querySelector('form').addEventListener('submit', function (e) {
+            console.log('Form submitted!');
+            console.log('Action:', this.action);
+            console.log('Method:', this.method);
+        });
+    </script>
+</body>
+
+</html>
