@@ -561,7 +561,18 @@ def dedupe_papers(papers):
     return list(seen.values())
 
 
-def filter_by_date(papers, start_dt, end_dt, timezone):
+def filter_by_date(papers, start_date, end_date, timezone):
+    # Ensure start/end are datetimes
+    if isinstance(start_date, str):
+        start_dt = datetime.strptime(start_date, "%Y-%m-%d").replace(tzinfo=timezone)
+    else:
+        start_dt = start_date
+        
+    if isinstance(end_date, str):
+        end_dt = datetime.strptime(end_date, "%Y-%m-%d").replace(tzinfo=timezone) + timedelta(days=1)
+    else:
+        end_dt = end_date
+        
     filtered = []
     for paper in papers:
         if not paper.published:
@@ -785,22 +796,21 @@ def build_issue(config, issue_date, timezone):
             ai_items.extend(fetch_rss_feed(feed, ai_keywords, ai_max, user_agent, timezone))
         if ai_items:
             ai_items = dedupe_papers(ai_items)
-            # Relaxed filter: if no news in last 7 days, take the latest ones regardless of date
-            strict_items = filter_by_date(ai_items, start_dt, end_dt, timezone)
+            # Prioritize VERY RECENT news (last 2 days)
+            recent_threshold = end_dt - timedelta(days=2)
+            strict_items = filter_by_date(ai_items, recent_threshold, end_dt, timezone)
+            
             if not strict_items:
+                # Fallback to last 14 days
+                strict_items = filter_by_date(ai_items, start_dt, end_dt, timezone)
+            
+            if not strict_items:
+                # Absolute fallback to latest items found
                 ai_items.sort(key=lambda item: item.published, reverse=True)
                 strict_items = ai_items[:ai_max]
             
-            if ai_keywords and not strict_items:
-                 ai_items.sort(key=lambda item: (score_paper(item, ai_keywords), item.published), reverse=True)
-                 strict_items = ai_items[:ai_max]
-            elif ai_keywords:
-                scored_ai = []
-                for item in strict_items:
-                    score = score_paper(item, ai_keywords)
-                    scored_ai.append((score, item))
-                scored_ai.sort(key=lambda item: (item[0], item[1].published), reverse=True)
-                strict_items = [item[1] for item in scored_ai]
+            # Final sorting: Recency FIRST, then Score
+            strict_items.sort(key=lambda item: (item.published, score_paper(item, ai_keywords)), reverse=True)
             
             ai_news = [format_item(item) for item in strict_items[:ai_max]]
 
