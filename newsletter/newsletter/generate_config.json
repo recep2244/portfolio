@@ -98,15 +98,15 @@
       "drug discovery",
       "protein design",
       "structural biology",
-      "machine learning biology"
+      "AlphaFold"
     ],
     "feeds": [
       {
-        "name": "Google NewsAI Biotech",
-        "url": "https://news.google.com/rss/search?q=AI+biotech+protein+design+structural+biology+OR+AlphaFold&hl=en-US&gl=US&ceid=US:en"
+        "name": "Google News Protein Design",
+        "url": "https://news.google.com/rss/search?q=%22protein+design%22+OR+%22structural+biology%22+OR+%22AlphaFold%22+when:2d&hl=en-US&gl=US&ceid=US:en"
       },
       {
-        "name": "Fierce Biotech",
+        "name": "Biotech News Daily",
         "url": "https://www.fiercebiotech.com/rss/biotech"
       }
     ]
@@ -118,29 +118,19 @@
       "link": "https://www.rcsb.org/"
     },
     {
-      "title": "CATH / Gene3D",
-      "summary": "Hierarchical classification of protein domain structures.",
-      "link": "https://www.cathdb.info/"
-    },
-    {
       "title": "AlphaFold Structure Database",
       "summary": "200M+ predicted structures from DeepMind/EMBL-EBI.",
       "link": "https://alphafold.ebi.ac.uk/"
     },
     {
-      "title": "UniProt",
+      "title": "Uniprot Knowledgebase",
       "summary": "The world's most comprehensive resource for protein sequence and annotation.",
       "link": "https://www.uniprot.org/"
     },
     {
-      "title": "BINDER",
-      "summary": "A curated database for protein-protein binding affinity and structures.",
-      "link": "http://www.binder-db.org/"
-    },
-    {
-      "title": "ProteomeXchange",
-      "summary": "Centralized archive for proteomics data submission and discovery.",
-      "link": "http://www.proteomexchange.org/"
+      "title": "PDB-REDO",
+      "summary": "Optimized protein structure database with refined models.",
+      "link": "https://pdb-redo.eu/"
     }
   ],
   "tool_pool": [
@@ -200,9 +190,9 @@
   "community": {
     "events": [
       {
-        "title": "Protein Design Hub (LinkedIn)",
+        "title": "Protein Design Hub (LinkedIn Group)",
         "date": "Ongoing",
-        "link": "https://www.linkedin.com/groups/13501256/"
+        "link": "https://www.linkedin.com/groups/16324018/"
       },
       {
         "title": "InstaDeep Careers",
@@ -213,7 +203,7 @@
     "jobs": [
       {
         "title": "Search LinkedIn",
-        "org": "LinkedIn Jobs",
+        "org": "LinkedIn Recruitment",
         "link": "https://www.linkedin.com/jobs/search/?keywords=protein%20design%20bioinformatics"
       }
     ],
@@ -221,12 +211,8 @@
       "enabled": true,
       "feeds": [
         {
-          "name": "LinkedIn Careers",
-          "url": "https://news.google.com/rss/search?q=site:linkedin.com/jobs+%22protein+design%22+OR+%22bioinformatics%22&hl=en-US&gl=US&ceid=US:en"
-        },
-        {
-          "name": "Indeed Jobs",
-          "url": "https://news.google.com/rss/search?q=site:indeed.com/jobs+%22protein+design%22+OR+%22bioinformatics%22&hl=en-US&gl=US&ceid=US:en"
+          "name": "Bioinformatics Careers",
+          "url": "https://news.google.com/rss/search?q=site:linkedin.com/jobs+%22protein+design%22+OR+%22bioinformatics%22+when:7d&hl=en-US&gl=US&ceid=US:en"
         }
       ]
     }
