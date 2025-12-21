@@ -530,14 +530,16 @@ def summarize_paper(paper):
 def why_it_matters(paper):
     text = f"{paper.title} {paper.summary}".lower()
     if "structure" in text and "prediction" in text:
-        return "Improves accuracy or efficiency in structure prediction workflows."
+        return "Critical for improving fold accuracy and reducing structural uncertainty in de novo design."
     if "de novo" in text or "design" in text:
-        return "Strengthens de novo design by improving sequence or structure search."
+        return "Expands the searchable sequence space for novel folds and high-affinity binders."
     if "engineering" in text or "enzyme" in text:
-        return "Supports protein engineering with better functional insight."
+        return "Provides actionable mutations to enhance catalytic efficiency or thermostability."
     if "benchmark" in text or "dataset" in text:
-        return "Adds benchmarking signals that improve model comparison."
-    return "A useful signal for protein modeling and design pipelines."
+        return "Essential ground-truth data for validating next-gen foundation models like Boltz or Chai."
+    if "docking" in text or "ligand" in text:
+        return "Enhances small-molecule or peptide docking accuracy for targeted drug discovery."
+    return "A high-confidence signal for modern protein engineering and structural biology pipelines."
 
 
 def dedupe_papers(papers):
@@ -751,18 +753,24 @@ def build_issue(config, issue_date, timezone):
             ai_items.extend(fetch_rss_feed(feed, ai_keywords, ai_max, user_agent, timezone))
         if ai_items:
             ai_items = dedupe_papers(ai_items)
-            ai_items = filter_by_date(ai_items, start_dt, end_dt, timezone)
-            if ai_keywords:
-                scored_ai = []
-                for item in ai_items:
-                    score = score_paper(item, ai_keywords)
-                    if score > 0:
-                        scored_ai.append((score, item))
-                scored_ai.sort(key=lambda item: (item[0], item[1].published), reverse=True)
-                ai_items = [item[1] for item in scored_ai]
-            else:
+            # Relaxed filter: if no news in last 7 days, take the latest ones regardless of date
+            strict_items = filter_by_date(ai_items, start_dt, end_dt, timezone)
+            if not strict_items:
                 ai_items.sort(key=lambda item: item.published, reverse=True)
-            ai_news = [format_item(item) for item in ai_items[:ai_max]]
+                strict_items = ai_items[:ai_max]
+            
+            if ai_keywords and not strict_items:
+                 ai_items.sort(key=lambda item: (score_paper(item, ai_keywords), item.published), reverse=True)
+                 strict_items = ai_items[:ai_max]
+            elif ai_keywords:
+                scored_ai = []
+                for item in strict_items:
+                    score = score_paper(item, ai_keywords)
+                    scored_ai.append((score, item))
+                scored_ai.sort(key=lambda item: (item[0], item[1].published), reverse=True)
+                strict_items = [item[1] for item in scored_ai]
+            
+            ai_news = [format_item(item) for item in strict_items[:ai_max]]
 
     issue = {
         "newsletter_name": config.get("newsletter_name", "Genome Daily"),
@@ -786,7 +794,13 @@ def build_issue(config, issue_date, timezone):
         "ai_news": ai_news,
         "dataset": dataset,
         "tool": tool,
-        "pipeline_tip": "Pin reference genomes by checksum to avoid version drift.",
+        "pipeline_tip": pick_pool_item([
+            "Pin reference genomes by checksum to avoid version drift.",
+            "Use local MSA generation to bypass speed bottlenecks in structure prediction.",
+            "Always validate pLDDT scores before using AlphaFold models for docking.",
+            "Normalise thermal B-factors when comparing different crystal structures.",
+            "Use GPU-accelerated MD refinement to lift model quality in under 2 hours."
+        ], day_index, "Use versioned containers for reproducible protein design."),
         "community": {
             "event": event,
             "job": job,
