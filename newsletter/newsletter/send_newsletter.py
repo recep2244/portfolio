@@ -118,6 +118,32 @@ def build_ai_news_html(items):
     return "\n".join(rendered) if rendered else "<li>No AI news matched today.</li>"
 
 
+def build_industry_news_html(items):
+    if not items:
+        return "<li>No industry updates matched today.</li>"
+    rendered = []
+    for item in items:
+        title = html.escape(str(item.get("title", "")).strip())
+        note = html.escape(str(item.get("note", "")).strip())
+        link = html.escape(str(item.get("link", "")).strip(), quote=True)
+        abstract = html.escape(str(item.get("abstract", "")).strip())
+
+        if not title or not link:
+            continue
+        suffix = f" - {note}" if note else ""
+        
+        rendered.append(
+            f'<div style="margin-bottom:24px;">'
+            f'<div style="font-family:Arial, sans-serif; font-size:15px; font-weight:bold; line-height:1.4; margin-bottom:6px;">'
+            f'<a href="{link}" style="color:#0c4a6e; text-decoration:none; border-bottom:1px solid #bae6fd;">{title}</a>'
+            f'<span style="font-size:11px; color:#64748b; font-weight:normal; margin-left:6px;">{suffix}</span>'
+            f'</div>'
+            f'<div style="font-family:Arial, sans-serif; font-size:13px; color:#334155; line-height:1.5;">{abstract}</div>'
+            f'</div>'
+        )
+    return "\n".join(rendered) if rendered else "<li>No industry updates matched today.</li>"
+
+
 def build_ai_news_text(items):
     if not items:
         return "- No AI news matched today."
@@ -137,6 +163,27 @@ def build_ai_news_text(items):
              entry += f"\n  Abstract: {abstract[:300]}..." if len(abstract) > 300 else f"\n  Abstract: {abstract}"
         rendered.append(entry)
     return "\n".join(rendered) if rendered else "- No AI news matched today."
+
+
+def build_industry_news_text(items):
+    if not items:
+        return "- No industry updates matched today."
+    rendered = []
+    for item in items:
+        title = str(item.get("title", "")).strip()
+        note = str(item.get("note", "")).strip()
+        link = str(item.get("link", "")).strip()
+        abstract = str(item.get("abstract", "")).strip()
+
+        if not title or not link:
+            continue
+        suffix = f" - {note}" if note else ""
+        
+        entry = f"- {title}{suffix} ({link})"
+        if abstract:
+             entry += f"\n  Abstract: {abstract[:300]}..." if len(abstract) > 300 else f"\n  Abstract: {abstract}"
+        rendered.append(entry)
+    return "\n".join(rendered) if rendered else "- No industry updates matched today."
 
 
 def render_template(template, context):
@@ -220,6 +267,7 @@ def build_context(issue):
     html_context = {k: html.escape(str(v)) for k, v in raw_data.items()}
     html_context["quick_reads_html"] = build_quick_reads_html(quick_reads)
     html_context["ai_news_html"] = build_ai_news_html(ai_news)
+    html_context["industry_news_html"] = build_industry_news_html(issue.get("industry_news", []))
     html_context["job_display"] = format_career(html_context["job_title"], html_context["job_org"], html_context["job_link"])
     html_context["event_display"] = format_career(html_context["event_title"], "Community Hub", html_context["event_link"])
 
@@ -227,6 +275,7 @@ def build_context(issue):
     text_context = {k: str(v) for k, v in raw_data.items()}
     text_context["quick_reads_text"] = build_quick_reads_text(quick_reads)
     text_context["ai_news_text"] = build_ai_news_text(ai_news)
+    text_context["industry_news_text"] = build_industry_news_text(issue.get("industry_news", []))
 
     subject = optional_field(issue, "subject", "").strip()
     if not subject:

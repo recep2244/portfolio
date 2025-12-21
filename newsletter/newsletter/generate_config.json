@@ -12,20 +12,20 @@
     "protein design",
     "de novo design",
     "enzyme design",
-    "protein folding",
-    "structure prediction",
+    "benchmark",
+    "methodology",
+    "ligand interaction",
+    "software tool",
+    "structure prediction software",
     "alphafold",
     "rosettafold",
     "model refinement",
-    "protein inverse folding",
+    "docking benchmark",
     "geometric deep learning",
     "molecular dynamics",
     "drug discovery",
     "generative biology",
     "protein binders",
-    "de novo protein design",
-    "protein structure refinement",
-    "co-folding",
     "docking",
     "protein-protein interaction",
     "molecular docking",
@@ -68,20 +68,8 @@
           "url": "http://feeds.nature.com/nsmb/rss/current"
         },
         {
-          "name": "PNAS Biological Sciences",
-          "url": "https://www.pnas.org/action/showFeed?jc=pnas&type=etoc&feed=rss"
-        },
-        {
-          "name": "Cell Systems",
-          "url": "https://www.cell.com/cell-systems/rss/current"
-        },
-        {
-          "name": "Science Transl Med",
-          "url": "https://www.science.org/action/showFeed?jc=scitranslmed&type=etoc&feed=rss"
-        },
-        {
-          "name": "Bioinformatics",
-          "url": "https://academic.oup.com/rss/site/5201/3041.xml"
+          "name": "Biotech Industry News",
+          "url": "https://news.google.com/rss/search?q=protein+design+industry+OR+biotech+partnership+OR+drug+discovery+clinical+application+when:7d&hl=en-US&gl=US&ceid=US:en"
         }
       ]
     },
@@ -94,20 +82,36 @@
     "enabled": true,
     "max_items": 3,
     "keywords": [
-      "biotech",
-      "drug discovery",
-      "protein design",
-      "structural biology",
-      "AlphaFold"
+      "AlphaFold",
+      "model architecture",
+      "foundational model"
     ],
     "feeds": [
       {
-        "name": "Google News Protein Design",
-        "url": "https://news.google.com/rss/search?q=%22protein+design%22+OR+%22structural+biology%22+OR+%22AlphaFold%22+when:2d&hl=en-US&gl=US&ceid=US:en"
+        "name": "AI Biology Research",
+        "url": "https://news.google.com/rss/search?q=%22AlphaFold%22+OR+%22Equivariant+GNN%22+when:3d&hl=en-US&gl=US&ceid=US:en"
+      }
+    ]
+  },
+  "industry_news": {
+    "enabled": true,
+    "max_items": 3,
+    "keywords": [
+      "partnership",
+      "partnership",
+      "clinical",
+      "FDA",
+      "investment",
+      "drug candidate"
+    ],
+    "feeds": [
+      {
+        "name": "Industry Protein Design",
+        "url": "https://news.google.com/rss/search?q=%22protein+design%22+AND+%22partnership%22+OR+%22industry+collaboration%22+when:7d&hl=en-US&gl=US&ceid=US:en"
       },
       {
-        "name": "Biotech News Daily",
-        "url": "https://www.fiercebiotech.com/rss/biotech"
+        "name": "Biotech Application News",
+        "url": "https://news.google.com/rss/search?q=biotech+drug+candidate+clinical+application+protein+engineering+when:7d&hl=en-US&gl=US&ceid=US:en"
       }
     ]
   },
