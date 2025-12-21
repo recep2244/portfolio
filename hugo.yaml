@@ -49,6 +49,10 @@ menu:
       name: Tools
       url: "/#opensource"
       weight: 42
+    - identifier: newsletter
+      name: Newsletter
+      url: "/newsletter/"
+      weight: 44
     - identifier: blog
       name: Blog
       url: "/#blog"
