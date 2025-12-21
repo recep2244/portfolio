@@ -81,8 +81,10 @@
                                 class="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-sm font-black text-slate-700 hover:bg-blue-50 hover:border-blue-200 transition-all">
                                 IntFOLD</a>
                         </div>
+                        {{ partial "social_cards.html" . }}
+
                         <a href="{{ " /newsletter/" | relURL }}"
-                            class="inline-flex items-center gap-3 px-10 py-5 bg-slate-900 text-white font-black rounded-2xl hover:bg-blue-600 transition-all transform hover:-translate-y-1 shadow-2xl shadow-blue-200 group">
+                            class="inline-flex items-center gap-3 px-10 py-5 bg-slate-900 text-white font-black rounded-2xl hover:bg-blue-600 transition-all transform hover:-translate-y-1 shadow-2xl shadow-blue-200 group mt-12">
                             Return to Archive
                             <svg class="w-6 h-6 transform transition-transform group-hover:-translate-x-1" fill="none"
                                 stroke="currentColor" viewBox="0 0 24 24">
