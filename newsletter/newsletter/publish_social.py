@@ -103,6 +103,37 @@ def post_to_linkedin(text, link):
         print(f"Error connecting to LinkedIn API: {e}")
         return False
 
+def post_to_whatsapp(text, link):
+    load_dotenv()
+    phone = os.getenv("WHATSAPP_PHONE")
+    api_key = os.getenv("WHATSAPP_API_KEY")
+
+    if not phone or not api_key:
+        print("WhatsApp (CallMeBot) credentials missing. Skipping notification.")
+        return False
+
+    # CallMeBot uses a simple GET request
+    # URL format: https://api.callmebot.com/whatsapp.php?phone=[phone]&text=[text]&apikey=[apikey]
+    message = f"{text}\n\nDirect Link: {link}\n\n(Forward this to your WhatsApp Status!)"
+    url = "https://api.callmebot.com/whatsapp.php"
+    params = {
+        "phone": phone,
+        "text": message,
+        "apikey": api_key
+    }
+
+    try:
+        response = requests.get(url, params=params)
+        if response.status_code == 200:
+            print("WhatsApp notification sent successfully.")
+            return True
+        else:
+            print(f"Error sending WhatsApp: {response.status_code} - {response.text}")
+            return False
+    except Exception as e:
+        print(f"Error connecting to CallMeBot: {e}")
+        return False
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--issue-date", default="today")
@@ -138,6 +169,7 @@ def main():
     print(f"Publishing Social for {issue_date}...")
     post_to_twitter(tweet_text, issue_url)
     post_to_linkedin(li_text, issue_url)
+    post_to_whatsapp(f"🧬 Protein Design Digest #{issue_number} is LIVE!", issue_url)
 
 if __name__ == "__main__":
     main()
