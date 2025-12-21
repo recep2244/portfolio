@@ -62,10 +62,12 @@ def build_quick_reads_html(items):
         suffix = f" - {note}" if note else ""
         
         rendered.append(
-            f'<div style="margin-bottom:24px; border-bottom:1px solid #f0f0f0; padding-bottom:12px;">'
-            f'<div style="font-weight:bold; font-size:16px; margin-bottom:8px;"><a href="{link}" style="color:#0b6e4f; text-decoration:none;">{title}</a>{suffix}</div>'
-            f'<div style="font-size:14px; color:#444; line-height:1.6; margin-bottom:12px;">{abstract}</div>'
-            f'<div><a href="{link}" style="font-size:12px; font-weight:bold; color:#0b6e4f; text-decoration:none; text-transform:uppercase;">Read Paper &rarr;</a></div>'
+            f'<div style="margin-bottom:28px;">'
+            f'<div style="font-family:\'Georgia\', serif; font-size:18px; font-weight:bold; line-height:1.4; margin-bottom:8px;">'
+            f'<a href="{link}" style="color:#0b2a1f; text-decoration:none; border-bottom:1px solid #d1d8d5;">{title}</a>'
+            f'<span style="font-size:12px; color:#64748b; font-weight:normal; margin-left:8px;">{suffix}</span>'
+            f'</div>'
+            f'<div style="font-family:Arial, sans-serif; font-size:14px; color:#444; line-height:1.6;">{abstract}</div>'
             f'</div>'
         )
     return "\n".join(rendered)
@@ -105,9 +107,12 @@ def build_ai_news_html(items):
         suffix = f" - {note}" if note else ""
         
         rendered.append(
-            f'<div style="margin-bottom:20px;">'
-            f'<div style="font-weight:bold; font-size:15px; margin-bottom:4px;"><a href="{link}" style="color:#0b6e4f; text-decoration:none;">{title}</a>{suffix}</div>'
-            f'<div style="font-size:13px; color:#555; line-height:1.5;">{abstract}</div>'
+            f'<div style="margin-bottom:24px;">'
+            f'<div style="font-family:Arial, sans-serif; font-size:15px; font-weight:bold; line-height:1.4; margin-bottom:6px;">'
+            f'<a href="{link}" style="color:#1e293b; text-decoration:none; border-bottom:1px solid #e2e8f0;">{title}</a>'
+            f'<span style="font-size:11px; color:#64748b; font-weight:normal; margin-left:6px;">{suffix}</span>'
+            f'</div>'
+            f'<div style="font-family:Arial, sans-serif; font-size:13px; color:#475569; line-height:1.5;">{abstract}</div>'
             f'</div>'
         )
     return "\n".join(rendered) if rendered else "<li>No AI news matched today.</li>"
@@ -176,59 +181,56 @@ def build_context(issue):
     if not isinstance(ai_news, list):
         ai_news = []
 
-    raw_context = {
-        "newsletter_name": newsletter_name,
-        "newsletter_tagline": newsletter_tagline,
-        "issue_date": issue_date,
-        "issue_number": issue_number,
-        "edition_time": edition_time,
-        "preheader_text": preheader_text,
-        "signal_title": str(require_field(signal, "title")).strip(),
-        "signal_summary": str(require_field(signal, "summary")).strip(),
-        "signal_why_it_matters": str(require_field(signal, "why_it_matters")).strip(),
-        "signal_link": str(require_field(signal, "link")).strip(),
-        "dataset_title": str(require_field(dataset, "title")).strip(),
-        "dataset_summary": str(require_field(dataset, "summary")).strip(),
-        "dataset_link": str(require_field(dataset, "link")).strip(),
-        "tool_title": str(require_field(tool, "title")).strip(),
-        "tool_summary": str(require_field(tool, "summary")).strip(),
-        "tool_link": str(require_field(tool, "link")).strip(),
-        "pipeline_tip": str(require_field(issue, "pipeline_tip")).strip(),
-        "event_title": str(require_field(community, "event.title")).strip(),
-        "event_date": str(require_field(community, "event.date")).strip(),
-        "event_link": str(require_field(community, "event.link")).strip(),
-        "job_title": str(require_field(community, "job.title")).strip(),
-        "job_org": str(require_field(community, "job.org")).strip(),
-        "job_link": str(require_field(community, "job.link")).strip(),
-        "quote": str(require_field(quote, "text")).strip(),
-        "quote_source": str(require_field(quote, "source")).strip(),
-        "manage_prefs_link": str(require_field(issue, "manage_prefs_link")).strip(),
-        "unsubscribe_link": str(require_field(issue, "unsubscribe_link")).strip(),
-        "sender_address": str(require_field(issue, "sender_address")).strip(),
+    # Career / Community helper
+    def format_career(title, org, link):
+        return f'<strong style="color:#1c2b26;">{title}</strong> at {org}: <a href="{link}" style="color:#0b6e4f; text-decoration:none; border-bottom:1px solid #c8e1d9;">View Openings &rarr;</a>'
+
+    raw_data = {
+        "newsletter_name": issue.get("newsletter_name", ""),
+        "newsletter_tagline": issue.get("newsletter_tagline", ""),
+        "issue_date": datetime.strptime(issue.get("issue_date"), "%Y-%m-%d").strftime("%B %d, %Y"),
+        "issue_number": str(issue.get("issue_number", "")),
+        "edition_time": issue.get("edition_time", ""),
+        "preheader_text": issue.get("preheader_text", ""),
+        "signal_title": issue.get("signal", {}).get("title", ""),
+        "signal_summary": issue.get("signal", {}).get("summary", ""),
+        "signal_why_it_matters": issue.get("signal", {}).get("why_it_matters", ""),
+        "signal_link": issue.get("signal", {}).get("link", ""),
+        "dataset_title": issue.get("dataset", {}).get("title", ""),
+        "dataset_summary": issue.get("dataset", {}).get("summary", ""),
+        "dataset_link": issue.get("dataset", {}).get("link", ""),
+        "tool_title": issue.get("tool", {}).get("title", ""),
+        "tool_summary": issue.get("tool", {}).get("summary", ""),
+        "tool_link": issue.get("tool", {}).get("link", ""),
+        "pipeline_tip": issue.get("pipeline_tip", ""),
+        "event_title": (issue.get("community") or {}).get("event", {}).get("title", ""),
+        "event_date": (issue.get("community") or {}).get("event", {}).get("date", ""),
+        "event_link": (issue.get("community") or {}).get("event", {}).get("link", ""),
+        "job_title": (issue.get("community") or {}).get("job", {}).get("title", ""),
+        "job_org": (issue.get("community") or {}).get("job", {}).get("org", ""),
+        "job_link": (issue.get("community") or {}).get("job", {}).get("link", ""),
+        "quote": issue.get("quote", {}).get("text", ""),
+        "quote_source": issue.get("quote", {}).get("source", ""),
+        "manage_prefs_link": issue.get("manage_prefs_link", ""),
+        "unsubscribe_link": issue.get("unsubscribe_link", ""),
+        "sender_address": issue.get("sender_address", ""),
     }
 
-    subject = optional_field(issue, "subject", "").strip()
-    if not subject:
-        subject = f"{newsletter_name} - {issue_date}"
+    # Build HTML Context
+    html_context = {k: html.escape(str(v)) for k, v in raw_data.items()}
+    html_context["quick_reads_html"] = build_quick_reads_html(quick_reads)
+    html_context["ai_news_html"] = build_ai_news_html(ai_news)
+    html_context["job_display"] = format_career(html_context["job_title"], html_context["job_org"], html_context["job_link"])
+    html_context["event_display"] = format_career(html_context["event_title"], "Community Hub", html_context["event_link"])
 
-    text_context = dict(raw_context)
+    # Build Text Context
+    text_context = {k: str(v) for k, v in raw_data.items()}
     text_context["quick_reads_text"] = build_quick_reads_text(quick_reads)
     text_context["ai_news_text"] = build_ai_news_text(ai_news)
 
-    html_context = {k: html.escape(v) for k, v in raw_context.items()}
-    html_context["quick_reads_html"] = build_quick_reads_html(quick_reads)
-    html_context["ai_news_html"] = build_ai_news_html(ai_news)
-    html_context["signal_link"] = html.escape(raw_context["signal_link"], quote=True)
-    html_context["dataset_link"] = html.escape(raw_context["dataset_link"], quote=True)
-    html_context["tool_link"] = html.escape(raw_context["tool_link"], quote=True)
-    html_context["event_link"] = html.escape(raw_context["event_link"], quote=True)
-    html_context["job_link"] = html.escape(raw_context["job_link"], quote=True)
-    html_context["manage_prefs_link"] = html.escape(
-        raw_context["manage_prefs_link"], quote=True
-    )
-    html_context["unsubscribe_link"] = html.escape(
-        raw_context["unsubscribe_link"], quote=True
-    )
+    subject = optional_field(issue, "subject", "").strip()
+    if not subject:
+        subject = f"{raw_data['newsletter_name']} - {raw_data['issue_date']}"
 
     return html_context, text_context, subject
 

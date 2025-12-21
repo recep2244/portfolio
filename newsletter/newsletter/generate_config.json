@@ -96,19 +96,18 @@
     "keywords": [
       "biotech",
       "drug discovery",
-      "protein",
-      "design",
-      "alphafold",
-      "structural"
+      "protein design",
+      "structural biology",
+      "machine learning biology"
     ],
     "feeds": [
       {
         "name": "Google NewsAI Biotech",
-        "url": "https://news.google.com/rss/search?q=AI+biotech+protein+design+structure&hl=en-US&gl=US&ceid=US:en"
+        "url": "https://news.google.com/rss/search?q=AI+biotech+protein+design+structural+biology+OR+AlphaFold&hl=en-US&gl=US&ceid=US:en"
       },
       {
-        "name": "Fierce Biotech AI",
-        "url": "https://www.fiercebiotech.com/rss/biotech/ai"
+        "name": "Fierce Biotech",
+        "url": "https://www.fiercebiotech.com/rss/biotech"
       }
     ]
   },
@@ -124,27 +123,79 @@
       "link": "https://www.cathdb.info/"
     },
     {
-      "title": "AlphaFold Protein Structure Database",
-      "summary": "Over 200 million predicted protein structures from DeepMind.",
+      "title": "AlphaFold Structure Database",
+      "summary": "200M+ predicted structures from DeepMind/EMBL-EBI.",
       "link": "https://alphafold.ebi.ac.uk/"
+    },
+    {
+      "title": "UniProt",
+      "summary": "The world's most comprehensive resource for protein sequence and annotation.",
+      "link": "https://www.uniprot.org/"
+    },
+    {
+      "title": "BINDER",
+      "summary": "A curated database for protein-protein binding affinity and structures.",
+      "link": "http://www.binder-db.org/"
+    },
+    {
+      "title": "ProteomeXchange",
+      "summary": "Centralized archive for proteomics data submission and discovery.",
+      "link": "http://www.proteomexchange.org/"
     }
   ],
   "tool_pool": [
     {
       "title": "PyMOL",
-      "summary": "The gold standard for molecular visualization and analysis.",
+      "summary": "Gold standard for molecular visualization and publication-quality imaging.",
       "link": "https://pymol.org/"
     },
     {
       "title": "Chai-1",
-      "summary": "A multi-modal foundation model for molecular structure prediction.",
+      "summary": "Multi-modal foundation model for molecular structure prediction.",
       "link": "https://github.com/chaidiscovery/chai-lab"
     },
     {
       "title": "Boltz-1",
       "summary": "Open-source biomolecular structure prediction model.",
       "link": "https://github.com/jwohlwend/boltz"
+    },
+    {
+      "title": "ProteinSolver",
+      "summary": "Graph-based neural network for protein sequence design.",
+      "link": "https://github.com/manulera/ProteinSolver"
+    },
+    {
+      "title": "RFdiffusion",
+      "summary": "State-of-the-art generative model for de novo protein design.",
+      "link": "https://github.com/RosettaCommons/RFdiffusion"
+    },
+    {
+      "title": "ProteinMPNN",
+      "summary": "High-speed sequence design optimized for fixed-backbone folding.",
+      "link": "https://github.com/dauparas/ProteinMPNN"
+    },
+    {
+      "title": "OpenFold",
+      "summary": "Fast, trainable, and open implementation of AlphaFold2.",
+      "link": "https://github.com/aqlaboratory/openfold"
+    },
+    {
+      "title": "ChimeraX",
+      "summary": "Next-gen molecular visualization for large data sets.",
+      "link": "https://www.rbvi.ucsf.edu/chimerax/"
     }
+  ],
+  "pipeline_tips": [
+    "Pin reference genomes by checksum to avoid version drift.",
+    "Use local MSA generation (colabfold_search) to bypass speed bottlenecks.",
+    "Always validate pLDDT scores before using AlphaFold models for docking.",
+    "Normalise thermal B-factors when comparing different crystal structures.",
+    "Use GPU-accelerated MD refinement to lift model quality in under 2 hours.",
+    "Verify FASTA headers for special characters that break Rosetta pipelines.",
+    "Index your BigWig files before visualization to save memory.",
+    "Use Snakemake for reproducible end-to-end protein design workflows.",
+    "Check for missing residues in PDB files using PDB-Fixer before simulation.",
+    "Employ HADDOCK for ambiguous restraints in protein-protein docking."
   ],
   "community": {
     "events": [
@@ -152,6 +203,11 @@
         "title": "Protein Design Community Hub",
         "date": "Ongoing",
         "link": "https://www.linkedin.com/in/recep-ad%C4%B1yaman/"
+      },
+      {
+        "title": "InstaDeep Careers",
+        "date": "Open",
+        "link": "https://www.instadeep.com/careers/"
       }
     ],
     "jobs": [
@@ -169,6 +225,11 @@
         "title": "Nature Careers",
         "org": "Nature",
         "link": "https://www.nature.com/naturecareers/jobs/search?q=protein+design"
+      },
+      {
+        "title": "InstaDeep Research Positions",
+        "org": "InstaDeep",
+        "link": "https://www.instadeep.com/careers/"
       }
     ]
   },
