@@ -1,0 +1,3 @@
+[submodule "newsletter/newsletter_new"]
+	path = newsletter/newsletter_new
+	url = git@github.com:recep2244/daily-bioinformatics-newsletter.git

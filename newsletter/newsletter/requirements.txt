@@ -1,0 +1,2 @@
+# No external dependencies currently required.
+# If you add libraries like feedparser or requests, list them here.

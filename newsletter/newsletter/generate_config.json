@@ -1,0 +1,136 @@
+{
+  "newsletter_name": "Genome Daily",
+  "newsletter_tagline": "Bioinformatics signals, every morning",
+  "preheader_text": "Top signal, quick reads, and a pipeline tip in under 4 minutes.",
+  "edition_time": "04:00 UK",
+  "subject_prefix": "Genome Daily",
+  "lookback_days": 7,
+  "max_results_per_source": 50,
+  "keywords": [
+    "protein structure prediction",
+    "protein engineering",
+    "protein design",
+    "de novo design",
+    "enzyme design",
+    "protein folding",
+    "structure prediction",
+    "alphafold",
+    "rosettafold",
+    "protein inverse folding",
+    "geometric deep learning",
+    "molecular dynamics",
+    "drug discovery",
+    "generative biology"
+  ],
+  "sources": {
+    "arxiv": {
+      "enabled": true,
+      "max_results": 50
+    },
+    "europe_pmc": {
+      "enabled": true,
+      "page_size": 50
+    },
+    "biorxiv": {
+      "enabled": true,
+      "max_results": 50
+    },
+    "medrxiv": {
+      "enabled": true,
+      "max_results": 50
+    },
+    "pubmed": {
+      "enabled": true,
+      "max_results": 50,
+      "email": "recepadiyaman2244@gmail.com",
+      "tool": "GenomeDaily",
+      "api_key": ""
+    },
+    "rss": {
+      "enabled": true,
+      "max_results": 50,
+      "feeds": [
+        {
+          "name": "Nature Biotechnology",
+          "url": "http://feeds.nature.com/nbt/rss/current"
+        },
+        {
+          "name": "Nature Methods",
+          "url": "http://feeds.nature.com/nmeth/rss/current"
+        },
+        {
+          "name": "Nature Machine Intelligence",
+          "url": "http://feeds.nature.com/natmachintell/rss/current"
+        },
+        {
+          "name": "PLOS Comp Biol",
+          "url": "http://journals.plos.org/ploscompbiol/feed/atom"
+        }
+      ]
+    },
+    "semantic_scholar": {
+      "enabled": true,
+      "max_results": 50
+    }
+  },
+  "ai_news": {
+    "enabled": true,
+    "max_items": 3,
+    "keywords": [
+      "artificial intelligence",
+      "machine learning",
+      "foundation model",
+      "large language model",
+      "generative",
+      "transformer",
+      "neural network"
+    ],
+    "feeds": [
+      {
+        "name": "AI News",
+        "url": "http://feeds.feedburner.com/artificial-intelligence-news"
+      }
+    ]
+  },
+  "dataset_pool": [
+    {
+      "title": "Add a dataset you like",
+      "summary": "Short one-line description of why this dataset matters.",
+      "link": "https://example.com/dataset"
+    }
+  ],
+  "tool_pool": [
+    {
+      "title": "Add a tool you like",
+      "summary": "Short one-line description of what it does.",
+      "link": "https://example.com/tool"
+    }
+  ],
+  "community": {
+    "events": [
+      {
+        "title": "Submit your event",
+        "date": "YYYY-MM-DD",
+        "link": "mailto:recepadiyaman2244@gmail.com"
+      }
+    ],
+    "jobs": [
+      {
+        "title": "Hiring? Send your role",
+        "org": "Your org",
+        "link": "mailto:recepadiyaman2244@gmail.com"
+      }
+    ]
+  },
+  "quotes": [
+    {
+      "text": "Data is the signal, models are the instruments.",
+      "source": "Genome Daily"
+    }
+  ],
+  "manage_prefs_link": "https://example.com/preferences",
+  "subscribe_link": "https://recep2244.github.io/portfolio/newsletter/",
+  "unsubscribe_link": "https://example.com/unsubscribe",
+  "sender_address": "Recep Adiyaman",
+  "user_agent": "GenomeDaily/1.0 (contact: recepadiyaman2244@gmail.com)"
+}

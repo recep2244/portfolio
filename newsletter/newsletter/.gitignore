@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+out/
+issues/
+.env
+.DS_Store
