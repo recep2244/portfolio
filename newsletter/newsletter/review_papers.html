@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Papers - Protein Design Digest</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #f8fafc;
+            padding: 20px;
+            color: #1e293b;
+        }
+
+        .header {
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #0f172a;
+        }
+
+        .stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0ea5e9;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 4px;
+        }
+
+        .controls {
+            max-width: 1200px;
+            margin: 0 auto 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #0ea5e9;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0284c7;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #64748b;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+            font-size: 16px;
+            padding: 14px 32px;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-count {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .paper-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+            border-left: 4px solid transparent;
+        }
+
+        .paper-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .paper-card.selected {
+            border-left-color: #0ea5e9;
+            background: #f0f9ff;
+        }
+
+        .paper-header {
+            display: flex;
+            align-items: start;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            margin-top: 2px;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #0ea5e9;
+        }
+
+        .paper-content {
+            flex: 1;
+        }
+
+        .paper-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .paper-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            font-size: 13px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .paper-abstract {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.6;
+            margin-top: 10px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 6px;
+        }
+
+        .paper-link {
+            color: #0ea5e9;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .paper-link:hover {
+            text-decoration: underline;
+        }
+
+        .export-panel {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            min-width: 250px;
+            z-index: 1000;
+        }
+
+        .export-title {
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #0f172a;
+        }
+
+        .export-stats {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            resize: vertical;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>📬 Review Papers for Digest</h1>
+        <p style="color: #64748b; margin-top: 8px;">Select papers to include in your newsletter</p>
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-value" id="total-papers">0</span>
+                <span class="stat-label">Total Papers</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value" id="selected-papers">0</span>
+                <span class="stat-label">Selected</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-primary" onclick="selectAll()">✓ Select All</button>
+        <button class="btn btn-secondary" onclick="deselectAll()">✗ Deselect All</button>
+        <button class="btn btn-secondary" onclick="selectTop(5)">Top 5</button>
+        <button class="btn btn-secondary" onclick="selectTop(10)">Top 10</button>
+        <input type="file" id="file-input" accept=".json" style="display: none;" onchange="loadFile(event)">
+        <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">
+            📁 Load JSON File
+        </button>
+        <button class="btn btn-success" onclick="exportSelected()" style="margin-left: auto;">
+            🚀 Export Selected Papers
+        </button>
+    </div>
+
+    <div class="container" id="papers-container">
+        <div style="text-align: center; padding: 60px 20px; color: #94a3b8;">
+            <p style="font-size: 18px; margin-bottom: 10px;">No papers loaded</p>
+            <p style="font-size: 14px;">Click "Load JSON File" to review papers from your generated issue</p>
+        </div>
+    </div>
+
+    <div class="export-panel" id="export-panel" style="display: none;">
+        <div class="export-title">Export Options</div>
+        <div class="export-stats" id="export-stats"></div>
+        <button class="btn btn-success" onclick="copyToClipboard()" style="width: 100%; margin-bottom: 10px;">
+            📋 Copy Selected IDs
+        </button>
+        <button class="btn btn-primary" onclick="downloadJSON()" style="width: 100%;">
+            💾 Download as JSON
+        </button>
+        <textarea id="export-output" readonly></textarea>
+    </div>
+
+    <script>
+        let allPapers = [];
+        let selectedIndices = new Set();
+
+        function loadFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    loadPapers(data);
+                } catch (error) {
+                    alert('Error loading file: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function loadPapers(data) {
+            allPapers = [];
+
+            // Extract papers from different sections
+            if (data.quick_reads && Array.isArray(data.quick_reads)) {
+                data.quick_reads.forEach(p => allPapers.push({ ...p, section: 'Quick Reads' }));
+            }
+            if (data.ai_news && Array.isArray(data.ai_news)) {
+                data.ai_news.forEach(p => allPapers.push({ ...p, section: 'AI News' }));
+            }
+            if (data.industry_news && Array.isArray(data.industry_news)) {
+                data.industry_news.forEach(p => allPapers.push({ ...p, section: 'Industry News' }));
+            }
+
+            renderPapers();
+            updateStats();
+        }
+
+        function renderPapers() {
+            const container = document.getElementById('papers-container');
+            if (allPapers.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 60px 20px; color: #94a3b8;"><p>No papers found in this file</p></div>';
+                return;
+            }
+
+            const sections = {};
+            allPapers.forEach((paper, idx) => {
+                const section = paper.section || 'Other';
+                if (!sections[section]) sections[section] = [];
+                sections[section].push({ paper, idx });
+            });
+
+            let html = '';
+            Object.keys(sections).forEach(section => {
+                html += `
+                    <div class="section">
+                        <div class="section-title">
+                            ${section}
+                            <span class="section-count">${sections[section].length}</span>
+                        </div>
+                `;
+
+                sections[section].forEach(({ paper, idx }) => {
+                    const isSelected = selectedIndices.has(idx);
+                    html += `
+                        <div class="paper-card ${isSelected ? 'selected' : ''}" id="paper-${idx}">
+                            <div class="paper-header">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" class="checkbox" 
+                                        ${isSelected ? 'checked' : ''} 
+                                        onchange="togglePaper(${idx})">
+                                </div>
+                                <div class="paper-content">
+                                    <div class="paper-title">${paper.title || 'Untitled'}</div>
+                                    <div class="paper-meta">
+                                        ${paper.note ? `<span class="badge">${paper.note}</span>` : ''}
+                                        ${paper.link ? `<a href="${paper.link}" target="_blank" class="paper-link">🔗 View Paper →</a>` : ''}
+                                    </div>
+                                    ${paper.abstract ? `<div class="paper-abstract">${paper.abstract}</div>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+            });
+
+            container.innerHTML = html;
+        }
+
+        function togglePaper(idx) {
+            if (selectedIndices.has(idx)) {
+                selectedIndices.delete(idx);
+            } else {
+                selectedIndices.add(idx);
+            }
+            updateCard(idx);
+            updateStats();
+            updateExportPanel();
+        }
+
+        function updateCard(idx) {
+            const card = document.getElementById(`paper-${idx}`);
+            if (selectedIndices.has(idx)) {
+                card.classList.add('selected');
+            } else {
+                card.classList.remove('selected');
+            }
+        }
+
+        function selectAll() {
+            selectedIndices = new Set(allPapers.map((_, idx) => idx));
+            renderPapers();
+            updateStats();
+            updateExportPanel();
+        }
+
+        function deselectAll() {
+            selectedIndices = new Set();
+            renderPapers();
+            updateStats();
+            updateExportPanel();
+        }
+
+        function selectTop(n) {
+            selectedIndices = new Set(allPapers.slice(0, n).map((_, idx) => idx));
+            renderPapers();
+            updateStats();
+            updateExportPanel();
+        }
+
+        function updateStats() {
+            document.getElementById('total-papers').textContent = allPapers.length;
+            document.getElementById('selected-papers').textContent = selectedIndices.size;
+        }
+
+        function updateExportPanel() {
+            const panel = document.getElementById('export-panel');
+            if (selectedIndices.size > 0) {
+                panel.style.display = 'block';
+                document.getElementById('export-stats').textContent =
+                    `${selectedIndices.size} paper${selectedIndices.size !== 1 ? 's' : ''} selected`;
+
+                const selectedPapers = Array.from(selectedIndices).map(idx => allPapers[idx]);
+                document.getElementById('export-output').value = JSON.stringify(selectedPapers, null, 2);
+            } else {
+                panel.style.display = 'none';
+            }
+        }
+
+        function exportSelected() {
+            updateExportPanel();
+        }
+
+        function copyToClipboard() {
+            const textarea = document.getElementById('export-output');
+            textarea.select();
+            document.execCommand('copy');
+            alert('Copied to clipboard!');
+        }
+
+        function downloadJSON() {
+            const selectedPapers = Array.from(selectedIndices).map(idx => allPapers[idx]);
+            const dataStr = JSON.stringify(selectedPapers, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `selected-papers-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+
+</html>
