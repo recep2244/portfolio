@@ -85,7 +85,7 @@ tags: ["bioinformatics", "newsletter", "research"]
     
     if issue.get('tool'):
         tl = issue['tool']
-        md += f"- **Tool**: [{tl.get('title')}]({tl.get('link')}) - {tl.get('summary', '')}\n"
+        md += f"- **Tool**: [{tl.get('title')}]({tl.get('link')}) - {tl.get('summary', '')} [View all tools &rarr;](https://recep2244.github.io/portfolio/#opensource)\n"
         
     if issue.get('community'):
         evt = issue['community'].get('event')

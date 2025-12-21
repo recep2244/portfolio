@@ -524,28 +524,30 @@ def keyword_score(text, keywords, weight):
 
 
 def score_paper(paper, keywords):
-    # Core focus areas: Protein Design, Protein Engineering, Structural Biology
-    # We want to ensure the paper is actually about these fields.
-    core_bio_keywords = ["protein", "enzyme", "antibody", "binder", "structural biology", "crystallography", "cryo-em", "nmr"]
+    # HIGHEST PRIORITY: Protein Structure Prediction & Design Tools
+    tool_keywords = ["tool", "software", "pipeline", "benchmark", "algorithm", "server", "model", "methodology", "comparison", "implementation", "software tool", "prediction tool"]
     
-    title_bio_score = keyword_score(paper.title.lower(), core_bio_keywords, 5)
-    summary_bio_score = keyword_score(paper.summary.lower(), core_bio_keywords, 2)
+    # CORE DOMAIN: Structure Prediction, Design, Engineering
+    domain_keywords = ["protein structure prediction", "protein design", "protein engineering", "structural biology", "fold", "inverse folding", "docking", "ligand binding"]
     
-    # Base score from specific user keywords (AlphaFold, de novo, etc.)
-    title_kw_score = keyword_score(paper.title.lower(), keywords, 4)
-    summary_kw_score = keyword_score(paper.summary.lower(), keywords, 1)
+    # Calculate Domain Score (Must be high for us to care)
+    title_domain_score = keyword_score(paper.title.lower(), domain_keywords, 8)
+    summary_domain_score = keyword_score(paper.summary.lower(), domain_keywords, 3)
     
-    total_bio_score = title_bio_score + summary_bio_score + title_kw_score + summary_kw_score
+    # Calculate Tool/Application Score
+    title_tool_score = keyword_score(paper.title.lower(), tool_keywords, 10) # Heavy weight on tools
+    summary_tool_score = keyword_score(paper.summary.lower(), tool_keywords, 4)
     
-    # If it's not actually about proteins/bio, we don't want it, even if it's a great "method"
-    if total_bio_score < 5: 
+    # Calculate Specific User Keywords Score
+    kw_score = keyword_score(paper.title.lower(), keywords, 5) + keyword_score(paper.summary.lower(), keywords, 2)
+    
+    total_relevance = title_domain_score + summary_domain_score + kw_score
+    
+    # STRICT FILTER: If not about core domain, reject (Score 0)
+    if total_relevance < 12:
         return 0
     
-    # Methodology & Tool Boost (User Preference)
-    methods_keywords = ["benchmark", "methodology", "tool", "software", "pipeline", "comparison", "dataset", "server", "algorithm", "protocol", "workflow"]
-    method_boost = keyword_score(paper.title.lower(), methods_keywords, 5) + keyword_score(paper.summary.lower(), methods_keywords, 2)
-    
-    return total_bio_score + method_boost
+    return total_relevance + title_tool_score + summary_tool_score
 
 
 def summarize_paper(paper):
@@ -763,43 +765,28 @@ def build_issue(config, issue_date, timezone):
         day_index + 1,
         {"title": "Add a tool", "summary": "", "link": "https://example.com"},
     )
-    # Career / Job Alerts
-    job = pick_pool_item(config.get("community", {}).get("jobs", []), day_index + 1, {"title": "Hiring? Send your role", "org": "Your org", "link": "mailto:you@example.com"})
-    
-    # Try to find a dynamic job if enabled
+    # Career / Job Alerts (Dynamic Preference)
+    job = None
     job_cfg = config.get("community", {}).get("dynamic_jobs", {})
     if job_cfg.get("enabled", False):
-        job_feeds = job_cfg.get("feeds", [])
         all_jobs = []
-        for feed in job_feeds:
-            # RSS fetch specifically for jobs
-            url = feed.get("url", "")
-            if url:
-                raw_jobs = fetch_rss_feed(feed, ["protein", "design", "bioinformatics"], 5, user_agent, timezone)
-                for rj in raw_jobs:
-                    all_jobs.append({
-                        "title": rj.title,
-                        "org": feed.get("name", "Job Board"),
-                        "link": rj.link
-                    })
+        for feed in job_cfg.get("feeds", []):
+            rj_items = fetch_rss_feed(feed, ["protein", "structural", "design", "bioinformatics"], 5, user_agent, timezone)
+            for rj in rj_items:
+                all_jobs.append({"title": rj.title, "org": feed.get("name", "Job Board"), "link": rj.link})
         if all_jobs:
-            # Pick a job based on the day to keep it stable for that day
             job = all_jobs[day_index % len(all_jobs)]
             
-    event = pick_pool_item(
-        events,
-        day_index,
-        {"title": "Submit your event", "date": issue_date.isoformat(), "link": "mailto:you@example.com"},
-    )
-    job = pick_pool_item(
-        jobs,
-        day_index + 1,
-        {"title": "Hiring? Send your role", "org": "Your org", "link": "mailto:you@example.com"},
-    )
+    if not job:
+        job = pick_pool_item(jobs, day_index + 1, {"title": "Hiring? Send your role", "org": "Recep's Network", "link": "mailto:recepadiyaman2244@gmail.com"})
+
+    # Events (Dynamic)
+    event = pick_pool_item(events, day_index, {"title": "Submit a Structural Biology Event", "date": "Ongoing", "link": "mailto:recepadiyaman2244@gmail.com"})
+    
     quote = pick_pool_item(
         quotes,
         day_index,
-        {"text": "Data is the signal, models are the instruments.", "source": "Genome Daily"},
+        {"text": "Data is the signal, models are the instruments.", "source": "Protein Design Digest"},
     )
 
     signal_summary = signal_paper.summary

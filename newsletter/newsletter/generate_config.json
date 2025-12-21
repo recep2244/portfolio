@@ -141,6 +141,21 @@
   ],
   "tool_pool": [
     {
+      "title": "ReFOLD4",
+      "summary": "Sophisticated protein structure refinement tool for improving model quality.",
+      "link": "https://www.reading.ac.uk/bioinf/ReFOLD/"
+    },
+    {
+      "title": "FunFOLD5",
+      "summary": "Automated system for protein ligand-binding site prediction and function annotation.",
+      "link": "https://www.reading.ac.uk/bioinf/FunFOLD/"
+    },
+    {
+      "title": "MultiFOLD/IntFOLD",
+      "summary": "High-performance protein structure prediction and quality assessment server.",
+      "link": "https://www.reading.ac.uk/bioinf/IntFOLD/"
+    },
+    {
       "title": "PyMOL",
       "summary": "Gold standard for molecular visualization and publication-quality imaging.",
       "link": "https://pymol.org/"
@@ -201,16 +216,16 @@
         "link": "https://www.linkedin.com/groups/16324018/"
       },
       {
-        "title": "InstaDeep Careers",
+        "title": "Structural Biology Events",
         "date": "Open",
-        "link": "https://www.instadeep.com/careers/"
+        "link": "https://www.nature.com/natureconferences/index.html"
       }
     ],
     "jobs": [
       {
-        "title": "Search LinkedIn",
-        "org": "LinkedIn Recruitment",
-        "link": "https://www.linkedin.com/jobs/search/?keywords=protein%20design%20bioinformatics"
+        "title": "Structural Biology Roles at InstaDeep",
+        "org": "InstaDeep",
+        "link": "https://www.instadeep.com/careers/"
       }
     ],
     "dynamic_jobs": {
