@@ -1,0 +1,67 @@
+name: Daily Preview Generation
+
+on:
+  schedule:
+    # Runs at 04:00 UK time (approx 04:00 UTC depending on DST, safe enough)
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  generate-and-preview:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Generate Issue
+        env:
+          TZ: 'Europe/London'
+        run: |
+          python3 generate_issue.py \
+            --issue-date today \
+            --config generate_config.json \
+            --issues-dir issues
+
+      - name: Create Preview List
+        env:
+          ADMIN_EMAIL: ${{ secrets.NEWSLETTER_FROM_EMAIL }}
+        run: |
+          echo "email,status" > preview_list.csv
+          echo "$ADMIN_EMAIL,active" >> preview_list.csv
+
+      - name: Send Preview Email
+        env:
+          NEWSLETTER_GMAIL_USER: ${{ secrets.NEWSLETTER_GMAIL_USER }}
+          NEWSLETTER_GMAIL_APP_PASSWORD: ${{ secrets.NEWSLETTER_GMAIL_APP_PASSWORD }}
+          NEWSLETTER_FROM_EMAIL: ${{ secrets.NEWSLETTER_FROM_EMAIL }}
+        run: |
+          python3 send_newsletter.py \
+            --issue-date today \
+            --issues-dir issues \
+            --subscribers preview_list.csv \
+            --output-dir out \
+            --subject-prefix "[PREVIEW] "
+
+      - name: Commit and Push Archive
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add issues/*.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Archive issue $(date +'%Y-%m-%d')"
+            git push
+          fi

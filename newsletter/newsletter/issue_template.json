@@ -1,0 +1,69 @@
+{
+  "newsletter_name": "Genome Daily",
+  "newsletter_tagline": "Bioinformatics signals, every morning",
+  "issue_date": "2025-01-01",
+  "issue_number": 1,
+  "edition_time": "04:00 UK",
+  "subject": "Genome Daily - 2025-01-01 - Protein structure insight",
+  "preheader_text": "Top signal, quick reads, and a pipeline tip in under 4 minutes.",
+  "signal": {
+    "title": "A compact model for protein structure prediction",
+    "summary": "A new architecture reduces inference cost while maintaining accuracy on benchmark sets.",
+    "why_it_matters": "Lower compute cost makes large scale structure annotation more accessible.",
+    "link": "https://example.com/paper"
+  },
+  "quick_reads": [
+    {
+      "title": "Single cell atlas update",
+      "note": "new cell types across tissues",
+      "link": "https://example.com/quick1"
+    },
+    {
+      "title": "Variant calling benchmark",
+      "note": "improved gold standard",
+      "link": "https://example.com/quick2"
+    },
+    {
+      "title": "Spatial transcriptomics review",
+      "note": "methods and pitfalls",
+      "link": "https://example.com/quick3"
+    }
+  ],
+  "ai_news": [
+    {
+      "title": "AI lab releases new protein model",
+      "note": "Lab Blog - 2025-01-01",
+      "link": "https://example.com/ai-news"
+    }
+  ],
+  "dataset": {
+    "title": "Population scale variant dataset",
+    "summary": "10k genomes with harmonized annotations and QC metrics.",
+    "link": "https://example.com/dataset"
+  },
+  "tool": {
+    "title": "FastQC pipeline wrapper",
+    "summary": "Opinionated defaults for RNA-seq QC and reporting.",
+    "link": "https://example.com/tool"
+  },
+  "pipeline_tip": "Pin reference genomes by checksum to avoid accidental version drift.",
+  "community": {
+    "event": {
+      "title": "Online talk: scRNA-seq integration",
+      "date": "2025-01-03",
+      "link": "https://example.com/event"
+    },
+    "job": {
+      "title": "Bioinformatics Scientist",
+      "org": "Genome Lab",
+      "link": "https://example.com/job"
+    }
+  },
+  "quote": {
+    "text": "Data is the signal, models are the instruments.",
+    "source": "Genome Daily"
+  },
+  "manage_prefs_link": "https://example.com/preferences",
+  "unsubscribe_link": "https://example.com/unsubscribe",
+  "sender_address": "Your Name, City, Country"
+}

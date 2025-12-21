@@ -1,0 +1,38 @@
+{{newsletter_name}} - {{issue_date}}
+{{newsletter_tagline}}
+Issue {{issue_number}} | {{edition_time}}
+
+Signal of the day
+{{signal_title}}
+{{signal_summary}}
+Why it matters: {{signal_why_it_matters}}
+Read: {{signal_link}}
+
+Quick reads
+{{quick_reads_text}}
+
+AI news
+{{ai_news_text}}
+
+Dataset spotlight
+{{dataset_title}}
+{{dataset_summary}}
+Explore: {{dataset_link}}
+
+Tool of the day
+{{tool_title}}
+{{tool_summary}}
+View: {{tool_link}}
+
+Pipeline tip
+{{pipeline_tip}}
+
+Community board
+Event: {{event_title}} - {{event_date}} ({{event_link}})
+Job: {{job_title}} - {{job_org}} ({{job_link}})
+
+"{{quote}}" - {{quote_source}}
+
+Manage preferences: {{manage_prefs_link}}
+Unsubscribe: {{unsubscribe_link}}
+{{sender_address}}
