@@ -174,8 +174,8 @@ def main():
     )
 
     wa_text = (
-        f"🧬 *Protein Design Digest #{issue_number} is LIVE!*\n\n"
-        f"Today's Signal: {signal_title}\n\n"
+        f"🧬 *Protein Design Digest LIVE!*\n\n"
+        f"Today's Signal: {signal_title}\n"
         f"🔗 *Read Today:* {issue_url}\n"
         f"✍️ *Subscribe:* {sub_url}\n\n"
         f"_(Forward this message to your WhatsApp Status!)_"
