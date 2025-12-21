@@ -3,7 +3,7 @@
 Since you want to avoid Netlify, here are the two best alternatives. **Your project is already pre-configured for Option 1 (GitHub Pages).**
 
 ## Option 1: GitHub Pages (Recommended & Pre-configured)
-Your project already includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) to automatically deploy to GitHub Pages.
+Your project already includes a GitHub Actions workflow (`.github/workflows/hugo.yml`) to automatically deploy to GitHub Pages.
 
 ### Steps to Activate:
 1.  **Push to GitHub**:

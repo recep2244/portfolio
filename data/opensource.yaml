@@ -28,3 +28,10 @@ projects:
     instructions: |
       # Run FunFOLD5
       docker run -v $(pwd):/data radiyaman/funfold5_template -i /data/target.pdb -o /data/results
+
+  - name: "IntFOLD"
+    description: "Integrated web resource for high-performance protein structure and function prediction."
+    url: "https://www.reading.ac.uk/bioinf/IntFOLD/"
+    page_url: "tools/intfold"
+    type: "Web Server"
+    icon: "server"
