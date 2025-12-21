@@ -200,9 +200,9 @@
   "community": {
     "events": [
       {
-        "title": "Protein Design Community Hub",
+        "title": "Protein Design Hub (LinkedIn)",
         "date": "Ongoing",
-        "link": "https://www.linkedin.com/in/recep-ad%C4%B1yaman/"
+        "link": "https://www.linkedin.com/groups/13501256/"
       },
       {
         "title": "InstaDeep Careers",
@@ -215,23 +215,21 @@
         "title": "Search LinkedIn",
         "org": "LinkedIn Jobs",
         "link": "https://www.linkedin.com/jobs/search/?keywords=protein%20design%20bioinformatics"
-      },
-      {
-        "title": "Indeed Careers",
-        "org": "Indeed",
-        "link": "https://www.indeed.com/jobs?q=protein+design+bioinformatics"
-      },
-      {
-        "title": "Nature Careers",
-        "org": "Nature",
-        "link": "https://www.nature.com/naturecareers/jobs/search?q=protein+design"
-      },
-      {
-        "title": "InstaDeep Research Positions",
-        "org": "InstaDeep",
-        "link": "https://www.instadeep.com/careers/"
       }
-    ]
+    ],
+    "dynamic_jobs": {
+      "enabled": true,
+      "feeds": [
+        {
+          "name": "LinkedIn Careers",
+          "url": "https://news.google.com/rss/search?q=site:linkedin.com/jobs+%22protein+design%22+OR+%22bioinformatics%22&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "name": "Indeed Jobs",
+          "url": "https://news.google.com/rss/search?q=site:indeed.com/jobs+%22protein+design%22+OR+%22bioinformatics%22&hl=en-US&gl=US&ceid=US:en"
+        }
+      ]
+    }
   },
   "quotes": [
     {
@@ -243,9 +241,9 @@
       "source": "Recep Adiyaman"
     }
   ],
-  "manage_prefs_link": "https://recep2244.github.io/portfolio/#newsletter",
-  "subscribe_link": "https://recep2244.github.io/portfolio/#newsletter",
-  "unsubscribe_link": "https://recep2244.github.io/portfolio/#contact",
+  "manage_prefs_link": "https://recep2244.github.io/portfolio/newsletter/",
+  "subscribe_link": "https://recep2244.github.io/portfolio/newsletter/",
+  "unsubscribe_link": "mailto:recepadiyaman2244@gmail.com?subject=UNSUBSCRIBE%20Protein%20Design%20Digest",
   "sender_address": "Recep Adiyaman | Reading, UK",
   "user_agent": "ProteinDesignDigest/1.0 (contact: recepadiyaman2244@gmail.com)"
 }
