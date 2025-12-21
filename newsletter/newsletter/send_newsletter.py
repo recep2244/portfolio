@@ -188,7 +188,7 @@ def build_context(issue):
     raw_data = {
         "newsletter_name": issue.get("newsletter_name", ""),
         "newsletter_tagline": issue.get("newsletter_tagline", ""),
-        "issue_date": datetime.strptime(issue.get("issue_date"), "%Y-%m-%d").strftime("%B %d, %Y"),
+        "issue_date": datetime.strptime(issue.get("issue_date"), "%Y-%m-%d").strftime("%A, %B %d, %Y"),
         "issue_number": str(issue.get("issue_number", "")),
         "edition_time": issue.get("edition_time", ""),
         "preheader_text": issue.get("preheader_text", ""),
