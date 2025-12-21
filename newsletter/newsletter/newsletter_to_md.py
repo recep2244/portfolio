@@ -48,6 +48,11 @@ _{issue.get('signal', {}).get('why_it_matters')}_
         for item in issue.get('ai_news', []):
             md += f"- **[{item.get('title', 'Untitled')}]({item.get('link', '#')})**: {item.get('abstract', '')}\n"
 
+    # Pipeline Tip
+    if issue.get('pipeline_tip'):
+        md += f"\n## 💡 Pipeline Tip\n"
+        md += f"{issue.get('pipeline_tip')}\n"
+
     md += "\n---\n"
     
     # Community / Tools

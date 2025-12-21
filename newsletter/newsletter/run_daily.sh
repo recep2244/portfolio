@@ -3,6 +3,13 @@ set -euo pipefail
 
 ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 
+# Load environment variables from .env if it exists
+if [ -f "$ROOT_DIR/newsletter/.env" ]; then
+  set -a
+  source "$ROOT_DIR/newsletter/.env"
+  set +a
+fi
+
 python3 "$ROOT_DIR/newsletter/generate_issue.py" \
   --issue-date today \
   --config "$ROOT_DIR/newsletter/generate_config.json" \
@@ -22,4 +29,6 @@ fi
 python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
   --issue-date today \
   --issues-dir "$ROOT_DIR/newsletter/issues" \
-  --subscribers "$ROOT_DIR/newsletter/subscribers.csv"
+  --subscribers "$ROOT_DIR/newsletter/subscribers.csv" \
+  --template-html "$ROOT_DIR/newsletter/template.html" \
+  --template-text "$ROOT_DIR/newsletter/template.txt"

@@ -4,7 +4,7 @@
   "preheader_text": "Top design signals, quick reads, and pipeline tips from Recep Adiyaman.",
   "edition_time": "04:00 UK",
   "subject_prefix": "Protein Design Digest",
-  "lookback_days": 7,
+  "lookback_days": 14,
   "max_results_per_source": 50,
   "keywords": [
     "protein structure prediction",
@@ -16,6 +16,7 @@
     "structure prediction",
     "alphafold",
     "rosettafold",
+    "model refinement",
     "protein inverse folding",
     "geometric deep learning",
     "molecular dynamics",
@@ -43,7 +44,7 @@
       "enabled": true,
       "max_results": 50,
       "email": "recepadiyaman2244@gmail.com",
-      "tool": "GenomeDaily",
+      "tool": "ProteinDesignDigest",
       "api_key": ""
     },
     "rss": {
@@ -55,16 +56,8 @@
           "url": "http://feeds.nature.com/nbt/rss/current"
         },
         {
-          "name": "Nature Methods",
-          "url": "http://feeds.nature.com/nmeth/rss/current"
-        },
-        {
-          "name": "Nature Machine Intelligence",
-          "url": "http://feeds.nature.com/natmachintell/rss/current"
-        },
-        {
-          "name": "PLOS Comp Biol",
-          "url": "http://journals.plos.org/ploscompbiol/feed/atom"
+          "name": "Bioinformatics",
+          "url": "https://academic.oup.com/rss/site/5201/3041.xml"
         }
       ]
     },
@@ -77,48 +70,67 @@
     "enabled": true,
     "max_items": 3,
     "keywords": [
-      "artificial intelligence",
-      "machine learning",
-      "foundation model",
-      "large language model",
-      "generative",
-      "transformer",
-      "neural network"
+      "biotech",
+      "drug discovery",
+      "protein",
+      "design",
+      "alphafold",
+      "structural"
     ],
     "feeds": [
       {
-        "name": "AI News",
-        "url": "http://feeds.feedburner.com/artificial-intelligence-news"
+        "name": "Google NewsAI Biotech",
+        "url": "https://news.google.com/rss/search?q=AI+biotech+protein+design+structure&hl=en-US&gl=US&ceid=US:en"
       }
     ]
   },
   "dataset_pool": [
     {
-      "title": "Add a dataset you like",
-      "summary": "Short one-line description of why this dataset matters.",
-      "link": "https://example.com/dataset"
+      "title": "Protein Data Bank (PDB)",
+      "summary": "The single global archive for macromolecular structure data.",
+      "link": "https://www.rcsb.org/"
+    },
+    {
+      "title": "CATH / Gene3D",
+      "summary": "Hierarchical classification of protein domain structures.",
+      "link": "https://www.cathdb.info/"
+    },
+    {
+      "title": "AlphaFold Protein Structure Database",
+      "summary": "Over 200 million predicted protein structures from DeepMind.",
+      "link": "https://alphafold.ebi.ac.uk/"
     }
   ],
   "tool_pool": [
     {
-      "title": "Add a tool you like",
-      "summary": "Short one-line description of what it does.",
-      "link": "https://example.com/tool"
+      "title": "PyMOL",
+      "summary": "The gold standard for molecular visualization and analysis.",
+      "link": "https://pymol.org/"
+    },
+    {
+      "title": "Chai-1",
+      "summary": "A multi-modal foundation model for molecular structure prediction.",
+      "link": "https://github.com/chaidiscovery/chai-lab"
+    },
+    {
+      "title": "Boltz-1",
+      "summary": "Open-source biomolecular structure prediction model.",
+      "link": "https://github.com/jwohlwend/boltz"
     }
   ],
   "community": {
     "events": [
       {
-        "title": "Submit your event",
-        "date": "YYYY-MM-DD",
-        "link": "mailto:recepadiyaman2244@gmail.com"
+        "title": "Join our Protein Design Community",
+        "date": "Ongoing",
+        "link": "https://www.linkedin.com/in/recep-ad%C4%B1yaman/"
       }
     ],
     "jobs": [
       {
-        "title": "Hiring? Send your role",
-        "org": "Your org",
-        "link": "mailto:recepadiyaman2244@gmail.com"
+        "title": "Senior Scientist, Protein Design",
+        "org": "InstaDeep",
+        "link": "https://www.instadeep.com/careers/"
       }
     ]
   },
@@ -126,11 +138,15 @@
     {
       "text": "The protein structure is the language of life; design is its poetry.",
       "source": "Recep Adiyaman"
+    },
+    {
+      "text": "Deep learning is not a magic wand, but a powerful lens for structural biology.",
+      "source": "Recep Adiyaman"
     }
   ],
-  "manage_prefs_link": "https://example.com/preferences",
-  "subscribe_link": "https://recep2244.github.io/portfolio/newsletter/",
-  "unsubscribe_link": "https://example.com/unsubscribe",
-  "sender_address": "Recep Adiyaman",
-  "user_agent": "GenomeDaily/1.0 (contact: recepadiyaman2244@gmail.com)"
+  "manage_prefs_link": "https://recep2244.github.io/portfolio/#newsletter",
+  "subscribe_link": "https://recep2244.github.io/portfolio/#newsletter",
+  "unsubscribe_link": "https://recep2244.github.io/portfolio/#contact",
+  "sender_address": "Recep Adiyaman | Reading, UK",
+  "user_agent": "ProteinDesignDigest/1.0 (contact: recepadiyaman2244@gmail.com)"
 }
