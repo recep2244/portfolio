@@ -524,15 +524,28 @@ def keyword_score(text, keywords, weight):
 
 
 def score_paper(paper, keywords):
-    # Base score from user keywords
-    title_score = keyword_score(paper.title, keywords, 3)
-    summary_score = keyword_score(paper.summary, keywords, 1)
+    # Core focus areas: Protein Design, Protein Engineering, Structural Biology
+    # We want to ensure the paper is actually about these fields.
+    core_bio_keywords = ["protein", "enzyme", "antibody", "binder", "structural biology", "crystallography", "cryo-em", "nmr"]
+    
+    title_bio_score = keyword_score(paper.title.lower(), core_bio_keywords, 5)
+    summary_bio_score = keyword_score(paper.summary.lower(), core_bio_keywords, 2)
+    
+    # Base score from specific user keywords (AlphaFold, de novo, etc.)
+    title_kw_score = keyword_score(paper.title.lower(), keywords, 4)
+    summary_kw_score = keyword_score(paper.summary.lower(), keywords, 1)
+    
+    total_bio_score = title_bio_score + summary_bio_score + title_kw_score + summary_kw_score
+    
+    # If it's not actually about proteins/bio, we don't want it, even if it's a great "method"
+    if total_bio_score < 5: 
+        return 0
     
     # Methodology & Tool Boost (User Preference)
-    methods_keywords = ["benchmark", "methodology", "tool", "software", "pipeline", "comparison", "dataset", "server", "algorithm", "protocol"]
-    method_boost = keyword_score(paper.title.lower(), methods_keywords, 6) + keyword_score(paper.summary.lower(), methods_keywords, 2)
+    methods_keywords = ["benchmark", "methodology", "tool", "software", "pipeline", "comparison", "dataset", "server", "algorithm", "protocol", "workflow"]
+    method_boost = keyword_score(paper.title.lower(), methods_keywords, 5) + keyword_score(paper.summary.lower(), methods_keywords, 2)
     
-    return title_score + summary_score + method_boost
+    return total_bio_score + method_boost
 
 
 def summarize_paper(paper):

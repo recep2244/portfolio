@@ -8,10 +8,11 @@
   "max_results_per_source": 50,
   "keywords": [
     "protein structure prediction",
-    "protein engineering",
     "protein design",
-    "de novo design",
-    "enzyme design",
+    "protein engineering",
+    "structural biology",
+    "de novo protein design",
+    "enzyme engineering",
     "benchmark",
     "methodology",
     "ligand interaction",
@@ -84,12 +85,13 @@
     "keywords": [
       "AlphaFold",
       "model architecture",
+      "structural biology",
       "foundational model"
     ],
     "feeds": [
       {
         "name": "AI Biology Research",
-        "url": "https://news.google.com/rss/search?q=%22AlphaFold%22+OR+%22Equivariant+GNN%22+when:3d&hl=en-US&gl=US&ceid=US:en"
+        "url": "https://news.google.com/rss/search?q=%22AlphaFold%22+OR+%22structural+biology%22+OR+%22Equivariant+GNN%22+when:3d&hl=en-US&gl=US&ceid=US:en"
       }
     ]
   },

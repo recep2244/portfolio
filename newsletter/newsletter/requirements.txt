@@ -1,2 +1,7 @@
-# No external dependencies currently required.
-# If you add libraries like feedparser or requests, list them here.
+# Newsletter Pipeline Dependencies
+requests
+tweepy
+python-dotenv
+pyyaml
+feedparser
+beautifulsoup4
