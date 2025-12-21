@@ -57,10 +57,14 @@ Missed a day? Here are the top research signals and tools from the past week, su
     # 1. Top List: The 'Signal' paper from each day
     for issue in issues:
         signal = issue.get('signal', {})
-        day_str = datetime.strptime(issue.get('issue_date'), '%Y-%m-%d').strftime('%A')
-        md += f"### {day_str}: [{signal.get('title')}]({signal.get('link')})\n"
-        md += f"_{signal.get('why_it_matters')}_\n\n"
+        day_date = datetime.strptime(issue.get('issue_date'), '%Y-%m-%d')
+        day_name = day_date.strftime('%A, %b %d')
+        
+        md += f"## 🗓️ {day_name}\n\n"
+        md += f"### [{signal.get('title')}]({signal.get('link')})\n"
+        md += f"#### 🧬 Abstract\n"
         md += f"{signal.get('summary')}\n\n"
+        md += f"> **Why it matters:** {signal.get('why_it_matters')}\n\n"
 
     md += "---\n\n## ⚡ Selected Quick Reads\n\n"
     

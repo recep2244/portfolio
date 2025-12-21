@@ -30,9 +30,11 @@ tags: ["bioinformatics", "newsletter", "research"]
 ## 🚀 Today's Top Signal
 
 ### [{issue.get('signal', {}).get('title')}]({issue.get('signal', {}).get('link')})
-_{issue.get('signal', {}).get('why_it_matters')}_
 
+#### 🧬 Abstract
 {issue.get('signal', {}).get('summary')}
+
+> **Why it matters:** {issue.get('signal', {}).get('why_it_matters')}
 
 ---
 
