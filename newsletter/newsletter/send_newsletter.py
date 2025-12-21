@@ -61,15 +61,12 @@ def build_quick_reads_html(items):
             
         suffix = f" - {note}" if note else ""
         
-        # Truncate very long abstracts for the list view to keep the email readable
-        if len(abstract) > 400:
-            abstract = abstract[:397] + "..."
-            
         rendered.append(
-            f'<li style="margin-bottom:16px;">'
-            f'<div style="font-weight:bold; margin-bottom:4px;"><a href="{link}" style="color:#0b6e4f; text-decoration:none;">{title}</a>{suffix}</div>'
-            f'<div style="font-size:13px; color:#555; line-height:1.4;">{abstract}</div>'
-            f'</li>'
+            f'<div style="margin-bottom:24px; border-bottom:1px solid #f0f0f0; padding-bottom:12px;">'
+            f'<div style="font-weight:bold; font-size:16px; margin-bottom:8px;"><a href="{link}" style="color:#0b6e4f; text-decoration:none;">{title}</a>{suffix}</div>'
+            f'<div style="font-size:14px; color:#444; line-height:1.6; margin-bottom:12px;">{abstract}</div>'
+            f'<div><a href="{link}" style="font-size:12px; font-weight:bold; color:#0b6e4f; text-decoration:none; text-transform:uppercase;">Read Paper &rarr;</a></div>'
+            f'</div>'
         )
     return "\n".join(rendered)
 
@@ -107,14 +104,11 @@ def build_ai_news_html(items):
             continue
         suffix = f" - {note}" if note else ""
         
-        if len(abstract) > 300:
-            abstract = abstract[:297] + "..."
-
         rendered.append(
-            f'<li style="margin-bottom:12px;">'
-            f'<div style="font-weight:bold; margin-bottom:4px;"><a href="{link}" style="color:#0b6e4f; text-decoration:none;">{title}</a>{suffix}</div>'
-            f'<div style="font-size:13px; color:#555; line-height:1.4;">{abstract}</div>'
-            f'</li>'
+            f'<div style="margin-bottom:20px;">'
+            f'<div style="font-weight:bold; font-size:15px; margin-bottom:4px;"><a href="{link}" style="color:#0b6e4f; text-decoration:none;">{title}</a>{suffix}</div>'
+            f'<div style="font-size:13px; color:#555; line-height:1.5;">{abstract}</div>'
+            f'</div>'
         )
     return "\n".join(rendered) if rendered else "<li>No AI news matched today.</li>"
 

@@ -1,189 +1,218 @@
 <!doctype html>
 <html>
 
-<body style="margin:0; padding:0; background:#f4f1ea;">
-  <div style="display:none; max-height:0; overflow:hidden; font-size:1px; line-height:1px; color:#f4f1ea;">
+<head>
+  <style>
+    @media only screen and (max-width: 620px) {
+      .container {
+        width: 100% !important;
+      }
+
+      .content {
+        padding: 20px !important;
+      }
+    }
+  </style>
+</head>
+
+<body style="margin:0; padding:0; background:#f5f7f9; -webkit-font-smoothing:antialiased;">
+  <div style="display:none; max-height:0; overflow:hidden; font-size:1px; line-height:1px; color:#f5f7f9;">
     {{preheader_text}}
   </div>
 
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f4f1ea;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0"
+    style="background:#f5f7f9; padding:40px 10px;">
     <tr>
-      <td align="center" style="padding:24px 12px;">
-        <table role="presentation" width="600" cellspacing="0" cellpadding="0"
-          style="width:600px; max-width:600px; background:#ffffff; border-top:6px solid #0b6e4f; border-collapse:collapse;">
+      <td align="center">
+        <table role="presentation" width="600" class="container" cellspacing="0" cellpadding="0"
+          style="width:600px; max-width:600px; background:#ffffff; border-radius:12px; overflow:hidden; border:1px solid #e1e8ed; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+
+          <!-- Header -->
           <tr>
-            <td style="padding:24px 28px 12px 28px;">
+            <td style="background:#0b2a1f; padding:40px 40px 30px 40px; text-align:center;">
               <div
-                style="font-family:Georgia, 'Times New Roman', serif; font-size:24px; color:#0b2a1f; letter-spacing:0.5px;">
+                style="font-family:'Georgia', serif; font-size:28px; color:#ffffff; font-weight:bold; letter-spacing:0.5px;">
                 {{newsletter_name}}
               </div>
               <div
-                style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#58655f; text-transform:uppercase; letter-spacing:1px; margin-top:6px;">
+                style="font-family:Arial, sans-serif; font-size:14px; color:#a1b4ad; text-transform:uppercase; letter-spacing:2px; margin-top:8px;">
                 {{newsletter_tagline}}
-              </div>
-              <div style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#7a857f; margin-top:8px;">
-                {{issue_date}} | Issue {{issue_number}} | {{edition_time}}
               </div>
             </td>
           </tr>
 
+          <!-- Metadata -->
           <tr>
-            <td style="padding:8px 28px 24px 28px;">
+            <td style="padding:15px 40px; background:#f9fbfa; border-bottom:1px solid #edf2f0; text-align:center;">
               <div
-                style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#0b6e4f; text-transform:uppercase; letter-spacing:1px;">
-                Signal of the day
+                style="font-family:Arial, sans-serif; font-size:12px; color:#58655f; font-weight:bold; text-transform:uppercase; letter-spacing:1px;">
+                {{issue_date}} | Edition #{{issue_number}}
+              </div>
+            </td>
+          </tr>
+
+          <!-- Main Content -->
+          <tr>
+            <td class="content" style="padding:40px 50px;">
+
+              <!-- Signal of the Day -->
+              <div
+                style="font-family:Arial, sans-serif; font-size:12px; color:#0b6e4f; font-weight:bold; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:12px;">
+                🚀 Signal of the Day
               </div>
               <div
-                style="font-family:Georgia, 'Times New Roman', serif; font-size:20px; color:#1c2b26; margin-top:6px;">
+                style="font-family:'Georgia', serif; font-size:24px; line-height:1.3; color:#1c2b26; font-weight:bold; margin-bottom:15px;">
                 {{signal_title}}
               </div>
               <div
-                style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#33423d; line-height:1.5; margin-top:10px;">
+                style="font-family:Arial, sans-serif; font-size:16px; color:#33423d; line-height:1.7; margin-bottom:20px;">
                 {{signal_summary}}
               </div>
-              <div style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#1f2a26; margin-top:10px;">
-                Why it matters: {{signal_why_it_matters}}
+              <div
+                style="background:#f0f7f4; padding:20px; border-left:4px solid #0b6e4f; border-radius:4px; margin-bottom:25px;">
+                <div
+                  style="font-family:Arial, sans-serif; font-size:14px; font-weight:bold; color:#0b6e4f; margin-bottom:5px;">
+                  WHY IT MATTERS</div>
+                <div style="font-family:Arial, sans-serif; font-size:14px; color:#1f2a26; line-height:1.5;">
+                  {{signal_why_it_matters}}</div>
               </div>
-              <div style="margin-top:14px;">
+              <div style="margin-bottom:40px;">
                 <a href="{{signal_link}}"
-                  style="background:#0b6e4f; color:#ffffff; text-decoration:none; padding:12px 16px; border-radius:4px; font-family:Arial, Helvetica, sans-serif; font-size:13px; display:inline-block;">
-                  Read the paper
+                  style="background:#0b6e4f; color:#ffffff; text-decoration:none; padding:16px 32px; border-radius:8px; font-family:Arial, sans-serif; font-size:14px; font-weight:bold; display:inline-block; transition: all 0.3s ease;">
+                  Direct Link to Full Paper &rarr;
                 </a>
               </div>
-            </td>
-          </tr>
 
-          <tr>
-            <td style="padding:8px 28px 20px 28px; border-top:1px solid #e6e2d8;">
-              <div
-                style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#0b6e4f; text-transform:uppercase; letter-spacing:1px; margin-top:10px;">
-                Quick reads
+              <!-- Quick Reads -->
+              <div style="margin-top:50px; padding-top:40px; border-top:2px solid #f0f3f5;">
+                <div
+                  style="font-family:Arial, sans-serif; font-size:12px; color:#0b6e4f; font-weight:bold; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:20px;">
+                  ⚡ Quick Signals
+                </div>
+                <div style="font-family:Arial, sans-serif; font-size:14px; color:#33423d;">
+                  {{quick_reads_html}}
+                </div>
               </div>
-              <ul
-                style="margin:10px 0 0 18px; padding:0; font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#33423d; line-height:1.5;">
-                {{quick_reads_html}}
-              </ul>
-            </td>
-          </tr>
 
-          <tr>
-            <td style="padding:8px 28px 20px 28px; border-top:1px solid #e6e2d8;">
+              <!-- AI News -->
               <div
-                style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#0b6e4f; text-transform:uppercase; letter-spacing:1px; margin-top:10px;">
-                AI news
+                style="margin-top:40px; padding:30px; background:#f8fafc; border-radius:12px; border:1px solid #e2e8f0;">
+                <div
+                  style="font-family:Arial, sans-serif; font-size:12px; color:#64748b; font-weight:bold; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:15px; display:flex; align-items:center;">
+                  🤖 AI in Biotech
+                </div>
+                <div style="font-family:Arial, sans-serif; font-size:14px; color:#1e293b;">
+                  {{ai_news_html}}
+                </div>
               </div>
-              <ul
-                style="margin:10px 0 0 18px; padding:0; font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#33423d; line-height:1.5;">
-                {{ai_news_html}}
-              </ul>
-            </td>
-          </tr>
 
-          <tr>
-            <td style="padding:8px 28px 20px 28px; border-top:1px solid #e6e2d8;">
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
-                <tr>
-                  <td style="width:50%; vertical-align:top; padding-right:10px;">
-                    <div
-                      style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#0b6e4f; text-transform:uppercase; letter-spacing:1px; margin-top:10px;">
-                      Dataset spotlight
-                    </div>
-                    <div
-                      style="font-family:Georgia, 'Times New Roman', serif; font-size:16px; color:#1c2b26; margin-top:6px;">
-                      {{dataset_title}}
-                    </div>
-                    <div
-                      style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#33423d; line-height:1.5; margin-top:6px;">
-                      {{dataset_summary}}
-                    </div>
-                    <div style="margin-top:8px;">
+              <!-- Resources Grid -->
+              <div style="margin-top:50px; border-top:2px solid #f0f3f5; padding-top:40px;">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td style="width:50%; vertical-align:top; padding-right:20px;">
+                      <div
+                        style="font-family:Arial, sans-serif; font-size:12px; color:#0b6e4f; font-weight:bold; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">
+                        📂 Dataset Search
+                      </div>
+                      <div
+                        style="font-family:'Georgia', serif; font-size:18px; color:#1c2b26; font-weight:bold; margin-bottom:8px;">
+                        {{dataset_title}}
+                      </div>
+                      <div
+                        style="font-family:Arial, sans-serif; font-size:13px; color:#4a5568; line-height:1.5; margin-bottom:12px;">
+                        {{dataset_summary}}
+                      </div>
                       <a href="{{dataset_link}}"
-                        style="color:#0b6e4f; text-decoration:none; font-family:Arial, Helvetica, sans-serif; font-size:13px;">
-                        Explore dataset
-                      </a>
-                    </div>
-                  </td>
-                  <td style="width:50%; vertical-align:top; padding-left:10px;">
-                    <div
-                      style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#0b6e4f; text-transform:uppercase; letter-spacing:1px; margin-top:10px;">
-                      Tool of the day
-                    </div>
-                    <div
-                      style="font-family:Georgia, 'Times New Roman', serif; font-size:16px; color:#1c2b26; margin-top:6px;">
-                      {{tool_title}}
-                    </div>
-                    <div
-                      style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#33423d; line-height:1.5; margin-top:6px;">
-                      {{tool_summary}}
-                    </div>
-                    <div style="margin-top:8px;">
+                        style="color:#0b6e4f; font-size:13px; font-weight:bold; text-decoration:none;">Search &rarr;</a>
+                    </td>
+                    <td style="width:50%; vertical-align:top; padding-left:20px;">
+                      <div
+                        style="font-family:Arial, sans-serif; font-size:12px; color:#0b6e4f; font-weight:bold; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">
+                        🛠️ Tool Spotlight
+                      </div>
+                      <div
+                        style="font-family:'Georgia', serif; font-size:18px; color:#1c2b26; font-weight:bold; margin-bottom:8px;">
+                        {{tool_title}}
+                      </div>
+                      <div
+                        style="font-family:Arial, sans-serif; font-size:13px; color:#4a5568; line-height:1.5; margin-bottom:12px;">
+                        {{tool_summary}}
+                      </div>
                       <a href="{{tool_link}}"
-                        style="color:#0b6e4f; text-decoration:none; font-family:Arial, Helvetica, sans-serif; font-size:13px;">
-                        View tool
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+                        style="color:#0b6e4f; font-size:13px; font-weight:bold; text-decoration:none;">Open Tool
+                        &rarr;</a>
+                    </td>
+                  </tr>
+                </table>
+              </div>
 
-          <tr>
-            <td style="padding:8px 28px 20px 28px; border-top:1px solid #e6e2d8;">
+              <!-- Pipeline Tip -->
               <div
-                style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#0b6e4f; text-transform:uppercase; letter-spacing:1px; margin-top:10px;">
-                Pipeline tip
+                style="margin-top:40px; padding:25px; background:#fffcf0; border:1px dashed #e6cc3c; border-radius:8px;">
+                <div
+                  style="font-family:Arial, sans-serif; font-size:12px; color:#856404; font-weight:bold; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">
+                  💡 Pipeline Tip</div>
+                <div style="font-family:Arial, sans-serif; font-size:15px; color:#444; line-height:1.6;">
+                  {{pipeline_tip}}</div>
               </div>
-              <div
-                style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#33423d; line-height:1.5; margin-top:6px;">
-                {{pipeline_tip}}
-              </div>
-            </td>
-          </tr>
 
-          <tr>
-            <td style="padding:8px 28px 24px 28px; border-top:1px solid #e6e2d8;">
-              <div
-                style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#0b6e4f; text-transform:uppercase; letter-spacing:1px; margin-top:10px;">
-                Community board
-              </div>
-              <div
-                style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#33423d; line-height:1.6; margin-top:6px;">
-                Event: <a href="{{event_link}}" style="color:#0b6e4f; text-decoration:none;">{{event_title}}</a> -
-                {{event_date}}<br>
-                Job: <a href="{{job_link}}" style="color:#0b6e4f; text-decoration:none;">{{job_title}}</a> - {{job_org}}
+              <!-- Careers -->
+              <div style="margin-top:50px; border-top:2px solid #f0f3f5; padding-top:40px;">
+                <div
+                  style="font-family:Arial, sans-serif; font-size:12px; color:#0b6e4f; font-weight:bold; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:15px;">
+                  💼 Career Opportunities & Events
+                </div>
+                <div style="font-family:Arial, sans-serif; font-size:14px; color:#33423d; line-height:1.8;">
+                  <strong style="color:#1c2b26;">Featured Event:</strong> <a href="{{event_link}}"
+                    style="color:#0b6e4f; text-decoration:none;">{{event_title}}</a> ({{event_date}})<br>
+                  <strong style="color:#1c2b26;">Job Alert:</strong> <a href="{{job_link}}"
+                    style="color:#0b6e4f; text-decoration:none;">{{job_title}}</a> via {{job_org}}
+                </div>
               </div>
             </td>
           </tr>
 
+          <!-- Quote -->
           <tr>
-            <td style="padding:16px 28px 28px 28px; background:#f9f7f1;">
+            <td style="padding:30px 50px; background:#f8fafc; text-align:center; border-top:1px solid #e2e8f0;">
               <div
-                style="font-family:Georgia, 'Times New Roman', serif; font-size:14px; color:#4a5a53; font-style:italic;">
-                "{{quote}}" - {{quote_source}}
+                style="font-family:'Georgia', serif; font-size:16px; color:#475569; font-style:italic; line-height:1.6;">
+                "{{quote}}"
+              </div>
+              <div
+                style="font-family:Arial, sans-serif; font-size:12px; color:#64748b; margin-top:10px; font-weight:bold; text-transform:uppercase; letter-spacing:1px;">
+                — {{quote_source}}
               </div>
             </td>
           </tr>
 
+          <!-- Footer -->
           <tr>
-            <td style="padding:16px 28px 28px 28px;">
-              <div style="font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#7a857f; line-height:1.5;">
-                You are receiving this because you signed up for {{newsletter_name}} by Recep Adiyaman.<br>
-                <a href="https://www.linkedin.com/in/recep-ad%C4%B1yaman/"
-                  style="color:#0b6e4f; text-decoration:none;">LinkedIn</a> |
-                <a href="https://x.com/RcpAdymn" style="color:#0b6e4f; text-decoration:none;">Twitter</a> |
-                <a href="https://recep2244.github.io/portfolio/"
-                  style="color:#0b6e4f; text-decoration:none;">Website</a><br>
-                <a href="{{manage_prefs_link}}" style="color:#0b6e4f; text-decoration:none;">Manage preferences</a> |
-                <a href="{{unsubscribe_link}}" style="color:#0b6e4f; text-decoration:none;">Unsubscribe</a>
+            <td style="padding:40px 50px; background:#ffffff; text-align:center;">
+              <div style="font-family:Arial, sans-serif; font-size:12px; color:#94a3b8; line-height:2;">
+                You are receiving this intelligence because you subscribed to <strong>{{newsletter_name}}</strong> by
+                Recep Adiyaman.<br>
+                <div style="margin:15px 0;">
+                  <a href="https://www.linkedin.com/in/recep-ad%C4%B1yaman/"
+                    style="color:#64748b; text-decoration:none; margin:0 10px;">LinkedIn</a>
+                  <a href="https://x.com/RcpAdymn"
+                    style="color:#64748b; text-decoration:none; margin:0 10px;">Twitter</a>
+                  <a href="https://recep2244.github.io/portfolio/"
+                    style="color:#64748b; text-decoration:none; margin:0 10px;">Website</a>
+                </div>
+                <div style="margin-top:10px; font-size:11px;">
+                  {{sender_address}}
+                </div>
+                <div style="margin-top:20px;">
+                  <a href="{{manage_prefs_link}}" style="color:#0b6e4f; text-decoration:underline;">Preferences</a>
+                  &nbsp;&bull;&nbsp;
+                  <a href="{{unsubscribe_link}}" style="color:#0b6e4f; text-decoration:underline;">Unsubscribe</a>
+                </div>
               </div>
             </td>
           </tr>
         </table>
-
-        <div style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#8b948f; margin-top:10px;">
-          {{sender_address}}
-        </div>
       </td>
     </tr>
   </table>

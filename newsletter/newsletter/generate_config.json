@@ -105,6 +105,10 @@
       {
         "name": "Google NewsAI Biotech",
         "url": "https://news.google.com/rss/search?q=AI+biotech+protein+design+structure&hl=en-US&gl=US&ceid=US:en"
+      },
+      {
+        "name": "Fierce Biotech AI",
+        "url": "https://www.fiercebiotech.com/rss/biotech/ai"
       }
     ]
   },
@@ -145,16 +149,26 @@
   "community": {
     "events": [
       {
-        "title": "Join our Protein Design Community",
+        "title": "Protein Design Community Hub",
         "date": "Ongoing",
         "link": "https://www.linkedin.com/in/recep-ad%C4%B1yaman/"
       }
     ],
     "jobs": [
       {
-        "title": "Senior Scientist, Protein Design",
-        "org": "InstaDeep",
-        "link": "https://www.instadeep.com/careers/"
+        "title": "Search LinkedIn",
+        "org": "LinkedIn Jobs",
+        "link": "https://www.linkedin.com/jobs/search/?keywords=protein%20design%20bioinformatics"
+      },
+      {
+        "title": "Indeed Careers",
+        "org": "Indeed",
+        "link": "https://www.indeed.com/jobs?q=protein+design+bioinformatics"
+      },
+      {
+        "title": "Nature Careers",
+        "org": "Nature",
+        "link": "https://www.nature.com/naturecareers/jobs/search?q=protein+design"
       }
     ]
   },
