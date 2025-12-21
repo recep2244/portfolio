@@ -155,21 +155,36 @@ def main():
     # but based on baseURL in hugo.yaml:
     base_url = "https://recep2244.github.io/portfolio/newsletter/"
     issue_url = f"{base_url}{issue_date}-issue-{issue_number}/"
+    sub_url = base_url
 
-    tweet_text = f"🧬 Protein Design Digest #{issue_number}\n\nToday's Signal: {signal_title}\n\n#ProteinDesign #StructuralBiology #Bioinformatics"
+    tweet_text = (
+        f"🧬 Protein Design Digest #{issue_number}\n\n"
+        f"Today's Signal: {signal_title}\n\n"
+        f"Read Daily: {issue_url}\n"
+        f"Subscribe: {sub_url}\n\n"
+        f"#ProteinDesign #StructuralBiology #Bioinformatics"
+    )
     
-    # LinkedIn text can be longer
     li_text = (
         f"🧬 Protein Design Digest Edition #{issue_number} is out!\n\n"
         f"Today's Highlight: {signal_title}\n\n"
-        f"Read the full methodology and industry insights here: {issue_url}\n\n"
-        f"#ProteinDesign #StructuralBiology #AI #DrugDiscovery #Bioinformatics #LinkedIn"
+        f"📖 Full Digest: {issue_url}\n"
+        f"📩 Subscribe for dailies: {sub_url}\n\n"
+        f"#ProteinDesign #StructuralBiology #AI #DrugDiscovery #Bioinformatics"
+    )
+
+    wa_text = (
+        f"🧬 *Protein Design Digest #{issue_number} is LIVE!*\n\n"
+        f"Today's Signal: {signal_title}\n\n"
+        f"🔗 *Read Today:* {issue_url}\n"
+        f"✍️ *Subscribe:* {sub_url}\n\n"
+        f"_(Forward this message to your WhatsApp Status!)_"
     )
 
     print(f"Publishing Social for {issue_date}...")
     post_to_twitter(tweet_text, issue_url)
     post_to_linkedin(li_text, issue_url)
-    post_to_whatsapp(f"🧬 Protein Design Digest #{issue_number} is LIVE!", issue_url)
+    post_to_whatsapp(wa_text, issue_url)
 
 if __name__ == "__main__":
     main()
