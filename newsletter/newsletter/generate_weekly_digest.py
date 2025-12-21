@@ -79,10 +79,26 @@ Missed a day? Here are the top research signals and tools from the past week, su
         tool = issue.get('tool')
         dataset = issue.get('dataset')
         
-        if tool and tool.get('title') != "Add a tool":
+        if tool and tool.get('title') not in ["Add a tool", "Add a tool you like"]:
              md += f"- 🛠 **Tool**: [{tool.get('title')}]({tool.get('link')}) - {tool.get('summary')}\n"
-        if dataset and dataset.get('title') != "Add a dataset":
+        if dataset and dataset.get('title') not in ["Add a dataset", "Add a dataset you like"]:
              md += f"- 💾 **Dataset**: [{dataset.get('title')}]({dataset.get('link')}) - {dataset.get('summary')}\n"
+
+    # 4. AI News
+    ai_news_items = []
+    for issue in issues:
+        ai_news_items.extend(issue.get('ai_news', []))
+    
+    if ai_news_items:
+        md += "\n---\n\n## 🤖 AI in Biology Recap\n\n"
+        # Dedupe by title
+        seen_ai = set()
+        count = 0
+        for item in ai_news_items:
+            if item.get('title') not in seen_ai and count < 10:
+                md += f"- **[{item.get('title')}]({item.get('link')})**: {item.get('abstract')}\n"
+                seen_ai.add(item.get('title'))
+                count += 1
 
     md += "\n---\n\n_Enjoyed this digest? Subscribe above to get these dailies in your inbox every morning._\n"
     

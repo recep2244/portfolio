@@ -74,8 +74,17 @@ def parse_rss_date(value, timezone):
         return parse_date(value, timezone)
 
 
+def clean_text(text):
+    if not text:
+        return ""
+    # Strip HTML tags
+    clean = re.sub(r'<[^>]*>', ' ', text)
+    # Normalize whitespace
+    clean = re.sub(r'\s+', ' ', clean).strip()
+    return clean
+
 def first_sentence(text, limit=320):
-    cleaned = re.sub(r"\s+", " ", text or "").strip()
+    cleaned = clean_text(text)
     if not cleaned:
         return ""
     parts = re.split(r"(?<=[.!?])\s+", cleaned)
@@ -521,7 +530,7 @@ def score_paper(paper, keywords):
 
 
 def summarize_paper(paper):
-    summary = first_sentence(paper.summary)
+    summary = clean_text(paper.summary)
     if not summary:
         summary = "No abstract available."
     return summary
@@ -568,7 +577,7 @@ def format_item(paper):
         "title": paper.title,
         "note": f"{paper.source} - {paper.published.date().isoformat()}",
         "link": paper.link,
-        "abstract": paper.summary,
+        "abstract": clean_text(paper.summary),
     }
 
 
@@ -784,7 +793,7 @@ def build_issue(config, issue_date, timezone):
         ),
         "signal": {
             "title": signal_paper.title,
-            "summary": signal_summary,
+            "summary": clean_text(signal_paper.summary),
             "why_it_matters": why_it_matters(signal_paper),
             "link": signal_paper.link,
         },
@@ -794,13 +803,14 @@ def build_issue(config, issue_date, timezone):
         "ai_news": ai_news,
         "dataset": dataset,
         "tool": tool,
-        "pipeline_tip": pick_pool_item([
-            "Pin reference genomes by checksum to avoid version drift.",
-            "Use local MSA generation to bypass speed bottlenecks in structure prediction.",
-            "Always validate pLDDT scores before using AlphaFold models for docking.",
-            "Normalise thermal B-factors when comparing different crystal structures.",
-            "Use GPU-accelerated MD refinement to lift model quality in under 2 hours."
-        ], day_index, "Use versioned containers for reproducible protein design."),
+        "pipeline_tip": pick_pool_item(
+            config.get("pipeline_tips", [
+                "Pin reference genomes by checksum to avoid version drift.",
+                "Use local MSA generation to bypass speed bottlenecks in structure prediction."
+            ]),
+            day_index,
+            "Use versioned containers for reproducible protein design."
+        ),
         "community": {
             "event": event,
             "job": job,
