@@ -21,7 +21,7 @@ def format_markdown(issue):
 title: "{safe_title}"
 date: {date_str}
 description: "{safe_description}"
-author: "Genome Daily"
+author: "Protein Design Digest"
 tags: ["bioinformatics", "newsletter", "research"]
 ---
 

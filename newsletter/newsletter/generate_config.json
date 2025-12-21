@@ -1,9 +1,9 @@
 {
-  "newsletter_name": "Genome Daily",
-  "newsletter_tagline": "Bioinformatics signals, every morning",
-  "preheader_text": "Top signal, quick reads, and a pipeline tip in under 4 minutes.",
+  "newsletter_name": "Protein Design Digest",
+  "newsletter_tagline": "Curated protein signals by Recep Adiyaman",
+  "preheader_text": "Top design signals, quick reads, and pipeline tips from Recep Adiyaman.",
   "edition_time": "04:00 UK",
-  "subject_prefix": "Genome Daily",
+  "subject_prefix": "Protein Design Digest",
   "lookback_days": 7,
   "max_results_per_source": 50,
   "keywords": [
@@ -124,8 +124,8 @@
   },
   "quotes": [
     {
-      "text": "Data is the signal, models are the instruments.",
-      "source": "Genome Daily"
+      "text": "The protein structure is the language of life; design is its poetry.",
+      "source": "Recep Adiyaman"
     }
   ],
   "manage_prefs_link": "https://example.com/preferences",

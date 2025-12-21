@@ -1,7 +1,7 @@
 ---
-title: "Genome Daily"
-description: "Your briefing on protein engineering, AI structure prediction, and drug discovery."
-eyebrow: "Research Signals"
+title: "Protein Design Digest"
+description: "Specialized research signals in protein design and bioinformatics, curated by Recep Adiyaman."
+eyebrow: "Protein Design"
 
 ---
 
