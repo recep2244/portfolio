@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscribe - Protein Design Digest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #0f172a;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #334155;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            color: #475569;
+        }
+
+        input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #0284c7;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.4);
+        }
+
+        .success {
+            background: #d1fae5;
+            border: 2px solid #10b981;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            color: #065f46;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #0ea5e9;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🧬 Subscribe to Protein Design Digest</h1>
+        <p class="subtitle">Daily curated signals from arXiv, PubMed, and BioRxiv by Recep Adiyaman</p>
+
+        <form action="https://formsubmit.co/recepadiyaman2244@gmail.com" method="POST">
+            <!-- FormSubmit Configuration -->
+            <input type="hidden" name="_next" value="https://recep2244.github.io/portfolio/subscribe-success.html">
+            <input type="hidden" name="_subject" value="New Protein Digest Subscriber!">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="box">
+
+            <div class="form-group">
+                <label for="name">First Name</label>
+                <input type="text" id="name" name="name" placeholder="John" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="john@example.com" required>
+            </div>
+
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="frequency" value="daily" checked>
+                    <span>Daily Papers</span>
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="frequency" value="weekly">
+                    <span>Weekly Digest</span>
+                </label>
+            </div>
+
+            <button type="submit">Subscribe Free</button>
+        </form>
+
+        <a href="https://recep2244.github.io/portfolio/" class="back-link">← Back to Portfolio</a>
+    </div>
+</body>
+
+</html>
