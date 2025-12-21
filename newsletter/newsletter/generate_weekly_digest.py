@@ -31,14 +31,14 @@ def generate_digest_md(issues, start_date, end_date):
     
     date_range_str = f"{start_date.strftime('%b %d')} - {end_date.strftime('%b %d, %Y')}"
     title = f"Weekly Digest: {date_range_str}"
-    description = f"A curated summary of the top bioinformatics signals from {date_range_str}."
+    description = f"A curated summary of the top protein engineering and structure prediction signals from {date_range_str}."
     
     md = f"""---
 title: "{title}"
 date: {datetime.now().strftime('%Y-%m-%d')}
 description: "{description}"
-author: "Genome Daily"
-tags: ["weekly", "digest", "bioinformatics"]
+author: "Protein Design Digest"
+tags: ["weekly", "digest", "protein-design"]
 ---
 
 {{{{< newsletter >}}}}
