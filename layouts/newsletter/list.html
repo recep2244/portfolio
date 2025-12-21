@@ -1,53 +1,56 @@
 {{ define "main" }}
-<div class="min-h-screen bg-slate-950 pt-32 pb-20 relative overflow-hidden">
-    <div class="absolute -left-16 top-10 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute right-10 bottom-10 w-96 h-96 bg-teal-500/10 rounded-full blur-[120px] pointer-events-none">
+<div class="min-h-screen bg-white pt-32 pb-20 relative overflow-hidden">
+    <!-- Soft Glassy Accents -->
+    <div class="absolute -left-16 top-10 w-96 h-96 bg-blue-50/50 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute right-10 bottom-10 w-96 h-96 bg-teal-50/50 rounded-full blur-[100px] pointer-events-none">
     </div>
 
-    <div class="container mx-auto px-6">
-
-        <!-- Header & Subscription Form -->
-        <div class="max-w-4xl mx-auto mb-20 text-center relative z-10">
+    <div class="container mx-auto px-6 relative z-10">
+        <header class="max-w-4xl mx-auto mb-16 text-center">
             <span
-                class="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest uppercase bg-blue-500/10 text-blue-400 rounded-full border border-blue-500/20 animate-fade-in-down">
-                {{ .Params.eyebrow | default "Daily Briefing" }}
+                class="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest uppercase bg-blue-50 text-blue-600 rounded-full border border-blue-100 italic">
+                {{ .Params.eyebrow | default "Daily Research Signals" }}
             </span>
-            <h1 class="text-4xl md:text-7xl font-black text-white mb-8 leading-tight tracking-tight">{{ .Title }}</h1>
-            <p class="text-xl text-slate-400 mb-12 max-w-2xl mx-auto font-medium leading-relaxed">{{ .Description }}</p>
+            <h1 class="text-5xl md:text-7xl font-black text-slate-900 mb-8 leading-tight tracking-tight">
+                {{ .Title }}
+            </h1>
+            <p class="text-xl text-slate-500 mb-12 max-w-2xl mx-auto font-medium leading-relaxed italic">
+                {{ .Description }}
+            </p>
 
-            <!-- Social Links -->
-            <div class="flex flex-wrap justify-center gap-4 mb-16">
+            <!-- Interactive Social Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto mb-16">
                 <a href="https://www.linkedin.com/in/recep-ad%C4%B1yaman/" target="_blank"
-                    class="group flex items-center gap-3 px-6 py-3 bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 hover:border-blue-500/50 transition-all duration-300">
+                    class="group flex items-center justify-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-1">
                     <span
-                        class="w-8 h-8 flex items-center justify-center bg-blue-600 rounded-lg text-white font-black text-xs">IN</span>
-                    <span class="text-sm font-bold text-slate-300 group-hover:text-white">LinkedIn</span>
+                        class="w-10 h-10 flex items-center justify-center bg-blue-600 rounded-xl text-white font-black text-xs shadow-lg shadow-blue-200">IN</span>
+                    <span class="text-sm font-bold text-slate-700 group-hover:text-blue-600">Connect</span>
                 </a>
                 <a href="https://x.com/RcpAdymn" target="_blank"
-                    class="group flex items-center gap-3 px-6 py-3 bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 hover:border-slate-600 transition-all duration-300">
+                    class="group flex items-center justify-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-slate-300 transition-all duration-300 transform hover:-translate-y-1">
                     <span
-                        class="w-8 h-8 flex items-center justify-center bg-white text-black rounded-lg font-black text-xs">X</span>
-                    <span class="text-sm font-bold text-slate-300 group-hover:text-white">Twitter</span>
+                        class="w-10 h-10 flex items-center justify-center bg-slate-900 rounded-xl text-white font-black text-xs shadow-lg">X</span>
+                    <span class="text-sm font-bold text-slate-700 group-hover:text-slate-900">Follow</span>
                 </a>
-                <a href="https://recep2244.github.io/portfolio/" target="_blank"
-                    class="group flex items-center gap-3 px-6 py-3 bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 hover:border-teal-500/50 transition-all duration-300">
+                <a href="mailto:recepadiyaman2244@gmail.com"
+                    class="group flex items-center justify-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-teal-200 transition-all duration-300 transform hover:-translate-y-1">
                     <span
-                        class="w-8 h-8 flex items-center justify-center bg-teal-500 rounded-lg text-white font-black text-xs">W</span>
-                    <span class="text-sm font-bold text-slate-300 group-hover:text-white">Portfolio</span>
+                        class="w-10 h-10 flex items-center justify-center bg-teal-600 rounded-xl text-white font-black text-xs shadow-lg shadow-teal-200">@</span>
+                    <span class="text-sm font-bold text-slate-700 group-hover:text-teal-600">Collaborate</span>
                 </a>
             </div>
 
-            <div class="glass-card bg-slate-900/40 border-slate-800 p-8 md:p-12 mb-12 max-w-2xl mx-auto rounded-3xl">
+            <div
+                class="bg-slate-50 border border-slate-100 p-8 md:p-12 mb-12 max-w-3xl mx-auto rounded-[2rem] shadow-inner">
                 {{ .Content }}
             </div>
-        </div>
+        </header>
 
-        <!-- Past Issues Section -->
         <div class="max-w-5xl mx-auto">
-            <div class="flex items-center justify-between mb-10 border-b pb-6 border-slate-800">
-                <h2 class="text-3xl font-black text-white">Archives</h2>
+            <div class="flex items-center justify-between mb-10 border-b pb-6 border-slate-100">
+                <h2 class="text-3xl font-black text-slate-900">Weekly Archive</h2>
                 <span
-                    class="px-4 py-1 bg-slate-900 rounded-full border border-slate-800 text-sm text-slate-400 font-bold tracking-tight">{{
+                    class="px-5 py-2 bg-white rounded-full border border-slate-100 text-sm text-slate-500 font-bold shadow-sm underline underline-offset-4 decoration-blue-200">{{
                     len .Pages }} editions</span>
             </div>
 
@@ -55,38 +58,45 @@
                 {{ range .Pages.ByDate.Reverse }}
                 <a href="{{ .RelPermalink }}" class="block group">
                     <article
-                        class="glass-card bg-slate-900/40 border-slate-800/60 hover:border-blue-500/30 hover:bg-slate-900/60 hover:-translate-y-1 transition-all duration-300 p-8 flex flex-col md:flex-row gap-8 items-start rounded-3xl">
+                        class="bg-white border border-slate-100 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-100 hover:-translate-y-2 transition-all duration-500 p-8 md:p-10 flex flex-col md:flex-row gap-10 items-start rounded-[2.5rem] relative overflow-hidden">
+                        <div
+                            class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-50/50 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+
                         <div class="flex-shrink-0">
                             <div
-                                class="bg-blue-600/10 px-4 py-2 rounded-2xl border border-blue-500/20 text-center min-w-[70px]">
-                                <span class="block text-xs uppercase font-black text-blue-400 tracking-widest mb-1">{{
+                                class="bg-blue-50 px-6 py-4 rounded-3xl border border-blue-100 text-center min-w-[90px] group-hover:bg-blue-600 group-hover:border-blue-600 transition-colors duration-300 shadow-sm">
+                                <span
+                                    class="block text-xs uppercase font-black text-blue-600 tracking-widest mb-1 group-hover:text-white">{{
                                     .Date.Format "Jan" }}</span>
-                                <span class="block text-3xl font-black text-white leading-none">{{ .Date.Format "02"
-                                    }}</span>
+                                <span
+                                    class="block text-4xl font-black text-slate-900 leading-none group-hover:text-white">{{
+                                    .Date.Format "02" }}</span>
                             </div>
                         </div>
                         <div class="flex-grow">
                             <div class="flex flex-wrap gap-2 mb-4">
                                 {{ range .Params.tags }}
                                 <span
-                                    class="px-3 py-1 bg-slate-800 text-slate-400 text-[10px] rounded-lg font-black uppercase tracking-widest border border-slate-700/50">{{
+                                    class="px-4 py-1.5 bg-slate-50 text-slate-400 text-[10px] rounded-full font-black uppercase tracking-widest border border-slate-100 group-hover:bg-blue-50 group-hover:text-blue-500 group-hover:border-blue-100 transition-colors">{{
                                     . }}</span>
                                 {{ end }}
                             </div>
                             <h3
-                                class="text-2xl font-black text-white group-hover:text-blue-400 transition-colors mb-4 leading-tight">
+                                class="text-3xl font-black text-slate-900 group-hover:text-blue-600 transition-colors mb-4 italic leading-tight">
                                 {{ .Title }}
                             </h3>
-                            <p class="text-slate-400 line-clamp-2 text-base leading-relaxed mb-6 font-medium">
+                            <p class="text-slate-500 line-clamp-2 text-lg leading-relaxed mb-8 font-medium italic">
                                 {{ .Description | default .Summary }}
                             </p>
                             <div
-                                class="flex items-center gap-2 text-blue-400 font-black text-sm uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-10px] group-hover:translate-x-0">
-                                Read Digest
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                        d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                                </svg>
+                                class="flex items-center gap-3 text-blue-600 font-black text-sm uppercase tracking-widest">
+                                EXPLORE DIGEST
+                                <div class="w-12 h-1 bg-blue-100 rounded-full overflow-hidden">
+                                    <div
+                                        class="w-full h-full bg-blue-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </article>
