@@ -21,26 +21,14 @@ disableKinds:
 
 menu:
   main:
-    - identifier: vision
-      name: Vision
-      url: "/vision/"
-      weight: 5
     - identifier: about
       name: About
       url: "/#about"
       weight: 10
     - identifier: work
-      name: Work
+      name: Experience
       url: "/#work"
       weight: 20
-    - identifier: education
-      name: Education
-      url: "/#education"
-      weight: 25
-    - identifier: skills
-      name: Skills
-      url: "/#skills"
-      weight: 30
     - identifier: publications
       name: Publications
       url: "/#publications"
@@ -50,26 +38,10 @@ menu:
       url: "/#opensource"
       weight: 42
     - identifier: newsletter
-      name: Newsletter
+      name: Digest
       url: "/#newsletter"
       weight: 44
-    - identifier: blog
-      name: Blog
-      url: "/#blog"
-      weight: 45
-    - identifier: updates
-      name: Updates
-      url: "/#twitter"
-      weight: 46
-    - identifier: podcasts
-      name: Podcasts
-      url: "/#podcasts"
-      weight: 48
     - identifier: contact
       name: Contact
       url: "/#contact"
       weight: 50
-    - identifier: cv
-      name: CV
-      url: "/cv/"
-      weight: 60
