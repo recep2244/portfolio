@@ -21,7 +21,7 @@ Click **Save** if you made changes.
 Go to: **https://github.com/recep2244/portfolio/actions**
 
 Look for:
-- Workflow named "Deploy Hugo to GitHub Pages"
+- Workflow named "Deploy Hugo site to Pages"
 - Green checkmark ✅ (success) or red X ❌ (failure)
 
 **If you see a red X:**
@@ -35,14 +35,14 @@ Look for:
 
 **If no workflows ran:**
 - Make sure you pushed to the `main` branch
-- Check that `.github/workflows/deploy.yml` exists in your repository
+- Check that `.github/workflows/hugo.yml` exists in your repository
 
 ### 3. Force Re-run Workflow
 
 If the workflow exists but didn't run:
 
 1. Go to **Actions** tab
-2. Click "Deploy Hugo to GitHub Pages" on the left
+2. Click "Deploy Hugo site to Pages" on the left
 3. Click **Run workflow** button (top right)
 4. Select `main` branch
 5. Click green **Run workflow** button
@@ -66,7 +66,7 @@ Even after deployment succeeds:
 ```bash
 ls .github/workflows/
 ```
-Should show: `deploy.yml`, `hugo.yml`, `static.yml`
+Should show: `hugo.yml`, `daily_newsletter.yml`
 
 ### Check if site builds locally:
 ```bash

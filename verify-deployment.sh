@@ -19,10 +19,12 @@ echo ""
 
 # Check 2: Verify workflow files exist
 echo "✓ Checking GitHub Actions workflows..."
-if [ -f ".github/workflows/deploy.yml" ]; then
-    echo "  ✅ deploy.yml exists"
+if [ -f ".github/workflows/hugo.yml" ]; then
+    echo "  ✅ hugo.yml exists"
+elif [ -f ".github/workflows/deploy.yml" ]; then
+    echo "  ⚠️  deploy.yml found (expected hugo.yml)"
 else
-    echo "  ❌ deploy.yml NOT FOUND"
+    echo "  ❌ No Pages workflow found (.github/workflows/hugo.yml)"
 fi
 echo ""
 
@@ -65,6 +67,20 @@ else
 fi
 echo ""
 
+# Check 6: Verify live site status
+echo "✓ Checking live site..."
+if command -v curl &> /dev/null; then
+    HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL")
+    if [ "$HTTP_STATUS" = "200" ]; then
+        echo "  ✅ Site responds with HTTP 200"
+    else
+        echo "  ⚠️  Site responds with HTTP $HTTP_STATUS (not live yet)"
+    fi
+else
+    echo "  ⚠️  curl not found, skipping live check"
+fi
+echo ""
+
 # Summary
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "📋 DEPLOYMENT CHECKLIST:"
@@ -79,7 +95,7 @@ echo "  2. Under 'Source', select: GitHub Actions"
 echo "  3. Click Save"
 echo ""
 echo "  4. Go to: https://github.com/recep2244/portfolio/actions"
-echo "  5. Check if workflow 'Deploy Hugo to GitHub Pages' ran"
+echo "  5. Check if workflow 'Deploy Hugo site to Pages' ran"
 echo "  6. If not, click 'Run workflow' button"
 echo ""
 echo "  7. Wait 2 minutes, then visit:"

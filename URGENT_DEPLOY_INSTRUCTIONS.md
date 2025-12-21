@@ -25,11 +25,11 @@
 1. **Click this link:** [https://github.com/recep2244/portfolio/actions](https://github.com/recep2244/portfolio/actions)
 
 2. **Look for the workflow:**
-   - You should see "Deploy Hugo to GitHub Pages" in the list
+   - You should see "Deploy Hugo site to Pages" in the list
    - It should have run automatically from your latest push
    
 3. **If no workflow appears or it failed:**
-   - Click "Deploy Hugo to GitHub Pages" on the left sidebar
+   - Click "Deploy Hugo site to Pages" on the left sidebar
    - Click the **"Run workflow"** button (top right, green button)
    - Select **"main"** branch
    - Click **"Run workflow"**
@@ -54,7 +54,7 @@ I've verified everything locally:
 
 ```
 ✅ baseURL is correct (https://recep2244.github.io/portfolio/)
-✅ GitHub Actions workflow exists (.github/workflows/deploy.yml)
+✅ GitHub Actions workflow exists (.github/workflows/hugo.yml)
 ✅ npm dependencies configured (package.json + package-lock.json)
 ✅ Hugo build successful (11 pages generated)
 ✅ public/index.html exists
