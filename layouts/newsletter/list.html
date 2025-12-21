@@ -10,35 +10,72 @@
             <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6">{{ .Title }}</h1>
             <p class="text-xl text-slate-600 mb-8">{{ .Description }}</p>
 
-            <div class="glass-card p-2 md:p-8 mb-12">
+            <!-- Social Links -->
+            <div class="flex justify-center gap-6 mb-12">
+                <a href="https://www.linkedin.com/in/recep-ad%C4%B1yaman/" target="_blank"
+                    class="group flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm hover:shadow-md transition-all border border-slate-100">
+                    <span class="text-slate-400 group-hover:text-blue-600 font-bold">in</span>
+                    <span class="text-sm font-semibold text-slate-600">LinkedIn</span>
+                </a>
+                <a href="https://x.com/RcpAdymn" target="_blank"
+                    class="group flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm hover:shadow-md transition-all border border-slate-100">
+                    <span class="text-slate-400 group-hover:text-slate-900 font-bold">X</span>
+                    <span class="text-sm font-semibold text-slate-600">Twitter</span>
+                </a>
+                <a href="https://recep2244.github.io/portfolio/" target="_blank"
+                    class="group flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm hover:shadow-md transition-all border border-slate-100">
+                    <span class="text-slate-400 group-hover:text-teal-600 font-bold">W</span>
+                    <span class="text-sm font-semibold text-slate-600">Portfolio</span>
+                </a>
+            </div>
+
+            <div class="glass-card p-4 md:p-8 mb-12 max-w-2xl mx-auto">
                 {{ .Content }}
             </div>
         </div>
 
         <!-- Past Issues Section -->
         <div class="max-w-5xl mx-auto">
-            <h2 class="text-2xl font-bold text-slate-900 mb-8 border-b pb-4 border-slate-200">Past Issues</h2>
+            <div class="flex items-center justify-between mb-8 border-b pb-4 border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900">Issue Archive</h2>
+                <span class="text-sm text-slate-500 font-medium">{{ len .Pages }} editions total</span>
+            </div>
 
-            <div class="flex flex-col gap-6">
+            <div class="grid gap-6">
                 {{ range .Pages.ByDate.Reverse }}
                 <a href="{{ .RelPermalink }}" class="block group">
                     <article
-                        class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-slate-100 p-6 flex flex-col md:flex-row gap-6 items-start md:items-center">
-                        <div class="flex-shrink-0 w-full md:w-32 text-slate-500 text-sm font-medium">
-                            {{ .Date.Format "Jan 2, 2006" }}
+                        class="glass-card hover:-translate-y-1 hover:shadow-xl transition-all duration-300 p-6 flex flex-col md:flex-row gap-6 items-start">
+                        <div class="flex-shrink-0 pt-1">
+                            <div class="bg-slate-50 px-3 py-1 rounded-lg border border-slate-100 text-center">
+                                <span class="block text-xs uppercase font-bold text-slate-400 tracking-wider">{{
+                                    .Date.Format "Jan" }}</span>
+                                <span class="block text-xl font-black text-slate-900">{{ .Date.Format "02" }}</span>
+                            </div>
                         </div>
                         <div class="flex-grow">
-                            <h3
-                                class="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors mb-2">
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                {{ range .Params.tags }}
+                                <span
+                                    class="px-2 py-0.5 bg-slate-100 text-slate-500 text-[10px] rounded-full font-bold uppercase tracking-wider">{{
+                                    . }}</span>
+                                {{ end }}
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 group-hover:text-accent transition-colors mb-2">
                                 {{ .Title }}
                             </h3>
-                            <p class="text-slate-600 line-clamp-2">
+                            <p class="text-slate-600 line-clamp-2 text-sm">
                                 {{ .Description | default .Summary }}
                             </p>
                         </div>
-                        <div
-                            class="flex-shrink-0 text-blue-600 font-semibold text-sm group-hover:translate-x-1 transition-transform">
-                            Read Issue &rarr;
+                        <div class="flex-shrink-0 self-center">
+                            <div
+                                class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-accent group-hover:text-white transition-all">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
                         </div>
                     </article>
                 </a>
