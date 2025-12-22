@@ -1,0 +1,62 @@
+Protein Design Digest - Monday, December 22, 2025
+Curated protein signals by Recep Adiyaman
+Issue 3 | 04:00 UK
+
+Signal of the day
+Cytotoxicity, apoptosis, molecular docking, and molecular dynamics study of novel compounds of Sulfamide derivatives coupled with DHP scaffolds as potent inhibitors of the MCF-7, A549, SKOV-3, and EA. yh926 carcinoma cells.
+A novel series of dihydropyridine-sulfonyl derivatives (AG-CHO and analogues A1-A7) were synthesized and structurally characterized. Molecular docking demonstrated favorable binding of these compounds to autophagy-associated and cancer-related targets, while molecular dynamics simulations confirmed A5 as the most stable ligand protein interactions. Functional assays in SKOV-3, MCF-7, A549, and EA.hy.926 cells using acridine orange staining and flow cytometry revealed significant autophagy induction. Among all tested compounds AG-CHO emerged as the most potent inducer of autophagy. Notably, derivatives such as A6 and A7 showed selective potency in endothelial cells, whereas A1, A5, and A7 were effective in A549 cells, indicating cell-specific activity. Collectively, this integrated computational and experimental study identifies A5 as the lead compound and highlights dihydropyridine-sulfonyl scaffolds as promising autophagy modulators and potential anticancer candidates for further preclinical development.
+Why it matters: Enhances small-molecule or peptide docking accuracy for targeted drug discovery.
+Read: https://doi.org/10.1016/j.bioorg.2025.109393
+
+Additional signals
+- Meeko: Molecule Parametrization and Software Interoperability for Docking and Beyond. (https://doi.org/10.1021/acs.jcim.5c02271)
+- From sweetener to risk factor: Network toxicology, molecular docking and molecular dynamics reveal the mechanism of aspartame in promoting coronary heart disease. (https://doi.org/10.1016/j.cbi.2025.111876)
+
+Quick reads
+- Enzyme Engineering Database (EnzEngDB): a platform for sharing and interpreting sequence-function relationships across protein engineering campaigns. - Europe PMC - 2025-12-08 (https://doi.org/10.1093/nar/gkaf1142)
+  Abstract: The discovery and engineering of new enzymes is important across the bioeconomy, with diverse applications from foods to pharmaceuticals, sensors to agriculture. However, enzyme engineering, in particular machine learning-guided engineering, is hampered by a lack of data. Currently there exists no database designed to capture and interpret datasets created in this domain, nor are there easy analys...
+- Multi-target exploration of newly synthesized pyrazoline-quinoline derivatives via in vitro screening, QSAR, molecular docking, MD simulations, and DFT analysis. - Europe PMC - 2025-12-11 (https://doi.org/10.1016/j.bioorg.2025.109369)
+  Abstract: The development of multifunctional therapeutic agents remains a promising strategy in modern drug discovery, particularly for diseases associated with oxidative stress, bacterial infections, and cancer progression. In this study, a new series of [5-(substituted phenyl)-3-(substituted phenyl)-4,5-dihydro-pyrazol-1-yl]-(2-methyl-quinolin-4-yl)-methanones (9a-o) has been synthesized and evaluated for...
+- UPLC-Q-TOF/MS-based Spectrum-effect Correlation Combined with Chemometrics and Molecular Docking for Quality Assessment and Screening of Bioactive Components with Hemostatic, Antinociceptive, and Anti-Inflammatory Activities in Liparis nervosa. - Europe PMC - 2025-12-15 (https://doi.org/10.1016/j.jep.2025.121062)
+  Abstract: Ethnopharmacological relevance Liparis nervosa (LN) occurs in Southwest China and is traditionally used as a hemostatic and detoxifying agent; however, the pharmacodynamic basis for its medicinal properties is unclear; this impedes the quality standardization and clinical application of this herb. Aim of the study This study aimed to establish an integrated quality assessment system for LN by comb...
+- Exploring the Mechanism of Platycladi Cacumen in Intervening Androgenetic Alopecia Based on Network Pharmacology, Molecular Docking, and Molecular Dynamics Simulation - Europe PMC - 2025-12-17 (https://doi.org/10.21203/rs.3.rs-8186049/v1)
+  Abstract: Abstract As a traditional hair-growth-promoting herb, Platycladi Cacumen(PC) has a long history of folk application in the field of hair loss improvement. Preliminary modern pharmacological studies have suggested that its active components may exert potential effects by regulating hair follicle-related signaling pathways; however, for androgenetic alopecia (AGA), the exact targets and specific reg...
+- A hardware demonstration of a universal programmable RRAM-based probabilistic computer for molecular docking. - Europe PMC - 2025-12-10 (https://doi.org/10.1038/s41467-025-67309-z)
+  Abstract: Molecular docking is a critical computational strategy in drug discovery, but the diversity of biomolecular structures and flexible binding conformations create an enormous search space that challenges conventional computing. Quantum computing holds promise but remains constrained by scalability, hardware limitations, and precision issues. Here, we report a probabilistic computer (p-computer) prot...
+- Structure-Aware Antibody Design with Affinity-Optimized Inverse Folding - arXiv - 2025-12-19 (http://arxiv.org/abs/2512.17815v1)
+  Abstract: Motivation: The clinical efficacy of antibody therapeutics critically depends on high-affinity target engagement, yet laboratory affinity-maturation campaigns are slow and costly. In computational settings, most protein language models (PLMs) are not trained to favor high-affinity antibodies, and existing preference optimization approaches introduce substantial computational overhead without clear...
+
+AI news
+- A novel DCSTAMP antagonist impedes preosteoclast fusion via modulation of RAP1B–RAC1-mediated cytoskeletal remodeling - Nature - AI Biology Research - 2025-12-22 (https://news.google.com/rss/articles/CBMiX0FVX3lxTE9hQnNnTEVzUC1mQXNXTGhBQndFR0NlSjdyMUFKRlQ4b19CcjNKVjhlMl9ndE8tcXJVcng1Rk5iVmxYc0w4S3FreEJnVUY0NU40NFJfbTUxLXRXNlM3MTRJ?oc=5)
+  Abstract: A novel DCSTAMP antagonist impedes preosteoclast fusion via modulation of RAP1B–RAC1-mediated cytoskeletal remodeling &nbsp;&nbsp; Nature
+
+Dataset spotlight
+PDB-REDO
+Optimized protein structure database with refined models.
+Explore: https://pdb-redo.eu/
+More datasets
+- Protein Data Bank (PDB) (https://www.rcsb.org/)
+
+Tool of the day
+FunFOLD5
+Automated system for protein ligand-binding site prediction and function annotation.
+View: https://www.reading.ac.uk/bioinf/FunFOLD/
+More tools
+- MultiFOLD/IntFOLD (https://www.reading.ac.uk/bioinf/IntFOLD/)
+
+Pipeline tip
+Use Snakemake for reproducible end-to-end protein design workflows.
+
+Community board
+Event: Structural Biology Events - Open (https://www.nature.com/natureconferences/index.html)
+More events
+- Protein Design Hub (LinkedIn Group) (https://www.linkedin.com/groups/16324018/)
+Job: 燃石医学 Burning Rock Biotech hiring Bioinformatics Scientist in Singapore | LinkedIn - LinkedIn Singapore - Bioinformatics Careers (https://news.google.com/rss/articles/CBMiygFBVV95cUxQOHlHeFdtX1F3VWVvSDF5Wkg1YW1yMXFUSmxNVFNZb0hFUUpxbVFWYnpGZThaTEdQZS1BWHFRQkV4ZkJzVlV3QVYzTDFBOUhiLUx6THI4bDFQOE5SSlFGZnQ5Yy02bFNRZU9saTZ4UTFhaGpBdGVObWRyMnZicWZtYVZJczVxVnltMnJSZVFaZmZJa3pJTVYyUTBRc2xVS21GeXlCdGFHdkRCMlpvRUhzTGU4MUJneXJJbWR5Y1pMREtoVkNRQVZ4SV9B?oc=5)
+More jobs
+- Mercor hiring Bioinformatics Scientist $85/hr in United Kingdom - LinkedIn (https://news.google.com/rss/articles/CBMikgFBVV95cUxQTG9LVER4cjdFeHhuVUM2bDhOSFhiYURHd1YwRV9BaTR6cXAxbVNQdmxHSXozYXpZalI2ZkhZRXJDTTZlWmdOOFkwQmJnVWRlaUk4Ni1LZ0VZNGNDRDZQbWpzenA1a3RlMzIwWWtQcGd5UU1FWWoybUhVeDZsMWg0SHpwczRJUC1GNjhzUVlsOXJqQQ?oc=5)
+
+"Deep learning is not a magic wand, but a powerful lens for structural biology." - Recep Adiyaman
+
+Manage preferences: https://recep2244.github.io/portfolio/newsletter/
+Unsubscribe: mailto:recepadiyaman2244@gmail.com?subject=UNSUBSCRIBE%20Protein%20Design%20Digest
+Recep Adiyaman | Reading, UK
