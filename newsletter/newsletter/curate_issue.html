@@ -791,6 +791,8 @@
           return;
         }
         const title = document.getElementById("signalTitle").value.trim();
+        const summary = document.getElementById("signalSummary").value.trim();
+        const paperLink = document.getElementById("signalLink").value.trim();
         const why = document.getElementById("signalWhy").value.trim();
         const issueDate = issue.issue_date || "";
         const issueNumber = issue.issue_number || "";
@@ -799,9 +801,10 @@
         const quickTitles = quick.map((item) => item.title).filter(Boolean).join(" · ");
         const hashtags = "#ProteinDesign #StructuralBiology #Bioinformatics";
 
-        const twitterBase = `🧬 Protein Design Digest #${issueNumber}\n${title}\n${quickTitles}\n${issueUrl}\n${hashtags}`;
-        const blueskyBase = `🧬 Protein Design Digest #${issueNumber}\n${title}\n${quickTitles}\n${issueUrl}\n${hashtags}`;
-        const linkedinBase = `Protein Design Digest #${issueNumber}\n\n${title}\n\nWhy it matters: ${why}\n\nQuick reads: ${quickTitles}\n\nRead: ${issueUrl}\n\n${hashtags}`;
+        const shortSummary = truncateText(summary || why, 140);
+        const twitterBase = `🧬 Protein Design Digest #${issueNumber}\n${title}\n${shortSummary}\nPaper: ${paperLink}\nDaily digest: ${issueUrl}\n${hashtags}`;
+        const blueskyBase = `🧬 Protein Design Digest #${issueNumber}\n${title}\n${shortSummary}\nPaper: ${paperLink}\nDaily digest: ${issueUrl}\n${hashtags}`;
+        const linkedinBase = `Protein Design Digest #${issueNumber}\n\n${title}\n\nSummary: ${shortSummary}\n\nPaper: ${paperLink}\nDaily digest: ${issueUrl}\n\nQuick reads: ${quickTitles}\n\n${hashtags}`;
 
         document.getElementById("socialTwitter").value = truncateText(twitterBase, 280);
         document.getElementById("socialBluesky").value = truncateText(blueskyBase, 300);
