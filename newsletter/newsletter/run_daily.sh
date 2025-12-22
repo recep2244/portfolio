@@ -26,12 +26,23 @@ if [ "$(date +%u)" = "7" ]; then
     --issues-dir "$ROOT_DIR/newsletter/issues"
 fi
 
-python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
-  --issue-date today \
-  --issues-dir "$ROOT_DIR/newsletter/issues" \
-  --subscribers "$ROOT_DIR/newsletter/subscribers.csv" \
-  --template-html "$ROOT_DIR/newsletter/template.html" \
-  --template-text "$ROOT_DIR/newsletter/template.txt"
+if [ -z "${NEWSLETTER_GMAIL_USER:-}" ] || [ -z "${NEWSLETTER_GMAIL_APP_PASSWORD:-}" ]; then
+  echo "Warning: Missing Gmail credentials. Rendering only."
+  python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
+    --issue-date today \
+    --issues-dir "$ROOT_DIR/newsletter/issues" \
+    --subscribers "$ROOT_DIR/newsletter/subscribers.csv" \
+    --template-html "$ROOT_DIR/newsletter/template.html" \
+    --template-text "$ROOT_DIR/newsletter/template.txt" \
+    --render-only
+else
+  python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
+    --issue-date today \
+    --issues-dir "$ROOT_DIR/newsletter/issues" \
+    --subscribers "$ROOT_DIR/newsletter/subscribers.csv" \
+    --template-html "$ROOT_DIR/newsletter/template.html" \
+    --template-text "$ROOT_DIR/newsletter/template.txt" || echo "Warning: send_newsletter failed."
+fi
 
 # 4. Social Publishing (Twitter/LinkedIn)
 echo "📣 Publishing announcement to social media..."
