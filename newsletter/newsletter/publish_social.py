@@ -228,20 +228,27 @@ def main():
     sub_url = base_url
 
     social = issue.get("social", {}) if isinstance(issue, dict) else {}
+    summary = (issue.get("signal", {}) or {}).get("summary", "")
+    summary = (summary or "").strip()
+    if len(summary) > 160:
+        summary = summary[:157].rstrip() + "..."
+
     tweet_text = social.get("twitter") or (
-        f"🧬 Protein Design Digest #{issue_number}\n\n"
-        f"Today's Signal: {signal_title}\n\n"
-        f"Read Daily: {issue_url}\n"
-        f"Subscribe: {sub_url}\n\n"
+        f"🧬 Protein Design Digest #{issue_number}\n"
+        f"{signal_title}\n"
+        f"{summary}\n"
+        f"Paper: {issue.get('signal', {}).get('link', '')}\n"
+        f"Daily digest: {issue_url}\n"
         f"#ProteinDesign #StructuralBiology #Bioinformatics"
     )
     
     li_text = social.get("linkedin") or (
-        f"🧬 Protein Design Digest Edition #{issue_number} is out!\n\n"
-        f"Today's Highlight: {signal_title}\n\n"
-        f"📖 Full Digest: {issue_url}\n"
-        f"📩 Subscribe for dailies: {sub_url}\n\n"
-        f"#ProteinDesign #StructuralBiology #AI #DrugDiscovery #Bioinformatics"
+        f"Protein Design Digest #{issue_number}\n\n"
+        f"{signal_title}\n\n"
+        f"Summary: {summary}\n\n"
+        f"Paper: {issue.get('signal', {}).get('link', '')}\n"
+        f"Daily digest: {issue_url}\n\n"
+        f"#ProteinDesign #StructuralBiology #Bioinformatics"
     )
 
     wa_text = (
