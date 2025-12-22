@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Curate Newsletter Issue</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        background: #f8fafc;
+        color: #0f172a;
+      }
+      .wrap {
+        max-width: 1200px;
+        margin: 32px auto 80px;
+        padding: 0 20px;
+      }
+      h1 {
+        font-size: 28px;
+        margin: 0 0 8px;
+      }
+      h2 {
+        font-size: 20px;
+        margin: 32px 0 12px;
+      }
+      p.help {
+        color: #64748b;
+        margin: 0 0 24px;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+      }
+      .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 12px;
+      }
+      .label {
+        font-size: 12px;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .value {
+        font-weight: 600;
+      }
+      .btn {
+        border: 0;
+        border-radius: 8px;
+        padding: 10px 16px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .btn-primary {
+        background: #0ea5e9;
+        color: #fff;
+      }
+      .btn-secondary {
+        background: #94a3b8;
+        color: #fff;
+      }
+      .btn-primary:disabled {
+        background: #cbd5f5;
+        cursor: not-allowed;
+      }
+      input[type="text"],
+      textarea {
+        width: 100%;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 8px 10px;
+        font-size: 14px;
+      }
+      textarea {
+        min-height: 80px;
+        resize: vertical;
+      }
+      .field {
+        display: grid;
+        gap: 6px;
+      }
+      .form-grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+      .section-items {
+        display: grid;
+        gap: 12px;
+      }
+      .item {
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 12px;
+        background: #fff;
+      }
+      .item-head {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .item-head input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+      }
+      .item-title {
+        flex: 1;
+        font-weight: 600;
+      }
+      .candidate {
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 10px 12px;
+        background: #fff;
+        display: grid;
+        gap: 6px;
+      }
+      .candidate small {
+        color: #64748b;
+      }
+      .section-note {
+        color: #64748b;
+        font-size: 13px;
+        margin-bottom: 12px;
+      }
+      .empty {
+        color: #94a3b8;
+        padding: 12px;
+        border: 1px dashed #cbd5e1;
+        border-radius: 10px;
+        background: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Curate Newsletter Issue</h1>
+      <p class="help">
+        Load an issue JSON file, choose the main signal and items for each section,
+        then download a curated JSON ready for preview/send.
+      </p>
+
+      <div class="controls">
+        <input type="file" id="issueFile" accept=".json" />
+        <button class="btn btn-primary" id="downloadBtn" disabled onclick="downloadCurated()">
+          Download curated JSON
+        </button>
+        <button class="btn btn-secondary" onclick="copyCurated()" id="copyBtn" disabled>
+          Copy JSON
+        </button>
+      </div>
+
+      <div class="card meta-grid" id="issueMeta">
+        <div>
+          <div class="label">Issue Date</div>
+          <div class="value" id="metaDate">-</div>
+        </div>
+        <div>
+          <div class="label">Issue Number</div>
+          <div class="value" id="metaNumber">-</div>
+        </div>
+        <div>
+          <div class="label">Newsletter</div>
+          <div class="value" id="metaName">-</div>
+        </div>
+      </div>
+
+      <h2>Subject &amp; Preheader</h2>
+      <div class="card form-grid">
+        <div class="field">
+          <label class="label" for="subject">Subject</label>
+          <input type="text" id="subject" />
+        </div>
+        <div class="field">
+          <label class="label" for="preheader">Preheader</label>
+          <input type="text" id="preheader" />
+        </div>
+      </div>
+
+      <h2>Main Signal</h2>
+      <p class="section-note">Pick a candidate, then edit the signal details if needed.</p>
+      <div class="section-items" id="signalCandidates"></div>
+      <div class="card form-grid" style="margin-top: 12px;">
+        <div class="field">
+          <label class="label" for="signalTitle">Title</label>
+          <input type="text" id="signalTitle" />
+        </div>
+        <div class="field">
+          <label class="label" for="signalLink">Link</label>
+          <input type="text" id="signalLink" />
+        </div>
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="label" for="signalSummary">Summary</label>
+          <textarea id="signalSummary"></textarea>
+        </div>
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="label" for="signalWhy">Why it matters</label>
+          <textarea id="signalWhy"></textarea>
+        </div>
+      </div>
+
+      <h2>Quick Reads</h2>
+      <div class="section-items" id="quickReads"></div>
+
+      <h2>AI News</h2>
+      <div class="section-items" id="aiNews"></div>
+
+      <h2>Industry News</h2>
+      <div class="section-items" id="industryNews"></div>
+
+      <h2>Resources &amp; Community</h2>
+      <div class="card form-grid">
+        <div class="field">
+          <label class="label" for="datasetTitle">Dataset Title</label>
+          <input type="text" id="datasetTitle" />
+        </div>
+        <div class="field">
+          <label class="label" for="datasetLink">Dataset Link</label>
+          <input type="text" id="datasetLink" />
+        </div>
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="label" for="datasetSummary">Dataset Summary</label>
+          <textarea id="datasetSummary"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="label" for="toolTitle">Tool Title</label>
+          <input type="text" id="toolTitle" />
+        </div>
+        <div class="field">
+          <label class="label" for="toolLink">Tool Link</label>
+          <input type="text" id="toolLink" />
+        </div>
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="label" for="toolSummary">Tool Summary</label>
+          <textarea id="toolSummary"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="label" for="eventTitle">Event Title</label>
+          <input type="text" id="eventTitle" />
+        </div>
+        <div class="field">
+          <label class="label" for="eventDate">Event Date</label>
+          <input type="text" id="eventDate" />
+        </div>
+        <div class="field">
+          <label class="label" for="eventLink">Event Link</label>
+          <input type="text" id="eventLink" />
+        </div>
+
+        <div class="field">
+          <label class="label" for="jobTitle">Job Title</label>
+          <input type="text" id="jobTitle" />
+        </div>
+        <div class="field">
+          <label class="label" for="jobOrg">Job Org</label>
+          <input type="text" id="jobOrg" />
+        </div>
+        <div class="field">
+          <label class="label" for="jobLink">Job Link</label>
+          <input type="text" id="jobLink" />
+        </div>
+      </div>
+
+      <h2>Pipeline Tip</h2>
+      <div class="card field">
+        <label class="label" for="pipelineTip">Tip</label>
+        <textarea id="pipelineTip"></textarea>
+      </div>
+
+      <h2>Quote</h2>
+      <div class="card form-grid">
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="label" for="quoteText">Quote</label>
+          <textarea id="quoteText"></textarea>
+        </div>
+        <div class="field">
+          <label class="label" for="quoteSource">Source</label>
+          <input type="text" id="quoteSource" />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let issue = null;
+      let candidates = [];
+
+      const issueFile = document.getElementById("issueFile");
+      issueFile.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            issue = JSON.parse(e.target.result);
+            renderIssue(issue);
+            document.getElementById("downloadBtn").disabled = false;
+            document.getElementById("copyBtn").disabled = false;
+          } catch (err) {
+            alert("Failed to parse JSON: " + err.message);
+          }
+        };
+        reader.readAsText(file);
+      });
+
+      function renderIssue(data) {
+        document.getElementById("metaDate").textContent = data.issue_date || "-";
+        document.getElementById("metaNumber").textContent = data.issue_number || "-";
+        document.getElementById("metaName").textContent = data.newsletter_name || "-";
+
+        document.getElementById("subject").value = data.subject || "";
+        document.getElementById("preheader").value = data.preheader_text || "";
+
+        const signal = data.signal || {};
+        document.getElementById("signalTitle").value = signal.title || "";
+        document.getElementById("signalLink").value = signal.link || "";
+        document.getElementById("signalSummary").value = signal.summary || "";
+        document.getElementById("signalWhy").value = signal.why_it_matters || "";
+
+        const dataset = data.dataset || {};
+        document.getElementById("datasetTitle").value = dataset.title || "";
+        document.getElementById("datasetLink").value = dataset.link || "";
+        document.getElementById("datasetSummary").value = dataset.summary || "";
+
+        const tool = data.tool || {};
+        document.getElementById("toolTitle").value = tool.title || "";
+        document.getElementById("toolLink").value = tool.link || "";
+        document.getElementById("toolSummary").value = tool.summary || "";
+
+        const event = (data.community || {}).event || {};
+        document.getElementById("eventTitle").value = event.title || "";
+        document.getElementById("eventDate").value = event.date || "";
+        document.getElementById("eventLink").value = event.link || "";
+
+        const job = (data.community || {}).job || {};
+        document.getElementById("jobTitle").value = job.title || "";
+        document.getElementById("jobOrg").value = job.org || "";
+        document.getElementById("jobLink").value = job.link || "";
+
+        document.getElementById("pipelineTip").value = data.pipeline_tip || "";
+
+        const quote = data.quote || {};
+        document.getElementById("quoteText").value = quote.text || "";
+        document.getElementById("quoteSource").value = quote.source || "";
+
+        candidates = buildCandidates(data);
+        renderCandidates(candidates);
+
+        renderSection("quick_reads", data.quick_reads || [], "quickReads");
+        renderSection("ai_news", data.ai_news || [], "aiNews");
+        renderSection("industry_news", data.industry_news || [], "industryNews");
+      }
+
+      function buildCandidates(data) {
+        const list = [];
+        if (data.signal) {
+          list.push({
+            source: "Signal",
+            title: data.signal.title || "",
+            link: data.signal.link || "",
+            summary: data.signal.summary || "",
+            why: data.signal.why_it_matters || "",
+          });
+        }
+        (data.quick_reads || []).forEach((item, idx) => {
+          list.push({
+            source: "Quick Reads",
+            title: item.title || "",
+            link: item.link || "",
+            summary: item.abstract || "",
+            note: item.note || "",
+            index: idx,
+          });
+        });
+        (data.ai_news || []).forEach((item, idx) => {
+          list.push({
+            source: "AI News",
+            title: item.title || "",
+            link: item.link || "",
+            summary: item.abstract || "",
+            note: item.note || "",
+            index: idx,
+          });
+        });
+        (data.industry_news || []).forEach((item, idx) => {
+          list.push({
+            source: "Industry News",
+            title: item.title || "",
+            link: item.link || "",
+            summary: item.abstract || "",
+            note: item.note || "",
+            index: idx,
+          });
+        });
+        return list;
+      }
+
+      function renderCandidates(list) {
+        const container = document.getElementById("signalCandidates");
+        container.innerHTML = "";
+        if (!list.length) {
+          container.innerHTML = '<div class="empty">No candidates loaded.</div>';
+          return;
+        }
+        list.forEach((candidate, idx) => {
+          const card = document.createElement("div");
+          card.className = "candidate";
+          card.innerHTML = `
+            <label>
+              <input type="radio" name="signalCandidate" value="${idx}" />
+              <strong>${escapeHtml(candidate.title || "Untitled")}</strong>
+            </label>
+            <small>${escapeHtml(candidate.source)}</small>
+            <small>${escapeHtml(candidate.note || "")}</small>
+          `;
+          card.querySelector("input").addEventListener("change", () => {
+            applyCandidate(candidate);
+          });
+          container.appendChild(card);
+        });
+      }
+
+      function applyCandidate(candidate) {
+        document.getElementById("signalTitle").value = candidate.title || "";
+        document.getElementById("signalLink").value = candidate.link || "";
+        document.getElementById("signalSummary").value = candidate.summary || "";
+        document.getElementById("signalWhy").value = candidate.why || "";
+      }
+
+      function renderSection(sectionKey, items, containerId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+        if (!items.length) {
+          container.innerHTML = '<div class="empty">No items found for this section.</div>';
+          return;
+        }
+        items.forEach((item, index) => {
+          const card = document.createElement("div");
+          card.className = "item";
+          card.dataset.section = sectionKey;
+          card.dataset.index = String(index);
+          card.innerHTML = `
+            <div class="item-head">
+              <input type="checkbox" class="item-select" checked />
+              <span class="item-title">Include</span>
+            </div>
+            <div class="field">
+              <label class="label">Title</label>
+              <input type="text" class="item-title-input" value="${escapeAttr(item.title || "")}" />
+            </div>
+            <div class="field">
+              <label class="label">Link</label>
+              <input type="text" class="item-link-input" value="${escapeAttr(item.link || "")}" />
+            </div>
+            <div class="field">
+              <label class="label">Note</label>
+              <input type="text" class="item-note-input" value="${escapeAttr(item.note || "")}" />
+            </div>
+            <div class="field">
+              <label class="label">Abstract</label>
+              <textarea class="item-abstract-input">${escapeHtml(item.abstract || "")}</textarea>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      function collectItems(sectionKey, originalItems) {
+        const items = [];
+        document.querySelectorAll(`.item[data-section="${sectionKey}"]`).forEach((card) => {
+          const selected = card.querySelector(".item-select").checked;
+          const title = card.querySelector(".item-title-input").value.trim();
+          const link = card.querySelector(".item-link-input").value.trim();
+          const note = card.querySelector(".item-note-input").value.trim();
+          const abstract = card.querySelector(".item-abstract-input").value.trim();
+          if (!selected) return;
+          items.push({ title, link, note, abstract });
+        });
+        if (!items.length) {
+          return originalItems || [];
+        }
+        return items;
+      }
+
+      function buildCurated() {
+        if (!issue) return null;
+        const curated = JSON.parse(JSON.stringify(issue));
+
+        curated.subject = document.getElementById("subject").value.trim();
+        curated.preheader_text = document.getElementById("preheader").value.trim();
+
+        curated.signal = {
+          title: document.getElementById("signalTitle").value.trim(),
+          link: document.getElementById("signalLink").value.trim(),
+          summary: document.getElementById("signalSummary").value.trim(),
+          why_it_matters: document.getElementById("signalWhy").value.trim(),
+        };
+
+        curated.quick_reads = collectItems("quick_reads", issue.quick_reads);
+        curated.ai_news = collectItems("ai_news", issue.ai_news);
+        curated.industry_news = collectItems("industry_news", issue.industry_news);
+
+        curated.dataset = {
+          title: document.getElementById("datasetTitle").value.trim(),
+          link: document.getElementById("datasetLink").value.trim(),
+          summary: document.getElementById("datasetSummary").value.trim(),
+        };
+        curated.tool = {
+          title: document.getElementById("toolTitle").value.trim(),
+          link: document.getElementById("toolLink").value.trim(),
+          summary: document.getElementById("toolSummary").value.trim(),
+        };
+        curated.community = curated.community || {};
+        curated.community.event = {
+          title: document.getElementById("eventTitle").value.trim(),
+          date: document.getElementById("eventDate").value.trim(),
+          link: document.getElementById("eventLink").value.trim(),
+        };
+        curated.community.job = {
+          title: document.getElementById("jobTitle").value.trim(),
+          org: document.getElementById("jobOrg").value.trim(),
+          link: document.getElementById("jobLink").value.trim(),
+        };
+
+        curated.pipeline_tip = document.getElementById("pipelineTip").value.trim();
+        curated.quote = {
+          text: document.getElementById("quoteText").value.trim(),
+          source: document.getElementById("quoteSource").value.trim(),
+        };
+
+        return curated;
+      }
+
+      function downloadCurated() {
+        const curated = buildCurated();
+        if (!curated) return;
+        const date = curated.issue_date || "issue";
+        const blob = new Blob([JSON.stringify(curated, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `curated-${date}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      function copyCurated() {
+        const curated = buildCurated();
+        if (!curated) return;
+        const payload = JSON.stringify(curated, null, 2);
+        navigator.clipboard.writeText(payload).then(() => {
+          alert("Curated JSON copied to clipboard.");
+        });
+      }
+
+      function escapeHtml(text) {
+        return String(text)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      function escapeAttr(text) {
+        return escapeHtml(text).replace(/"/g, "&quot;");
+      }
+    </script>
+  </body>
+</html>
