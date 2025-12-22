@@ -39,6 +39,13 @@ def fetch_url(url, user_agent):
     with urlopen(req, timeout=30) as resp:
         return resp.read()
 
+def safe_fetch(url, user_agent, label):
+    try:
+        return fetch_url(url, user_agent)
+    except Exception as exc:
+        print(f"Warning: {label} fetch failed: {exc}")
+        return None
+
 
 def ensure_timezone(dt, timezone):
     if dt is None:
@@ -113,10 +120,17 @@ def fetch_arxiv(keywords, max_results, user_agent, timezone):
         "sortOrder": "descending",
     }
     url = "http://export.arxiv.org/api/query?" + urlencode(params)
-    data = fetch_url(url, user_agent).decode("utf-8")
+    raw_data = safe_fetch(url, user_agent, "arXiv")
+    if not raw_data:
+        return []
+    try:
+        data = raw_data.decode("utf-8")
+        root = ET.fromstring(data)
+    except Exception as exc:
+        print(f"Warning: arXiv parse failed: {exc}")
+        return []
 
     ns = {"atom": "http://www.w3.org/2005/Atom"}
-    root = ET.fromstring(data)
     papers = []
     for entry in root.findall("atom:entry", ns):
         title = (entry.findtext("atom:title", default="", namespaces=ns) or "").strip()
@@ -169,7 +183,14 @@ def fetch_europe_pmc(keywords, start_date, end_date, page_size, user_agent, time
         "resultType": "core",
     }
     url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search?" + urlencode(params)
-    data = json.loads(fetch_url(url, user_agent).decode("utf-8"))
+    raw_data = safe_fetch(url, user_agent, "Europe PMC")
+    if not raw_data:
+        return []
+    try:
+        data = json.loads(raw_data.decode("utf-8"))
+    except Exception as exc:
+        print(f"Warning: Europe PMC parse failed: {exc}")
+        return []
     results = data.get("resultList", {}).get("result", [])
     papers = []
     for result in results:
@@ -277,7 +298,14 @@ def fetch_pubmed(keywords, start_date, end_date, max_results, user_agent, timezo
         params["api_key"] = api_key
 
     url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?" + urlencode(params)
-    data = json.loads(fetch_url(url, user_agent).decode("utf-8"))
+    raw_data = safe_fetch(url, user_agent, "PubMed search")
+    if not raw_data:
+        return []
+    try:
+        data = json.loads(raw_data.decode("utf-8"))
+    except Exception as exc:
+        print(f"Warning: PubMed search parse failed: {exc}")
+        return []
     id_list = data.get("esearchresult", {}).get("idlist", [])
     if not id_list:
         return []
@@ -299,8 +327,12 @@ def fetch_pubmed(keywords, start_date, end_date, max_results, user_agent, timezo
             "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?"
             + urlencode(fetch_params)
         )
-        xml_data = fetch_url(fetch_url_str, user_agent)
-        root = ET.fromstring(xml_data)
+        try:
+            xml_data = fetch_url(fetch_url_str, user_agent)
+            root = ET.fromstring(xml_data)
+        except Exception as exc:
+            print(f"Warning: PubMed fetch parse failed: {exc}")
+            continue
         for article in root.findall(".//PubmedArticle"):
             title = element_text(article.find(".//ArticleTitle"))
             abstract_nodes = article.findall(".//AbstractText")
@@ -352,7 +384,14 @@ def fetch_biorxiv(keywords, start_date, end_date, max_results, user_agent, timez
             f"https://api.biorxiv.org/details/{server}/"
             f"{start_date}/{end_date}/{cursor}"
         )
-        data = json.loads(fetch_url(url, user_agent).decode("utf-8"))
+        raw_data = safe_fetch(url, user_agent, source_name)
+        if not raw_data:
+            break
+        try:
+            data = json.loads(raw_data.decode("utf-8"))
+        except Exception as exc:
+            print(f"Warning: {source_name} parse failed: {exc}")
+            break
         collection = data.get("collection", [])
         if not collection:
             break
