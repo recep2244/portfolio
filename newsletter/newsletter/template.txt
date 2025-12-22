@@ -8,6 +8,9 @@ Signal of the day
 Why it matters: {{signal_why_it_matters}}
 Read: {{signal_link}}
 
+Additional signals
+{{signal_extras_text}}
+
 Quick reads
 {{quick_reads_text}}
 
@@ -18,18 +21,26 @@ Dataset spotlight
 {{dataset_title}}
 {{dataset_summary}}
 Explore: {{dataset_link}}
+More datasets
+{{dataset_list_text}}
 
 Tool of the day
 {{tool_title}}
 {{tool_summary}}
 View: {{tool_link}}
+More tools
+{{tool_list_text}}
 
 Pipeline tip
 {{pipeline_tip}}
 
 Community board
 Event: {{event_title}} - {{event_date}} ({{event_link}})
+More events
+{{event_list_text}}
 Job: {{job_title}} - {{job_org}} ({{job_link}})
+More jobs
+{{job_list_text}}
 
 "{{quote}}" - {{quote_source}}
 

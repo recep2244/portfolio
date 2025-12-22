@@ -228,9 +228,26 @@ def build_context(issue):
     if not isinstance(ai_news, list):
         ai_news = []
 
+    def coerce_list(value):
+        if isinstance(value, list):
+            return value
+        if isinstance(value, dict):
+            return [value]
+        return []
+
     # Career / Community helper
     def format_career(title, org, link):
         return f'<strong style="color:#1c2b26;">{title}</strong> at {org}: <a href="{link}" style="color:#0b6e4f; text-decoration:none; border-bottom:1px solid #c8e1d9;">View Openings &rarr;</a>'
+
+    datasets = coerce_list(issue.get("dataset"))
+    tools = coerce_list(issue.get("tool"))
+    events = coerce_list((issue.get("community") or {}).get("event"))
+    jobs = coerce_list((issue.get("community") or {}).get("job"))
+
+    dataset_main = datasets[0] if datasets else {}
+    tool_main = tools[0] if tools else {}
+    event_main = events[0] if events else {}
+    job_main = jobs[0] if jobs else {}
 
     raw_data = {
         "newsletter_name": issue.get("newsletter_name", ""),
@@ -243,19 +260,19 @@ def build_context(issue):
         "signal_summary": issue.get("signal", {}).get("summary", ""),
         "signal_why_it_matters": issue.get("signal", {}).get("why_it_matters", ""),
         "signal_link": issue.get("signal", {}).get("link", ""),
-        "dataset_title": issue.get("dataset", {}).get("title", ""),
-        "dataset_summary": issue.get("dataset", {}).get("summary", ""),
-        "dataset_link": issue.get("dataset", {}).get("link", ""),
-        "tool_title": issue.get("tool", {}).get("title", ""),
-        "tool_summary": issue.get("tool", {}).get("summary", ""),
-        "tool_link": issue.get("tool", {}).get("link", ""),
+        "dataset_title": dataset_main.get("title", ""),
+        "dataset_summary": dataset_main.get("summary", ""),
+        "dataset_link": dataset_main.get("link", ""),
+        "tool_title": tool_main.get("title", ""),
+        "tool_summary": tool_main.get("summary", ""),
+        "tool_link": tool_main.get("link", ""),
         "pipeline_tip": issue.get("pipeline_tip", ""),
-        "event_title": (issue.get("community") or {}).get("event", {}).get("title", ""),
-        "event_date": (issue.get("community") or {}).get("event", {}).get("date", ""),
-        "event_link": (issue.get("community") or {}).get("event", {}).get("link", ""),
-        "job_title": (issue.get("community") or {}).get("job", {}).get("title", ""),
-        "job_org": (issue.get("community") or {}).get("job", {}).get("org", ""),
-        "job_link": (issue.get("community") or {}).get("job", {}).get("link", ""),
+        "event_title": event_main.get("title", ""),
+        "event_date": event_main.get("date", ""),
+        "event_link": event_main.get("link", ""),
+        "job_title": job_main.get("title", ""),
+        "job_org": job_main.get("org", ""),
+        "job_link": job_main.get("link", ""),
         "quote": issue.get("quote", {}).get("text", ""),
         "quote_source": issue.get("quote", {}).get("source", ""),
         "manage_prefs_link": issue.get("manage_prefs_link", ""),
@@ -271,11 +288,68 @@ def build_context(issue):
     html_context["job_display"] = format_career(html_context["job_title"], html_context["job_org"], html_context["job_link"])
     html_context["event_display"] = format_career(html_context["event_title"], "Community Hub", html_context["event_link"])
 
+    extra_datasets = datasets[1:] if len(datasets) > 1 else []
+    extra_tools = tools[1:] if len(tools) > 1 else []
+    extra_events = events[1:] if len(events) > 1 else []
+    extra_jobs = jobs[1:] if len(jobs) > 1 else []
+
+    html_context["dataset_extra_html"] = "".join(
+        f'<div style="margin-top:8px;"><a href="{html.escape(str(item.get("link", "")), quote=True)}" style="color:#0f172a; text-decoration:none; border-bottom:1px solid #e2e8f0;">{html.escape(str(item.get("title", "")))}</a><div style="font-family:Arial, sans-serif; font-size:12px; color:#64748b; margin-top:4px;">{html.escape(str(item.get("summary", "")))}</div></div>'
+        for item in extra_datasets
+    )
+    html_context["tool_extra_html"] = "".join(
+        f'<div style="margin-top:8px;"><a href="{html.escape(str(item.get("link", "")), quote=True)}" style="color:#0f172a; text-decoration:none; border-bottom:1px solid #e2e8f0;">{html.escape(str(item.get("title", "")))}</a><div style="font-family:Arial, sans-serif; font-size:12px; color:#64748b; margin-top:4px;">{html.escape(str(item.get("summary", "")))}</div></div>'
+        for item in extra_tools
+    )
+    html_context["event_list_html"] = "<br>".join(
+        format_career(html.escape(str(item.get("title", ""))), "Community Hub", html.escape(str(item.get("link", ""))))
+        for item in extra_events
+    )
+    html_context["job_list_html"] = "<br>".join(
+        format_career(html.escape(str(item.get("title", ""))), html.escape(str(item.get("org", ""))), html.escape(str(item.get("link", ""))))
+        for item in extra_jobs
+    )
+
+    signal_extras = issue.get("signal_extras") or []
+    if signal_extras:
+        extras_body = "".join(
+            f'<div style="margin-top:18px;"><div style="font-family:Arial, sans-serif; font-size:15px; font-weight:bold; margin-bottom:6px;"><a href="{html.escape(str(item.get("link", "")), quote=True)}" style="color:#0f172a; text-decoration:none; border-bottom:1px solid #e2e8f0;">{html.escape(str(item.get("title", "")))}</a></div><div style="font-family:Arial, sans-serif; font-size:13px; color:#475569; line-height:1.5;">{html.escape(str(item.get("abstract", "")))}</div></div>'
+            for item in signal_extras
+        )
+        html_context["signal_extras_html"] = (
+            '<div style="margin-top:30px; padding-top:20px; border-top:1px solid #f1f5f9;">'
+            '<div style="font-family:Arial, sans-serif; font-size:12px; color:#64748b; font-weight:bold; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:12px;">'
+            '⭐ Additional Signals</div>'
+            f"{extras_body}</div>"
+        )
+    else:
+        html_context["signal_extras_html"] = ""
+
     # Build Text Context
     text_context = {k: str(v) for k, v in raw_data.items()}
     text_context["quick_reads_text"] = build_quick_reads_text(quick_reads)
     text_context["ai_news_text"] = build_ai_news_text(ai_news)
     text_context["industry_news_text"] = build_industry_news_text(issue.get("industry_news", []))
+    text_context["dataset_list_text"] = "\n".join(
+        f"- {item.get('title', '')} ({item.get('link', '')})"
+        for item in extra_datasets
+    )
+    text_context["tool_list_text"] = "\n".join(
+        f"- {item.get('title', '')} ({item.get('link', '')})"
+        for item in extra_tools
+    )
+    text_context["event_list_text"] = "\n".join(
+        f"- {item.get('title', '')} ({item.get('link', '')})"
+        for item in extra_events
+    )
+    text_context["job_list_text"] = "\n".join(
+        f"- {item.get('title', '')} ({item.get('link', '')})"
+        for item in extra_jobs
+    )
+    text_context["signal_extras_text"] = "\n".join(
+        f"- {item.get('title', '')} ({item.get('link', '')})"
+        for item in signal_extras
+    )
 
     subject = optional_field(issue, "subject", "").strip()
     if not subject:
