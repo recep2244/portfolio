@@ -797,12 +797,13 @@
         const issueDate = issue.issue_date || "";
         const issueNumber = issue.issue_number || "";
         const issueUrl = buildIssueUrl(issueDate, issueNumber);
+        const digestUrl = buildDigestUrl();
         const quick = collectItems("quick_reads", issue.quick_reads).slice(0, 2);
         const quickTitles = quick.map((item) => item.title).filter(Boolean).join(" · ");
         const hashtags = "#ProteinDesign #StructuralBiology #Bioinformatics";
 
         const shortSummary = truncateText(summary || why, 140);
-        const twitterBase = `🧬 Protein Design Digest #${issueNumber}\n${title}\n${shortSummary}\nPaper: ${paperLink}\nDaily digest: ${issueUrl}\n${hashtags}`;
+        const twitterBase = `📄 Paper of the day\n${title}\n${shortSummary}\nPaper: ${paperLink}\nSubscribe to the daily digest: ${digestUrl}`;
         const blueskyBase = `🧬 Protein Design Digest #${issueNumber}\n${title}\n${shortSummary}\nPaper: ${paperLink}\nDaily digest: ${issueUrl}\n${hashtags}`;
         const linkedinBase = `Protein Design Digest #${issueNumber}\n\n${title}\n\nSummary: ${shortSummary}\n\nPaper: ${paperLink}\nDaily digest: ${issueUrl}\n\nQuick reads: ${quickTitles}\n\n${hashtags}`;
 
@@ -814,6 +815,10 @@
       function buildIssueUrl(issueDate, issueNumber) {
         if (!issueDate || !issueNumber) return "https://recep2244.github.io/portfolio/newsletter/";
         return `https://recep2244.github.io/portfolio/newsletter/${issueDate}-issue-${issueNumber}/`;
+      }
+
+      function buildDigestUrl() {
+        return "https://recep2244.github.io/portfolio/newsletter/";
       }
 
       function truncateText(text, limit) {

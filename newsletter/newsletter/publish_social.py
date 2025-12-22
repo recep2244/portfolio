@@ -25,7 +25,7 @@ def load_env():
     env_path = Path(__file__).resolve().parent / ".env"
     load_dotenv(dotenv_path=env_path, override=False)
 
-def post_to_twitter(text, link):
+def post_to_twitter(text):
     load_env()
     api_key = os.getenv("TWITTER_API_KEY")
     api_secret = os.getenv("TWITTER_API_SECRET")
@@ -42,7 +42,7 @@ def post_to_twitter(text, link):
                 consumer_key=api_key, consumer_secret=api_secret,
                 access_token=access_token, access_token_secret=access_token_secret
             )
-            response = client.create_tweet(text=f"{text}\n\nRead more: {link}")
+            response = client.create_tweet(text=text)
             print(f"Tweeted successfully: {response.data['id']}")
             return True
         except Exception as e:
@@ -107,7 +107,7 @@ def post_to_bluesky(text):
                 consumer_key=api_key, consumer_secret=api_secret,
                 access_token=access_token, access_token_secret=access_token_secret
             )
-            response = client.create_tweet(text=f"{text}\n\nRead more: {link}")
+            response = client.create_tweet(text=text)
             print(f"Tweeted successfully: {response.data['id']}")
             return True
         except Exception as e:
@@ -204,6 +204,40 @@ def post_to_whatsapp(text, link):
         print(f"Error connecting to CallMeBot: {e}")
         return False
 
+def build_twitter_text(signal_title, summary, signal_link, sub_url):
+    header = "📄 Paper of the day"
+    title = signal_title or "Paper of the day"
+    tail_lines = []
+    if signal_link:
+        tail_lines.append(f"Paper: {signal_link}")
+    tail_lines.append(f"Subscribe to the daily digest: {sub_url}")
+
+    base_without_summary = "\n".join([header, title] + tail_lines)
+    if len(base_without_summary) > 280:
+        base_with_empty_title = "\n".join([header, ""] + tail_lines)
+        allowed_title_len = 280 - len(base_with_empty_title)
+        if allowed_title_len < 0:
+            allowed_title_len = 0
+        if len(title) > allowed_title_len:
+            if allowed_title_len <= 3:
+                title = title[:allowed_title_len]
+            else:
+                title = title[:allowed_title_len - 3].rstrip() + "..."
+        return "\n".join([header, title] + tail_lines)
+
+    if summary:
+        remaining = 280 - len(base_without_summary) - 1
+        if remaining > 0:
+            summary_text = summary
+            if len(summary_text) > remaining:
+                if remaining <= 3:
+                    summary_text = summary_text[:remaining]
+                else:
+                    summary_text = summary_text[:remaining - 3].rstrip() + "..."
+            return "\n".join([header, title, summary_text] + tail_lines)
+
+    return base_without_summary
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--issue-date", default="today")
@@ -218,7 +252,9 @@ def main():
     if not issue:
         return
 
-    signal_title = issue.get("signal", {}).get("title", "Protein Design Update")
+    signal = issue.get("signal", {}) or {}
+    signal_title = signal.get("title", "Protein Design Update")
+    signal_link = signal.get("link", "")
     issue_number = issue.get("issue_number", "1")
     
     # Constructing a relative URL since we don't know the exact deployment path yet, 
@@ -228,25 +264,20 @@ def main():
     sub_url = base_url
 
     social = issue.get("social", {}) if isinstance(issue, dict) else {}
-    summary = (issue.get("signal", {}) or {}).get("summary", "")
+    summary = (signal or {}).get("summary", "")
     summary = (summary or "").strip()
     if len(summary) > 160:
         summary = summary[:157].rstrip() + "..."
 
     tweet_text = social.get("twitter") or (
-        f"🧬 Protein Design Digest #{issue_number}\n"
-        f"{signal_title}\n"
-        f"{summary}\n"
-        f"Paper: {issue.get('signal', {}).get('link', '')}\n"
-        f"Daily digest: {issue_url}\n"
-        f"#ProteinDesign #StructuralBiology #Bioinformatics"
+        build_twitter_text(signal_title, summary, signal_link, sub_url)
     )
     
     li_text = social.get("linkedin") or (
         f"Protein Design Digest #{issue_number}\n\n"
         f"{signal_title}\n\n"
         f"Summary: {summary}\n\n"
-        f"Paper: {issue.get('signal', {}).get('link', '')}\n"
+        f"Paper: {signal_link}\n"
         f"Daily digest: {issue_url}\n\n"
         f"#ProteinDesign #StructuralBiology #Bioinformatics"
     )
@@ -261,7 +292,7 @@ def main():
     bluesky_text = social.get("bluesky") or tweet_text
 
     print(f"Publishing Social for {issue_date}...")
-    post_to_twitter(tweet_text, issue_url)
+    post_to_twitter(tweet_text)
     post_to_linkedin(li_text, issue_url)
     post_to_whatsapp(wa_text, issue_url)
     post_to_bluesky(bluesky_text)
