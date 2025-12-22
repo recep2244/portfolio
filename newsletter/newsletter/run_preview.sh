@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+ISSUE_DATE="${1:-today}"
 
 # Load environment variables from .env if it exists
 if [ -f "$ROOT_DIR/newsletter/.env" ]; then
@@ -11,11 +12,10 @@ if [ -f "$ROOT_DIR/newsletter/.env" ]; then
 fi
 
 python3 "$ROOT_DIR/newsletter/generate_issue.py" \
-  --issue-date today \
+  --issue-date "$ISSUE_DATE" \
   --config "$ROOT_DIR/newsletter/generate_config.json" \
   --issues-dir "$ROOT_DIR/newsletter/issues"
 
-# Convert to Hugo Content
 python3 "$ROOT_DIR/newsletter/newsletter_to_md.py" \
   --issues-dir "$ROOT_DIR/newsletter/issues"
 
@@ -35,7 +35,7 @@ fi
 if [ -z "${NEWSLETTER_GMAIL_USER:-}" ] || [ -z "${NEWSLETTER_GMAIL_APP_PASSWORD:-}" ]; then
   echo "Warning: Missing Gmail credentials. Rendering preview only."
   python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
-    --issue-date today \
+    --issue-date "$ISSUE_DATE" \
     --issues-dir "$ROOT_DIR/newsletter/issues" \
     --subscribers "$PREVIEW_LIST" \
     --template-html "$ROOT_DIR/newsletter/template.html" \
@@ -43,11 +43,11 @@ if [ -z "${NEWSLETTER_GMAIL_USER:-}" ] || [ -z "${NEWSLETTER_GMAIL_APP_PASSWORD:
     --render-only
 else
   python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
-    --issue-date today \
+    --issue-date "$ISSUE_DATE" \
     --issues-dir "$ROOT_DIR/newsletter/issues" \
     --subscribers "$PREVIEW_LIST" \
     --template-html "$ROOT_DIR/newsletter/template.html" \
-    --template-text "$ROOT_DIR/newsletter/template.txt" || echo "Warning: preview send failed."
+    --template-text "$ROOT_DIR/newsletter/template.txt"
 fi
 
-echo "Preview sent (or rendered). Run run_send_confirmed.sh after approval to email everyone."
+echo "Preview complete. After approval, run run_send_confirmed.sh."
