@@ -161,12 +161,23 @@
 
       <div class="controls">
         <input type="file" id="issueFile" accept=".json" />
+        <button class="btn btn-primary" id="sendPreviewBtn" disabled onclick="sendPreview()">
+          Send preview to me
+        </button>
+        <button class="btn btn-secondary" id="approveSendBtn" disabled onclick="approveSend()">
+          Approve &amp; send to all
+        </button>
         <button class="btn btn-primary" id="downloadBtn" disabled onclick="downloadCurated()">
           Download curated JSON
         </button>
         <button class="btn btn-secondary" onclick="copyCurated()" id="copyBtn" disabled>
           Copy JSON
         </button>
+      </div>
+
+      <div class="card" id="statusCard" style="display: none; margin-bottom: 20px;">
+        <strong>Status:</strong>
+        <span id="statusText"></span>
       </div>
 
       <div class="card meta-grid" id="issueMeta">
@@ -314,14 +325,44 @@
           try {
             issue = JSON.parse(e.target.result);
             renderIssue(issue);
-            document.getElementById("downloadBtn").disabled = false;
-            document.getElementById("copyBtn").disabled = false;
+            enableActions();
           } catch (err) {
             alert("Failed to parse JSON: " + err.message);
           }
         };
         reader.readAsText(file);
       });
+
+      window.addEventListener("load", () => {
+        fetch("issue.json")
+          .then((resp) => {
+            if (!resp.ok) throw new Error("issue.json not found");
+            return resp.json();
+          })
+          .then((data) => {
+            issue = data;
+            renderIssue(issue);
+            enableActions();
+            issueFile.style.display = "none";
+          })
+          .catch(() => {
+            issueFile.style.display = "inline-block";
+          });
+      });
+
+      function enableActions() {
+        document.getElementById("downloadBtn").disabled = false;
+        document.getElementById("copyBtn").disabled = false;
+        document.getElementById("sendPreviewBtn").disabled = false;
+        document.getElementById("approveSendBtn").disabled = false;
+      }
+
+      function setStatus(message) {
+        const card = document.getElementById("statusCard");
+        const text = document.getElementById("statusText");
+        text.textContent = message;
+        card.style.display = "block";
+      }
 
       function renderIssue(data) {
         document.getElementById("metaDate").textContent = data.issue_date || "-";
@@ -571,6 +612,39 @@
         navigator.clipboard.writeText(payload).then(() => {
           alert("Curated JSON copied to clipboard.");
         });
+      }
+
+      async function sendPreview() {
+        const curated = buildCurated();
+        if (!curated) return;
+        setStatus("Sending preview email...");
+        await postCurated("/send-preview", curated);
+      }
+
+      async function approveSend() {
+        if (!confirm("Send to all subscribers now?")) return;
+        const curated = buildCurated();
+        if (!curated) return;
+        setStatus("Sending to all subscribers...");
+        await postCurated("/approve-send", curated);
+      }
+
+      async function postCurated(endpoint, curated) {
+        try {
+          const resp = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(curated),
+          });
+          const payload = await resp.json();
+          if (!resp.ok) {
+            setStatus(payload.error || "Request failed.");
+            return;
+          }
+          setStatus(payload.message || "Done.");
+        } catch (err) {
+          setStatus("Request failed: " + err.message);
+        }
       }
 
       function escapeHtml(text) {
