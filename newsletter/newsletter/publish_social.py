@@ -29,7 +29,23 @@ def post_to_twitter(text, link):
 
     if not all([api_key, api_secret, access_token, access_token_secret]):
         print("Twitter credentials missing. Skipping.")
-    return False
+        return False
+
+    if tweepy:
+        try:
+            client = tweepy.Client(
+                consumer_key=api_key, consumer_secret=api_secret,
+                access_token=access_token, access_token_secret=access_token_secret
+            )
+            response = client.create_tweet(text=f"{text}\n\nRead more: {link}")
+            print(f"Tweeted successfully: {response.data['id']}")
+            return True
+        except Exception as e:
+            print(f"Error tweeting: {e}")
+            return False
+    else:
+        print("Tweepy not installed. Cannot tweet.")
+        return False
 
 def post_to_bluesky(text):
     load_dotenv()
