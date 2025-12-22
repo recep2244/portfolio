@@ -3,6 +3,7 @@ import json
 import requests
 import argparse
 from datetime import datetime
+from pathlib import Path
 from dotenv import load_dotenv
 
 # Optional: Using tweepy for Twitter if available, otherwise we can use direct requests
@@ -20,8 +21,12 @@ def load_issue(issue_date, issues_dir):
     with open(filepath, 'r', encoding='utf-8') as f:
         return json.load(f)
 
+def load_env():
+    env_path = Path(__file__).resolve().parent / ".env"
+    load_dotenv(dotenv_path=env_path, override=False)
+
 def post_to_twitter(text, link):
-    load_dotenv()
+    load_env()
     api_key = os.getenv("TWITTER_API_KEY")
     api_secret = os.getenv("TWITTER_API_SECRET")
     access_token = os.getenv("TWITTER_ACCESS_TOKEN")
@@ -48,7 +53,7 @@ def post_to_twitter(text, link):
         return False
 
 def post_to_bluesky(text):
-    load_dotenv()
+    load_env()
     handle = os.getenv("BLUESKY_HANDLE")
     password = os.getenv("BLUESKY_APP_PASSWORD")
     service = os.getenv("BLUESKY_SERVICE", "https://bsky.social")
@@ -113,7 +118,7 @@ def post_to_bluesky(text):
         return False
 
 def post_to_linkedin(text, link):
-    load_dotenv()
+    load_env()
     access_token = os.getenv("LINKEDIN_ACCESS_TOKEN")
     linkedin_id = os.getenv("LINKEDIN_MEMBER_ID") # e.g., urn:li:person:abcdef
 
@@ -169,7 +174,7 @@ def post_to_linkedin(text, link):
         return False
 
 def post_to_whatsapp(text, link):
-    load_dotenv()
+    load_env()
     phone = os.getenv("WHATSAPP_PHONE")
     api_key = os.getenv("WHATSAPP_API_KEY")
 
