@@ -28,10 +28,19 @@ finally:
 PY
 )
 
-if [ "$STATUS" != "running" ]; then
-  nohup "$ROOT_DIR/newsletter/run_curation_server.sh" "$ISSUE_DATE" "$PORT" > "$LOG_PATH" 2>&1 &
-  sleep 2
+if [ "$STATUS" = "running" ]; then
+  if command -v lsof >/dev/null 2>&1; then
+    lsof -ti tcp:"$PORT" | xargs -r kill || true
+  elif command -v fuser >/dev/null 2>&1; then
+    fuser -k "$PORT"/tcp || true
+  else
+    pkill -f "curation_server.py" || true
+  fi
+  sleep 1
 fi
+
+nohup "$ROOT_DIR/newsletter/run_curation_server.sh" "$ISSUE_DATE" "$PORT" > "$LOG_PATH" 2>&1 &
+sleep 2
 
 python3 "$ROOT_DIR/newsletter/send_reminder.py" \
   --preview-list "$ROOT_DIR/newsletter/preview_subscribers.csv" \
