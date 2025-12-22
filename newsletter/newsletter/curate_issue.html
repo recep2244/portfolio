@@ -229,6 +229,11 @@
         </div>
       </div>
 
+      <h2>Additional Signals</h2>
+      <p class="section-note">Add extra top signals to highlight under the main signal.</p>
+      <div class="section-items" id="signalExtras"></div>
+      <button class="btn btn-secondary" onclick="addSignalExtra()">+ Add signal</button>
+
       <h2>Quick Reads</h2>
       <div class="section-items" id="quickReads"></div>
 
@@ -239,58 +244,25 @@
       <div class="section-items" id="industryNews"></div>
 
       <h2>Resources &amp; Community</h2>
-      <div class="card form-grid">
-        <div class="field">
-          <label class="label" for="datasetTitle">Dataset Title</label>
-          <input type="text" id="datasetTitle" />
-        </div>
-        <div class="field">
-          <label class="label" for="datasetLink">Dataset Link</label>
-          <input type="text" id="datasetLink" />
-        </div>
-        <div class="field" style="grid-column: 1 / -1;">
-          <label class="label" for="datasetSummary">Dataset Summary</label>
-          <textarea id="datasetSummary"></textarea>
-        </div>
-
-        <div class="field">
-          <label class="label" for="toolTitle">Tool Title</label>
-          <input type="text" id="toolTitle" />
-        </div>
-        <div class="field">
-          <label class="label" for="toolLink">Tool Link</label>
-          <input type="text" id="toolLink" />
-        </div>
-        <div class="field" style="grid-column: 1 / -1;">
-          <label class="label" for="toolSummary">Tool Summary</label>
-          <textarea id="toolSummary"></textarea>
-        </div>
-
-        <div class="field">
-          <label class="label" for="eventTitle">Event Title</label>
-          <input type="text" id="eventTitle" />
-        </div>
-        <div class="field">
-          <label class="label" for="eventDate">Event Date</label>
-          <input type="text" id="eventDate" />
-        </div>
-        <div class="field">
-          <label class="label" for="eventLink">Event Link</label>
-          <input type="text" id="eventLink" />
-        </div>
-
-        <div class="field">
-          <label class="label" for="jobTitle">Job Title</label>
-          <input type="text" id="jobTitle" />
-        </div>
-        <div class="field">
-          <label class="label" for="jobOrg">Job Org</label>
-          <input type="text" id="jobOrg" />
-        </div>
-        <div class="field">
-          <label class="label" for="jobLink">Job Link</label>
-          <input type="text" id="jobLink" />
-        </div>
+      <div class="card">
+        <div class="section-title">Datasets</div>
+        <div class="section-items" id="datasetList"></div>
+        <button class="btn btn-secondary" onclick="addResource('dataset')">+ Add dataset</button>
+      </div>
+      <div class="card" style="margin-top: 16px;">
+        <div class="section-title">Tools</div>
+        <div class="section-items" id="toolList"></div>
+        <button class="btn btn-secondary" onclick="addResource('tool')">+ Add tool</button>
+      </div>
+      <div class="card" style="margin-top: 16px;">
+        <div class="section-title">Events</div>
+        <div class="section-items" id="eventList"></div>
+        <button class="btn btn-secondary" onclick="addResource('event')">+ Add event</button>
+      </div>
+      <div class="card" style="margin-top: 16px;">
+        <div class="section-title">Jobs</div>
+        <div class="section-items" id="jobList"></div>
+        <button class="btn btn-secondary" onclick="addResource('job')">+ Add job</button>
       </div>
 
       <h2>Pipeline Tip</h2>
@@ -364,6 +336,16 @@
         card.style.display = "block";
       }
 
+      function coerceList(value) {
+        if (Array.isArray(value)) {
+          return value;
+        }
+        if (value && typeof value === "object") {
+          return [value];
+        }
+        return [];
+      }
+
       function renderIssue(data) {
         document.getElementById("metaDate").textContent = data.issue_date || "-";
         document.getElementById("metaNumber").textContent = data.issue_number || "-";
@@ -378,25 +360,11 @@
         document.getElementById("signalSummary").value = signal.summary || "";
         document.getElementById("signalWhy").value = signal.why_it_matters || "";
 
-        const dataset = data.dataset || {};
-        document.getElementById("datasetTitle").value = dataset.title || "";
-        document.getElementById("datasetLink").value = dataset.link || "";
-        document.getElementById("datasetSummary").value = dataset.summary || "";
-
-        const tool = data.tool || {};
-        document.getElementById("toolTitle").value = tool.title || "";
-        document.getElementById("toolLink").value = tool.link || "";
-        document.getElementById("toolSummary").value = tool.summary || "";
-
-        const event = (data.community || {}).event || {};
-        document.getElementById("eventTitle").value = event.title || "";
-        document.getElementById("eventDate").value = event.date || "";
-        document.getElementById("eventLink").value = event.link || "";
-
-        const job = (data.community || {}).job || {};
-        document.getElementById("jobTitle").value = job.title || "";
-        document.getElementById("jobOrg").value = job.org || "";
-        document.getElementById("jobLink").value = job.link || "";
+        renderSignalExtras(coerceList(data.signal_extras));
+        renderResourceList("dataset", coerceList(data.dataset));
+        renderResourceList("tool", coerceList(data.tool));
+        renderResourceList("event", coerceList((data.community || {}).event));
+        renderResourceList("job", coerceList((data.community || {}).job));
 
         document.getElementById("pipelineTip").value = data.pipeline_tip || "";
 
@@ -526,6 +494,194 @@
         });
       }
 
+      const resourceFields = {
+        dataset: [
+          { key: "title", label: "Title" },
+          { key: "link", label: "Link" },
+          { key: "summary", label: "Summary", type: "textarea" },
+        ],
+        tool: [
+          { key: "title", label: "Title" },
+          { key: "link", label: "Link" },
+          { key: "summary", label: "Summary", type: "textarea" },
+        ],
+        event: [
+          { key: "title", label: "Title" },
+          { key: "date", label: "Date" },
+          { key: "link", label: "Link" },
+        ],
+        job: [
+          { key: "title", label: "Title" },
+          { key: "org", label: "Org" },
+          { key: "link", label: "Link" },
+        ],
+      };
+
+      function renderSignalExtras(items) {
+        const container = document.getElementById("signalExtras");
+        container.innerHTML = "";
+        if (!items.length) {
+          container.innerHTML = '<div class="empty">No extra signals added yet.</div>';
+          return;
+        }
+        items.forEach((item) => {
+          const card = document.createElement("div");
+          card.className = "item";
+          card.innerHTML = `
+            <div class="item-head">
+              <span class="item-title">Extra signal</span>
+              <button class="btn btn-secondary" onclick="this.closest('.item').remove()">Remove</button>
+            </div>
+            <div class="field">
+              <label class="label">Title</label>
+              <input type="text" class="signal-extra-title" value="${escapeAttr(item.title || "")}" />
+            </div>
+            <div class="field">
+              <label class="label">Link</label>
+              <input type="text" class="signal-extra-link" value="${escapeAttr(item.link || "")}" />
+            </div>
+            <div class="field">
+              <label class="label">Abstract</label>
+              <textarea class="signal-extra-abstract">${escapeHtml(item.abstract || "")}</textarea>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      function addSignalExtra() {
+        const container = document.getElementById("signalExtras");
+        const emptyState = container.querySelector(".empty");
+        if (emptyState) {
+          container.innerHTML = "";
+        }
+        const card = document.createElement("div");
+        card.className = "item";
+        card.innerHTML = `
+          <div class="item-head">
+            <span class="item-title">Extra signal</span>
+            <button class="btn btn-secondary" onclick="this.closest('.item').remove()">Remove</button>
+          </div>
+          <div class="field">
+            <label class="label">Title</label>
+            <input type="text" class="signal-extra-title" />
+          </div>
+          <div class="field">
+            <label class="label">Link</label>
+            <input type="text" class="signal-extra-link" />
+          </div>
+          <div class="field">
+            <label class="label">Abstract</label>
+            <textarea class="signal-extra-abstract"></textarea>
+          </div>
+        `;
+        container.appendChild(card);
+      }
+
+
+      function renderResourceList(type, items) {
+        const container = document.getElementById(`${type}List`);
+        container.innerHTML = "";
+        if (!items.length) {
+          container.innerHTML = `<div class="empty">No ${type} items yet.</div>`;
+          return;
+        }
+        items.forEach((item, index) => {
+          const card = document.createElement("div");
+          card.className = "item";
+          card.dataset.index = String(index);
+          const fields = resourceFields[type] || [];
+          const fieldsHtml = fields
+            .map((field) => {
+              if (field.type === "textarea") {
+                return `
+                <div class="field">
+                  <label class="label">${field.label}</label>
+                  <textarea data-key="${field.key}">${escapeHtml(item[field.key] || "")}</textarea>
+                </div>`;
+              }
+              return `
+                <div class="field">
+                  <label class="label">${field.label}</label>
+                  <input type="text" data-key="${field.key}" value="${escapeAttr(item[field.key] || "")}" />
+                </div>`;
+            })
+            .join("");
+          card.innerHTML = `
+            <div class="item-head">
+              <span class="item-title">${type} item</span>
+              <button class="btn btn-secondary" onclick="this.closest('.item').remove()">Remove</button>
+            </div>
+            ${fieldsHtml}
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      function addResource(type) {
+        const container = document.getElementById(`${type}List`);
+        const emptyState = container.querySelector(".empty");
+        if (emptyState) {
+          container.innerHTML = "";
+        }
+        const card = document.createElement("div");
+        card.className = "item";
+        const fields = resourceFields[type] || [];
+        const fieldsHtml = fields
+          .map((field) => {
+            if (field.type === "textarea") {
+              return `
+                <div class="field">
+                  <label class="label">${field.label}</label>
+                  <textarea data-key="${field.key}"></textarea>
+                </div>`;
+            }
+            return `
+                <div class="field">
+                  <label class="label">${field.label}</label>
+                  <input type="text" data-key="${field.key}" />
+                </div>`;
+          })
+          .join("");
+        card.innerHTML = `
+          <div class="item-head">
+            <span class="item-title">${type} item</span>
+            <button class="btn btn-secondary" onclick="this.closest('.item').remove()">Remove</button>
+          </div>
+          ${fieldsHtml}
+        `;
+        container.appendChild(card);
+      }
+
+      function collectResource(type) {
+        const container = document.getElementById(`${type}List`);
+        const items = [];
+        container.querySelectorAll(".item").forEach((card) => {
+          const data = {};
+          card.querySelectorAll("[data-key]").forEach((input) => {
+            data[input.dataset.key] = input.value.trim();
+          });
+          if (Object.values(data).some((val) => val)) {
+            items.push(data);
+          }
+        });
+        return items;
+      }
+
+      function collectSignalExtras() {
+        const items = [];
+        document.querySelectorAll("#signalExtras .item").forEach((card) => {
+          const title = card.querySelector(".signal-extra-title")?.value.trim();
+          const link = card.querySelector(".signal-extra-link")?.value.trim();
+          const abstract = card.querySelector(".signal-extra-abstract")?.value.trim();
+          if (!title && !link && !abstract) {
+            return;
+          }
+          items.push({ title, link, abstract });
+        });
+        return items;
+      }
+
       function collectItems(sectionKey, originalItems) {
         const items = [];
         document.querySelectorAll(`.item[data-section="${sectionKey}"]`).forEach((card) => {
@@ -557,31 +713,16 @@
           why_it_matters: document.getElementById("signalWhy").value.trim(),
         };
 
+        curated.signal_extras = collectSignalExtras();
         curated.quick_reads = collectItems("quick_reads", issue.quick_reads);
         curated.ai_news = collectItems("ai_news", issue.ai_news);
         curated.industry_news = collectItems("industry_news", issue.industry_news);
 
-        curated.dataset = {
-          title: document.getElementById("datasetTitle").value.trim(),
-          link: document.getElementById("datasetLink").value.trim(),
-          summary: document.getElementById("datasetSummary").value.trim(),
-        };
-        curated.tool = {
-          title: document.getElementById("toolTitle").value.trim(),
-          link: document.getElementById("toolLink").value.trim(),
-          summary: document.getElementById("toolSummary").value.trim(),
-        };
+        curated.dataset = collectResource("dataset");
+        curated.tool = collectResource("tool");
         curated.community = curated.community || {};
-        curated.community.event = {
-          title: document.getElementById("eventTitle").value.trim(),
-          date: document.getElementById("eventDate").value.trim(),
-          link: document.getElementById("eventLink").value.trim(),
-        };
-        curated.community.job = {
-          title: document.getElementById("jobTitle").value.trim(),
-          org: document.getElementById("jobOrg").value.trim(),
-          link: document.getElementById("jobLink").value.trim(),
-        };
+        curated.community.event = collectResource("event");
+        curated.community.job = collectResource("job");
 
         curated.pipeline_tip = document.getElementById("pipelineTip").value.trim();
         curated.quote = {

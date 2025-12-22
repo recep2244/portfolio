@@ -657,6 +657,26 @@ def pick_pool_item(items, index, fallback):
         return fallback
     return items[index % len(items)]
 
+def pick_pool_items(items, index, count, fallback):
+    if count <= 0:
+        return []
+    if not items:
+        return [fallback]
+    picked = []
+    seen = set()
+    for offset in range(count):
+        item = items[(index + offset) % len(items)]
+        key = (item.get("title", ""), item.get("link", ""))
+        if key in seen:
+            continue
+        seen.add(key)
+        picked.append(item)
+        if len(picked) >= count:
+            break
+    if not picked:
+        return [fallback]
+    return picked
+
 
 def build_issue_number(issues_dir):
     if not os.path.isdir(issues_dir):
@@ -778,34 +798,52 @@ def build_issue(config, issue_date, timezone):
 
     scored.sort(key=lambda item: (item[0], item[1].published), reverse=True)
 
-    if len(scored) < 4:
-        raise ValueError("Not enough papers found. Increase lookback_days or adjust keywords.")
+    quick_count = int(config.get("quick_reads_count", 3))
+    signal_extra_count = int(config.get("signal_extras_count", 0))
+    min_required = 1 + quick_count + signal_extra_count
+    if len(scored) < min_required:
+        raise ValueError(
+            "Not enough papers found. Increase lookback_days or adjust keywords."
+        )
 
     signal_paper = scored[0][1]
-    quick_papers = [item[1] for item in scored[1:4]]
+    signal_extras = [item[1] for item in scored[1 : 1 + signal_extra_count]]
+    quick_papers = [
+        item[1]
+        for item in scored[
+            1 + signal_extra_count : 1 + signal_extra_count + quick_count
+        ]
+    ]
 
     issue_number = build_issue_number(config.get("issues_dir", "newsletter/issues"))
 
     dataset_pool = config.get("dataset_pool", [])
     tool_pool = config.get("tool_pool", [])
+    resource_counts = config.get("resource_counts", {})
+    dataset_count = int(resource_counts.get("datasets", 1))
+    tool_count = int(resource_counts.get("tools", 1))
+    event_count = int(resource_counts.get("events", 1))
+    job_count = int(resource_counts.get("jobs", 1))
     quotes = config.get("quotes", [])
     community = config.get("community", {})
     events = community.get("events", [])
     jobs = community.get("jobs", [])
 
     day_index = issue_date.toordinal()
-    dataset = pick_pool_item(
+    dataset = pick_pool_items(
         dataset_pool,
         day_index,
+        dataset_count,
         {"title": "Add a dataset", "summary": "", "link": "https://example.com"},
     )
-    tool = pick_pool_item(
+    tool = pick_pool_items(
         tool_pool,
         day_index + 1,
+        tool_count,
         {"title": "Add a tool", "summary": "", "link": "https://example.com"},
     )
     # Career / Job Alerts (Dynamic Preference)
-    job = None
+    job = []
     job_cfg = config.get("community", {}).get("dynamic_jobs", {})
     if job_cfg.get("enabled", False):
         all_jobs = []
@@ -814,13 +852,24 @@ def build_issue(config, issue_date, timezone):
             for rj in rj_items:
                 all_jobs.append({"title": rj.title, "org": feed.get("name", "Job Board"), "link": rj.link})
         if all_jobs:
-            job = all_jobs[day_index % len(all_jobs)]
+            for offset in range(job_count):
+                job.append(all_jobs[(day_index + offset) % len(all_jobs)])
             
     if not job:
-        job = pick_pool_item(jobs, day_index + 1, {"title": "Hiring? Send your role", "org": "Recep's Network", "link": "mailto:recepadiyaman2244@gmail.com"})
+        job = pick_pool_items(
+            jobs,
+            day_index + 1,
+            job_count,
+            {"title": "Hiring? Send your role", "org": "Recep's Network", "link": "mailto:recepadiyaman2244@gmail.com"},
+        )
 
     # Events (Dynamic)
-    event = pick_pool_item(events, day_index, {"title": "Submit a Structural Biology Event", "date": "Ongoing", "link": "mailto:recepadiyaman2244@gmail.com"})
+    event = pick_pool_items(
+        events,
+        day_index,
+        event_count,
+        {"title": "Submit a Structural Biology Event", "date": "Ongoing", "link": "mailto:recepadiyaman2244@gmail.com"},
+    )
     
     quote = pick_pool_item(
         quotes,
@@ -889,9 +938,8 @@ def build_issue(config, issue_date, timezone):
             "why_it_matters": why_it_matters(signal_paper),
             "link": signal_paper.link,
         },
-        "quick_reads": [
-            format_item(paper) for paper in quick_papers
-        ],
+        "signal_extras": [format_item(paper) for paper in signal_extras],
+        "quick_reads": [format_item(paper) for paper in quick_papers],
         "ai_news": ai_news,
         "industry_news": industry_news,
         "dataset": dataset,

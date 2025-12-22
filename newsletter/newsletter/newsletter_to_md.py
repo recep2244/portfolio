@@ -15,6 +15,13 @@ def format_markdown(issue):
     
     safe_title = title.replace('"', '\\"')
     safe_description = issue.get('subject', '').replace('"', '\\"')
+
+    def coerce_list(value):
+        if isinstance(value, list):
+            return value
+        if isinstance(value, dict):
+            return [value]
+        return []
     
     # AI News Block
     md_ai = ""
@@ -53,6 +60,18 @@ tags: ["bioinformatics", "newsletter", "research"]
 > **Why it matters:** {issue.get('signal', {}).get('why_it_matters')}
 
 ---
+"""
+
+    # Optional Additional Signals
+    extras = issue.get('signal_extras') or []
+    if extras:
+        md += "\n## ⭐ Additional Signals\n"
+        for item in extras:
+            md += f"\n### [{item.get('title', 'Untitled')}]({item.get('link', '#')})\n"
+            md += f"{item.get('abstract', '')}\n"
+        md += "\n---\n"
+
+    md += """
 
 ## 🧪 AI & Research News
 {md_ai}
@@ -79,20 +98,21 @@ tags: ["bioinformatics", "newsletter", "research"]
     # Community / Tools
     md += "## 🛠️ Resources\n"
     
-    if issue.get('dataset'):
-        bs = issue['dataset']
+    datasets = coerce_list(issue.get('dataset'))
+    tools = coerce_list(issue.get('tool'))
+
+    for idx, bs in enumerate(datasets):
         md += f"- **Dataset**: [{bs.get('title')}]({bs.get('link')}) - {bs.get('summary', '')}\n"
     
-    if issue.get('tool'):
-        tl = issue['tool']
+    for tl in tools:
         md += f"- **Tool**: [{tl.get('title')}]({tl.get('link')}) - {tl.get('summary', '')} [View all tools &rarr;](https://recep2244.github.io/portfolio/#opensource)\n"
         
     if issue.get('community'):
-        evt = issue['community'].get('event')
-        job = issue['community'].get('job')
-        if evt:
+        evt_list = coerce_list(issue['community'].get('event'))
+        job_list = coerce_list(issue['community'].get('job'))
+        for evt in evt_list:
             md += f"- **Event**: [{evt.get('title')}]({evt.get('link')}) ({evt.get('date')})\n"
-        if job:
+        for job in job_list:
             md += f"- **Job**: [{job.get('title')}]({job.get('link')}) at {job.get('org')}\n"
 
     if issue.get('quote'):
