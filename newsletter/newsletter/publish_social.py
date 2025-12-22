@@ -29,6 +29,55 @@ def post_to_twitter(text, link):
 
     if not all([api_key, api_secret, access_token, access_token_secret]):
         print("Twitter credentials missing. Skipping.")
+    return False
+
+def post_to_bluesky(text):
+    load_dotenv()
+    handle = os.getenv("BLUESKY_HANDLE")
+    password = os.getenv("BLUESKY_APP_PASSWORD")
+    service = os.getenv("BLUESKY_SERVICE", "https://bsky.social")
+
+    if not handle or not password:
+        print("Bluesky credentials missing. Skipping.")
+        return False
+
+    try:
+        session_resp = requests.post(
+            f"{service}/xrpc/com.atproto.server.createSession",
+            json={"identifier": handle, "password": password},
+            timeout=30,
+        )
+        if session_resp.status_code != 200:
+            print(f"Bluesky login failed: {session_resp.status_code} - {session_resp.text}")
+            return False
+        session = session_resp.json()
+        access = session.get("accessJwt")
+        did = session.get("did")
+        if not access or not did:
+            print("Bluesky session missing fields.")
+            return False
+
+        record = {
+            "repo": did,
+            "collection": "app.bsky.feed.post",
+            "record": {
+                "text": text,
+                "createdAt": datetime.utcnow().isoformat() + "Z",
+            },
+        }
+        post_resp = requests.post(
+            f"{service}/xrpc/com.atproto.repo.createRecord",
+            headers={"Authorization": f"Bearer {access}"},
+            json=record,
+            timeout=30,
+        )
+        if post_resp.status_code != 200:
+            print(f"Bluesky post failed: {post_resp.status_code} - {post_resp.text}")
+            return False
+        print("Bluesky post successful.")
+        return True
+    except Exception as e:
+        print(f"Error connecting to Bluesky API: {e}")
         return False
 
     if tweepy:
@@ -157,7 +206,8 @@ def main():
     issue_url = f"{base_url}{issue_date}-issue-{issue_number}/"
     sub_url = base_url
 
-    tweet_text = (
+    social = issue.get("social", {}) if isinstance(issue, dict) else {}
+    tweet_text = social.get("twitter") or (
         f"🧬 Protein Design Digest #{issue_number}\n\n"
         f"Today's Signal: {signal_title}\n\n"
         f"Read Daily: {issue_url}\n"
@@ -165,7 +215,7 @@ def main():
         f"#ProteinDesign #StructuralBiology #Bioinformatics"
     )
     
-    li_text = (
+    li_text = social.get("linkedin") or (
         f"🧬 Protein Design Digest Edition #{issue_number} is out!\n\n"
         f"Today's Highlight: {signal_title}\n\n"
         f"📖 Full Digest: {issue_url}\n"
@@ -180,11 +230,13 @@ def main():
         f"✍️ *Subscribe:* {sub_url}\n\n"
         f"_(Forward this message to your WhatsApp Status!)_"
     )
+    bluesky_text = social.get("bluesky") or tweet_text
 
     print(f"Publishing Social for {issue_date}...")
     post_to_twitter(tweet_text, issue_url)
     post_to_linkedin(li_text, issue_url)
     post_to_whatsapp(wa_text, issue_url)
+    post_to_bluesky(bluesky_text)
 
 if __name__ == "__main__":
     main()

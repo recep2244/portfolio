@@ -271,6 +271,26 @@
         <textarea id="pipelineTip"></textarea>
       </div>
 
+      <h2>Social Summaries</h2>
+      <p class="section-note">Auto-generate short posts for Twitter, Bluesky, and LinkedIn.</p>
+      <div class="controls" style="margin-bottom: 12px;">
+        <button class="btn btn-primary" onclick="generateSocial()">Generate summaries</button>
+      </div>
+      <div class="card form-grid">
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="label" for="socialTwitter">Twitter / X</label>
+          <textarea id="socialTwitter"></textarea>
+        </div>
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="label" for="socialBluesky">Bluesky</label>
+          <textarea id="socialBluesky"></textarea>
+        </div>
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="label" for="socialLinkedIn">LinkedIn</label>
+          <textarea id="socialLinkedIn"></textarea>
+        </div>
+      </div>
+
       <h2>Quote</h2>
       <div class="card form-grid">
         <div class="field" style="grid-column: 1 / -1;">
@@ -371,6 +391,11 @@
         const quote = data.quote || {};
         document.getElementById("quoteText").value = quote.text || "";
         document.getElementById("quoteSource").value = quote.source || "";
+
+        const social = data.social || {};
+        document.getElementById("socialTwitter").value = social.twitter || "";
+        document.getElementById("socialBluesky").value = social.bluesky || "";
+        document.getElementById("socialLinkedIn").value = social.linkedin || "";
 
         candidates = buildCandidates(data);
         renderCandidates(candidates);
@@ -725,6 +750,11 @@
         curated.community.job = collectResource("job");
 
         curated.pipeline_tip = document.getElementById("pipelineTip").value.trim();
+        curated.social = {
+          twitter: document.getElementById("socialTwitter").value.trim(),
+          bluesky: document.getElementById("socialBluesky").value.trim(),
+          linkedin: document.getElementById("socialLinkedIn").value.trim(),
+        };
         curated.quote = {
           text: document.getElementById("quoteText").value.trim(),
           source: document.getElementById("quoteSource").value.trim(),
@@ -753,6 +783,39 @@
         navigator.clipboard.writeText(payload).then(() => {
           alert("Curated JSON copied to clipboard.");
         });
+      }
+
+      function generateSocial() {
+        if (!issue) {
+          alert("Load an issue first.");
+          return;
+        }
+        const title = document.getElementById("signalTitle").value.trim();
+        const why = document.getElementById("signalWhy").value.trim();
+        const issueDate = issue.issue_date || "";
+        const issueNumber = issue.issue_number || "";
+        const issueUrl = buildIssueUrl(issueDate, issueNumber);
+        const quick = collectItems("quick_reads", issue.quick_reads).slice(0, 2);
+        const quickTitles = quick.map((item) => item.title).filter(Boolean).join(" · ");
+        const hashtags = "#ProteinDesign #StructuralBiology #Bioinformatics";
+
+        const twitterBase = `🧬 Protein Design Digest #${issueNumber}\n${title}\n${quickTitles}\n${issueUrl}\n${hashtags}`;
+        const blueskyBase = `🧬 Protein Design Digest #${issueNumber}\n${title}\n${quickTitles}\n${issueUrl}\n${hashtags}`;
+        const linkedinBase = `Protein Design Digest #${issueNumber}\n\n${title}\n\nWhy it matters: ${why}\n\nQuick reads: ${quickTitles}\n\nRead: ${issueUrl}\n\n${hashtags}`;
+
+        document.getElementById("socialTwitter").value = truncateText(twitterBase, 280);
+        document.getElementById("socialBluesky").value = truncateText(blueskyBase, 300);
+        document.getElementById("socialLinkedIn").value = truncateText(linkedinBase, 3000);
+      }
+
+      function buildIssueUrl(issueDate, issueNumber) {
+        if (!issueDate || !issueNumber) return "https://recep2244.github.io/portfolio/newsletter/";
+        return `https://recep2244.github.io/portfolio/newsletter/${issueDate}-issue-${issueNumber}/`;
+      }
+
+      function truncateText(text, limit) {
+        if (text.length <= limit) return text;
+        return text.slice(0, limit - 3).trim() + "...";
       }
 
       async function sendPreview() {
