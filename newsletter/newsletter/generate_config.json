@@ -4,8 +4,8 @@
   "preheader_text": "Top design signals, quick reads, and pipeline tips from Recep Adiyaman.",
   "edition_time": "04:00 UK",
   "subject_prefix": "Protein Design Digest",
-  "quick_reads_count": 6,
-  "signal_extras_count": 2,
+  "quick_reads_count": 8,
+  "signal_extras_count": 3,
   "resource_counts": {
     "datasets": 2,
     "tools": 2,
@@ -89,7 +89,7 @@
   },
   "ai_news": {
     "enabled": true,
-    "max_items": 5,
+    "max_items": 7,
     "keywords": [
       "AlphaFold",
       "model architecture",
@@ -105,7 +105,7 @@
   },
   "industry_news": {
     "enabled": true,
-    "max_items": 5,
+    "max_items": 7,
     "keywords": [
       "partnership",
       "partnership",
