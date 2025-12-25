@@ -50,4 +50,15 @@ else
     --template-text "$ROOT_DIR/newsletter/template.txt" || echo "Warning: preview send failed."
 fi
 
+if [ "${NEWSLETTER_SEND_CURATION_REMINDER:-}" = "1" ]; then
+  if [ -z "${NEWSLETTER_GMAIL_USER:-}" ] || [ -z "${NEWSLETTER_GMAIL_APP_PASSWORD:-}" ]; then
+    echo "Warning: Missing Gmail credentials. Skipping curation reminder."
+  else
+    python3 "$ROOT_DIR/newsletter/send_reminder.py" \
+      --preview-list "$PREVIEW_LIST" \
+      --subject "Protein Design Digest: curation ready" \
+      --body "Your daily curation is ready. Open http://127.0.0.1:5050 to curate and approve." || echo "Warning: curation reminder failed."
+  fi
+fi
+
 echo "Preview sent (or rendered). Run run_send_confirmed.sh after approval to email everyone."

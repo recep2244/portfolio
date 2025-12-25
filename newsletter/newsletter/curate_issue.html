@@ -426,26 +426,6 @@
             index: idx,
           });
         });
-        (data.ai_news || []).forEach((item, idx) => {
-          list.push({
-            source: "AI News",
-            title: item.title || "",
-            link: item.link || "",
-            summary: item.abstract || "",
-            note: item.note || "",
-            index: idx,
-          });
-        });
-        (data.industry_news || []).forEach((item, idx) => {
-          list.push({
-            source: "Industry News",
-            title: item.title || "",
-            link: item.link || "",
-            summary: item.abstract || "",
-            note: item.note || "",
-            index: idx,
-          });
-        });
         return list;
       }
 

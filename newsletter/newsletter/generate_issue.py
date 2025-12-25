@@ -643,6 +643,42 @@ def filter_by_date(papers, start_date, end_date, timezone):
     return filtered
 
 
+def rank_papers(papers, keywords):
+    scored = []
+    for paper in papers:
+        score = score_paper(paper, keywords)
+        scored.append((score, paper))
+    scored.sort(key=lambda item: (item[0], item[1].published), reverse=True)
+    return scored
+
+
+def merge_unique_papers(primary, secondary):
+    merged = []
+    seen = set()
+    for paper in primary + secondary:
+        key = normalize_title(paper.title)
+        if key in seen:
+            continue
+        seen.add(key)
+        merged.append(paper)
+    return merged
+
+
+def take_unique_papers(pool, count, used):
+    if count <= 0:
+        return []
+    picked = []
+    for paper in pool:
+        key = normalize_title(paper.title)
+        if key in used:
+            continue
+        picked.append(paper)
+        used.add(key)
+        if len(picked) >= count:
+            break
+    return picked
+
+
 def format_item(paper):
     return {
         "title": paper.title,
@@ -702,6 +738,7 @@ def build_issue(config, issue_date, timezone):
     end_dt = datetime.combine(end_date, datetime.max.time(), tzinfo=timezone)
 
     papers = []
+    rss_items = []
     sources = config.get("sources", {})
 
     if sources.get("arxiv", {}).get("enabled", True):
@@ -785,35 +822,33 @@ def build_issue(config, issue_date, timezone):
         feed_max = int(sources.get("rss", {}).get("max_results", max_results))
         feeds = sources.get("rss", {}).get("feeds", [])
         for feed in feeds:
-            papers.extend(fetch_rss_feed(feed, keywords, feed_max, user_agent, timezone))
+            rss_items.extend(fetch_rss_feed(feed, keywords, feed_max, user_agent, timezone))
 
     papers = dedupe_papers(papers)
     papers = filter_by_date(papers, start_dt, end_dt, timezone)
+    if not papers:
+        raise ValueError(
+            "No papers found from paper sources. Increase lookback_days or adjust keywords."
+        )
 
-    scored = []
-    for paper in papers:
-        score = score_paper(paper, keywords)
-        if score > 0:
-            scored.append((score, paper))
+    rss_items = dedupe_papers(rss_items)
+    rss_items = filter_by_date(rss_items, start_dt, end_dt, timezone)
 
-    scored.sort(key=lambda item: (item[0], item[1].published), reverse=True)
+    paper_scored = rank_papers(papers, keywords)
+    paper_ranked = [item[1] for item in paper_scored]
+    paper_strict = [item[1] for item in paper_scored if item[0] > 0]
+
+    signal_candidates = paper_strict or paper_ranked
+    signal_paper = signal_candidates[0]
+
+    rss_ranked = [item[1] for item in rank_papers(rss_items, keywords)]
+    secondary_pool = merge_unique_papers(paper_ranked, rss_ranked)
 
     quick_count = int(config.get("quick_reads_count", 3))
     signal_extra_count = int(config.get("signal_extras_count", 0))
-    min_required = 1 + quick_count + signal_extra_count
-    if len(scored) < min_required:
-        raise ValueError(
-            "Not enough papers found. Increase lookback_days or adjust keywords."
-        )
-
-    signal_paper = scored[0][1]
-    signal_extras = [item[1] for item in scored[1 : 1 + signal_extra_count]]
-    quick_papers = [
-        item[1]
-        for item in scored[
-            1 + signal_extra_count : 1 + signal_extra_count + quick_count
-        ]
-    ]
+    used_titles = {normalize_title(signal_paper.title)}
+    signal_extras = take_unique_papers(secondary_pool, signal_extra_count, used_titles)
+    quick_papers = take_unique_papers(secondary_pool, quick_count, used_titles)
 
     issue_number = build_issue_number(config.get("issues_dir", "newsletter/issues"))
 
