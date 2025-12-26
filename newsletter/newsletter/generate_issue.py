@@ -34,6 +34,21 @@ def save_json(path, data):
         f.write("\n")
 
 
+def load_latest_issue(issues_dir):
+    if not os.path.isdir(issues_dir):
+        return None
+    candidates = [name for name in os.listdir(issues_dir) if name.endswith(".json")]
+    if not candidates:
+        return None
+    candidates.sort()
+    latest = os.path.join(issues_dir, candidates[-1])
+    try:
+        return load_json(latest)
+    except (OSError, json.JSONDecodeError) as exc:
+        print(f"Warning: Failed to load fallback issue {latest}: {exc}")
+        return None
+
+
 def fetch_url(url, user_agent):
     req = Request(url, headers={"User-Agent": user_agent})
     with urlopen(req, timeout=30) as resp:
@@ -827,9 +842,45 @@ def build_issue(config, issue_date, timezone):
     papers = dedupe_papers(papers)
     papers = filter_by_date(papers, start_dt, end_dt, timezone)
     if not papers:
-        raise ValueError(
-            "No papers found from paper sources. Increase lookback_days or adjust keywords."
+        issues_dir = config.get("issues_dir", "newsletter/issues")
+        fallback_issue = load_latest_issue(issues_dir)
+        if not fallback_issue:
+            template_path = os.path.join(os.path.dirname(__file__), "issue_template.json")
+            fallback_issue = load_json(template_path)
+        issue_number = build_issue_number(issues_dir)
+        signal_title = (fallback_issue.get("signal") or {}).get("title", "Daily Signal")
+        subject_prefix = config.get(
+            "subject_prefix",
+            fallback_issue.get("newsletter_name", "Genome Daily"),
         )
+        fallback_issue["newsletter_name"] = config.get(
+            "newsletter_name",
+            fallback_issue.get("newsletter_name", "Genome Daily"),
+        )
+        fallback_issue["newsletter_tagline"] = config.get(
+            "newsletter_tagline",
+            fallback_issue.get("newsletter_tagline", "Bioinformatics signals, every morning"),
+        )
+        fallback_issue["issue_date"] = issue_date.isoformat()
+        fallback_issue["issue_number"] = issue_number
+        fallback_issue["edition_time"] = config.get(
+            "edition_time", fallback_issue.get("edition_time", "")
+        )
+        fallback_issue["subject"] = f"{subject_prefix} - {issue_date.isoformat()} - {signal_title}"
+        fallback_issue["preheader_text"] = config.get(
+            "preheader_text", fallback_issue.get("preheader_text", "")
+        )
+        fallback_issue["manage_prefs_link"] = config.get(
+            "manage_prefs_link", fallback_issue.get("manage_prefs_link", "")
+        )
+        fallback_issue["unsubscribe_link"] = config.get(
+            "unsubscribe_link", fallback_issue.get("unsubscribe_link", "")
+        )
+        fallback_issue["sender_address"] = config.get(
+            "sender_address", fallback_issue.get("sender_address", "")
+        )
+        print("Warning: No papers found; using fallback issue content.")
+        return fallback_issue
 
     rss_items = dedupe_papers(rss_items)
     rss_items = filter_by_date(rss_items, start_dt, end_dt, timezone)
