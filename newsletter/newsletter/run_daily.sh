@@ -59,6 +59,10 @@ if [ "${NEWSLETTER_SEND_CURATION_REMINDER:-}" = "1" ]; then
       --subject "Protein Design Digest: Curation Ready [$(date +%Y-%m-%d)]" \
       --body "Your daily curation is ready." \
       --issue "$ROOT_DIR/newsletter/issues/$(date +%Y-%m-%d).json" || echo "Warning: curation reminder failed."
+
+    # Post to Social Media (if credentials exist)
+    python3 "$ROOT_DIR/newsletter/social_post.py" \
+      --issue "$ROOT_DIR/newsletter/issues/$(date +%Y-%m-%d).json" || echo "Warning: Social posting failed."
   fi
 fi
 

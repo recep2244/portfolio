@@ -39,6 +39,8 @@ jobs:
           LINKEDIN_MEMBER_ID: ${{ secrets.LINKEDIN_MEMBER_ID }}
           WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE }}
           WHATSAPP_API_KEY: ${{ secrets.WHATSAPP_API_KEY }}
+          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+          BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
         run: |
           cd newsletter/newsletter
           chmod +x run_daily.sh
