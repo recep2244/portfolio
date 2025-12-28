@@ -56,8 +56,9 @@ if [ "${NEWSLETTER_SEND_CURATION_REMINDER:-}" = "1" ]; then
   else
     python3 "$ROOT_DIR/newsletter/send_reminder.py" \
       --preview-list "$PREVIEW_LIST" \
-      --subject "Protein Design Digest: curation ready" \
-      --body "Your daily curation is ready. Open http://127.0.0.1:5050 to curate and approve." || echo "Warning: curation reminder failed."
+      --subject "Protein Design Digest: Curation Ready [$(date +%Y-%m-%d)]" \
+      --body "Your daily curation is ready." \
+      --issue "$ROOT_DIR/newsletter/issues/$(date +%Y-%m-%d).json" || echo "Warning: curation reminder failed."
   fi
 fi
 

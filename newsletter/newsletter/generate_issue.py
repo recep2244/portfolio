@@ -1046,6 +1046,14 @@ def build_issue(config, issue_date, timezone):
         "manage_prefs_link": config.get("manage_prefs_link", ""),
         "unsubscribe_link": config.get("unsubscribe_link", ""),
         "sender_address": config.get("sender_address", ""),
+        "candidates": {
+            "signal": [format_item(p) for p in signal_candidates[:15]],
+            "quick_reads": [format_item(p) for p in secondary_pool[:20]],
+            "tools": tool_pool if isinstance(tool_pool, list) else [],
+            "datasets": dataset_pool if isinstance(dataset_pool, list) else [],
+            "ai_news": [format_item(p) for p in ai_items[:10]] if 'ai_items' in locals() else [],
+            "industry_news": [format_item(p) for p in ind_items[:10]] if 'ind_items' in locals() else [],
+        }
     }
 
     return issue

@@ -350,14 +350,41 @@
             allPapers = [];
 
             // Extract papers from different sections
+            if (data.candidates) {
+                if (Array.isArray(data.candidates.signal)) {
+                    data.candidates.signal.forEach(p => allPapers.push({ ...p, section: 'Candidates: Signal' }));
+                }
+                if (Array.isArray(data.candidates.tools)) {
+                    data.candidates.tools.forEach(p => allPapers.push({ ...p, section: 'Candidates: Tools' }));
+                }
+                if (Array.isArray(data.candidates.datasets)) {
+                    data.candidates.datasets.forEach(p => allPapers.push({ ...p, section: 'Candidates: Datasets' }));
+                }
+                if (Array.isArray(data.candidates.quick_reads)) {
+                    data.candidates.quick_reads.forEach(p => allPapers.push({ ...p, section: 'Candidates: Quick Reads' }));
+                }
+            }
+
+            // Render existing selections
+            if (data.signal) {
+                // Signal is usually a dict, wrap in list
+                const s = data.signal;
+                allPapers.push({ ...s, section: 'Selected: Signal' });
+            }
             if (data.quick_reads && Array.isArray(data.quick_reads)) {
-                data.quick_reads.forEach(p => allPapers.push({ ...p, section: 'Quick Reads' }));
+                data.quick_reads.forEach(p => allPapers.push({ ...p, section: 'Selected: Quick Reads' }));
+            }
+            if (data.tool && Array.isArray(data.tool)) {
+                data.tool.forEach(p => allPapers.push({ ...p, section: 'Selected: Tools' }));
+            }
+            if (data.dataset && Array.isArray(data.dataset)) {
+                data.dataset.forEach(p => allPapers.push({ ...p, section: 'Selected: Datasets' }));
             }
             if (data.ai_news && Array.isArray(data.ai_news)) {
-                data.ai_news.forEach(p => allPapers.push({ ...p, section: 'AI News' }));
+                data.ai_news.forEach(p => allPapers.push({ ...p, section: 'Selected: AI News' }));
             }
             if (data.industry_news && Array.isArray(data.industry_news)) {
-                data.industry_news.forEach(p => allPapers.push({ ...p, section: 'Industry News' }));
+                data.industry_news.forEach(p => allPapers.push({ ...p, section: 'Selected: Industry News' }));
             }
 
             renderPapers();
