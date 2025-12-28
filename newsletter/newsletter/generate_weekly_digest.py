@@ -80,13 +80,24 @@ Missed a day? Here are the top research signals and tools from the past week, su
     
     # 3. Aggregated Tools/Datasets
     for issue in issues:
-        tool = issue.get('tool')
-        dataset = issue.get('dataset')
+        tools = issue.get('tool')
+        datasets = issue.get('dataset')
         
-        if tool and tool.get('title') not in ["Add a tool", "Add a tool you like"]:
-             md += f"- 🛠 **Tool**: [{tool.get('title')}]({tool.get('link')}) - {tool.get('summary')}\n"
-        if dataset and dataset.get('title') not in ["Add a dataset", "Add a dataset you like"]:
-             md += f"- 💾 **Dataset**: [{dataset.get('title')}]({dataset.get('link')}) - {dataset.get('summary')}\n"
+        # Handle if tool is a list (new format) or dict (old format)
+        if tools:
+            if isinstance(tools, dict):
+                tools = [tools]
+            for tool in tools:
+                if tool and tool.get('title') not in ["Add a tool", "Add a tool you like"]:
+                     md += f"- 🛠 **Tool**: [{tool.get('title')}]({tool.get('link')}) - {tool.get('summary')}\n"
+
+        # Handle if dataset is a list (new format) or dict (old format)
+        if datasets:
+            if isinstance(datasets, dict):
+                datasets = [datasets]
+            for dataset in datasets:
+                if dataset and dataset.get('title') not in ["Add a dataset", "Add a dataset you like"]:
+                     md += f"- 💾 **Dataset**: [{dataset.get('title')}]({dataset.get('link')}) - {dataset.get('summary')}\n"
 
     # 4. AI & Research News
     ai_news_items = []
