@@ -4,6 +4,15 @@ import json
 import os
 import sys
 import textwrap
+from pathlib import Path
+
+# Load .env file if present (for local development)
+try:
+    from dotenv import load_dotenv
+    env_path = Path(__file__).parent / ".env"
+    load_dotenv(dotenv_path=env_path)
+except ImportError:
+    pass  # dotenv not installed, will use system env vars
 
 # Try importing libraries, but don't crash if missing (flow might be different)
 try:
