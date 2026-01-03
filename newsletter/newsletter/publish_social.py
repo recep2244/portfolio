@@ -16,7 +16,7 @@ except ImportError:
 SOCIAL_TAGS = ["#ProteinDesign", "#StructuralBiology", "#Bioinformatics"]
 TWITTER_LIMIT = 280
 BLUESKY_LIMIT = 300
-DEFAULT_BASE_URL = "https://recep2244.github.io/portfolio/newsletter/"
+DEFAULT_BASE_URL = "https://recep2244.github.io/portfolio/#newsletter"
 
 def load_issue(issue_date, issues_dir):
     filename = f"{issue_date}.json"
