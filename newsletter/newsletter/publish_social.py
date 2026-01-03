@@ -42,6 +42,21 @@ def shorten_text(text, max_len):
     return text[: max_len - 3].rstrip() + "..."
 
 
+def build_external_embed(title, summary, url):
+    if not url:
+        return None
+    safe_title = shorten_text(title or "Paper of the day", 120)
+    safe_summary = shorten_text(summary or "", 200)
+    return {
+        "$type": "app.bsky.embed.external",
+        "external": {
+            "uri": url,
+            "title": safe_title,
+            "description": safe_summary,
+        },
+    }
+
+
 def format_issue_date(value):
     if not value:
         return ""
@@ -187,7 +202,7 @@ def post_to_twitter(text):
         print("Tweepy not installed. Cannot tweet.")
         return False
 
-def post_to_bluesky(text, subscribe_url=None, paper_url=None):
+def post_to_bluesky(text, subscribe_url=None, paper_url=None, embed=None):
     load_env()
     handle = os.getenv("BLUESKY_HANDLE")
     password = os.getenv("BLUESKY_APP_PASSWORD") or os.getenv("BLUESKY_PASSWORD")
@@ -221,6 +236,8 @@ def post_to_bluesky(text, subscribe_url=None, paper_url=None):
                 "createdAt": datetime.utcnow().isoformat() + "Z",
             },
         }
+        if embed:
+            record["record"]["embed"] = embed
         facets = build_bluesky_facets(
             text, subscribe_url=subscribe_url, paper_url=paper_url
         )
@@ -432,8 +449,12 @@ def main():
     post_to_linkedin(li_text, issue_url)
     post_to_whatsapp(wa_text, issue_url)
     bs_subscribe = os.getenv("BLUESKY_SUBSCRIBE_URL", DEFAULT_BASE_URL)
+    embed = build_external_embed(signal_title, summary, signal_link)
     post_to_bluesky(
-        bluesky_text, subscribe_url=bs_subscribe, paper_url=signal_link
+        bluesky_text,
+        subscribe_url=bs_subscribe,
+        paper_url=signal_link,
+        embed=embed,
     )
 
 if __name__ == "__main__":
