@@ -26,7 +26,7 @@ try:
 except ImportError:
     requests = None
 
-SOCIAL_TAGS = ["#ProteinDesign", "#StructuralBiology", "#Bioinformatics"]
+SOCIAL_TAGS = ["#ProteinDesign", "#StructuralBiology", "#Bioinformatics", "#ProteinEngineering"]
 TWITTER_LIMIT = 280
 BLUESKY_LIMIT = 300
 DEFAULT_BASE_URL = "https://recep2244.github.io/portfolio/#newsletter"
@@ -70,7 +70,7 @@ def build_social_text(
     tail_lines = []
     if signal_link:
         tail_lines.append(f"{signal_link}")
-    tail_lines.append("Subscribe to the newsletter")
+    tail_lines.append("Subscribe: newsletter")
 
     def assemble(title_line, summary_line=None):
         lines = [header]
