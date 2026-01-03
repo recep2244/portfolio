@@ -193,7 +193,7 @@ def post_linkedin(content, access_token):
         print(f"❌ LinkedIn Company Page Error: {e}")
 
 
-def build_bluesky_facets(text):
+def build_bluesky_facets(text, subscribe_url=None):
     facets = []
 
     def add_facet(start, end, feature):
@@ -222,10 +222,20 @@ def build_bluesky_facets(text):
             {"$type": "app.bsky.richtext.facet#tag", "tag": tag},
         )
 
+    if subscribe_url:
+        label = "Subscribe to the newsletter"
+        idx = text.find(label)
+        if idx != -1:
+            add_facet(
+                idx,
+                idx + len(label),
+                {"$type": "app.bsky.richtext.facet#link", "uri": subscribe_url},
+            )
+
     return facets if facets else None
 
 
-def post_bluesky(content, handle, password, service):
+def post_bluesky(content, handle, password, service, subscribe_url=None):
     if not requests:
         print("Requests not installed, skipping Bluesky.")
         return
@@ -253,7 +263,7 @@ def post_bluesky(content, handle, password, service):
                 "createdAt": datetime.utcnow().isoformat() + "Z",
             },
         }
-        facets = build_bluesky_facets(content)
+        facets = build_bluesky_facets(content, subscribe_url=subscribe_url)
         if facets:
             record["record"]["facets"] = facets
 
@@ -339,8 +349,9 @@ def main():
     bs_handle = os.getenv("BLUESKY_HANDLE")
     bs_pass = os.getenv("BLUESKY_APP_PASSWORD") or os.getenv("BLUESKY_PASSWORD")
     bs_service = os.getenv("BLUESKY_SERVICE", "https://bsky.social")
+    bs_subscribe = os.getenv("BLUESKY_SUBSCRIBE_URL", DEFAULT_BASE_URL)
     if bs_handle and bs_pass:
-        post_bluesky(bluesky_text, bs_handle, bs_pass, bs_service)
+        post_bluesky(bluesky_text, bs_handle, bs_pass, bs_service, bs_subscribe)
     else:
         print("Skipping Bluesky (credentials missing)")
 
