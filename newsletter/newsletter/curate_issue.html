@@ -765,6 +765,73 @@
         });
       }
 
+      function formatIssueDate(value) {
+        if (!value) return "";
+        const parts = value.split("-");
+        if (parts.length !== 3) return "";
+        const [year, month, day] = parts;
+        if (!year || !month || !day) return "";
+        return `${day}.${month}.${year.slice(2)}`;
+      }
+
+      function buildSocialText({
+        title,
+        summary,
+        paperLink,
+        subUrl,
+        limit,
+        includeTags,
+        issueDate,
+        subscribeUrlInText,
+        extras,
+      }) {
+        const tagsLine = includeTags ? "#ProteinDesign #StructuralBiology #Bioinformatics #ProteinEngineering" : "";
+        const headerDate = formatIssueDate(issueDate);
+        const header = headerDate ? `Paper of the day · ${headerDate}` : "Paper of the day";
+        const safeTitle = title || "Daily signal";
+        const subscribeLabel = "Subnewsletter";
+        const subscribeLine = subscribeUrlInText ? `${subscribeLabel} ${subUrl}` : subscribeLabel;
+        const tailLines = [];
+        if (subscribeUrlInText && paperLink) {
+          tailLines.push(subscribeLine);
+          tailLines.push(paperLink);
+        } else {
+          if (paperLink) tailLines.push(paperLink);
+          tailLines.push(subscribeLine);
+        }
+
+        const baseLines = [header].concat(tailLines);
+        if (tagsLine) baseLines.push(tagsLine);
+        const baseWithoutTitle = baseLines.join("\n");
+        const allowedTitle = Math.max(0, limit - baseWithoutTitle.length - 1);
+        let titleLine = truncateText(safeTitle, allowedTitle);
+        if (!titleLine) titleLine = "Signal";
+
+        const lines = [header, titleLine].concat(tailLines);
+        if (tagsLine) lines.push(tagsLine);
+
+        const tryAddLine = (text, index) => {
+          const current = lines.join("\n");
+          const remaining = limit - current.length - 1;
+          if (remaining <= 0) return false;
+          const lineText = truncateText(text, remaining);
+          if (!lineText) return false;
+          lines.splice(index, 0, lineText);
+          return true;
+        };
+
+        let insertIdx = 2;
+        if (summary) {
+          if (tryAddLine(summary, insertIdx)) insertIdx += 1;
+        }
+        (extras || []).forEach((extra) => {
+          if (tryAddLine(extra, insertIdx)) insertIdx += 1;
+        });
+
+        const finalText = lines.join("\n");
+        return finalText.length <= limit ? finalText : truncateText(finalText, limit);
+      }
+
       function generateSocial() {
         if (!issue) {
           alert("Load an issue first.");
@@ -780,15 +847,50 @@
         const digestUrl = buildDigestUrl();
         const quick = collectItems("quick_reads", issue.quick_reads).slice(0, 2);
         const quickTitles = quick.map((item) => item.title).filter(Boolean).join(" · ");
-        const hashtags = "#ProteinDesign #StructuralBiology #Bioinformatics";
-
         const shortSummary = truncateText(summary || why, 140);
-        const twitterBase = `📄 Paper of the day\n${title}\n${shortSummary}\nPaper: ${paperLink}\nSubscribe to the daily digest: ${digestUrl}`;
-        const blueskyBase = `🧬 Protein Design Digest #${issueNumber}\n${title}\n${shortSummary}\nPaper: ${paperLink}\nDaily digest: ${issueUrl}\n${hashtags}`;
-        const linkedinBase = `Protein Design Digest #${issueNumber}\n\n${title}\n\nSummary: ${shortSummary}\n\nPaper: ${paperLink}\nDaily digest: ${issueUrl}\n\nQuick reads: ${quickTitles}\n\n${hashtags}`;
 
-        document.getElementById("socialTwitter").value = truncateText(twitterBase, 280);
-        document.getElementById("socialBluesky").value = truncateText(blueskyBase, 300);
+        const extras = [];
+        const aiItems = coerceList(issue.ai_news);
+        if (aiItems.length && aiItems[0].title) {
+          extras.push(`AI: ${aiItems[0].title}`);
+        }
+        const industryItems = coerceList(issue.industry_news);
+        if (industryItems.length && industryItems[0].title) {
+          extras.push(`Industry: ${industryItems[0].title}`);
+        }
+        const jobItems = coerceList((issue.community || {}).job);
+        if (jobItems.length && jobItems[0].title) {
+          const jobOrg = jobItems[0].org ? ` (${jobItems[0].org})` : "";
+          extras.push(`Job: ${jobItems[0].title}${jobOrg}`);
+        }
+
+        const twitterText = buildSocialText({
+          title,
+          summary: shortSummary,
+          paperLink,
+          subUrl: digestUrl,
+          limit: 280,
+          includeTags: true,
+          issueDate,
+          subscribeUrlInText: true,
+          extras,
+        });
+        const blueskyText = buildSocialText({
+          title,
+          summary: shortSummary,
+          paperLink,
+          subUrl: digestUrl,
+          limit: 300,
+          includeTags: true,
+          issueDate,
+          subscribeUrlInText: false,
+          extras,
+        });
+
+        const linkedinBase = `Protein Design Digest #${issueNumber}\n\n${title}\n\nSummary: ${shortSummary}\n\nPaper: ${paperLink}\nDaily digest: ${issueUrl}\n\nQuick reads: ${quickTitles}\n\n#ProteinDesign #StructuralBiology #Bioinformatics #ProteinEngineering`;
+
+        document.getElementById("socialTwitter").value = twitterText;
+        document.getElementById("socialBluesky").value = blueskyText;
         document.getElementById("socialLinkedIn").value = truncateText(linkedinBase, 3000);
       }
 
@@ -798,7 +900,7 @@
       }
 
       function buildDigestUrl() {
-        return "https://recep2244.github.io/portfolio/newsletter/";
+        return "https://recep2244.github.io/portfolio/#newsletter";
       }
 
       function truncateText(text, limit) {
