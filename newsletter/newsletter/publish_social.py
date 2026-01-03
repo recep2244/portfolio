@@ -43,19 +43,16 @@ def shorten_text(text, max_len):
 
 
 def build_social_text(
-    title, summary, signal_link, sub_url, limit, issue_date=None, include_tags=True
+    title, summary, signal_link, sub_url, limit, include_tags=True
 ):
     header = "Paper of the day"
-    if issue_date:
-        header = f"{header} · {issue_date}"
-    header = f"{header} · Recep Adiyaman"
     title = title or "Daily signal"
     tags_line = " ".join(SOCIAL_TAGS) if include_tags else ""
 
     tail_lines = []
     if signal_link:
         tail_lines.append(f"{signal_link}")
-    tail_lines.append(f"Subscribe: {sub_url}")
+    tail_lines.append(f"Subscribe to the newsletter: {sub_url}")
 
     def assemble(title_line, summary_line=None):
         lines = [header]
@@ -311,14 +308,13 @@ def post_to_whatsapp(text, link):
         print(f"Error connecting to CallMeBot: {e}")
         return False
 
-def build_twitter_text(signal_title, summary, signal_link, sub_url, issue_date=None):
+def build_twitter_text(signal_title, summary, signal_link, sub_url):
     return build_social_text(
         signal_title,
         summary,
         signal_link,
         sub_url,
         TWITTER_LIMIT,
-        issue_date,
         include_tags=True,
     )
 
@@ -352,9 +348,7 @@ def main():
     if len(summary) > 140:
         summary = summary[:137].rstrip() + "..."
 
-    tweet_text = build_twitter_text(
-        signal_title, summary, signal_link, sub_url, issue_date
-    )
+    tweet_text = build_twitter_text(signal_title, summary, signal_link, sub_url)
 
     li_text = build_social_text(
         signal_title,
@@ -362,7 +356,6 @@ def main():
         signal_link,
         sub_url,
         BLUESKY_LIMIT,
-        issue_date,
         include_tags=False,
     )
 
@@ -379,7 +372,6 @@ def main():
         signal_link,
         sub_url,
         BLUESKY_LIMIT,
-        issue_date,
         include_tags=True,
     )
 
