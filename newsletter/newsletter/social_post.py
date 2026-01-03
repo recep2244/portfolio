@@ -47,41 +47,47 @@ def shorten_text(text, max_len):
     return text[: max_len - 3].rstrip() + "..."
 
 
-def build_social_text(title, summary, signal_link, sub_url, limit):
-    header = "🧬 Protein Design Digest"
-    curated = "Curated by Recep Adiyaman"
-    title = title or "Daily Signal"
-    title_line = f"Signal: {title}"
-    tags_line = " ".join(SOCIAL_TAGS)
+def build_social_text(
+    title, summary, signal_link, sub_url, limit, issue_date=None, include_tags=True
+):
+    header = "Paper of the day"
+    if issue_date:
+        header = f"{header} · {issue_date}"
+    header = f"{header} · Recep Adiyaman"
+    title = title or "Daily signal"
+    tags_line = " ".join(SOCIAL_TAGS) if include_tags else ""
 
     tail_lines = []
     if signal_link:
-        tail_lines.append(f"Paper: {signal_link}")
+        tail_lines.append(f"{signal_link}")
     tail_lines.append(f"Subscribe: {sub_url}")
 
-    lines = [header, curated, title_line] + tail_lines + [tags_line]
-    base_text = "\n".join(lines)
+    def assemble(title_line, summary_line=None):
+        lines = [header]
+        if title_line:
+            lines.append(title_line)
+        if summary_line:
+            lines.append(summary_line)
+        lines += tail_lines
+        if tags_line:
+            lines.append(tags_line)
+        return "\n".join(lines)
 
-    if len(base_text) > limit:
-        base_without_title = "\n".join([header, curated, ""] + tail_lines + [tags_line])
-        allowed = max(0, limit - len(base_without_title))
-        trimmed_title = shorten_text(title, allowed)
-        title_line = f"Signal: {trimmed_title}".rstrip()
-        if not trimmed_title:
-            title_line = "Signal"
-        lines = [header, curated, title_line] + tail_lines + [tags_line]
-        base_text = "\n".join(lines)
+    base_without_title = assemble("", None)
+    allowed = max(0, limit - len(base_without_title) - 1)
+    title_line = shorten_text(title, allowed)
+    if not title_line:
+        title_line = "Signal"
+    base_text = assemble(title_line, None)
 
     if summary:
         remaining = limit - len(base_text) - 1
         if remaining > 0:
             summary_text = shorten_text(summary, remaining)
-            lines.insert(3, summary_text)
-            base_text = "\n".join(lines)
+            base_text = assemble(title_line, summary_text)
 
     if len(base_text) > limit:
-        lines = [header, curated, title_line] + tail_lines + [tags_line]
-        base_text = "\n".join(lines)
+        base_text = assemble(title_line, None)
 
     return base_text
 
@@ -291,11 +297,24 @@ def main():
     base_url = DEFAULT_BASE_URL
     sub_url = base_url
 
+    issue_date = issue.get("issue_date", "")
     twitter_text = build_social_text(
-        signal_title, summary, signal_link, sub_url, TWITTER_LIMIT
+        signal_title,
+        summary,
+        signal_link,
+        sub_url,
+        TWITTER_LIMIT,
+        issue_date,
+        include_tags=False,
     )
     bluesky_text = build_social_text(
-        signal_title, summary, signal_link, sub_url, BLUESKY_LIMIT
+        signal_title,
+        summary,
+        signal_link,
+        sub_url,
+        BLUESKY_LIMIT,
+        issue_date,
+        include_tags=True,
     )
 
     print("--- Twitter Post ---")

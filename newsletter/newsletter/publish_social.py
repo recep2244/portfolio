@@ -42,41 +42,47 @@ def shorten_text(text, max_len):
     return text[: max_len - 3].rstrip() + "..."
 
 
-def build_social_text(title, summary, signal_link, sub_url, limit):
-    header = "🧬 Protein Design Digest"
-    curated = "Curated by Recep Adiyaman"
-    title = title or "Daily Signal"
-    title_line = f"Signal: {title}"
-    tags_line = " ".join(SOCIAL_TAGS)
+def build_social_text(
+    title, summary, signal_link, sub_url, limit, issue_date=None, include_tags=True
+):
+    header = "Paper of the day"
+    if issue_date:
+        header = f"{header} · {issue_date}"
+    header = f"{header} · Recep Adiyaman"
+    title = title or "Daily signal"
+    tags_line = " ".join(SOCIAL_TAGS) if include_tags else ""
 
     tail_lines = []
     if signal_link:
-        tail_lines.append(f"Paper: {signal_link}")
+        tail_lines.append(f"{signal_link}")
     tail_lines.append(f"Subscribe: {sub_url}")
 
-    lines = [header, curated, title_line] + tail_lines + [tags_line]
-    base_text = "\n".join(lines)
+    def assemble(title_line, summary_line=None):
+        lines = [header]
+        if title_line:
+            lines.append(title_line)
+        if summary_line:
+            lines.append(summary_line)
+        lines += tail_lines
+        if tags_line:
+            lines.append(tags_line)
+        return "\n".join(lines)
 
-    if len(base_text) > limit:
-        base_without_title = "\n".join([header, curated, ""] + tail_lines + [tags_line])
-        allowed = max(0, limit - len(base_without_title))
-        trimmed_title = shorten_text(title, allowed)
-        title_line = f"Signal: {trimmed_title}".rstrip()
-        if not trimmed_title:
-            title_line = "Signal"
-        lines = [header, curated, title_line] + tail_lines + [tags_line]
-        base_text = "\n".join(lines)
+    base_without_title = assemble("", None)
+    allowed = max(0, limit - len(base_without_title) - 1)
+    title_line = shorten_text(title, allowed)
+    if not title_line:
+        title_line = "Signal"
+    base_text = assemble(title_line, None)
 
     if summary:
         remaining = limit - len(base_text) - 1
         if remaining > 0:
             summary_text = shorten_text(summary, remaining)
-            lines.insert(3, summary_text)
-            base_text = "\n".join(lines)
+            base_text = assemble(title_line, summary_text)
 
     if len(base_text) > limit:
-        lines = [header, curated, title_line] + tail_lines + [tags_line]
-        base_text = "\n".join(lines)
+        base_text = assemble(title_line, None)
 
     return base_text
 
@@ -305,8 +311,16 @@ def post_to_whatsapp(text, link):
         print(f"Error connecting to CallMeBot: {e}")
         return False
 
-def build_twitter_text(signal_title, summary, signal_link, sub_url):
-    return build_social_text(signal_title, summary, signal_link, sub_url, TWITTER_LIMIT)
+def build_twitter_text(signal_title, summary, signal_link, sub_url, issue_date=None):
+    return build_social_text(
+        signal_title,
+        summary,
+        signal_link,
+        sub_url,
+        TWITTER_LIMIT,
+        issue_date,
+        include_tags=False,
+    )
 
 def main():
     parser = argparse.ArgumentParser()
@@ -338,10 +352,18 @@ def main():
     if len(summary) > 140:
         summary = summary[:137].rstrip() + "..."
 
-    tweet_text = build_twitter_text(signal_title, summary, signal_link, sub_url)
+    tweet_text = build_twitter_text(
+        signal_title, summary, signal_link, sub_url, issue_date
+    )
 
     li_text = build_social_text(
-        signal_title, summary, signal_link, sub_url, BLUESKY_LIMIT
+        signal_title,
+        summary,
+        signal_link,
+        sub_url,
+        BLUESKY_LIMIT,
+        issue_date,
+        include_tags=False,
     )
 
     wa_text = (
@@ -352,7 +374,13 @@ def main():
         f"_(Forward this message to your WhatsApp Status!)_"
     )
     bluesky_text = build_social_text(
-        signal_title, summary, signal_link, sub_url, BLUESKY_LIMIT
+        signal_title,
+        summary,
+        signal_link,
+        sub_url,
+        BLUESKY_LIMIT,
+        issue_date,
+        include_tags=True,
     )
 
     print(f"Publishing Social for {issue_date}...")
