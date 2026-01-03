@@ -41,9 +41,8 @@ def format_post(issue):
     post = f"⚡ Daily Signal: {title}\n\n"
     
     # Truncate summary to fit roughly in a tweet (leaving room for link/hashtags)
-    # Twitter limit ~280. Link takes ~23. Hashtags ~30. 
-    # Available for text ~220.
-    limit = 200
+    # Twitter limit ~280. Bluesky ~300.
+    limit = 140
     if len(summary) > limit:
         summary = textwrap.shorten(summary, width=limit, placeholder="...")
     
@@ -72,42 +71,87 @@ def post_twitter(content, api_key, api_secret, access_token, access_token_secret
         print(f"Failed to post to Twitter: {e}")
 
 
-def post_linkedin(content, access_token, member_id):
+def post_linkedin(content, access_token):
     if not requests:
         print("Requests not installed, skipping LinkedIn.")
         return
 
-    url = "https://api.linkedin.com/v2/ugcPosts"
     headers = {
         "Authorization": f"Bearer {access_token}",
         "Content-Type": "application/json",
         "X-Restli-Protocol-Version": "2.0.0"
     }
-    
-    payload = {
-        "author": f"urn:li:person:{member_id}",
-        "lifecycleState": "PUBLISHED",
-        "specificContent": {
-            "com.linkedin.ugc.ShareContent": {
-                "shareCommentary": {
-                    "text": content
-                },
-                "shareMediaCategory": "NONE"
-            }
-        },
-        "visibility": {
-            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
-        }
-    }
 
+    # 1. Post to Personal Profile
+    person_urn = None
     try:
-        resp = requests.post(url, headers=headers, json=payload)
-        resp.raise_for_status()
-        print("Posted to LinkedIn")
+        # Fetch current user's URN
+        # Try /me first (legacy/r_liteprofile)
+        profile_res = requests.get("https://api.linkedin.com/v2/me", headers=headers)
+        if profile_res.status_code == 200:
+            person_urn = f"urn:li:person:{profile_res.json()['id']}"
+        else:
+            # Try OIDC userinfo (openid/profile)
+            oidc_headers = {"Authorization": f"Bearer {access_token}"}
+            userinfo_res = requests.get("https://api.linkedin.com/v2/userinfo", headers=oidc_headers)
+            if userinfo_res.status_code == 200:
+                person_urn = f"urn:li:person:{userinfo_res.json()['sub']}"
+            else:
+                print(f"⚠️ Failed to fetch LinkedIn Profile dynamically (/me: {profile_res.status_code}, /userinfo: {userinfo_res.status_code})")
+                # Fallback to known Member ID if available
+                KNOWN_MEMBER_ID = "780710122"
+                print(f"⚡ Using known fallback Member ID: {KNOWN_MEMBER_ID}")
+                person_urn = f"urn:li:member:{KNOWN_MEMBER_ID}"
+
+        if person_urn:
+            payload_person = {
+                "author": person_urn,
+                "lifecycleState": "PUBLISHED",
+                "specificContent": {
+                    "com.linkedin.ugc.ShareContent": {
+                        "shareCommentary": {"text": content},
+                        "shareMediaCategory": "NONE"
+                    }
+                },
+                "visibility": {"com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"}
+            }
+            
+            resp = requests.post("https://api.linkedin.com/v2/ugcPosts", headers=headers, json=payload_person)
+            if resp.status_code in [200, 201]:
+                print(f"✅ Posted to LinkedIn Profile ({person_urn})")
+            else:
+                print(f"❌ Failed to post to LinkedIn Profile: {resp.text}")
+
     except Exception as e:
-        print(f"Failed to post to LinkedIn: {e}")
-        if hasattr(e, 'response') and e.response:
-            print(f"Response: {e.response.text}")
+        print(f"❌ LinkedIn Profile Error: {e}")
+
+    # 2. Post to Company Page (Protein Design Daily - ID: 110446267)
+    ORG_ID = "110446267"
+    try:
+        org_urn = f"urn:li:organization:{ORG_ID}"
+        payload_org = {
+            "author": org_urn,
+            "lifecycleState": "PUBLISHED",
+            "specificContent": {
+                "com.linkedin.ugc.ShareContent": {
+                    "shareCommentary": {"text": content},
+                    "shareMediaCategory": "NONE"
+                }
+            },
+            "visibility": {"com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"}
+        }
+
+        resp_org = requests.post("https://api.linkedin.com/v2/ugcPosts", headers=headers, json=payload_org)
+        if resp_org.status_code in [200, 201]:
+            print(f"✅ Posted to LinkedIn Company Page ({org_urn})")
+        else:
+            # This often fails if the token lacks 'w_organization_social'
+            # We print a helpful message but don't crash.
+            print(f"⚠️  Could not post to Company Page (might need 'w_organization_social' scope): {resp_org.status_code}")
+            # print(resp_org.text) # Uncomment for debug
+            
+    except Exception as e:
+        print(f"❌ LinkedIn Company Page Error: {e}")
 
 
 def post_bluesky(content, handle, password):
@@ -156,9 +200,8 @@ def main():
 
     # LinkedIn
     li_tok = os.getenv("LINKEDIN_ACCESS_TOKEN")
-    li_id = os.getenv("LINKEDIN_MEMBER_ID")
-    if li_tok and li_id:
-        post_linkedin(post_content, li_tok, li_id)
+    if li_tok:
+        post_linkedin(post_content, li_tok)
     else:
         print("Skipping LinkedIn (credentials missing)")
 
