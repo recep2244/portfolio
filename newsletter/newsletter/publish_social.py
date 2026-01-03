@@ -52,7 +52,7 @@ def build_social_text(
     tail_lines = []
     if signal_link:
         tail_lines.append(f"{signal_link}")
-    tail_lines.append(f"Subscribe to the newsletter {sub_url}")
+    tail_lines.append("Subscribe to the newsletter")
 
     def assemble(title_line, summary_line=None):
         lines = [header]
