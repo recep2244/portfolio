@@ -97,19 +97,41 @@ def build_social_text(
     return base_text
 
 
-def build_bluesky_facets(text, subscribe_url=None):
+def build_bluesky_facets(text, subscribe_url=None, paper_url=None):
     facets = []
+    seen = set()
 
     def add_facet(start, end, feature):
+        byte_start = len(text[:start].encode("utf-8"))
+        byte_end = len(text[:end].encode("utf-8"))
+        key = (
+            byte_start,
+            byte_end,
+            feature.get("$type"),
+            feature.get("uri"),
+            feature.get("tag"),
+        )
+        if key in seen:
+            return
+        seen.add(key)
         facets.append(
             {
                 "index": {
-                    "byteStart": len(text[:start].encode("utf-8")),
-                    "byteEnd": len(text[:end].encode("utf-8")),
+                    "byteStart": byte_start,
+                    "byteEnd": byte_end,
                 },
                 "features": [feature],
             }
         )
+
+    if paper_url:
+        idx = text.find(paper_url)
+        if idx != -1:
+            add_facet(
+                idx,
+                idx + len(paper_url),
+                {"$type": "app.bsky.richtext.facet#link", "uri": paper_url},
+            )
 
     for match in re.finditer(r"https?://\\S+", text):
         add_facet(
@@ -165,7 +187,7 @@ def post_to_twitter(text):
         print("Tweepy not installed. Cannot tweet.")
         return False
 
-def post_to_bluesky(text, subscribe_url=None):
+def post_to_bluesky(text, subscribe_url=None, paper_url=None):
     load_env()
     handle = os.getenv("BLUESKY_HANDLE")
     password = os.getenv("BLUESKY_APP_PASSWORD") or os.getenv("BLUESKY_PASSWORD")
@@ -199,7 +221,9 @@ def post_to_bluesky(text, subscribe_url=None):
                 "createdAt": datetime.utcnow().isoformat() + "Z",
             },
         }
-        facets = build_bluesky_facets(text, subscribe_url=subscribe_url)
+        facets = build_bluesky_facets(
+            text, subscribe_url=subscribe_url, paper_url=paper_url
+        )
         if facets:
             record["record"]["facets"] = facets
         post_resp = requests.post(
@@ -408,7 +432,9 @@ def main():
     post_to_linkedin(li_text, issue_url)
     post_to_whatsapp(wa_text, issue_url)
     bs_subscribe = os.getenv("BLUESKY_SUBSCRIBE_URL", DEFAULT_BASE_URL)
-    post_to_bluesky(bluesky_text, subscribe_url=bs_subscribe)
+    post_to_bluesky(
+        bluesky_text, subscribe_url=bs_subscribe, paper_url=signal_link
+    )
 
 if __name__ == "__main__":
     main()
