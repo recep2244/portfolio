@@ -91,12 +91,16 @@ def build_social_text(
     tags_line = " ".join(SOCIAL_TAGS) if include_tags else ""
 
     tail_lines = []
-    if signal_link:
+    subscribe_line = (
+        f"{SUBSCRIBE_LABEL} {sub_url}" if subscribe_url_in_text else SUBSCRIBE_LABEL
+    )
+    if subscribe_url_in_text and signal_link:
+        tail_lines.append(subscribe_line)
         tail_lines.append(f"{signal_link}")
-    if subscribe_url_in_text:
-        tail_lines.append(f"{SUBSCRIBE_LABEL} {sub_url}")
     else:
-        tail_lines.append(SUBSCRIBE_LABEL)
+        if signal_link:
+            tail_lines.append(f"{signal_link}")
+        tail_lines.append(subscribe_line)
 
     def assemble(title_line, summary_line=None):
         lines = [header]
