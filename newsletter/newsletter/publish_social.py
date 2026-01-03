@@ -134,11 +134,11 @@ def build_social_text(
         return True
 
     insert_idx = 2
-    if summary:
-        if try_add_line(summary, insert_idx):
-            insert_idx += 1
     for extra in extra_lines:
         if try_add_line(extra, insert_idx):
+            insert_idx += 1
+    if summary:
+        if try_add_line(summary, insert_idx):
             insert_idx += 1
 
     return "\n".join(lines)

@@ -821,12 +821,12 @@
         };
 
         let insertIdx = 2;
-        if (summary) {
-          if (tryAddLine(summary, insertIdx)) insertIdx += 1;
-        }
         (extras || []).forEach((extra) => {
           if (tryAddLine(extra, insertIdx)) insertIdx += 1;
         });
+        if (summary) {
+          if (tryAddLine(summary, insertIdx)) insertIdx += 1;
+        }
 
         const finalText = lines.join("\n");
         return finalText.length <= limit ? finalText : truncateText(finalText, limit);
