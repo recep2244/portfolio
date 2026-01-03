@@ -113,12 +113,10 @@ class CurationServer(BaseHTTPRequestHandler):
                     self.server.root_dir,
                 )
                 run_python(
-                    self.server.publish_social,
+                    self.server.social_post,
                     [
-                        "--issue-date",
-                        self.server.issue_date,
-                        "--issues-dir",
-                        str(self.server.issues_dir),
+                        "--issue",
+                        str(self.server.issue_path),
                     ],
                     self.server.root_dir,
                 )
@@ -173,7 +171,7 @@ def main():
     server.template_text = newsletter_dir / "template.txt"
     server.send_newsletter = newsletter_dir / "send_newsletter.py"
     server.newsletter_to_md = newsletter_dir / "newsletter_to_md.py"
-    server.publish_social = newsletter_dir / "publish_social.py"
+    server.social_post = newsletter_dir / "social_post.py"
 
     print(f"Curation server running at http://127.0.0.1:{args.port}")
     print(f"Issue date: {issue_date}")

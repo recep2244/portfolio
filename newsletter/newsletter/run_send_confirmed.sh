@@ -29,6 +29,5 @@ python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
   --template-text "$ROOT_DIR/newsletter/template.txt"
 
 echo "📣 Publishing announcement to social media..."
-python3 "$ROOT_DIR/newsletter/publish_social.py" \
-  --issue-date "$ISSUE_DATE" \
-  --issues-dir "$ROOT_DIR/newsletter/issues" || echo "⚠️ Social publishing failed, skipping..."
+python3 "$ROOT_DIR/newsletter/social_post.py" \
+  --issue "$ROOT_DIR/newsletter/issues/$ISSUE_DATE.json" || echo "⚠️ Social publishing failed, skipping..."

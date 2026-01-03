@@ -3,7 +3,8 @@ import argparse
 import json
 import os
 import sys
-import textwrap
+import re
+from datetime import datetime
 from pathlib import Path
 
 # Load .env file if present (for local development)
@@ -25,10 +26,10 @@ try:
 except ImportError:
     requests = None
 
-try:
-    from atproto import Client
-except ImportError:
-    Client = None
+SOCIAL_TAGS = ["#ProteinDesign", "#StructuralBiology", "#Bioinformatics"]
+TWITTER_LIMIT = 280
+BLUESKY_LIMIT = 300
+DEFAULT_BASE_URL = "https://recep2244.github.io/portfolio/newsletter/"
 
 
 def load_json(path):
@@ -36,36 +37,53 @@ def load_json(path):
         return json.load(f)
 
 
-def format_post(issue):
-    signal = issue.get("signal", {})
-    title = signal.get("title", "")
-    link = signal.get("link", "")
-    # Use summary or "why it matters"
-    summary = signal.get("summary", "")
-    
-    if not title or not link:
-        return None
+def shorten_text(text, max_len):
+    if max_len <= 0:
+        return ""
+    if len(text) <= max_len:
+        return text
+    if max_len <= 3:
+        return text[:max_len]
+    return text[: max_len - 3].rstrip() + "..."
 
-    # Truncate title for Bluesky (many paper titles are extremely long)
-    title_limit = 80
-    if len(title) > title_limit:
-        title = textwrap.shorten(title, width=title_limit, placeholder="...")
-    
-    # Construct concise post
-    post = f"⚡ Daily Signal: {title}\n\n"
-    
-    # Truncate summary to fit Bluesky's 300 char limit
-    # Format: "⚡ Daily Signal: " (17) + title (80) + "\n\n" (2) + summary + "\n\n🔗 " (4) + link (~60) + "\n\n" (2) + hashtags (40) ≈ 205 + summary
-    # So summary should be max ~70 chars to be safe
-    limit = 70
-    if len(summary) > limit:
-        summary = textwrap.shorten(summary, width=limit, placeholder="...")
-    
-    post += f"{summary}\n\n"
-    post += f"🔗 {link}\n\n"
-    post += "#ProteinDesign #Bioinformatics"
-    
-    return post
+
+def build_social_text(title, summary, signal_link, sub_url, limit):
+    header = "🧬 Protein Design Digest"
+    curated = "Curated by Recep Adiyaman"
+    title = title or "Daily Signal"
+    title_line = f"Signal: {title}"
+    tags_line = " ".join(SOCIAL_TAGS)
+
+    tail_lines = []
+    if signal_link:
+        tail_lines.append(f"Paper: {signal_link}")
+    tail_lines.append(f"Subscribe: {sub_url}")
+
+    lines = [header, curated, title_line] + tail_lines + [tags_line]
+    base_text = "\n".join(lines)
+
+    if len(base_text) > limit:
+        base_without_title = "\n".join([header, curated, ""] + tail_lines + [tags_line])
+        allowed = max(0, limit - len(base_without_title))
+        trimmed_title = shorten_text(title, allowed)
+        title_line = f"Signal: {trimmed_title}".rstrip()
+        if not trimmed_title:
+            title_line = "Signal"
+        lines = [header, curated, title_line] + tail_lines + [tags_line]
+        base_text = "\n".join(lines)
+
+    if summary:
+        remaining = limit - len(base_text) - 1
+        if remaining > 0:
+            summary_text = shorten_text(summary, remaining)
+            lines.insert(3, summary_text)
+            base_text = "\n".join(lines)
+
+    if len(base_text) > limit:
+        lines = [header, curated, title_line] + tail_lines + [tags_line]
+        base_text = "\n".join(lines)
+
+    return base_text
 
 
 def post_twitter(content, api_key, api_secret, access_token, access_token_secret):
@@ -140,10 +158,13 @@ def post_linkedin(content, access_token):
     except Exception as e:
         print(f"❌ LinkedIn Profile Error: {e}")
 
-    # 2. Post to Company Page (Protein Design Daily - ID: 110446267)
-    ORG_ID = "110446267"
+    org_id = os.getenv("LINKEDIN_ORG_ID")
+    if not org_id:
+        return
     try:
-        org_urn = f"urn:li:organization:{ORG_ID}"
+        org_urn = org_id
+        if not org_urn.startswith("urn:li:"):
+            org_urn = f"urn:li:organization:{org_id}"
         payload_org = {
             "author": org_urn,
             "lifecycleState": "PUBLISHED",
@@ -169,15 +190,79 @@ def post_linkedin(content, access_token):
         print(f"❌ LinkedIn Company Page Error: {e}")
 
 
-def post_bluesky(content, handle, password):
-    if not Client:
-        print("atproto not installed, skipping Bluesky.")
-        return
+def build_bluesky_facets(text):
+    facets = []
 
+    def add_facet(start, end, feature):
+        facets.append(
+            {
+                "index": {
+                    "byteStart": len(text[:start].encode("utf-8")),
+                    "byteEnd": len(text[:end].encode("utf-8")),
+                },
+                "features": [feature],
+            }
+        )
+
+    for match in re.finditer(r"https?://\\S+", text):
+        add_facet(
+            match.start(),
+            match.end(),
+            {"$type": "app.bsky.richtext.facet#link", "uri": match.group(0)},
+        )
+
+    for match in re.finditer(r"(?<!\\w)#([A-Za-z0-9_]+)", text):
+        tag = match.group(1)
+        add_facet(
+            match.start(),
+            match.end(),
+            {"$type": "app.bsky.richtext.facet#tag", "tag": tag},
+        )
+
+    return facets if facets else None
+
+
+def post_bluesky(content, handle, password, service):
+    if not requests:
+        print("Requests not installed, skipping Bluesky.")
+        return
     try:
-        client = Client()
-        client.login(handle, password)
-        client.send_post(text=content)
+        session_resp = requests.post(
+            f"{service}/xrpc/com.atproto.server.createSession",
+            json={"identifier": handle, "password": password},
+            timeout=30,
+        )
+        if session_resp.status_code != 200:
+            print(f"Bluesky login failed: {session_resp.status_code} - {session_resp.text}")
+            return
+        session = session_resp.json()
+        access = session.get("accessJwt")
+        did = session.get("did")
+        if not access or not did:
+            print("Bluesky session missing fields.")
+            return
+
+        record = {
+            "repo": did,
+            "collection": "app.bsky.feed.post",
+            "record": {
+                "text": content,
+                "createdAt": datetime.utcnow().isoformat() + "Z",
+            },
+        }
+        facets = build_bluesky_facets(content)
+        if facets:
+            record["record"]["facets"] = facets
+
+        post_resp = requests.post(
+            f"{service}/xrpc/com.atproto.repo.createRecord",
+            headers={"Authorization": f"Bearer {access}"},
+            json=record,
+            timeout=30,
+        )
+        if post_resp.status_code != 200:
+            print(f"Bluesky post failed: {post_resp.status_code} - {post_resp.text}")
+            return
         print("Posted to Bluesky")
     except Exception as e:
         print(f"Failed to post to Bluesky: {e}")
@@ -193,14 +278,31 @@ def main():
         sys.exit(1)
 
     issue = load_json(args.issue)
-    post_content = format_post(issue)
-    
-    if not post_content:
+    signal = issue.get("signal", {})
+    signal_title = (signal or {}).get("title", "")
+    signal_link = (signal or {}).get("link", "")
+    summary = (signal or {}).get("summary", "")
+    summary = (summary or "").strip()
+
+    if not signal_title:
         print("No signal content to post.")
         sys.exit(0)
 
-    print("--- Post Content ---")
-    print(post_content)
+    base_url = DEFAULT_BASE_URL
+    sub_url = base_url
+
+    twitter_text = build_social_text(
+        signal_title, summary, signal_link, sub_url, TWITTER_LIMIT
+    )
+    bluesky_text = build_social_text(
+        signal_title, summary, signal_link, sub_url, BLUESKY_LIMIT
+    )
+
+    print("--- Twitter Post ---")
+    print(twitter_text)
+    print("--------------------")
+    print("--- Bluesky Post ---")
+    print(bluesky_text)
     print("--------------------")
 
     # Twitter
@@ -209,22 +311,23 @@ def main():
     tw_tok = os.getenv("TWITTER_ACCESS_TOKEN")
     tw_tok_sec = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
     if tw_key and tw_sec and tw_tok and tw_tok_sec:
-        post_twitter(post_content, tw_key, tw_sec, tw_tok, tw_tok_sec)
+        post_twitter(twitter_text, tw_key, tw_sec, tw_tok, tw_tok_sec)
     else:
         print("Skipping Twitter (credentials missing)")
 
     # LinkedIn
     li_tok = os.getenv("LINKEDIN_ACCESS_TOKEN")
     if li_tok:
-        post_linkedin(post_content, li_tok)
+        post_linkedin(twitter_text, li_tok)
     else:
         print("Skipping LinkedIn (credentials missing)")
 
     # Bluesky
     bs_handle = os.getenv("BLUESKY_HANDLE")
-    bs_pass = os.getenv("BLUESKY_PASSWORD")
+    bs_pass = os.getenv("BLUESKY_APP_PASSWORD") or os.getenv("BLUESKY_PASSWORD")
+    bs_service = os.getenv("BLUESKY_SERVICE", "https://bsky.social")
     if bs_handle and bs_pass:
-        post_bluesky(post_content, bs_handle, bs_pass)
+        post_bluesky(bluesky_text, bs_handle, bs_pass, bs_service)
     else:
         print("Skipping Bluesky (credentials missing)")
 
