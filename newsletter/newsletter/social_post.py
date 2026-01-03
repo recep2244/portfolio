@@ -37,18 +37,24 @@ def format_post(issue):
     if not title or not link:
         return None
 
+    # Truncate title for Bluesky (many paper titles are extremely long)
+    title_limit = 80
+    if len(title) > title_limit:
+        title = textwrap.shorten(title, width=title_limit, placeholder="...")
+    
     # Construct concise post
     post = f"⚡ Daily Signal: {title}\n\n"
     
-    # Truncate summary to fit roughly in a tweet (leaving room for link/hashtags)
-    # Twitter limit ~280. Bluesky ~300.
-    limit = 140
+    # Truncate summary to fit Bluesky's 300 char limit
+    # Format: "⚡ Daily Signal: " (17) + title (80) + "\n\n" (2) + summary + "\n\n🔗 " (4) + link (~60) + "\n\n" (2) + hashtags (40) ≈ 205 + summary
+    # So summary should be max ~70 chars to be safe
+    limit = 70
     if len(summary) > limit:
         summary = textwrap.shorten(summary, width=limit, placeholder="...")
     
     post += f"{summary}\n\n"
     post += f"🔗 {link}\n\n"
-    post += "#ProteinDesign #Bioinformatics #StructurePrediction"
+    post += "#ProteinDesign #Bioinformatics"
     
     return post
 
