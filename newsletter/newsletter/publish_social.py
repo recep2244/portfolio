@@ -84,7 +84,7 @@ def build_social_text(
     return base_text
 
 
-def build_bluesky_facets(text):
+def build_bluesky_facets(text, subscribe_url=None):
     facets = []
 
     def add_facet(start, end, feature):
@@ -112,6 +112,16 @@ def build_bluesky_facets(text):
             match.end(),
             {"$type": "app.bsky.richtext.facet#tag", "tag": tag},
         )
+
+    if subscribe_url:
+        label = "Subscribe to the newsletter"
+        idx = text.find(label)
+        if idx != -1:
+            add_facet(
+                idx,
+                idx + len(label),
+                {"$type": "app.bsky.richtext.facet#link", "uri": subscribe_url},
+            )
 
     return facets if facets else None
 
@@ -142,7 +152,7 @@ def post_to_twitter(text):
         print("Tweepy not installed. Cannot tweet.")
         return False
 
-def post_to_bluesky(text):
+def post_to_bluesky(text, subscribe_url=None):
     load_env()
     handle = os.getenv("BLUESKY_HANDLE")
     password = os.getenv("BLUESKY_APP_PASSWORD") or os.getenv("BLUESKY_PASSWORD")
@@ -176,7 +186,7 @@ def post_to_bluesky(text):
                 "createdAt": datetime.utcnow().isoformat() + "Z",
             },
         }
-        facets = build_bluesky_facets(text)
+        facets = build_bluesky_facets(text, subscribe_url=subscribe_url)
         if facets:
             record["record"]["facets"] = facets
         post_resp = requests.post(
@@ -379,7 +389,8 @@ def main():
     post_to_twitter(tweet_text)
     post_to_linkedin(li_text, issue_url)
     post_to_whatsapp(wa_text, issue_url)
-    post_to_bluesky(bluesky_text)
+    bs_subscribe = os.getenv("BLUESKY_SUBSCRIBE_URL", DEFAULT_BASE_URL)
+    post_to_bluesky(bluesky_text, subscribe_url=bs_subscribe)
 
 if __name__ == "__main__":
     main()
