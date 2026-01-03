@@ -206,19 +206,41 @@ def post_linkedin(content, access_token):
         print(f"❌ LinkedIn Company Page Error: {e}")
 
 
-def build_bluesky_facets(text, subscribe_url=None):
+def build_bluesky_facets(text, subscribe_url=None, paper_url=None):
     facets = []
+    seen = set()
 
     def add_facet(start, end, feature):
+        byte_start = len(text[:start].encode("utf-8"))
+        byte_end = len(text[:end].encode("utf-8"))
+        key = (
+            byte_start,
+            byte_end,
+            feature.get("$type"),
+            feature.get("uri"),
+            feature.get("tag"),
+        )
+        if key in seen:
+            return
+        seen.add(key)
         facets.append(
             {
                 "index": {
-                    "byteStart": len(text[:start].encode("utf-8")),
-                    "byteEnd": len(text[:end].encode("utf-8")),
+                    "byteStart": byte_start,
+                    "byteEnd": byte_end,
                 },
                 "features": [feature],
             }
         )
+
+    if paper_url:
+        idx = text.find(paper_url)
+        if idx != -1:
+            add_facet(
+                idx,
+                idx + len(paper_url),
+                {"$type": "app.bsky.richtext.facet#link", "uri": paper_url},
+            )
 
     for match in re.finditer(r"https?://\\S+", text):
         add_facet(
@@ -248,7 +270,7 @@ def build_bluesky_facets(text, subscribe_url=None):
     return facets if facets else None
 
 
-def post_bluesky(content, handle, password, service, subscribe_url=None):
+def post_bluesky(content, handle, password, service, subscribe_url=None, paper_url=None):
     if not requests:
         print("Requests not installed, skipping Bluesky.")
         return
@@ -276,7 +298,9 @@ def post_bluesky(content, handle, password, service, subscribe_url=None):
                 "createdAt": datetime.utcnow().isoformat() + "Z",
             },
         }
-        facets = build_bluesky_facets(content, subscribe_url=subscribe_url)
+        facets = build_bluesky_facets(
+            content, subscribe_url=subscribe_url, paper_url=paper_url
+        )
         if facets:
             record["record"]["facets"] = facets
 
@@ -367,7 +391,14 @@ def main():
     bs_service = os.getenv("BLUESKY_SERVICE", "https://bsky.social")
     bs_subscribe = os.getenv("BLUESKY_SUBSCRIBE_URL", DEFAULT_BASE_URL)
     if bs_handle and bs_pass:
-        post_bluesky(bluesky_text, bs_handle, bs_pass, bs_service, bs_subscribe)
+        post_bluesky(
+            bluesky_text,
+            bs_handle,
+            bs_pass,
+            bs_service,
+            subscribe_url=bs_subscribe,
+            paper_url=signal_link,
+        )
     else:
         print("Skipping Bluesky (credentials missing)")
 
