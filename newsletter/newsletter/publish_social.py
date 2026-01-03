@@ -1,5 +1,6 @@
 import os
 import json
+import re
 import requests
 import argparse
 from datetime import datetime
@@ -11,6 +12,11 @@ try:
     import tweepy
 except ImportError:
     tweepy = None
+
+SOCIAL_TAGS = ["#ProteinDesign", "#StructuralBiology", "#Bioinformatics"]
+TWITTER_LIMIT = 280
+BLUESKY_LIMIT = 300
+DEFAULT_BASE_URL = "https://recep2244.github.io/portfolio/newsletter/"
 
 def load_issue(issue_date, issues_dir):
     filename = f"{issue_date}.json"
@@ -24,6 +30,87 @@ def load_issue(issue_date, issues_dir):
 def load_env():
     env_path = Path(__file__).resolve().parent / ".env"
     load_dotenv(dotenv_path=env_path, override=False)
+
+
+def shorten_text(text, max_len):
+    if max_len <= 0:
+        return ""
+    if len(text) <= max_len:
+        return text
+    if max_len <= 3:
+        return text[:max_len]
+    return text[: max_len - 3].rstrip() + "..."
+
+
+def build_social_text(title, summary, signal_link, sub_url, limit):
+    header = "🧬 Protein Design Digest"
+    curated = "Curated by Recep Adiyaman"
+    title = title or "Daily Signal"
+    title_line = f"Signal: {title}"
+    tags_line = " ".join(SOCIAL_TAGS)
+
+    tail_lines = []
+    if signal_link:
+        tail_lines.append(f"Paper: {signal_link}")
+    tail_lines.append(f"Subscribe: {sub_url}")
+
+    lines = [header, curated, title_line] + tail_lines + [tags_line]
+    base_text = "\n".join(lines)
+
+    if len(base_text) > limit:
+        base_without_title = "\n".join([header, curated, ""] + tail_lines + [tags_line])
+        allowed = max(0, limit - len(base_without_title))
+        trimmed_title = shorten_text(title, allowed)
+        title_line = f"Signal: {trimmed_title}".rstrip()
+        if not trimmed_title:
+            title_line = "Signal"
+        lines = [header, curated, title_line] + tail_lines + [tags_line]
+        base_text = "\n".join(lines)
+
+    if summary:
+        remaining = limit - len(base_text) - 1
+        if remaining > 0:
+            summary_text = shorten_text(summary, remaining)
+            lines.insert(3, summary_text)
+            base_text = "\n".join(lines)
+
+    if len(base_text) > limit:
+        lines = [header, curated, title_line] + tail_lines + [tags_line]
+        base_text = "\n".join(lines)
+
+    return base_text
+
+
+def build_bluesky_facets(text):
+    facets = []
+
+    def add_facet(start, end, feature):
+        facets.append(
+            {
+                "index": {
+                    "byteStart": len(text[:start].encode("utf-8")),
+                    "byteEnd": len(text[:end].encode("utf-8")),
+                },
+                "features": [feature],
+            }
+        )
+
+    for match in re.finditer(r"https?://\\S+", text):
+        add_facet(
+            match.start(),
+            match.end(),
+            {"$type": "app.bsky.richtext.facet#link", "uri": match.group(0)},
+        )
+
+    for match in re.finditer(r"(?<!\\w)#([A-Za-z0-9_]+)", text):
+        tag = match.group(1)
+        add_facet(
+            match.start(),
+            match.end(),
+            {"$type": "app.bsky.richtext.facet#tag", "tag": tag},
+        )
+
+    return facets if facets else None
 
 def post_to_twitter(text):
     load_env()
@@ -86,6 +173,9 @@ def post_to_bluesky(text):
                 "createdAt": datetime.utcnow().isoformat() + "Z",
             },
         }
+        facets = build_bluesky_facets(text)
+        if facets:
+            record["record"]["facets"] = facets
         post_resp = requests.post(
             f"{service}/xrpc/com.atproto.repo.createRecord",
             headers={"Authorization": f"Bearer {access}"},
@@ -121,8 +211,9 @@ def post_to_linkedin(text, link):
     load_env()
     access_token = os.getenv("LINKEDIN_ACCESS_TOKEN")
     linkedin_id = os.getenv("LINKEDIN_MEMBER_ID") # e.g., urn:li:person:abcdef
+    org_id = os.getenv("LINKEDIN_ORG_ID")
 
-    if not access_token or not linkedin_id:
+    if not access_token or (not linkedin_id and not org_id):
         print("LinkedIn credentials/ID missing. Skipping.")
         return False
 
@@ -133,8 +224,18 @@ def post_to_linkedin(text, link):
         "X-Restli-Protocol-Version": "2.0.0"
     }
     
+    author = None
+    if org_id:
+        author = org_id
+        if not author.startswith("urn:li:"):
+            author = f"urn:li:organization:{org_id}"
+    elif linkedin_id:
+        author = linkedin_id
+        if not author.startswith("urn:li:"):
+            author = f"urn:li:person:{linkedin_id}"
+
     post_data = {
-        "author": linkedin_id,
+        "author": author,
         "lifecycleState": "PUBLISHED",
         "specificContent": {
             "com.linkedin.ugc.ShareContent": {
@@ -205,38 +306,7 @@ def post_to_whatsapp(text, link):
         return False
 
 def build_twitter_text(signal_title, summary, signal_link, sub_url):
-    header = "📄 Paper of the day"
-    title = signal_title or "Paper of the day"
-    tail_lines = []
-    if signal_link:
-        tail_lines.append(f"Paper: {signal_link}")
-    tail_lines.append(f"Subscribe to the daily digest: {sub_url}")
-
-    base_without_summary = "\n".join([header, title] + tail_lines)
-    if len(base_without_summary) > 280:
-        base_with_empty_title = "\n".join([header, ""] + tail_lines)
-        allowed_title_len = 280 - len(base_with_empty_title)
-        if allowed_title_len < 0:
-            allowed_title_len = 0
-        if len(title) > allowed_title_len:
-            if allowed_title_len <= 3:
-                title = title[:allowed_title_len]
-            else:
-                title = title[:allowed_title_len - 3].rstrip() + "..."
-        return "\n".join([header, title] + tail_lines)
-
-    if summary:
-        remaining = 280 - len(base_without_summary) - 1
-        if remaining > 0:
-            summary_text = summary
-            if len(summary_text) > remaining:
-                if remaining <= 3:
-                    summary_text = summary_text[:remaining]
-                else:
-                    summary_text = summary_text[:remaining - 3].rstrip() + "..."
-            return "\n".join([header, title, summary_text] + tail_lines)
-
-    return base_without_summary
+    return build_social_text(signal_title, summary, signal_link, sub_url, TWITTER_LIMIT)
 
 def main():
     parser = argparse.ArgumentParser()
@@ -259,27 +329,19 @@ def main():
     
     # Constructing a relative URL since we don't know the exact deployment path yet, 
     # but based on baseURL in hugo.yaml:
-    base_url = "https://recep2244.github.io/portfolio/newsletter/"
+    base_url = DEFAULT_BASE_URL
     issue_url = f"{base_url}{issue_date}-issue-{issue_number}/"
     sub_url = base_url
 
-    social = issue.get("social", {}) if isinstance(issue, dict) else {}
     summary = (signal or {}).get("summary", "")
     summary = (summary or "").strip()
-    if len(summary) > 160:
-        summary = summary[:157].rstrip() + "..."
+    if len(summary) > 140:
+        summary = summary[:137].rstrip() + "..."
 
-    tweet_text = social.get("twitter") or (
-        build_twitter_text(signal_title, summary, signal_link, sub_url)
-    )
-    
-    li_text = social.get("linkedin") or (
-        f"Protein Design Digest #{issue_number}\n\n"
-        f"{signal_title}\n\n"
-        f"Summary: {summary}\n\n"
-        f"Paper: {signal_link}\n"
-        f"Daily digest: {issue_url}\n\n"
-        f"#ProteinDesign #StructuralBiology #Bioinformatics"
+    tweet_text = build_twitter_text(signal_title, summary, signal_link, sub_url)
+
+    li_text = build_social_text(
+        signal_title, summary, signal_link, sub_url, BLUESKY_LIMIT
     )
 
     wa_text = (
@@ -289,7 +351,9 @@ def main():
         f"✍️ *Subscribe:* {sub_url}\n\n"
         f"_(Forward this message to your WhatsApp Status!)_"
     )
-    bluesky_text = social.get("bluesky") or tweet_text
+    bluesky_text = build_social_text(
+        signal_title, summary, signal_link, sub_url, BLUESKY_LIMIT
+    )
 
     print(f"Publishing Social for {issue_date}...")
     post_to_twitter(tweet_text)
