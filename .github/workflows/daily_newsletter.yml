@@ -2,7 +2,7 @@ name: Daily Newsletter Automation
 
 on:
   schedule:
-    - cron: '0 10 * * *' # Runs at 10:00 UTC every day
+    - cron: '0 10 * * 1-5' # Runs at 10:00 UTC on weekdays
   workflow_dispatch: # Allows manual triggering
 
 permissions:
