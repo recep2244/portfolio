@@ -11,6 +11,11 @@ from zoneinfo import ZoneInfo
 
 DEFAULT_TIMEZONE = "Europe/London"
 
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    load_dotenv = None
+
 
 def run_python(script_path, args, cwd):
     cmd = [os.environ.get("PYTHON", "python3"), str(script_path)] + args
@@ -146,6 +151,8 @@ def main():
 
     root_dir = Path(__file__).resolve().parent.parent
     newsletter_dir = root_dir / "newsletter"
+    if load_dotenv:
+        load_dotenv(dotenv_path=newsletter_dir / ".env", override=False)
     issues_dir = newsletter_dir / "issues"
     config_path = newsletter_dir / "generate_config.json"
 
