@@ -142,7 +142,7 @@ def post_to_twitter(text):
 def post_to_bluesky(text):
     load_env()
     handle = os.getenv("BLUESKY_HANDLE")
-    password = os.getenv("BLUESKY_APP_PASSWORD")
+    password = os.getenv("BLUESKY_APP_PASSWORD") or os.getenv("BLUESKY_PASSWORD")
     service = os.getenv("BLUESKY_SERVICE", "https://bsky.social")
 
     if not handle or not password:
