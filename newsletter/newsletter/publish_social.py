@@ -113,7 +113,8 @@ def build_social_text(
     if tags_line:
         base_lines.append(tags_line)
     base_without_title = "\n".join(base_lines)
-    allowed = max(0, limit - len(base_without_title) - 1)
+    reserve_extras = sum(min(len(extra), 60) + 1 for extra in extra_lines)
+    allowed = max(0, limit - len(base_without_title) - reserve_extras - 1)
     title_line = shorten_text(title, allowed)
     if not title_line:
         title_line = "Signal"

@@ -803,7 +803,10 @@
         const baseLines = [header].concat(tailLines);
         if (tagsLine) baseLines.push(tagsLine);
         const baseWithoutTitle = baseLines.join("\n");
-        const allowedTitle = Math.max(0, limit - baseWithoutTitle.length - 1);
+        const reserveExtras = (extras || []).reduce((sum, extra) => {
+          return sum + Math.min(extra.length, 60) + 1;
+        }, 0);
+        const allowedTitle = Math.max(0, limit - baseWithoutTitle.length - reserveExtras - 1);
         let titleLine = truncateText(safeTitle, allowedTitle);
         if (!titleLine) titleLine = "Signal";
 
