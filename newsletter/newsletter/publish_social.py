@@ -14,6 +14,7 @@ except ImportError:
     tweepy = None
 
 SOCIAL_TAGS = ["#ProteinDesign", "#StructuralBiology", "#Bioinformatics", "#ProteinEngineering"]
+SUBSCRIBE_LABEL = "Subnewsletter"
 TWITTER_LIMIT = 280
 BLUESKY_LIMIT = 300
 DEFAULT_BASE_URL = "https://recep2244.github.io/portfolio/#newsletter"
@@ -68,7 +69,14 @@ def format_issue_date(value):
 
 
 def build_social_text(
-    title, summary, signal_link, sub_url, limit, include_tags=True, issue_date=None
+    title,
+    summary,
+    signal_link,
+    sub_url,
+    limit,
+    include_tags=True,
+    issue_date=None,
+    subscribe_url_in_text=False,
 ):
     header = "Paper of the day"
     formatted_date = format_issue_date(issue_date)
@@ -80,7 +88,10 @@ def build_social_text(
     tail_lines = []
     if signal_link:
         tail_lines.append(f"{signal_link}")
-    tail_lines.append("Subscribe: newsletter")
+    if subscribe_url_in_text:
+        tail_lines.append(f"{SUBSCRIBE_LABEL} {sub_url}")
+    else:
+        tail_lines.append(SUBSCRIBE_LABEL)
 
     def assemble(title_line, summary_line=None):
         lines = [header]
@@ -164,7 +175,7 @@ def build_bluesky_facets(text, subscribe_url=None, paper_url=None):
         )
 
     if subscribe_url:
-        label = "Subscribe to the newsletter"
+        label = SUBSCRIBE_LABEL
         idx = text.find(label)
         if idx != -1:
             add_facet(
@@ -381,6 +392,7 @@ def build_twitter_text(signal_title, summary, signal_link, sub_url, issue_date=N
         TWITTER_LIMIT,
         include_tags=True,
         issue_date=issue_date,
+        subscribe_url_in_text=True,
     )
 
 def main():
@@ -425,6 +437,7 @@ def main():
         BLUESKY_LIMIT,
         include_tags=False,
         issue_date=issue_date,
+        subscribe_url_in_text=False,
     )
 
     wa_text = (
@@ -442,6 +455,7 @@ def main():
         BLUESKY_LIMIT,
         include_tags=True,
         issue_date=issue_date,
+        subscribe_url_in_text=False,
     )
 
     print(f"Publishing Social for {issue_date}...")
