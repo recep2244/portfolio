@@ -857,15 +857,15 @@
         const shortSummary = truncateText(summary || why, 140);
 
         const extras = [];
-        const aiItems = coerceList(issue.ai_news);
+        const aiItems = collectItems("ai_news", issue.ai_news);
         if (aiItems.length && aiItems[0].title) {
           extras.push(`AI: ${aiItems[0].title}`);
         }
-        const industryItems = coerceList(issue.industry_news);
+        const industryItems = collectItems("industry_news", issue.industry_news);
         if (industryItems.length && industryItems[0].title) {
           extras.push(`Industry: ${industryItems[0].title}`);
         }
-        const jobItems = coerceList((issue.community || {}).job);
+        const jobItems = collectResource("job");
         if (jobItems.length && jobItems[0].title) {
           const jobOrg = jobItems[0].org ? ` (${jobItems[0].org})` : "";
           extras.push(`Job: ${jobItems[0].title}${jobOrg}`);
