@@ -305,7 +305,7 @@ def main():
         sub_url,
         TWITTER_LIMIT,
         issue_date,
-        include_tags=False,
+        include_tags=True,
     )
     bluesky_text = build_social_text(
         signal_title,

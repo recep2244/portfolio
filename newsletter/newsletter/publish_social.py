@@ -319,7 +319,7 @@ def build_twitter_text(signal_title, summary, signal_link, sub_url, issue_date=N
         sub_url,
         TWITTER_LIMIT,
         issue_date,
-        include_tags=False,
+        include_tags=True,
     )
 
 def main():
