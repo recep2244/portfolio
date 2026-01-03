@@ -803,9 +803,12 @@
         const baseLines = [header].concat(tailLines);
         if (tagsLine) baseLines.push(tagsLine);
         const baseWithoutTitle = baseLines.join("\n");
-        const reserveExtras = (extras || []).reduce((sum, extra) => {
-          return sum + Math.min(extra.length, 60) + 1;
-        }, 0);
+        const minTitle = "Signal";
+        const baseLen = baseWithoutTitle.length + minTitle.length + 1;
+        const remainingForExtras = Math.max(0, limit - baseLen - 1);
+        const extraCount = (extras || []).length;
+        const perExtra = extraCount ? Math.floor(remainingForExtras / extraCount) : 0;
+        const reserveExtras = extraCount * (perExtra + 1);
         const allowedTitle = Math.max(0, limit - baseWithoutTitle.length - reserveExtras - 1);
         let titleLine = truncateText(safeTitle, allowedTitle);
         if (!titleLine) titleLine = "Signal";
@@ -825,7 +828,8 @@
 
         let insertIdx = 2;
         (extras || []).forEach((extra) => {
-          if (tryAddLine(extra, insertIdx)) insertIdx += 1;
+          const extraText = perExtra ? truncateText(extra, perExtra) : "";
+          if (extraText && tryAddLine(extraText, insertIdx)) insertIdx += 1;
         });
         if (summary) {
           if (tryAddLine(summary, insertIdx)) insertIdx += 1;

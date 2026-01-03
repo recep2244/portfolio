@@ -113,7 +113,13 @@ def build_social_text(
     if tags_line:
         base_lines.append(tags_line)
     base_without_title = "\n".join(base_lines)
-    reserve_extras = sum(min(len(extra), 60) + 1 for extra in extra_lines)
+    min_title = "Signal"
+    base_len = len(base_without_title) + len(min_title) + 1
+    remaining_for_extras = max(0, limit - base_len - 1)
+    per_extra = 0
+    if extra_lines:
+        per_extra = max(0, remaining_for_extras // len(extra_lines))
+    reserve_extras = len(extra_lines) * (per_extra + 1)
     allowed = max(0, limit - len(base_without_title) - reserve_extras - 1)
     title_line = shorten_text(title, allowed)
     if not title_line:
@@ -136,7 +142,8 @@ def build_social_text(
 
     insert_idx = 2
     for extra in extra_lines:
-        if try_add_line(extra, insert_idx):
+        extra_text = shorten_text(extra, per_extra) if per_extra else ""
+        if extra_text and try_add_line(extra_text, insert_idx):
             insert_idx += 1
     if summary:
         if try_add_line(summary, insert_idx):
