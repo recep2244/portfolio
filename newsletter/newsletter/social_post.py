@@ -38,6 +38,14 @@ def load_json(path):
         return json.load(f)
 
 
+def coerce_list(value):
+    if isinstance(value, list):
+        return value
+    if isinstance(value, dict):
+        return [value]
+    return []
+
+
 def shorten_text(text, max_len):
     if max_len <= 0:
         return ""
@@ -82,6 +90,7 @@ def build_social_text(
     include_tags=True,
     issue_date=None,
     subscribe_url_in_text=False,
+    extra_lines=None,
 ):
     header = "Paper of the day"
     formatted_date = format_issue_date(issue_date)
@@ -102,34 +111,42 @@ def build_social_text(
             tail_lines.append(f"{signal_link}")
         tail_lines.append(subscribe_line)
 
-    def assemble(title_line, summary_line=None):
-        lines = [header]
-        if title_line:
-            lines.append(title_line)
-        if summary_line:
-            lines.append(summary_line)
-        lines += tail_lines
-        if tags_line:
-            lines.append(tags_line)
-        return "\n".join(lines)
+    if extra_lines is None:
+        extra_lines = []
 
-    base_without_title = assemble("", None)
+    base_lines = [header] + tail_lines
+    if tags_line:
+        base_lines.append(tags_line)
+    base_without_title = "\n".join(base_lines)
     allowed = max(0, limit - len(base_without_title) - 1)
     title_line = shorten_text(title, allowed)
     if not title_line:
         title_line = "Signal"
-    base_text = assemble(title_line, None)
 
+    lines = [header, title_line] + tail_lines
+    if tags_line:
+        lines.append(tags_line)
+
+    def try_add_line(text, index):
+        current = "\n".join(lines)
+        remaining = limit - len(current) - 1
+        if remaining <= 0:
+            return False
+        line_text = shorten_text(text, remaining)
+        if not line_text:
+            return False
+        lines.insert(index, line_text)
+        return True
+
+    insert_idx = 2
     if summary:
-        remaining = limit - len(base_text) - 1
-        if remaining > 0:
-            summary_text = shorten_text(summary, remaining)
-            base_text = assemble(title_line, summary_text)
+        if try_add_line(summary, insert_idx):
+            insert_idx += 1
+    for extra in extra_lines:
+        if try_add_line(extra, insert_idx):
+            insert_idx += 1
 
-    if len(base_text) > limit:
-        base_text = assemble(title_line, None)
-
-    return base_text
+    return "\n".join(lines)
 
 
 def post_twitter(content, api_key, api_secret, access_token, access_token_secret):
@@ -367,6 +384,27 @@ def main():
     signal_link = (signal or {}).get("link", "")
     summary = (signal or {}).get("summary", "")
     summary = (summary or "").strip()
+    ai_items = coerce_list(issue.get("ai_news"))
+    industry_items = coerce_list(issue.get("industry_news"))
+    job_items = coerce_list((issue.get("community") or {}).get("job"))
+
+    extras = []
+    if ai_items:
+        ai_title = (ai_items[0] or {}).get("title", "")
+        if ai_title:
+            extras.append(f"AI: {ai_title}")
+    if industry_items:
+        ind_title = (industry_items[0] or {}).get("title", "")
+        if ind_title:
+            extras.append(f"Industry: {ind_title}")
+    if job_items:
+        job_title = (job_items[0] or {}).get("title", "")
+        job_org = (job_items[0] or {}).get("org", "")
+        if job_title:
+            if job_org:
+                extras.append(f"Job: {job_title} ({job_org})")
+            else:
+                extras.append(f"Job: {job_title}")
 
     if not signal_title:
         print("No signal content to post.")
@@ -385,6 +423,7 @@ def main():
         include_tags=True,
         issue_date=issue_date,
         subscribe_url_in_text=True,
+        extra_lines=extras,
     )
     bluesky_text = build_social_text(
         signal_title,
@@ -395,6 +434,7 @@ def main():
         include_tags=True,
         issue_date=issue_date,
         subscribe_url_in_text=False,
+        extra_lines=extras,
     )
 
     print("--- Twitter Post ---")
