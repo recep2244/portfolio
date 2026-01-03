@@ -47,6 +47,21 @@ def shorten_text(text, max_len):
     return text[: max_len - 3].rstrip() + "..."
 
 
+def build_external_embed(title, summary, url):
+    if not url:
+        return None
+    safe_title = shorten_text(title or "Paper of the day", 120)
+    safe_summary = shorten_text(summary or "", 200)
+    return {
+        "$type": "app.bsky.embed.external",
+        "external": {
+            "uri": url,
+            "title": safe_title,
+            "description": safe_summary,
+        },
+    }
+
+
 def format_issue_date(value):
     if not value:
         return ""
@@ -270,7 +285,9 @@ def build_bluesky_facets(text, subscribe_url=None, paper_url=None):
     return facets if facets else None
 
 
-def post_bluesky(content, handle, password, service, subscribe_url=None, paper_url=None):
+def post_bluesky(
+    content, handle, password, service, subscribe_url=None, paper_url=None, embed=None
+):
     if not requests:
         print("Requests not installed, skipping Bluesky.")
         return
@@ -298,6 +315,8 @@ def post_bluesky(content, handle, password, service, subscribe_url=None, paper_u
                 "createdAt": datetime.utcnow().isoformat() + "Z",
             },
         }
+        if embed:
+            record["record"]["embed"] = embed
         facets = build_bluesky_facets(
             content, subscribe_url=subscribe_url, paper_url=paper_url
         )
@@ -391,6 +410,7 @@ def main():
     bs_service = os.getenv("BLUESKY_SERVICE", "https://bsky.social")
     bs_subscribe = os.getenv("BLUESKY_SUBSCRIBE_URL", DEFAULT_BASE_URL)
     if bs_handle and bs_pass:
+        embed = build_external_embed(signal_title, summary, signal_link)
         post_bluesky(
             bluesky_text,
             bs_handle,
@@ -398,6 +418,7 @@ def main():
             bs_service,
             subscribe_url=bs_subscribe,
             paper_url=signal_link,
+            embed=embed,
         )
     else:
         print("Skipping Bluesky (credentials missing)")
