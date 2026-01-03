@@ -47,10 +47,23 @@ def shorten_text(text, max_len):
     return text[: max_len - 3].rstrip() + "..."
 
 
+def format_issue_date(value):
+    if not value:
+        return ""
+    try:
+        parsed = datetime.strptime(value, "%Y-%m-%d")
+    except ValueError:
+        return ""
+    return parsed.strftime("%d.%m.%y")
+
+
 def build_social_text(
-    title, summary, signal_link, sub_url, limit, include_tags=True
+    title, summary, signal_link, sub_url, limit, include_tags=True, issue_date=None
 ):
     header = "Paper of the day"
+    formatted_date = format_issue_date(issue_date)
+    if formatted_date:
+        header = f"{header} · {formatted_date}"
     title = title or "Daily signal"
     tags_line = " ".join(SOCIAL_TAGS) if include_tags else ""
 
@@ -304,6 +317,7 @@ def main():
     base_url = DEFAULT_BASE_URL
     sub_url = base_url
 
+    issue_date = issue.get("issue_date", "")
     twitter_text = build_social_text(
         signal_title,
         summary,
@@ -311,6 +325,7 @@ def main():
         sub_url,
         TWITTER_LIMIT,
         include_tags=True,
+        issue_date=issue_date,
     )
     bluesky_text = build_social_text(
         signal_title,
@@ -319,6 +334,7 @@ def main():
         sub_url,
         BLUESKY_LIMIT,
         include_tags=True,
+        issue_date=issue_date,
     )
 
     print("--- Twitter Post ---")
