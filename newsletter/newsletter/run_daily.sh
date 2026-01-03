@@ -52,18 +52,19 @@ fi
 
 if [ "${NEWSLETTER_SEND_CURATION_REMINDER:-}" = "1" ]; then
   if [ -z "${NEWSLETTER_GMAIL_USER:-}" ] || [ -z "${NEWSLETTER_GMAIL_APP_PASSWORD:-}" ]; then
-    echo "Warning: Missing Gmail credentials. Skipping curation reminder."
+    echo "Warning: Missing Gmail credentials. Skipping curation reminder email."
   else
     python3 "$ROOT_DIR/newsletter/send_reminder.py" \
       --preview-list "$PREVIEW_LIST" \
       --subject "Protein Design Digest: Curation Ready [$(date +%Y-%m-%d)]" \
       --body "Your daily curation is ready." \
       --issue "$ROOT_DIR/newsletter/issues/$(date +%Y-%m-%d).json" || echo "Warning: curation reminder failed."
-
-    # Post to Social Media (if credentials exist)
-    python3 "$ROOT_DIR/newsletter/social_post.py" \
-      --issue "$ROOT_DIR/newsletter/issues/$(date +%Y-%m-%d).json" || echo "Warning: Social posting failed."
   fi
+  
+  # Post to Social Media (independent of email credentials)
+  echo "📣 Publishing announcement to social media..."
+  python3 "$ROOT_DIR/newsletter/social_post.py" \
+    --issue "$ROOT_DIR/newsletter/issues/$(date +%Y-%m-%d).json" || echo "⚠️ Social posting failed."
 fi
 
 echo "Preview sent (or rendered). Run run_send_confirmed.sh after approval to email everyone."
