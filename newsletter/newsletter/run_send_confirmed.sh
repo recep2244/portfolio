@@ -11,6 +11,11 @@ if [ -f "$ROOT_DIR/newsletter/.env" ]; then
   set +a
 fi
 
+if [ "${NEWSLETTER_SYNC_SUBSCRIBERS:-1}" = "1" ]; then
+  python3 "$ROOT_DIR/newsletter/sync_subscribers_from_gmail.py" \
+    --subscribers "$ROOT_DIR/newsletter/subscribers.csv" || echo "Warning: subscriber sync failed."
+fi
+
 if [ "${NEWSLETTER_SEND_APPROVED:-}" != "yes" ] && [ "${NEWSLETTER_SEND_APPROVED:-}" != "true" ]; then
   echo "Error: approval missing. Set NEWSLETTER_SEND_APPROVED=yes to send."
   exit 1

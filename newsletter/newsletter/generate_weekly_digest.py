@@ -19,11 +19,12 @@ def load_issue(filepath):
 def get_week_range(today=None):
     if today is None:
         today = datetime.now()
-    # If we run this on Sunday (6), we want the preceding Monday-Sunday or just last 7 days.
-    # Let's just do "Last 7 Days" rolling window for simplicity, or strictly previous week?
-    # User said "combine the dailies for last 7 days".
-    start_date = today - timedelta(days=7)
-    return start_date.date(), today.date()
+    # Always target the most recent Monday-Friday window.
+    weekday = today.weekday()  # Monday=0, Sunday=6
+    days_since_friday = (weekday - 4) % 7
+    end_date = today.date() - timedelta(days=days_since_friday)
+    start_date = end_date - timedelta(days=4)
+    return start_date, end_date
 
 def generate_digest_md(issues, start_date, end_date):
     # Sort issues by date
@@ -46,7 +47,7 @@ tags: ["weekly", "digest", "protein-design"]
 # 🧬 Weekly Recap
 **{date_range_str}**
 
-Missed a day? Here are the top research signals and tools from the past week, summarized for your Sunday reading.
+Missed a day? Here are the top research signals and tools from Monday to Friday, summarized in one place.
 
 ---
 
@@ -182,7 +183,7 @@ def main():
         
         print(f"Successfully generated weekly digest: {out_path}")
     else:
-        print("No issues found in the last 7 days.")
+        print("No issues found in the latest Monday-Friday window.")
 
 if __name__ == "__main__":
     main()

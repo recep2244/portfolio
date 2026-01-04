@@ -140,6 +140,14 @@ class CurationServer(BaseHTTPRequestHandler):
         if parsed.path == "/approve-send":
             try:
                 self._save_issue(payload)
+                run_python(
+                    self.server.sync_subscribers,
+                    [
+                        "--subscribers",
+                        str(self.server.subscribers_list),
+                    ],
+                    self.server.root_dir,
+                )
                 run_python(self.server.newsletter_to_md, ["--issues-dir", str(self.server.issues_dir)], self.server.root_dir)
                 run_python(
                     self.server.send_newsletter,
@@ -219,6 +227,7 @@ def main():
     server.send_newsletter = newsletter_dir / "send_newsletter.py"
     server.newsletter_to_md = newsletter_dir / "newsletter_to_md.py"
     server.social_post = newsletter_dir / "social_post.py"
+    server.sync_subscribers = newsletter_dir / "sync_subscribers_from_gmail.py"
 
     print(f"Curation server running at http://127.0.0.1:{args.port}")
     print(f"Issue date: {issue_date}")
