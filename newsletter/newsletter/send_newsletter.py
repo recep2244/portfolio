@@ -310,6 +310,20 @@ def build_context(issue):
         for item in extra_jobs
     )
 
+    pipeline_tip = html_context.get("pipeline_tip", "").strip()
+    if pipeline_tip:
+        html_context["pipeline_tip_html"] = (
+            '<div style="margin-top:40px; padding:24px 26px; background:#ecfdf5; border-radius:16px; '
+            'border:1px solid #bbf7d0; border-left:4px solid #10b981;">'
+            '<div style="font-family:Arial, sans-serif; font-size:12px; color:#065f46; font-weight:bold; '
+            'text-transform:uppercase; letter-spacing:1.5px; margin-bottom:12px;">'
+            '💡 Pipeline Tip</div>'
+            f'<div style="font-family:Arial, sans-serif; font-size:14px; color:#064e3b; line-height:1.6;">{pipeline_tip}</div>'
+            '</div>'
+        )
+    else:
+        html_context["pipeline_tip_html"] = ""
+
     signal_extras = issue.get("signal_extras") or []
     if signal_extras:
         extras_body = "".join(

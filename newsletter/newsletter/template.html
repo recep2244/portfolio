@@ -130,71 +130,83 @@
 
               <!-- AI News -->
               <div
-                style="margin-top:40px; padding:30px; background:#f8fafc; border-radius:16px; border:1px solid #f1f5f9;">
+                style="margin-top:40px; padding:28px 28px 24px; background:#e0f2fe; border-radius:16px; border:1px solid #bae6fd; border-left:4px solid #0ea5e9;">
                 <div
-                  style="font-family:Arial, sans-serif; font-size:12px; color:#64748b; font-weight:bold; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:15px; display:flex; align-items:center;">
-                  🤖 AI in Research
+                  style="font-family:Arial, sans-serif; font-size:12px; color:#0f172a; font-weight:bold; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:15px; display:flex; align-items:center;">
+                  🧪 AI & Research News
                 </div>
-                <div style="font-family:Arial, sans-serif; font-size:14px; color:#1e293b;">
+                <div style="font-family:Arial, sans-serif; font-size:14px; color:#0c4a6e;">
                   {{ai_news_html}}
                 </div>
               </div>
 
               <!-- Industry Section -->
               <div
-                style="margin-top:20px; padding:30px; background:#f0f9ff; border-radius:16px; border:1px solid #e0f2fe;">
+                style="margin-top:20px; padding:28px 28px 24px; background:#fffbeb; border-radius:16px; border:1px solid #fde68a; border-left:4px solid #f59e0b;">
                 <div
-                  style="font-family:Arial, sans-serif; font-size:12px; color:#0369a1; font-weight:bold; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:15px; display:flex; align-items:center;">
+                  style="font-family:Arial, sans-serif; font-size:12px; color:#92400e; font-weight:bold; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:15px; display:flex; align-items:center;">
                   🏢 Industry Insight & Applications
                 </div>
-                <div style="font-family:Arial, sans-serif; font-size:14px; color:#0c4a6e;">
+                <div style="font-family:Arial, sans-serif; font-size:14px; color:#78350f;">
                   {{industry_news_html}}
                 </div>
               </div>
 
               <!-- Resources Grid -->
               <div style="margin-top:50px; border-top:1px solid #f1f5f9; padding-top:40px;">
+                <div
+                  style="font-family:Arial, sans-serif; font-size:12px; color:#0f766e; font-weight:bold; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:20px;">
+                  🧰 Resources
+                </div>
                 <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                   <tr>
                     <td style="width:50%; vertical-align:top; padding-right:20px;">
                       <div
-                        style="font-family:Arial, sans-serif; font-size:12px; color:#0b6e4f; font-weight:bold; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">
-                        📂 Dataset Search
+                        style="background:#ffffff; border:1px solid #e2e8f0; border-left:4px solid #14b8a6; border-radius:12px; padding:18px;">
+                        <div
+                          style="font-family:Arial, sans-serif; font-size:12px; color:#0f766e; font-weight:bold; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">
+                          📂 Dataset Search
+                        </div>
+                        <div
+                          style="font-family:'Georgia', serif; font-size:18px; color:#0f172a; font-weight:bold; margin-bottom:8px; font-style:italic;">
+                          <a href="{{dataset_link}}"
+                            style="color:#0f172a; text-decoration:none; border-bottom:1px solid #cbd5e1;">{{dataset_title}}
+                            &rarr;</a>
+                        </div>
+                        <div style="font-family:Arial, sans-serif; font-size:13px; color:#64748b; line-height:1.5;">
+                          {{dataset_summary}}
+                        </div>
+                        {{dataset_extra_html}}
                       </div>
-                      <div
-                        style="font-family:'Georgia', serif; font-size:18px; color:#0f172a; font-weight:bold; margin-bottom:8px; font-style:italic;">
-                        <a href="{{dataset_link}}"
-                          style="color:#0f172a; text-decoration:none; border-bottom:1px solid #cbd5e1;">{{dataset_title}}
-                          &rarr;</a>
-                      </div>
-                      <div style="font-family:Arial, sans-serif; font-size:13px; color:#64748b; line-height:1.5;">
-                        {{dataset_summary}}
-                      </div>
-                      {{dataset_extra_html}}
                     </td>
                     <td style="width:50%; vertical-align:top; padding-left:20px;">
                       <div
-                        style="font-family:Arial, sans-serif; font-size:12px; color:#0b6e4f; font-weight:bold; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">
-                        🛠️ Tool Spotlight
+                        style="background:#ffffff; border:1px solid #e2e8f0; border-left:4px solid #0ea5e9; border-radius:12px; padding:18px;">
+                        <div
+                          style="font-family:Arial, sans-serif; font-size:12px; color:#0369a1; font-weight:bold; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">
+                          🛠️ Tool Spotlight
+                        </div>
+                        <div
+                          style="font-family:'Georgia', serif; font-size:18px; color:#0f172a; font-weight:bold; margin-bottom:8px; font-style:italic;">
+                          <a href="{{tool_link}}"
+                            style="color:#0f172a; text-decoration:none; border-bottom:1px solid #cbd5e1;">{{tool_title}}
+                            &rarr;</a>
+                        </div>
+                        <div
+                          style="font-family:Arial, sans-serif; font-size:13px; color:#64748b; line-height:1.5; margin-bottom:10px;">
+                          {{tool_summary}}
+                        </div>
+                        {{tool_extra_html}}
+                        <a href="https://recep2244.github.io/portfolio/#opensource"
+                          style="font-family:Arial, sans-serif; font-size:11px; color:#0f766e; text-decoration:none; font-weight:bold; text-transform:uppercase;">View
+                          All My Tools &rarr;</a>
                       </div>
-                      <div
-                        style="font-family:'Georgia', serif; font-size:18px; color:#0f172a; font-weight:bold; margin-bottom:8px; font-style:italic;">
-                        <a href="{{tool_link}}"
-                          style="color:#0f172a; text-decoration:none; border-bottom:1px solid #cbd5e1;">{{tool_title}}
-                          &rarr;</a>
-                      </div>
-                      <div
-                        style="font-family:Arial, sans-serif; font-size:13px; color:#64748b; line-height:1.5; margin-bottom:10px;">
-                        {{tool_summary}}
-                      </div>
-                      {{tool_extra_html}}
-                      <a href="https://recep2244.github.io/portfolio/#opensource"
-                        style="font-family:Arial, sans-serif; font-size:11px; color:#0b6e4f; text-decoration:none; font-weight:bold; text-transform:uppercase;">View
-                        All My Tools &rarr;</a>
                     </td>
                   </tr>
                 </table>
               </div>
+
+              {{pipeline_tip_html}}
 
               <!-- Social Networking Cards -->
               <div

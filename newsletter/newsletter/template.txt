@@ -14,9 +14,13 @@ Additional signals
 Quick reads
 {{quick_reads_text}}
 
-AI news
+AI & Research news
 {{ai_news_text}}
 
+Industry Insight & Applications
+{{industry_news_text}}
+
+Resources
 Dataset spotlight
 {{dataset_title}}
 {{dataset_summary}}
