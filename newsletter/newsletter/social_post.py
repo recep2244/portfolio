@@ -489,6 +489,16 @@ def post_bluesky(
 def main():
     parser = argparse.ArgumentParser(description="Post daily signal to social media")
     parser.add_argument("--issue", required=True, help="Path to issue JSON")
+    parser.add_argument(
+        "--twitter-only",
+        action="store_true",
+        help="Post only to Twitter (skip LinkedIn and Bluesky)",
+    )
+    parser.add_argument(
+        "--twitter-main-only",
+        action="store_true",
+        help="Post only the main Twitter message (skip AI/industry/job posts)",
+    )
     args = parser.parse_args()
 
     if not os.path.exists(args.issue):
@@ -748,14 +758,17 @@ def main():
     tw_tok_sec = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
     if tw_key and tw_sec and tw_tok and tw_tok_sec:
         post_twitter(twitter_text, tw_key, tw_sec, tw_tok, tw_tok_sec)
-        if ai_post:
+        if not args.twitter_main_only and ai_post:
             post_twitter(ai_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec)
-        if industry_post:
+        if not args.twitter_main_only and industry_post:
             post_twitter(industry_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec)
-        if job_post:
+        if not args.twitter_main_only and job_post:
             post_twitter(job_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec)
     else:
         print("Skipping Twitter (credentials missing)")
+
+    if args.twitter_only:
+        return
 
     # LinkedIn
     li_tok = os.getenv("LINKEDIN_ACCESS_TOKEN")
