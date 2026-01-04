@@ -40,6 +40,7 @@ if [ -z "${NEWSLETTER_GMAIL_USER:-}" ] || [ -z "${NEWSLETTER_GMAIL_APP_PASSWORD:
     --subscribers "$PREVIEW_LIST" \
     --template-html "$ROOT_DIR/newsletter/template.html" \
     --template-text "$ROOT_DIR/newsletter/template.txt" \
+    --frequency daily \
     --render-only
 else
   python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
@@ -47,7 +48,8 @@ else
     --issues-dir "$ROOT_DIR/newsletter/issues" \
     --subscribers "$PREVIEW_LIST" \
     --template-html "$ROOT_DIR/newsletter/template.html" \
-    --template-text "$ROOT_DIR/newsletter/template.txt" || echo "Warning: preview send failed."
+    --template-text "$ROOT_DIR/newsletter/template.txt" \
+    --frequency daily || echo "Warning: preview send failed."
 fi
 
 if [ "${NEWSLETTER_SEND_CURATION_REMINDER:-}" = "1" ]; then

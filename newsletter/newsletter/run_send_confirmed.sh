@@ -29,7 +29,8 @@ python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
   --issues-dir "$ROOT_DIR/newsletter/issues" \
   --subscribers "$ROOT_DIR/newsletter/subscribers.csv" \
   --template-html "$ROOT_DIR/newsletter/template.html" \
-  --template-text "$ROOT_DIR/newsletter/template.txt"
+  --template-text "$ROOT_DIR/newsletter/template.txt" \
+  --frequency daily
 
 echo "📣 Publishing announcement to social media..."
 python3 "$ROOT_DIR/newsletter/social_post.py" \

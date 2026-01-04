@@ -372,9 +372,10 @@ def build_context(issue):
     return html_context, text_context, subject
 
 
-def load_subscribers(path):
+def load_subscribers(path, frequency=None):
     emails = []
     seen = set()
+    wanted_frequency = (frequency or "").strip().lower()
     with open(path, "r", encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f)
         if not reader.fieldnames or "email" not in reader.fieldnames:
@@ -382,9 +383,12 @@ def load_subscribers(path):
         for row in reader:
             email = (row.get("email") or "").strip()
             status = (row.get("status") or "").strip().lower()
+            row_frequency = (row.get("frequency") or "daily").strip().lower()
             if not email:
                 continue
             if status in {"unsubscribed", "inactive", "bounced"}:
+                continue
+            if wanted_frequency and row_frequency != wanted_frequency:
                 continue
             if email in seen:
                 continue
@@ -453,6 +457,7 @@ def main():
     parser.add_argument("--timezone", default=DEFAULT_TIMEZONE)
     parser.add_argument("--render-only", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--frequency", choices=["daily", "weekly"], help="Filter subscribers by frequency")
     parser.add_argument("--from-email", default=os.getenv("NEWSLETTER_FROM_EMAIL"))
     parser.add_argument("--from-name", default=os.getenv("NEWSLETTER_FROM_NAME", ""))
     parser.add_argument("--reply-to", default=os.getenv("NEWSLETTER_REPLY_TO", ""))
@@ -477,7 +482,7 @@ def main():
         print(f"Rendered: {text_path}")
         return
 
-    subscribers = load_subscribers(args.subscribers)
+    subscribers = load_subscribers(args.subscribers, args.frequency)
     if not subscribers:
         raise ValueError("No subscribers found")
     if args.max_recipients and len(subscribers) > args.max_recipients:
