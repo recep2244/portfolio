@@ -42,6 +42,7 @@ jobs:
           WHATSAPP_API_KEY: ${{ secrets.WHATSAPP_API_KEY }}
           BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
           BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
+          SOCIAL_CHANNELS: "twitter,bluesky"
         run: |
           cd newsletter/newsletter
           chmod +x run_daily.sh

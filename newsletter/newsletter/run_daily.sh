@@ -19,9 +19,9 @@ python3 "$ROOT_DIR/newsletter/generate_issue.py" \
 python3 "$ROOT_DIR/newsletter/newsletter_to_md.py" \
   --issues-dir "$ROOT_DIR/newsletter/issues"
 
-# Weekly Digest on Sundays
-if [ "$(date +%u)" = "7" ]; then
-  echo "📅 Sunday detected: Generating Weekly Digest..."
+# Weekly Digest on Fridays
+if [ "$(date +%u)" = "5" ]; then
+  echo "📅 Friday detected: Generating Weekly Digest..."
   python3 "$ROOT_DIR/newsletter/generate_weekly_digest.py" \
     --issues-dir "$ROOT_DIR/newsletter/issues"
 fi
