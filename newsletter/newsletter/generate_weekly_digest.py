@@ -80,6 +80,8 @@ Missed a day? Here are the top research signals and tools from Monday to Friday,
     md += "\n---\n\n## 🛠️ Tools & Datasets\n\n"
     
     # 3. Aggregated Tools/Datasets
+    seen_tools = set()
+    seen_datasets = set()
     for issue in issues:
         tools = issue.get('tool')
         datasets = issue.get('dataset')
@@ -90,7 +92,10 @@ Missed a day? Here are the top research signals and tools from Monday to Friday,
                 tools = [tools]
             for tool in tools:
                 if tool and tool.get('title') not in ["Add a tool", "Add a tool you like"]:
-                     md += f"- 🛠 **Tool**: [{tool.get('title')}]({tool.get('link')}) - {tool.get('summary')}\n"
+                    key = (tool.get('title') or '').strip().lower()
+                    if key and key not in seen_tools:
+                        md += f"- 🛠 **Tool**: [{tool.get('title')}]({tool.get('link')}) - {tool.get('summary')}\n"
+                        seen_tools.add(key)
 
         # Handle if dataset is a list (new format) or dict (old format)
         if datasets:
@@ -98,7 +103,10 @@ Missed a day? Here are the top research signals and tools from Monday to Friday,
                 datasets = [datasets]
             for dataset in datasets:
                 if dataset and dataset.get('title') not in ["Add a dataset", "Add a dataset you like"]:
-                     md += f"- 💾 **Dataset**: [{dataset.get('title')}]({dataset.get('link')}) - {dataset.get('summary')}\n"
+                    key = (dataset.get('title') or '').strip().lower()
+                    if key and key not in seen_datasets:
+                        md += f"- 💾 **Dataset**: [{dataset.get('title')}]({dataset.get('link')}) - {dataset.get('summary')}\n"
+                        seen_datasets.add(key)
 
     # 4. AI & Research News
     ai_news_items = []
