@@ -199,6 +199,13 @@ projects:
   - CASP
   - MD
 blogs:
+- title: AlphaFold Solved Protein Folding, Right? Not So Fast.
+  summary: Five surprising truths about refinement, assembly, and validation in the post-AlphaFold era.
+  link: blog/alphafold-not-so-fast
+  tags:
+  - AlphaFold2
+  - Refinement
+  - Validation
 - title: 'From Static to Dynamic: The Future of Protein Modelling'
   summary: Why we need to move beyond static snapshots to capture the full range of
     conformational dynamics.
