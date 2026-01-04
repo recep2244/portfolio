@@ -31,7 +31,10 @@
 
         <div class="max-w-5xl mx-auto">
             <div class="flex items-center justify-between mb-10 border-b pb-6 border-slate-100">
-                <h2 class="text-3xl font-black text-slate-900">Weekly Archive</h2>
+                <div>
+                    <h2 class="text-3xl font-black text-slate-900">Daily Archive</h2>
+                    <p class="text-sm text-slate-500 mt-2">Daily signals and weekly digests, formatted for fast scanning.</p>
+                </div>
                 <span
                     class="px-5 py-2 bg-white rounded-full border border-slate-100 text-sm text-slate-500 font-bold shadow-sm underline underline-offset-4 decoration-blue-200">{{
                     len .Pages }} editions</span>
@@ -39,12 +42,11 @@
 
             <div class="grid gap-8">
                 {{ range .Pages.ByDate.Reverse }}
+                {{ $isWeekly := in .Params.tags "weekly" }}
                 <a href="{{ .RelPermalink }}" class="block group">
                     <article
-                        class="bg-white border border-slate-100 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-100 hover:-translate-y-2 transition-all duration-500 p-8 md:p-10 flex flex-col md:flex-row gap-10 items-start rounded-[2.5rem] relative overflow-hidden">
-                        <div
-                            class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-50/50 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        </div>
+                        class="bg-white border border-slate-100 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-100 hover:-translate-y-2 transition-all duration-500 p-8 md:p-10 flex flex-col md:flex-row gap-10 items-start rounded-[2.5rem] relative overflow-hidden border-l-4 {{ if $isWeekly }}border-l-sky-500{{ else }}border-l-emerald-500{{ end }}">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br {{ if $isWeekly }}from-sky-50/60{{ else }}from-emerald-50/60{{ end }} to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                         <div class="flex-shrink-0">
                             <div
@@ -59,26 +61,32 @@
                         </div>
                         <div class="flex-grow">
                             <div class="flex flex-wrap gap-2 mb-4">
+                                {{ if $isWeekly }}
+                                <span
+                                    class="px-4 py-1.5 bg-sky-100 text-sky-700 text-[10px] rounded-full font-black uppercase tracking-widest border border-sky-200">Weekly
+                                    Digest</span>
+                                {{ else }}
+                                <span
+                                    class="px-4 py-1.5 bg-emerald-100 text-emerald-700 text-[10px] rounded-full font-black uppercase tracking-widest border border-emerald-200">Daily
+                                    Signal</span>
+                                {{ end }}
                                 {{ range .Params.tags }}
                                 <span
-                                    class="px-4 py-1.5 bg-slate-50 text-slate-400 text-[10px] rounded-full font-black uppercase tracking-widest border border-slate-100 group-hover:bg-blue-50 group-hover:text-blue-500 group-hover:border-blue-100 transition-colors">{{
-                                    . }}</span>
+                                    class="px-4 py-1.5 bg-slate-50 text-slate-400 text-[10px] rounded-full font-black uppercase tracking-widest border border-slate-100 group-hover:bg-blue-50 group-hover:text-blue-500 group-hover:border-blue-100 transition-colors">{{ . }}</span>
                                 {{ end }}
                             </div>
                             <h3
                                 class="text-3xl font-black text-slate-900 group-hover:text-blue-600 transition-colors mb-4 italic leading-tight">
                                 {{ .Title }}
                             </h3>
-                            <p class="text-slate-500 line-clamp-2 text-lg leading-relaxed mb-8 font-medium italic">
+                            <p class="text-slate-600 line-clamp-2 text-lg leading-relaxed mb-8 font-medium italic">
                                 {{ .Description | default .Summary }}
                             </p>
-                            <div
-                                class="flex items-center gap-3 text-blue-600 font-black text-sm uppercase tracking-widest">
-                                EXPLORE DIGEST
+                            <div class="flex items-center gap-3 text-blue-600 font-black text-sm uppercase tracking-widest">
+                                Read Issue
                                 <div class="w-12 h-1 bg-blue-100 rounded-full overflow-hidden">
                                     <div
-                                        class="w-full h-full bg-blue-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500">
-                                    </div>
+                                        class="w-full h-full bg-blue-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
                                 </div>
                             </div>
                         </div>
