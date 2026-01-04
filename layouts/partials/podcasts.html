@@ -50,13 +50,21 @@
                 <!-- Content -->
                 <div class="space-y-3">
                     <h3 class="text-lg font-bold text-slate-900 group-hover:text-accent transition-colors">
-                        <a href="{{ $cv.contact.youtube }}" target="_blank" rel="noopener noreferrer">
+                        <a href="{{ .youtube_url | default $cv.contact.youtube }}" target="_blank"
+                            rel="noopener noreferrer">
                             {{ .title }}
                         </a>
                     </h3>
                     <p class="text-slate-600 text-sm leading-relaxed font-medium">
                         {{ .description }}
                     </p>
+                    <a href="{{ .youtube_url | default $cv.contact.youtube }}" target="_blank"
+                        rel="noopener noreferrer" class="inline-flex items-center gap-2 text-red-600 text-xs font-bold">
+                        Watch on YouTube
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </a>
                     <div
                         class="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-200">
                         <span class="font-semibold">{{ .date }}</span>
