@@ -14,6 +14,12 @@
           <a href="mailto:{{ $cv.contact.email }}" class="pill hover:border-accent hover:text-accent transition-colors">
             {{ $cv.contact.email }}
           </a>
+          {{ with $cv.contact.website }}
+          <a href="{{ . }}" target="_blank" rel="noreferrer"
+            class="pill hover:border-accent hover:text-accent transition-colors">
+            Website
+          </a>
+          {{ end }}
           <a href="{{ $cv.contact.linkedin }}" target="_blank" rel="noreferrer"
             class="pill hover:border-accent hover:text-accent transition-colors">
             LinkedIn
@@ -22,8 +28,34 @@
             class="pill hover:border-accent hover:text-accent transition-colors">
             GitHub
           </a>
-          <button onclick="window.print()" class="pill hover:border-accent hover:text-accent transition-colors">Print /
-            Save as PDF</button>
+          {{ with $cv.contact.twitter }}
+          <a href="{{ . }}" target="_blank" rel="noreferrer"
+            class="pill hover:border-accent hover:text-accent transition-colors">
+            Twitter
+          </a>
+          {{ end }}
+          {{ with $cv.contact.bluesky }}
+          <a href="{{ . }}" target="_blank" rel="noreferrer"
+            class="pill hover:border-accent hover:text-accent transition-colors">
+            Bluesky
+          </a>
+          {{ end }}
+          {{ with $cv.contact.docker }}
+          <a href="{{ . }}" target="_blank" rel="noreferrer"
+            class="pill hover:border-accent hover:text-accent transition-colors">
+            Docker Hub
+          </a>
+          {{ end }}
+          {{ with $cv.contact.youtube }}
+          <a href="{{ . }}" target="_blank" rel="noreferrer"
+            class="pill hover:border-accent hover:text-accent transition-colors">
+            YouTube
+          </a>
+          {{ end }}
+          <a href="{{ "cv/recep-adiyaman-cv.pdf" | relURL }}" class="pill hover:border-accent hover:text-accent transition-colors"
+            download>
+            Download PDF
+          </a>
         </div>
       </div>
       <p class="text-slate-700 mt-6 leading-relaxed">{{ $cv.summary }}</p>
