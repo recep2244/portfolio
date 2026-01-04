@@ -24,6 +24,8 @@ jobs:
         run: pip install requests pyyaml
 
       - name: Sync podcast entries
+        env:
+          YOUTUBE_CHANNEL_ID: UCg6z3fAXEG01CMVFpS7-i-g
         run: python scripts/sync_youtube_podcasts.py --handle recepadyaman_proteins --limit 6
 
       - name: Commit updates
