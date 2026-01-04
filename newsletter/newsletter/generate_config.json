@@ -242,6 +242,26 @@
         {
           "name": "Bioinformatics Careers",
           "url": "https://news.google.com/rss/search?q=site:linkedin.com/jobs+%22protein+design%22+OR+%22bioinformatics%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "name": "Indeed Jobs",
+          "url": "https://news.google.com/rss/search?q=site:indeed.com+%22protein+design%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+OR+%22protein+engineering%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "name": "Greenhouse",
+          "url": "https://news.google.com/rss/search?q=site:greenhouse.io+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "name": "Lever",
+          "url": "https://news.google.com/rss/search?q=site:lever.co+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "name": "Workable",
+          "url": "https://news.google.com/rss/search?q=site:workable.com+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "name": "SmartRecruiters",
+          "url": "https://news.google.com/rss/search?q=site:smartrecruiters.com+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
         }
       ]
     }

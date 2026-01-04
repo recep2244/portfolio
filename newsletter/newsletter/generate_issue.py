@@ -498,6 +498,23 @@ def fetch_semantic_scholar(keywords, start_date, end_date, max_results, user_age
     return papers
 
 
+def normalize_news_link(link, source_url):
+    if not link:
+        return link
+    if "news.google.com" in link and source_url:
+        try:
+            parsed = urlparse(source_url)
+            path = (parsed.path or "").strip()
+            if path and path != "/":
+                return source_url
+            if parsed.query:
+                return source_url
+        except Exception:
+            return link
+        return link
+    return link
+
+
 def fetch_rss_feed(feed, keywords, max_results, user_agent, timezone):
     url = (feed.get("url") or "").strip()
     name = (feed.get("name") or "RSS").strip()
@@ -549,10 +566,15 @@ def fetch_rss_feed(feed, keywords, max_results, user_agent, timezone):
             title = find_first_text(item, ["title"])
             summary = find_first_text(item, ["description", "encoded", "content"])
             link = find_first_text(item, ["link"])
+            source_url = ""
+            source_node = item.find("source") or item.find("{*}source")
+            if source_node is not None:
+                source_url = (source_node.attrib.get("url") or "").strip()
             published_raw = find_first_text(item, ["pubDate", "date", "updated"])
             published = parse_rss_date(published_raw, timezone)
             if not title or not link or not published:
                 continue
+            link = normalize_news_link(link, source_url)
             papers.append(
                 Paper(
                     title=title,

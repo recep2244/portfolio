@@ -56,6 +56,55 @@ def shorten_text(text, max_len):
     return text[: max_len - 3].rstrip() + "..."
 
 
+def extract_first_url(text):
+    match = re.search(r"https?://\S+", text or "")
+    return match.group(0) if match else ""
+
+
+def extract_title_line(text, fallback):
+    lines = [line.strip() for line in (text or "").splitlines() if line.strip()]
+    if len(lines) >= 2:
+        return lines[1]
+    return fallback
+
+
+def ensure_subscribe_label(text, limit):
+    if not text:
+        return text
+    if SUBSCRIBE_LABEL in text:
+        return text
+    line = f"\n{SUBSCRIBE_LABEL}"
+    if len(text) + len(line) <= limit:
+        return text + line
+    lines = text.splitlines()
+    if lines and lines[-1].startswith("#"):
+        lines.pop()
+        text = "\n".join(lines)
+        if SUBSCRIBE_LABEL in text:
+            return text
+        if len(text) + len(line) <= limit:
+            return text + line
+    return text
+
+
+def normalize_text_for_compare(value):
+    return re.sub(r"[^a-z0-9]+", " ", (value or "").lower()).strip()
+
+
+def is_redundant_summary(title, summary):
+    if not title or not summary:
+        return False
+    title_norm = normalize_text_for_compare(title)
+    summary_norm = normalize_text_for_compare(summary)
+    if not title_norm or not summary_norm:
+        return False
+    return (
+        summary_norm == title_norm
+        or summary_norm.startswith(title_norm)
+        or title_norm.startswith(summary_norm)
+    )
+
+
 def build_external_embed(title, summary, url):
     if not url:
         return None
@@ -91,8 +140,16 @@ def build_social_text(
     issue_date=None,
     subscribe_url_in_text=False,
     extra_lines=None,
+    header_label=None,
+    url_length=None,
+    omit_long_links=False,
 ):
-    header = "Paper of the day"
+    def measure_text(text):
+        if not url_length:
+            return len(text)
+        return len(re.sub(r"https?://\S+", "x" * url_length, text))
+
+    header = header_label or "Paper of the day"
     formatted_date = format_issue_date(issue_date)
     if formatted_date:
         header = f"{header} · {formatted_date}"
@@ -119,13 +176,13 @@ def build_social_text(
         base_lines.append(tags_line)
     base_without_title = "\n".join(base_lines)
     min_title = "Signal"
-    base_len = len(base_without_title) + len(min_title) + 1
+    base_len = measure_text(base_without_title) + measure_text(min_title) + 1
     remaining_for_extras = max(0, limit - base_len - 1)
     per_extra = 0
     if extra_lines:
         per_extra = max(0, remaining_for_extras // len(extra_lines))
     reserve_extras = len(extra_lines) * (per_extra + 1)
-    allowed = max(0, limit - len(base_without_title) - reserve_extras - 1)
+    allowed = max(0, limit - measure_text(base_without_title) - reserve_extras - 1)
     title_line = shorten_text(title, allowed)
     if not title_line:
         title_line = "Signal"
@@ -136,7 +193,7 @@ def build_social_text(
 
     def try_add_line(text, index):
         current = "\n".join(lines)
-        remaining = limit - len(current) - 1
+        remaining = limit - measure_text(current) - 1
         if remaining <= 0:
             return False
         line_text = shorten_text(text, remaining)
@@ -147,14 +204,66 @@ def build_social_text(
 
     insert_idx = 2
     for extra in extra_lines:
-        extra_text = shorten_text(extra, per_extra) if per_extra else ""
+        extra_text = shorten_text(extra, per_extra) if per_extra else extra
         if extra_text and try_add_line(extra_text, insert_idx):
             insert_idx += 1
     if summary:
         if try_add_line(summary, insert_idx):
             insert_idx += 1
 
-    return "\n".join(lines)
+    def measure(values):
+        return measure_text("\n".join(values))
+
+    safe_lines = list(lines)
+    if tags_line and measure(safe_lines) > limit:
+        safe_lines.pop()
+    tail_start = len(safe_lines) - len(tail_lines)
+    while measure(safe_lines) > limit and tail_start > 2:
+        del safe_lines[tail_start - 1]
+        tail_start -= 1
+    if measure(safe_lines) > limit:
+        fixed_lines = [header] + tail_lines
+        fixed_len = len("\n".join(fixed_lines))
+        max_title = max(0, limit - fixed_len - 1)
+        short_title = shorten_text(title, max_title) or shorten_text("Signal", max_title)
+        rebuilt = [header, short_title] + tail_lines
+        if tags_line and measure(rebuilt + [tags_line]) <= limit:
+            rebuilt.append(tags_line)
+        rebuilt_text = "\n".join(rebuilt)
+        if omit_long_links and signal_link and len(rebuilt_text) > limit:
+            return build_social_text(
+                title,
+                summary,
+                "",
+                sub_url,
+                limit,
+                include_tags=include_tags,
+                issue_date=issue_date,
+                subscribe_url_in_text=subscribe_url_in_text,
+                extra_lines=extra_lines,
+                header_label=header_label,
+                url_length=url_length,
+                omit_long_links=False,
+            )
+        return rebuilt_text
+
+    final_text = "\n".join(safe_lines)
+    if omit_long_links and signal_link and len(final_text) > limit:
+        return build_social_text(
+            title,
+            summary,
+            "",
+            sub_url,
+            limit,
+            include_tags=include_tags,
+            issue_date=issue_date,
+            subscribe_url_in_text=subscribe_url_in_text,
+            extra_lines=extra_lines,
+            header_label=header_label,
+            url_length=url_length,
+            omit_long_links=False,
+        )
+    return final_text
 
 
 def post_twitter(content, api_key, api_secret, access_token, access_token_secret):
@@ -297,14 +406,14 @@ def build_bluesky_facets(text, subscribe_url=None, paper_url=None):
                 {"$type": "app.bsky.richtext.facet#link", "uri": paper_url},
             )
 
-    for match in re.finditer(r"https?://\\S+", text):
+    for match in re.finditer(r"https?://\S+", text):
         add_facet(
             match.start(),
             match.end(),
             {"$type": "app.bsky.richtext.facet#link", "uri": match.group(0)},
         )
 
-    for match in re.finditer(r"(?<!\\w)#([A-Za-z0-9_]+)", text):
+    for match in re.finditer(r"(?<!\w)#([A-Za-z0-9_]+)", text):
         tag = match.group(1)
         add_facet(
             match.start(),
@@ -395,17 +504,24 @@ def main():
     ai_items = coerce_list(issue.get("ai_news"))
     industry_items = coerce_list(issue.get("industry_news"))
     job_items = coerce_list((issue.get("community") or {}).get("job"))
+    social_cfg = issue.get("social", {}) or {}
+    ai_cfg = social_cfg.get("ai") or {}
+    industry_cfg = social_cfg.get("industry") or {}
+    job_cfg = social_cfg.get("job") or {}
+    ai_enabled = ai_cfg.get("enabled", True)
+    industry_enabled = industry_cfg.get("enabled", True)
+    job_enabled = job_cfg.get("enabled", True)
 
     extras = []
-    if ai_items:
+    if ai_items and not ai_enabled:
         ai_title = (ai_items[0] or {}).get("title", "")
         if ai_title:
             extras.append(f"AI: {ai_title}")
-    if industry_items:
+    if industry_items and not industry_enabled:
         ind_title = (industry_items[0] or {}).get("title", "")
         if ind_title:
             extras.append(f"Industry: {ind_title}")
-    if job_items:
+    if job_items and not job_enabled:
         job_title = (job_items[0] or {}).get("title", "")
         job_org = (job_items[0] or {}).get("org", "")
         if job_title:
@@ -422,7 +538,9 @@ def main():
     sub_url = base_url
 
     issue_date = issue.get("issue_date", "")
-    twitter_text = build_social_text(
+    social_twitter = (social_cfg.get("twitter") or "").strip()
+    social_bluesky = (social_cfg.get("bluesky") or "").strip()
+    twitter_text = social_twitter or build_social_text(
         signal_title,
         summary,
         signal_link,
@@ -432,8 +550,9 @@ def main():
         issue_date=issue_date,
         subscribe_url_in_text=True,
         extra_lines=extras,
+        url_length=23,
     )
-    bluesky_text = build_social_text(
+    bluesky_text = social_bluesky or build_social_text(
         signal_title,
         summary,
         signal_link,
@@ -443,7 +562,156 @@ def main():
         issue_date=issue_date,
         subscribe_url_in_text=False,
         extra_lines=extras,
+        omit_long_links=True,
     )
+
+    def build_section_post(item, header_label):
+        if not item:
+            return None
+        title = (item.get("title") or "").strip()
+        if not title:
+            return None
+        summary_text = (item.get("abstract") or item.get("note") or "").strip()
+        summary_text = shorten_text(summary_text, 140) if summary_text else ""
+        if summary_text and is_redundant_summary(title, summary_text):
+            summary_text = ""
+        link = (item.get("link") or "").strip()
+        return {
+            "title": title,
+            "summary": summary_text,
+            "link": link,
+            "twitter": build_social_text(
+                title,
+                summary_text,
+                link,
+                sub_url,
+                TWITTER_LIMIT,
+                include_tags=True,
+                issue_date=issue_date,
+                subscribe_url_in_text=True,
+                extra_lines=None,
+                header_label=header_label,
+                url_length=23,
+            ),
+            "bluesky": build_social_text(
+                title,
+                summary_text,
+                link,
+                sub_url,
+                BLUESKY_LIMIT,
+                include_tags=True,
+                issue_date=issue_date,
+                subscribe_url_in_text=False,
+                extra_lines=None,
+                header_label=header_label,
+                omit_long_links=True,
+            ),
+        }
+
+    ai_post = (
+        build_section_post(ai_items[0] if ai_items else None, "AI news of the day")
+        if ai_enabled
+        else None
+    )
+    industry_post = (
+        build_section_post(industry_items[0] if industry_items else None, "Industry news of the day")
+        if industry_enabled
+        else None
+    )
+    job_post = None
+    if job_items and job_enabled:
+        job_item = job_items[0] or {}
+        job_title = (job_item.get("title") or "").strip()
+        job_org = (job_item.get("org") or "").strip()
+        if job_title:
+            if job_org:
+                job_title = f"{job_title} ({job_org})"
+            job_item = dict(job_item)
+            job_item["title"] = job_title
+            job_post = build_section_post(job_item, "Job of the day")
+
+    def apply_social_override(post, text, header_label, channel):
+        if not text:
+            return post
+        if post is None:
+            post = {
+                "title": extract_title_line(text, header_label),
+                "summary": "",
+                "link": extract_first_url(text),
+                "twitter": "",
+                "bluesky": "",
+            }
+        if not post.get("link"):
+            post["link"] = extract_first_url(text)
+        if not post.get("title"):
+            post["title"] = extract_title_line(text, header_label)
+        post[channel] = text
+        return post
+
+    ai_post = apply_social_override(
+        ai_post, (ai_cfg.get("twitter") or "").strip(), "AI news of the day", "twitter"
+    )
+    ai_post = apply_social_override(
+        ai_post, (ai_cfg.get("bluesky") or "").strip(), "AI news of the day", "bluesky"
+    )
+    industry_post = apply_social_override(
+        industry_post,
+        (industry_cfg.get("twitter") or "").strip(),
+        "Industry news of the day",
+        "twitter",
+    )
+    industry_post = apply_social_override(
+        industry_post,
+        (industry_cfg.get("bluesky") or "").strip(),
+        "Industry news of the day",
+        "bluesky",
+    )
+    job_post = apply_social_override(
+        job_post, (job_cfg.get("twitter") or "").strip(), "Job of the day", "twitter"
+    )
+    job_post = apply_social_override(
+        job_post, (job_cfg.get("bluesky") or "").strip(), "Job of the day", "bluesky"
+    )
+
+    def ensure_channel(post, header_label):
+        if not post:
+            return post
+        title = post.get("title") or header_label
+        summary_text = post.get("summary") or ""
+        link = post.get("link") or ""
+        if not post.get("twitter"):
+            post["twitter"] = build_social_text(
+                title,
+                summary_text,
+                link,
+                sub_url,
+                TWITTER_LIMIT,
+                include_tags=True,
+                issue_date=issue_date,
+                subscribe_url_in_text=True,
+                extra_lines=None,
+                header_label=header_label,
+                url_length=23,
+            )
+        if not post.get("bluesky"):
+            post["bluesky"] = build_social_text(
+                title,
+                summary_text,
+                link,
+                sub_url,
+                BLUESKY_LIMIT,
+                include_tags=True,
+                issue_date=issue_date,
+                subscribe_url_in_text=False,
+                extra_lines=None,
+                header_label=header_label,
+                omit_long_links=True,
+            )
+        return post
+
+    ai_post = ensure_channel(ai_post, "AI news of the day")
+    industry_post = ensure_channel(industry_post, "Industry news of the day")
+    job_post = ensure_channel(job_post, "Job of the day")
 
     print("--- Twitter Post ---")
     print(twitter_text)
@@ -451,6 +719,27 @@ def main():
     print("--- Bluesky Post ---")
     print(bluesky_text)
     print("--------------------")
+    if ai_post:
+        print("--- AI News Post (Twitter) ---")
+        print(ai_post["twitter"])
+        print("------------------------------")
+        print("--- AI News Post (Bluesky) ---")
+        print(ai_post["bluesky"])
+        print("------------------------------")
+    if industry_post:
+        print("--- Industry News Post (Twitter) ---")
+        print(industry_post["twitter"])
+        print("------------------------------------")
+        print("--- Industry News Post (Bluesky) ---")
+        print(industry_post["bluesky"])
+        print("------------------------------------")
+    if job_post:
+        print("--- Job Post (Twitter) ---")
+        print(job_post["twitter"])
+        print("--------------------------")
+        print("--- Job Post (Bluesky) ---")
+        print(job_post["bluesky"])
+        print("--------------------------")
 
     # Twitter
     tw_key = os.getenv("TWITTER_API_KEY")
@@ -459,13 +748,20 @@ def main():
     tw_tok_sec = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
     if tw_key and tw_sec and tw_tok and tw_tok_sec:
         post_twitter(twitter_text, tw_key, tw_sec, tw_tok, tw_tok_sec)
+        if ai_post:
+            post_twitter(ai_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec)
+        if industry_post:
+            post_twitter(industry_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec)
+        if job_post:
+            post_twitter(job_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec)
     else:
         print("Skipping Twitter (credentials missing)")
 
     # LinkedIn
     li_tok = os.getenv("LINKEDIN_ACCESS_TOKEN")
     if li_tok:
-        post_linkedin(twitter_text, li_tok)
+        li_text = (social_cfg.get("linkedin") or "").strip() or twitter_text
+        post_linkedin(li_text, li_tok)
     else:
         print("Skipping LinkedIn (credentials missing)")
 
@@ -475,16 +771,33 @@ def main():
     bs_service = os.getenv("BLUESKY_SERVICE", "https://bsky.social")
     bs_subscribe = os.getenv("BLUESKY_SUBSCRIBE_URL", DEFAULT_BASE_URL)
     if bs_handle and bs_pass:
-        embed = build_external_embed(signal_title, summary, signal_link)
+        bluesky_text = ensure_subscribe_label(bluesky_text, BLUESKY_LIMIT)
+        main_link = signal_link or extract_first_url(twitter_text) or extract_first_url(bluesky_text)
+        main_title = signal_title or extract_title_line(twitter_text or bluesky_text, "Paper of the day")
+        embed = build_external_embed(main_title, summary, main_link)
         post_bluesky(
             bluesky_text,
             bs_handle,
             bs_pass,
             bs_service,
             subscribe_url=bs_subscribe,
-            paper_url=signal_link,
+            paper_url=main_link,
             embed=embed,
         )
+        for post in (ai_post, industry_post, job_post):
+            if not post:
+                continue
+            post["bluesky"] = ensure_subscribe_label(post["bluesky"], BLUESKY_LIMIT)
+            embed = build_external_embed(post["title"], post.get("summary", ""), post.get("link", ""))
+            post_bluesky(
+                post["bluesky"],
+                bs_handle,
+                bs_pass,
+                bs_service,
+                subscribe_url=bs_subscribe,
+                paper_url=post.get("link", ""),
+                embed=embed,
+            )
     else:
         print("Skipping Bluesky (credentials missing)")
 

@@ -30,6 +30,10 @@
         font-size: 20px;
         margin: 32px 0 12px;
       }
+      h3 {
+        font-size: 16px;
+        margin: 24px 0 12px;
+      }
       p.help {
         color: #64748b;
         margin: 0 0 24px;
@@ -141,6 +145,32 @@
         color: #64748b;
         font-size: 13px;
         margin-bottom: 12px;
+      }
+      .toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: #475569;
+      }
+      .toggle input {
+        width: 16px;
+        height: 16px;
+      }
+      .manual-grid {
+        display: grid;
+        gap: 12px;
+      }
+      .manual-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        align-items: end;
+      }
+      @media (max-width: 720px) {
+        .manual-row {
+          grid-template-columns: 1fr;
+        }
       }
       .empty {
         color: #94a3b8;
@@ -274,7 +304,7 @@
       <h2>Social Summaries</h2>
       <p class="section-note">Auto-generate short posts for Twitter, Bluesky, and LinkedIn.</p>
       <div class="controls" style="margin-bottom: 12px;">
-        <button class="btn btn-primary" onclick="generateSocial()">Generate summaries</button>
+        <button class="btn btn-primary" onclick="generateSocial(true)">Generate summaries</button>
       </div>
       <div class="card form-grid">
         <div class="field" style="grid-column: 1 / -1;">
@@ -288,6 +318,117 @@
         <div class="field" style="grid-column: 1 / -1;">
           <label class="label" for="socialLinkedIn">LinkedIn</label>
           <textarea id="socialLinkedIn"></textarea>
+        </div>
+      </div>
+
+      <h3>Manual post builder</h3>
+      <p class="section-note">Paste a link to auto-fill the post format (title is fetched from the page).</p>
+      <div class="card manual-grid">
+        <div class="manual-row">
+          <div class="field">
+            <label class="label" for="manualPaperLink">Paper link</label>
+            <input type="text" id="manualPaperLink" placeholder="Paste paper link" />
+          </div>
+          <button
+            class="btn btn-secondary"
+            onclick="generateManualPost('manualPaperLink', 'socialTwitter', 'socialBluesky', 'Paper of the day', null, 'manualPaperSetSignal')"
+          >
+            Generate
+          </button>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="manualPaperSetSignal" checked />
+          Set as main signal
+        </label>
+        <div class="manual-row">
+          <div class="field">
+            <label class="label" for="manualAiLink">AI news link</label>
+            <input type="text" id="manualAiLink" placeholder="Paste AI news link" />
+          </div>
+          <button
+            class="btn btn-secondary"
+            onclick="generateManualPost('manualAiLink', 'socialAiTwitter', 'socialAiBluesky', 'AI news of the day', 'socialAiEnabled')"
+          >
+            Generate
+          </button>
+        </div>
+        <div class="manual-row">
+          <div class="field">
+            <label class="label" for="manualIndustryLink">Industry news link</label>
+            <input type="text" id="manualIndustryLink" placeholder="Paste industry news link" />
+          </div>
+          <button
+            class="btn btn-secondary"
+            onclick="generateManualPost('manualIndustryLink', 'socialIndustryTwitter', 'socialIndustryBluesky', 'Industry news of the day', 'socialIndustryEnabled')"
+          >
+            Generate
+          </button>
+        </div>
+        <div class="manual-row">
+          <div class="field">
+            <label class="label" for="manualJobLink">Job link</label>
+            <input type="text" id="manualJobLink" placeholder="Paste job link" />
+          </div>
+          <button
+            class="btn btn-secondary"
+            onclick="generateManualPost('manualJobLink', 'socialJobTwitter', 'socialJobBluesky', 'Job of the day', 'socialJobEnabled')"
+          >
+            Generate
+          </button>
+        </div>
+      </div>
+
+      <h3>AI news post</h3>
+      <div class="card form-grid">
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="toggle">
+            <input type="checkbox" id="socialAiEnabled" checked />
+            Post AI news of the day
+          </label>
+        </div>
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="label" for="socialAiTwitter">AI news (Twitter / X)</label>
+          <textarea id="socialAiTwitter"></textarea>
+        </div>
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="label" for="socialAiBluesky">AI news (Bluesky)</label>
+          <textarea id="socialAiBluesky"></textarea>
+        </div>
+      </div>
+
+      <h3>Industry news post</h3>
+      <div class="card form-grid">
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="toggle">
+            <input type="checkbox" id="socialIndustryEnabled" checked />
+            Post industry news of the day
+          </label>
+        </div>
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="label" for="socialIndustryTwitter">Industry news (Twitter / X)</label>
+          <textarea id="socialIndustryTwitter"></textarea>
+        </div>
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="label" for="socialIndustryBluesky">Industry news (Bluesky)</label>
+          <textarea id="socialIndustryBluesky"></textarea>
+        </div>
+      </div>
+
+      <h3>Job post</h3>
+      <div class="card form-grid">
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="toggle">
+            <input type="checkbox" id="socialJobEnabled" checked />
+            Post job of the day
+          </label>
+        </div>
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="label" for="socialJobTwitter">Job post (Twitter / X)</label>
+          <textarea id="socialJobTwitter"></textarea>
+        </div>
+        <div class="field" style="grid-column: 1 / -1;">
+          <label class="label" for="socialJobBluesky">Job post (Bluesky)</label>
+          <textarea id="socialJobBluesky"></textarea>
         </div>
       </div>
 
@@ -318,6 +459,7 @@
             issue = JSON.parse(e.target.result);
             renderIssue(issue);
             enableActions();
+            maybeGenerateSocial();
           } catch (err) {
             alert("Failed to parse JSON: " + err.message);
           }
@@ -326,6 +468,52 @@
       });
 
       window.addEventListener("load", () => {
+        const manualConfigs = [
+          {
+            inputId: "manualPaperLink",
+            twitterId: "socialTwitter",
+            blueskyId: "socialBluesky",
+            headerLabel: "Paper of the day",
+            setSignalId: "manualPaperSetSignal",
+          },
+          {
+            inputId: "manualAiLink",
+            twitterId: "socialAiTwitter",
+            blueskyId: "socialAiBluesky",
+            headerLabel: "AI news of the day",
+            enableId: "socialAiEnabled",
+          },
+          {
+            inputId: "manualIndustryLink",
+            twitterId: "socialIndustryTwitter",
+            blueskyId: "socialIndustryBluesky",
+            headerLabel: "Industry news of the day",
+            enableId: "socialIndustryEnabled",
+          },
+          {
+            inputId: "manualJobLink",
+            twitterId: "socialJobTwitter",
+            blueskyId: "socialJobBluesky",
+            headerLabel: "Job of the day",
+            enableId: "socialJobEnabled",
+          },
+        ];
+        manualConfigs.forEach((config) => {
+          const input = document.getElementById(config.inputId);
+          if (!input) return;
+          input.addEventListener("paste", () => {
+            setTimeout(() => {
+              generateManualPost(
+                config.inputId,
+                config.twitterId,
+                config.blueskyId,
+                config.headerLabel,
+                config.enableId,
+                config.setSignalId
+              );
+            }, 0);
+          });
+        });
         fetch("issue.json")
           .then((resp) => {
             if (!resp.ok) throw new Error("issue.json not found");
@@ -335,6 +523,7 @@
             issue = data;
             renderIssue(issue);
             enableActions();
+            maybeGenerateSocial();
             issueFile.style.display = "none";
           })
           .catch(() => {
@@ -347,6 +536,10 @@
         document.getElementById("copyBtn").disabled = false;
         document.getElementById("sendPreviewBtn").disabled = false;
         document.getElementById("approveSendBtn").disabled = false;
+      }
+
+      function maybeGenerateSocial() {
+        generateSocial(false);
       }
 
       function setStatus(message) {
@@ -396,6 +589,18 @@
         document.getElementById("socialTwitter").value = social.twitter || "";
         document.getElementById("socialBluesky").value = social.bluesky || "";
         document.getElementById("socialLinkedIn").value = social.linkedin || "";
+        const socialAi = social.ai || {};
+        document.getElementById("socialAiEnabled").checked = socialAi.enabled !== false;
+        document.getElementById("socialAiTwitter").value = socialAi.twitter || "";
+        document.getElementById("socialAiBluesky").value = socialAi.bluesky || "";
+        const socialIndustry = social.industry || {};
+        document.getElementById("socialIndustryEnabled").checked = socialIndustry.enabled !== false;
+        document.getElementById("socialIndustryTwitter").value = socialIndustry.twitter || "";
+        document.getElementById("socialIndustryBluesky").value = socialIndustry.bluesky || "";
+        const socialJob = social.job || {};
+        document.getElementById("socialJobEnabled").checked = socialJob.enabled !== false;
+        document.getElementById("socialJobTwitter").value = socialJob.twitter || "";
+        document.getElementById("socialJobBluesky").value = socialJob.bluesky || "";
 
         candidates = buildCandidates(data);
         renderCandidates(candidates);
@@ -734,6 +939,21 @@
           twitter: document.getElementById("socialTwitter").value.trim(),
           bluesky: document.getElementById("socialBluesky").value.trim(),
           linkedin: document.getElementById("socialLinkedIn").value.trim(),
+          ai: {
+            enabled: document.getElementById("socialAiEnabled").checked,
+            twitter: document.getElementById("socialAiTwitter").value.trim(),
+            bluesky: document.getElementById("socialAiBluesky").value.trim(),
+          },
+          industry: {
+            enabled: document.getElementById("socialIndustryEnabled").checked,
+            twitter: document.getElementById("socialIndustryTwitter").value.trim(),
+            bluesky: document.getElementById("socialIndustryBluesky").value.trim(),
+          },
+          job: {
+            enabled: document.getElementById("socialJobEnabled").checked,
+            twitter: document.getElementById("socialJobTwitter").value.trim(),
+            bluesky: document.getElementById("socialJobBluesky").value.trim(),
+          },
         };
         curated.quote = {
           text: document.getElementById("quoteText").value.trim(),
@@ -784,10 +1004,19 @@
         issueDate,
         subscribeUrlInText,
         extras,
+        headerLabel,
+        urlLength,
+        omitLongLinks,
       }) {
+        const measureText = (text) => {
+          if (!urlLength) return text.length;
+          return text.replace(/https?:\/\/\S+/g, "x".repeat(urlLength)).length;
+        };
+        const measureLines = (lines) => measureText(lines.join("\n"));
         const tagsLine = includeTags ? "#ProteinDesign #StructuralBiology #Bioinformatics #ProteinEngineering" : "";
         const headerDate = formatIssueDate(issueDate);
-        const header = headerDate ? `Paper of the day · ${headerDate}` : "Paper of the day";
+        const baseHeader = headerLabel || "Paper of the day";
+        const header = headerDate ? `${baseHeader} · ${headerDate}` : baseHeader;
         const safeTitle = title || "Daily signal";
         const subscribeLabel = "Subnewsletter";
         const subscribeLine = subscribeUrlInText ? `${subscribeLabel} ${subUrl}` : subscribeLabel;
@@ -804,12 +1033,12 @@
         if (tagsLine) baseLines.push(tagsLine);
         const baseWithoutTitle = baseLines.join("\n");
         const minTitle = "Signal";
-        const baseLen = baseWithoutTitle.length + minTitle.length + 1;
+        const baseLen = measureText(baseWithoutTitle) + measureText(minTitle) + 1;
         const remainingForExtras = Math.max(0, limit - baseLen - 1);
         const extraCount = (extras || []).length;
         const perExtra = extraCount ? Math.floor(remainingForExtras / extraCount) : 0;
         const reserveExtras = extraCount * (perExtra + 1);
-        const allowedTitle = Math.max(0, limit - baseWithoutTitle.length - reserveExtras - 1);
+        const allowedTitle = Math.max(0, limit - measureText(baseWithoutTitle) - reserveExtras - 1);
         let titleLine = truncateText(safeTitle, allowedTitle);
         if (!titleLine) titleLine = "Signal";
 
@@ -817,8 +1046,7 @@
         if (tagsLine) lines.push(tagsLine);
 
         const tryAddLine = (text, index) => {
-          const current = lines.join("\n");
-          const remaining = limit - current.length - 1;
+          const remaining = limit - measureLines(lines) - 1;
           if (remaining <= 0) return false;
           const lineText = truncateText(text, remaining);
           if (!lineText) return false;
@@ -828,18 +1056,213 @@
 
         let insertIdx = 2;
         (extras || []).forEach((extra) => {
-          const extraText = perExtra ? truncateText(extra, perExtra) : "";
+          const extraText = perExtra ? truncateText(extra, perExtra) : extra;
           if (extraText && tryAddLine(extraText, insertIdx)) insertIdx += 1;
         });
         if (summary) {
           if (tryAddLine(summary, insertIdx)) insertIdx += 1;
         }
 
-        const finalText = lines.join("\n");
-        return finalText.length <= limit ? finalText : truncateText(finalText, limit);
+        const measure = (value) => measureLines(value);
+        const safeLines = lines.slice();
+        if (tagsLine && measure(safeLines) > limit) {
+          safeLines.pop();
+        }
+        let tailStart = safeLines.length - tailLines.length;
+        while (measure(safeLines) > limit && tailStart > 2) {
+          safeLines.splice(tailStart - 1, 1);
+          tailStart -= 1;
+        }
+        if (measure(safeLines) > limit) {
+          const fixedLines = [header].concat(tailLines);
+          const fixedLen = measureLines(fixedLines);
+          const maxTitle = Math.max(0, limit - fixedLen - 1);
+          const shortTitle = truncateText(safeTitle, maxTitle) || truncateText("Signal", maxTitle);
+          const rebuilt = [header, shortTitle].concat(tailLines);
+          if (tagsLine && measure(rebuilt.concat([tagsLine])) <= limit) {
+            rebuilt.push(tagsLine);
+          }
+          const rebuiltText = rebuilt.join("\n");
+          if (omitLongLinks && paperLink && rebuiltText.length > limit) {
+            return buildSocialText({
+              title,
+              summary,
+              paperLink: "",
+              subUrl,
+              limit,
+              includeTags,
+              issueDate,
+              subscribeUrlInText,
+              extras,
+              headerLabel,
+              urlLength,
+              omitLongLinks: false,
+            });
+          }
+          return rebuiltText;
+        }
+        const finalText = safeLines.join("\n");
+        if (omitLongLinks && paperLink && finalText.length > limit) {
+          return buildSocialText({
+            title,
+            summary,
+            paperLink: "",
+            subUrl,
+            limit,
+            includeTags,
+            issueDate,
+            subscribeUrlInText,
+            extras,
+            headerLabel,
+            urlLength,
+            omitLongLinks: false,
+          });
+        }
+        return finalText;
       }
 
-      function generateSocial() {
+      function setFieldValue(id, value, force) {
+        const field = document.getElementById(id);
+        if (!field) return;
+        if (force || (!field.value.trim() && value)) {
+          field.value = value;
+        }
+      }
+
+      function sanitizeUrl(value) {
+        return (value || "").trim();
+      }
+
+      function fallbackTitle(url) {
+        try {
+          const parsed = new URL(url);
+          return parsed.hostname.replace(/^www\./, "");
+        } catch (err) {
+          return "Update";
+        }
+      }
+
+      async function fetchTitle(url) {
+        try {
+          const resp = await fetch(`/fetch-title?url=${encodeURIComponent(url)}`);
+          if (!resp.ok) return "";
+          const data = await resp.json();
+          return (data.title || "").trim();
+        } catch (err) {
+          return "";
+        }
+      }
+
+      async function generateManualPost(
+        linkInputId,
+        twitterId,
+        blueskyId,
+        headerLabel,
+        enableId,
+        setSignalId
+      ) {
+        if (!issue) {
+          alert("Load an issue first.");
+          return;
+        }
+        const input = document.getElementById(linkInputId);
+        if (!input) return;
+        const link = sanitizeUrl(input.value);
+        if (!link) return;
+        if (enableId) {
+          const toggle = document.getElementById(enableId);
+          if (toggle) toggle.checked = true;
+        }
+        const title = (await fetchTitle(link)) || fallbackTitle(link);
+        const issueDate = issue.issue_date || "";
+        const digestUrl = buildDigestUrl();
+        const twitterText = buildSocialText({
+          title,
+          summary: "",
+          paperLink: link,
+          subUrl: digestUrl,
+          limit: 280,
+          includeTags: true,
+          issueDate,
+          subscribeUrlInText: true,
+          extras: [],
+          headerLabel,
+          urlLength: 23,
+        });
+        const blueskyText = buildSocialText({
+          title,
+          summary: "",
+          paperLink: link,
+          subUrl: digestUrl,
+          limit: 300,
+          includeTags: true,
+          issueDate,
+          subscribeUrlInText: false,
+          extras: [],
+          headerLabel,
+          omitLongLinks: true,
+        });
+        setFieldValue(twitterId, twitterText, true);
+        setFieldValue(blueskyId, blueskyText, true);
+        if (setSignalId) {
+          const setSignal = document.getElementById(setSignalId);
+          if (setSignal && setSignal.checked) {
+            setFieldValue("signalTitle", title, true);
+            setFieldValue("signalLink", link, true);
+          }
+        }
+      }
+
+      function buildSectionPost(item, headerLabel, issueDate, digestUrl) {
+        if (!item || !item.title) {
+          return { twitter: "", bluesky: "" };
+        }
+        const title = item.title;
+        let summary = truncateText(item.abstract || item.note || "", 140);
+        if (summary) {
+          const titleNorm = normalizeText(title);
+          const summaryNorm = normalizeText(summary);
+          if (
+            summaryNorm &&
+            (summaryNorm === titleNorm ||
+              summaryNorm.startsWith(titleNorm) ||
+              titleNorm.startsWith(summaryNorm))
+          ) {
+            summary = "";
+          }
+        }
+        const link = item.link || "";
+        return {
+          twitter: buildSocialText({
+            title,
+            summary,
+            paperLink: link,
+            subUrl: digestUrl,
+            limit: 280,
+            includeTags: true,
+            issueDate,
+            subscribeUrlInText: true,
+            extras: [],
+            headerLabel,
+            urlLength: 23,
+          }),
+          bluesky: buildSocialText({
+            title,
+            summary,
+            paperLink: link,
+            subUrl: digestUrl,
+            limit: 300,
+            includeTags: true,
+            issueDate,
+            subscribeUrlInText: false,
+            extras: [],
+            headerLabel,
+            omitLongLinks: true,
+          }),
+        };
+      }
+
+      function generateSocial(force = true) {
         if (!issue) {
           alert("Load an issue first.");
           return;
@@ -856,17 +1279,20 @@
         const quickTitles = quick.map((item) => item.title).filter(Boolean).join(" · ");
         const shortSummary = truncateText(summary || why, 140);
 
-        const extras = [];
         const aiItems = collectItems("ai_news", issue.ai_news);
-        if (aiItems.length && aiItems[0].title) {
+        const industryItems = collectItems("industry_news", issue.industry_news);
+        const jobItems = collectResource("job");
+        const aiEnabled = document.getElementById("socialAiEnabled").checked;
+        const industryEnabled = document.getElementById("socialIndustryEnabled").checked;
+        const jobEnabled = document.getElementById("socialJobEnabled").checked;
+        const extras = [];
+        if (!aiEnabled && aiItems.length && aiItems[0].title) {
           extras.push(`AI: ${aiItems[0].title}`);
         }
-        const industryItems = collectItems("industry_news", issue.industry_news);
-        if (industryItems.length && industryItems[0].title) {
+        if (!industryEnabled && industryItems.length && industryItems[0].title) {
           extras.push(`Industry: ${industryItems[0].title}`);
         }
-        const jobItems = collectResource("job");
-        if (jobItems.length && jobItems[0].title) {
+        if (!jobEnabled && jobItems.length && jobItems[0].title) {
           const jobOrg = jobItems[0].org ? ` (${jobItems[0].org})` : "";
           extras.push(`Job: ${jobItems[0].title}${jobOrg}`);
         }
@@ -881,6 +1307,7 @@
           issueDate,
           subscribeUrlInText: true,
           extras,
+          urlLength: 23,
         });
         const blueskyText = buildSocialText({
           title,
@@ -892,13 +1319,37 @@
           issueDate,
           subscribeUrlInText: false,
           extras,
+          omitLongLinks: true,
         });
+
+        const aiPost = aiEnabled ? buildSectionPost(aiItems[0], "AI news of the day", issueDate, digestUrl) : { twitter: "", bluesky: "" };
+        const industryPost = industryEnabled ? buildSectionPost(industryItems[0], "Industry news of the day", issueDate, digestUrl) : { twitter: "", bluesky: "" };
+        const jobItem = jobItems[0];
+        let jobTitle = "";
+        if (jobItem && jobItem.title) {
+          const jobOrg = jobItem.org ? ` (${jobItem.org})` : "";
+          jobTitle = `${jobItem.title}${jobOrg}`;
+        }
+        const jobPost = jobEnabled
+          ? buildSectionPost(
+              jobItem && jobTitle ? { ...jobItem, title: jobTitle } : null,
+              "Job of the day",
+              issueDate,
+              digestUrl
+            )
+          : { twitter: "", bluesky: "" };
 
         const linkedinBase = `Protein Design Digest #${issueNumber}\n\n${title}\n\nSummary: ${shortSummary}\n\nPaper: ${paperLink}\nDaily digest: ${issueUrl}\n\nQuick reads: ${quickTitles}\n\n#ProteinDesign #StructuralBiology #Bioinformatics #ProteinEngineering`;
 
-        document.getElementById("socialTwitter").value = twitterText;
-        document.getElementById("socialBluesky").value = blueskyText;
-        document.getElementById("socialLinkedIn").value = truncateText(linkedinBase, 3000);
+        setFieldValue("socialTwitter", twitterText, force);
+        setFieldValue("socialBluesky", blueskyText, force);
+        setFieldValue("socialLinkedIn", truncateText(linkedinBase, 3000), force);
+        setFieldValue("socialAiTwitter", aiPost.twitter, force);
+        setFieldValue("socialAiBluesky", aiPost.bluesky, force);
+        setFieldValue("socialIndustryTwitter", industryPost.twitter, force);
+        setFieldValue("socialIndustryBluesky", industryPost.bluesky, force);
+        setFieldValue("socialJobTwitter", jobPost.twitter, force);
+        setFieldValue("socialJobBluesky", jobPost.bluesky, force);
       }
 
       function buildIssueUrl(issueDate, issueNumber) {
@@ -913,6 +1364,10 @@
       function truncateText(text, limit) {
         if (text.length <= limit) return text;
         return text.slice(0, limit - 3).trim() + "...";
+      }
+
+      function normalizeText(value) {
+        return (value || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
       }
 
       async function sendPreview() {

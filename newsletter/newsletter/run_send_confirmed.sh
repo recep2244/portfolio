@@ -21,6 +21,9 @@ if [ -z "${NEWSLETTER_GMAIL_USER:-}" ] || [ -z "${NEWSLETTER_GMAIL_APP_PASSWORD:
   exit 1
 fi
 
+python3 "$ROOT_DIR/newsletter/newsletter_to_md.py" \
+  --issues-dir "$ROOT_DIR/newsletter/issues"
+
 python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
   --issue-date "$ISSUE_DATE" \
   --issues-dir "$ROOT_DIR/newsletter/issues" \

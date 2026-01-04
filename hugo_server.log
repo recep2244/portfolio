@@ -1,0 +1,56 @@
+Watching for changes in /home/recep/Desktop/Machine_Learning/projects/hugo/archetypes, /home/recep/Desktop/Machine_Learning/projects/hugo/assets/{css,js}, /home/recep/Desktop/Machine_Learning/projects/hugo/content/{blog,newsletter,tools}, /home/recep/Desktop/Machine_Learning/projects/hugo/data, /home/recep/Desktop/Machine_Learning/projects/hugo/i18n, /home/recep/Desktop/Machine_Learning/projects/hugo/layouts/{_default,blog,cv,newsletter,partials,...}, /home/recep/Desktop/Machine_Learning/projects/hugo/package.json, /home/recep/Desktop/Machine_Learning/projects/hugo/postcss.config.js, /home/recep/Desktop/Machine_Learning/projects/hugo/static/images
+Watching for config changes in /home/recep/Desktop/Machine_Learning/projects/hugo/hugo.yaml
+Start building sites … 
+hugo v0.154.2-f66d0944461bf32c4e69588bc3e093f14e4e149d+extended linux/amd64 BuildDate=2026-01-02T16:08:44Z VendorInfo=gohugoio
+
+
+                  │ EN 
+──────────────────┼────
+ Pages            │ 46 
+ Paginator pages  │  0 
+ Non-page files   │  0 
+ Static files     │ 13 
+ Processed images │  0 
+ Aliases          │  0 
+ Cleaned          │  0 
+
+Built in 376 ms
+Environment: "development"
+Serving pages from disk
+Web Server is available at http://localhost:1313/portfolio/ (bind address 127.0.0.1) 
+Press Ctrl+C to stop
+
+Change detected, rebuilding site (#1).
+2026-01-04 01:18:51.656 +0000
+Source changed /newsletter/2025-12-21-issue-2.md
+Source changed /newsletter/2025-12-22-issue-3.md
+Source changed /newsletter/2025-12-23-issue-3.md
+Source changed /newsletter/2025-12-24-issue-4.md
+Source changed /newsletter/2025-12-27-issue-5.md
+Source changed /newsletter/2025-12-28-issue-7.md
+Source changed /newsletter/2025-12-29-issue-7.md
+Source changed /newsletter/2025-12-30-issue-8.md
+Source changed /newsletter/2025-12-31-issue-9.md
+Source changed /newsletter/2026-01-01-issue-10.md
+Source changed /newsletter/2026-01-03-issue-12.md
+Source changed /newsletter/2026-01-04-issue-13.md
+Web Server is available at http://localhost:1313/portfolio/ (bind address 127.0.0.1)
+Total in 28 ms
+
+Change detected, rebuilding site (#2).
+2026-01-04 01:19:14.656 +0000
+Source changed /newsletter/2025-12-23-issue-1.md
+Source changed /newsletter/2025-12-24-issue-1.md
+Source changed /newsletter/2025-12-25-issue-1.md
+Source changed /newsletter/2025-12-26-issue-1.md
+Source changed /newsletter/2025-12-27-issue-1.md
+Source changed /newsletter/2025-12-29-issue-1.md
+Source changed /newsletter/2025-12-30-issue-1.md
+Source changed /newsletter/2025-12-31-issue-1.md
+Source changed /newsletter/2026-01-01-issue-1.md
+Source changed /newsletter/2026-01-02-issue-1.md
+Source changed /newsletter/2026-01-03-issue-1.md
+Source changed /newsletter/2026-01-03-issue-11.md
+Source changed /newsletter/2026-01-04-issue-12.md
+Web Server is available at http://localhost:1313/portfolio/ (bind address 127.0.0.1)
+Total in 28 ms

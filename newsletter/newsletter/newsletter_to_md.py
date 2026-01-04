@@ -71,7 +71,7 @@ tags: ["bioinformatics", "newsletter", "research"]
             md += f"{item.get('abstract', '')}\n"
         md += "\n---\n"
 
-    md += """
+    md += f"""
 
 ## 🧪 AI & Research News
 {md_ai}

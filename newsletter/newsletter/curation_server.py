@@ -2,11 +2,14 @@
 import argparse
 import json
 import os
+import re
 import subprocess
 from datetime import datetime
+from html import unescape
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
+from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
 DEFAULT_TIMEZONE = "Europe/London"
@@ -27,6 +30,9 @@ class CurationServer(BaseHTTPRequestHandler):
         body = payload if isinstance(payload, (bytes, bytearray)) else json.dumps(payload).encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", content_type)
+        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+        self.send_header("Pragma", "no-cache")
+        self.send_header("Expires", "0")
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
@@ -36,6 +42,24 @@ class CurationServer(BaseHTTPRequestHandler):
             return None
         with self.server.issue_path.open("r", encoding="utf-8") as f:
             return json.load(f)
+
+    def _fetch_title(self, url):
+        req = Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urlopen(req, timeout=15) as resp:
+            raw = resp.read(200000)
+            encoding = resp.headers.get_content_charset() or "utf-8"
+        text = raw.decode(encoding, errors="replace")
+        meta_matches = re.findall(
+            r'<meta[^>]+(?:property|name)=["\'](?:og:title|twitter:title)["\'][^>]*content=["\']([^"\']+)["\']',
+            text,
+            flags=re.IGNORECASE,
+        )
+        if meta_matches:
+            return unescape(meta_matches[0]).strip()
+        title_match = re.search(r"<title[^>]*>(.*?)</title>", text, flags=re.IGNORECASE | re.DOTALL)
+        if title_match:
+            return unescape(title_match.group(1)).strip()
+        return ""
 
     def _save_issue(self, data):
         with self.server.issue_path.open("w", encoding="utf-8") as f:
@@ -58,6 +82,22 @@ class CurationServer(BaseHTTPRequestHandler):
                 self._send(404, {"error": "Issue not found"})
                 return
             self._send(200, issue)
+            return
+        if parsed.path == "/fetch-title":
+            params = parse_qs(parsed.query or "")
+            url = (params.get("url") or [""])[0].strip()
+            if not url:
+                self._send(400, {"error": "url is required"})
+                return
+            if not url.startswith(("http://", "https://")):
+                self._send(400, {"error": "url must start with http:// or https://"})
+                return
+            try:
+                title = self._fetch_title(url)
+            except Exception as exc:
+                self._send(200, {"title": "", "error": str(exc)})
+                return
+            self._send(200, {"title": title})
             return
         self._send(404, {"error": "Not found"})
 
