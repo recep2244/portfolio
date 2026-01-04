@@ -25,10 +25,20 @@
                 <!-- YouTube Thumbnail -->
                 <div class="relative mb-4 rounded-lg overflow-hidden bg-slate-100 aspect-video">
                     {{ if $videoID }}
-                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/{{ $videoID }}"
+                    <iframe class="w-full h-full pointer-events-none" src="https://www.youtube.com/embed/{{ $videoID }}"
                         title="{{ .title }}" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen></iframe>
+                    <a href="{{ .youtube_url | default $cv.contact.youtube }}" target="_blank" rel="noopener noreferrer"
+                        class="absolute inset-0 flex items-center justify-center bg-slate-900/20 hover:bg-slate-900/40 transition-colors">
+                        <span
+                            class="flex items-center gap-2 px-4 py-2 bg-red-600 text-white text-xs font-bold rounded-full shadow-lg">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                            Open on YouTube
+                        </span>
+                    </a>
                     {{ else }}
                     <a href="{{ $cv.contact.youtube }}" target="_blank" rel="noopener noreferrer" class="block">
                         <img src="{{ "images/protein_daily_logo.jpg" | relURL }}" alt="{{ .title }}"
