@@ -88,8 +88,7 @@
                         </div>
                         {{ partial "social_cards.html" . }}
 
-                        {{ $archivePage := site.GetPage "section" "newsletter" }}
-                        <a href="{{ if $archivePage }}{{ $archivePage.RelPermalink }}{{ else }}{{ "/newsletter/" | relURL }}{{ end }}"
+                        <a href="{{ "newsletter/archive/" | relURL }}"
                             class="inline-flex items-center gap-3 px-10 py-5 bg-slate-900 text-white font-black rounded-2xl hover:bg-blue-600 transition-all transform hover:-translate-y-1 shadow-2xl shadow-blue-200 group mt-12">
                             Return to Archive
                             <svg class="w-6 h-6 transform transition-transform group-hover:-translate-x-1" fill="none"

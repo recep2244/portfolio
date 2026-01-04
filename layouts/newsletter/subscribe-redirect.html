@@ -1,0 +1,15 @@
+{{ define "main" }}
+<section class="min-h-[70vh] flex items-center justify-center px-6">
+    <div class="max-w-xl text-center bg-white/90 border border-slate-200 rounded-3xl p-10 shadow-xl">
+        <h1 class="text-3xl font-black text-slate-900 mb-3">Subscribe to Protein Design Digest</h1>
+        <p class="text-slate-600 mb-6">Redirecting you to the subscription form...</p>
+        <a href="{{ "subscribe-form.html" | relURL }}"
+            class="inline-flex items-center justify-center px-6 py-3 bg-teal-700 text-white font-bold rounded-xl hover:bg-teal-800 transition-all">
+            Go to Subscribe Page
+        </a>
+    </div>
+</section>
+<script>
+    window.location.href = "{{ "subscribe-form.html" | relURL }}";
+</script>
+{{ end }}
