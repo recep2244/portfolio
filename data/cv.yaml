@@ -9,7 +9,7 @@ contact:
   twitter: "https://x.com/RcpAdymn"
   bluesky: "https://bsky.app/profile/recep44.bsky.social"
   docker: "https://hub.docker.com/u/radiyaman"
-  youtube: "https://www.youtube.com/@recepadyaman9961"
+  youtube: "https://www.youtube.com/@recepadyaman_proteins"
 
 summary: "Pioneering the shift from static snapshots to dynamic ensembles. Integrating AI with Molecular Dynamics to model mutants, de novo designs, and drug resistance."
 
@@ -207,16 +207,16 @@ blogs:
 podcasts:
   - title: "The Future of Protein Design with AI"
     description: "Discussing how deep learning is revolutionizing protein engineering and drug discovery."
-    youtube_url: "https://www.youtube.com/@recepadyaman9961"
+    youtube_url: "https://www.youtube.com/@recepadyaman_proteins"
     date: "2024-03-15"
     duration: "45 min"
   - title: "From AlphaFold to Clinical Applications"
     description: "Exploring the journey from computational predictions to real-world therapeutic development."
-    youtube_url: "https://www.youtube.com/@recepadyaman9961"
+    youtube_url: "https://www.youtube.com/@recepadyaman_proteins"
     date: "2024-02-20"
     duration: "38 min"
   - title: "Molecular Dynamics in Modern Drug Design"
     description: "How MD simulations are being integrated into industrial protein engineering workflows."
-    youtube_url: "https://www.youtube.com/@recepadyaman9961"
+    youtube_url: "https://www.youtube.com/@recepadyaman_proteins"
     date: "2024-01-10"
     duration: "52 min"
