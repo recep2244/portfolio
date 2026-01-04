@@ -741,12 +741,18 @@ def main():
         print(job_post["bluesky"])
         print("--------------------------")
 
+    channels_env = (os.getenv("SOCIAL_CHANNELS") or "").strip().lower()
+    if channels_env:
+        channels = {c.strip() for c in channels_env.split(",") if c.strip()}
+    else:
+        channels = {"twitter", "linkedin", "bluesky"}
+
     # Twitter
     tw_key = os.getenv("TWITTER_API_KEY")
     tw_sec = os.getenv("TWITTER_API_SECRET")
     tw_tok = os.getenv("TWITTER_ACCESS_TOKEN")
     tw_tok_sec = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
-    if tw_key and tw_sec and tw_tok and tw_tok_sec:
+    if "twitter" in channels and tw_key and tw_sec and tw_tok and tw_tok_sec:
         post_twitter(twitter_text, tw_key, tw_sec, tw_tok, tw_tok_sec)
         if ai_post:
             post_twitter(ai_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec)
@@ -754,15 +760,15 @@ def main():
             post_twitter(industry_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec)
         if job_post:
             post_twitter(job_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec)
-    else:
+    elif "twitter" in channels:
         print("Skipping Twitter (credentials missing)")
 
     # LinkedIn
     li_tok = os.getenv("LINKEDIN_ACCESS_TOKEN")
-    if li_tok:
+    if "linkedin" in channels and li_tok:
         li_text = (social_cfg.get("linkedin") or "").strip() or twitter_text
         post_linkedin(li_text, li_tok)
-    else:
+    elif "linkedin" in channels:
         print("Skipping LinkedIn (credentials missing)")
 
     # Bluesky
@@ -770,7 +776,7 @@ def main():
     bs_pass = os.getenv("BLUESKY_APP_PASSWORD") or os.getenv("BLUESKY_PASSWORD")
     bs_service = os.getenv("BLUESKY_SERVICE", "https://bsky.social")
     bs_subscribe = os.getenv("BLUESKY_SUBSCRIBE_URL", DEFAULT_BASE_URL)
-    if bs_handle and bs_pass:
+    if "bluesky" in channels and bs_handle and bs_pass:
         bluesky_text = ensure_subscribe_label(bluesky_text, BLUESKY_LIMIT)
         main_link = signal_link or extract_first_url(twitter_text) or extract_first_url(bluesky_text)
         main_title = signal_title or extract_title_line(twitter_text or bluesky_text, "Paper of the day")
@@ -798,7 +804,7 @@ def main():
                 paper_url=post.get("link", ""),
                 embed=embed,
             )
-    else:
+    elif "bluesky" in channels:
         print("Skipping Bluesky (credentials missing)")
 
 

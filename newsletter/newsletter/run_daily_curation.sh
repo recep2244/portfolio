@@ -42,6 +42,13 @@ fi
 nohup "$ROOT_DIR/newsletter/run_curation_server.sh" "$ISSUE_DATE" "$PORT" > "$LOG_PATH" 2>&1 &
 sleep 2
 
+# Weekly Digest on Sundays
+if [ "$(date +%u)" = "7" ]; then
+  echo "📅 Sunday detected: Generating Weekly Digest..."
+  python3 "$ROOT_DIR/newsletter/generate_weekly_digest.py" \
+    --issues-dir "$ROOT_DIR/newsletter/issues"
+fi
+
 python3 "$ROOT_DIR/newsletter/send_reminder.py" \
   --preview-list "$ROOT_DIR/newsletter/preview_subscribers.csv" \
   --subject "Protein Design Digest: curation ready" \
