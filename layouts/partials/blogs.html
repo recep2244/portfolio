@@ -23,7 +23,7 @@
                     <span class="pill text-[11px] font-semibold">{{ . }}</span>
                     {{ end }}
                 </div>
-                <a href="{{ if hasPrefix .link " http" }}{{ .link }}{{ else }}{{ .link | relURL }}{{ end }}" {{ if
+                <a href="{{ if hasPrefix .link "http" }}{{ .link }}{{ else }}{{ .link | relURL }}{{ end }}" {{ if
                     hasPrefix .link "http" }}target="_blank" rel="noreferrer" {{ end }}
                     class="inline-flex items-center gap-2 text-accent mt-5 text-sm font-bold hover:underline">
                     Read more
