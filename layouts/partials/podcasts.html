@@ -16,9 +16,20 @@
 
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {{ range $cv.podcasts }}
+            {{ $videoID := "" }}
+            {{ if in .youtube_url "watch?v=" }}
+            {{ $videoID = index (split .youtube_url "v=") 1 }}
+            {{ $videoID = index (split $videoID "&") 0 }}
+            {{ end }}
             <div class="glass-card p-6 group hover:shadow-xl transition-all duration-300">
                 <!-- YouTube Thumbnail -->
                 <div class="relative mb-4 rounded-lg overflow-hidden bg-slate-100 aspect-video">
+                    {{ if $videoID }}
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/{{ $videoID }}"
+                        title="{{ .title }}" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                    {{ else }}
                     <a href="{{ $cv.contact.youtube }}" target="_blank" rel="noopener noreferrer" class="block">
                         <img src="{{ "images/protein_daily_logo.jpg" | relURL }}" alt="{{ .title }}"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
@@ -33,6 +44,7 @@
                             </div>
                         </div>
                     </a>
+                    {{ end }}
                 </div>
 
                 <!-- Content -->

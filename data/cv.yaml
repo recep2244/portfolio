@@ -250,18 +250,18 @@ blogs:
 podcasts:
 - title: Improvement of protein tertiary and quaternary...- Recep Adiyaman - 3D-SIG
     - ISMB/ECCB 2023
-  description: Featured talk from ISCB.
+  description: Conference talk on refining predicted 3D protein models using MD-based restraints and QA signals.
   youtube_url: https://www.youtube.com/watch?v=2gHcV4QCIGc
   date: ''
   duration: ''
 - title: The refinement of theoretical 3D models of... - Recep Adiyaman - 3DSIG -
     Poster - ISMB/ECCB 2021
-  description: Featured talk from ISCB.
+  description: Poster overview of model refinement workflows, QA validation, and CASP benchmarking.
   youtube_url: https://www.youtube.com/watch?v=AcdwUPXECwI
   date: ''
   duration: ''
 - title: 'Junior CASP: McGuffin group'
-  description: Featured talk from CASP.
+  description: Junior CASP presentation on protein structure prediction and refinement from the McGuffin group.
   youtube_url: https://www.youtube.com/watch?v=SrYzHV_ssXI
   date: ''
   duration: ''
