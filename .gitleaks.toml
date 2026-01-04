@@ -1,0 +1,12 @@
+title = "Gitleaks config"
+
+[allowlist]
+paths = [
+  '''.*/node_modules/.*''',
+  '''.*/public/.*''',
+  '''.*/resources/.*''',
+  '''.*/themes/.*''',
+  '''.*/newsletter/out/.*''',
+  '''.*/package-lock\.json''',
+  '''.*/hugo_stats\.json''',
+]
