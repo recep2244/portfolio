@@ -489,16 +489,6 @@ def post_bluesky(
 def main():
     parser = argparse.ArgumentParser(description="Post daily signal to social media")
     parser.add_argument("--issue", required=True, help="Path to issue JSON")
-    parser.add_argument(
-        "--twitter-only",
-        action="store_true",
-        help="Post only to Twitter (skip LinkedIn and Bluesky)",
-    )
-    parser.add_argument(
-        "--twitter-main-only",
-        action="store_true",
-        help="Post only the main Twitter message (skip AI/industry/job posts)",
-    )
     args = parser.parse_args()
 
     if not os.path.exists(args.issue):
@@ -766,9 +756,6 @@ def main():
             post_twitter(job_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec)
     else:
         print("Skipping Twitter (credentials missing)")
-
-    if args.twitter_only:
-        return
 
     # LinkedIn
     li_tok = os.getenv("LINKEDIN_ACCESS_TOKEN")
