@@ -13,6 +13,17 @@ if [ -f "$ROOT_DIR/newsletter/.env" ]; then
   set +a
 fi
 
+write_csv_from_env() {
+  local path="$1"
+  local var_name="$2"
+  local value="${!var_name:-}"
+  if [ ! -f "$path" ] && [ -n "$value" ]; then
+    printf "%s" "$value" > "$path"
+  fi
+}
+
+write_csv_from_env "$ROOT_DIR/newsletter/preview_subscribers.csv" "NEWSLETTER_PREVIEW_SUBSCRIBERS_CSV"
+
 STATUS=$(python3 - <<PY
 import socket
 host, port = "127.0.0.1", int("${PORT}")

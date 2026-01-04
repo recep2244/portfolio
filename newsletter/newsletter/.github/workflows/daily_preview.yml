@@ -36,10 +36,15 @@ jobs:
 
       - name: Create Preview List
         env:
+          NEWSLETTER_PREVIEW_SUBSCRIBERS_CSV: ${{ secrets.NEWSLETTER_PREVIEW_SUBSCRIBERS_CSV }}
           ADMIN_EMAIL: ${{ secrets.NEWSLETTER_FROM_EMAIL }}
         run: |
-          echo "email,status" > preview_list.csv
-          echo "$ADMIN_EMAIL,active" >> preview_list.csv
+          if [ -n "$NEWSLETTER_PREVIEW_SUBSCRIBERS_CSV" ]; then
+            printf "%s" "$NEWSLETTER_PREVIEW_SUBSCRIBERS_CSV" > preview_list.csv
+          else
+            echo "email,status,frequency" > preview_list.csv
+            echo "$ADMIN_EMAIL,active,daily" >> preview_list.csv
+          fi
 
       - name: Send Preview Email
         env:

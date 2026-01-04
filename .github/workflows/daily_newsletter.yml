@@ -27,6 +27,18 @@ jobs:
         run: |
           pip install -r newsletter/newsletter/requirements.txt
 
+      - name: Write Subscriber Lists
+        env:
+          NEWSLETTER_SUBSCRIBERS_CSV: ${{ secrets.NEWSLETTER_SUBSCRIBERS_CSV }}
+          NEWSLETTER_PREVIEW_SUBSCRIBERS_CSV: ${{ secrets.NEWSLETTER_PREVIEW_SUBSCRIBERS_CSV }}
+        run: |
+          if [ -n "$NEWSLETTER_SUBSCRIBERS_CSV" ]; then
+            printf "%s" "$NEWSLETTER_SUBSCRIBERS_CSV" > newsletter/newsletter/subscribers.csv
+          fi
+          if [ -n "$NEWSLETTER_PREVIEW_SUBSCRIBERS_CSV" ]; then
+            printf "%s" "$NEWSLETTER_PREVIEW_SUBSCRIBERS_CSV" > newsletter/newsletter/preview_subscribers.csv
+          fi
+
       - name: Run Daily Newsletter Pipeline
         env:
           NEWSLETTER_GMAIL_USER: ${{ secrets.NEWSLETTER_GMAIL_USER }}

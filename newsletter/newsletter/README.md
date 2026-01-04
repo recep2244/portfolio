@@ -12,7 +12,7 @@ Files
 - newsletter/generate_config.json
 - newsletter/generate_issue.py
 - newsletter/run_daily.sh
-- newsletter/subscribers.csv
+- newsletter/subscribers.example.csv
 - newsletter/send_newsletter.py
 
 Setup (Gmail)
@@ -48,7 +48,8 @@ Schedule for 04:00 UK time (cron)
 Notes
 - Free Gmail has a daily recipient limit around 500. If you hit the cap, upgrade to Workspace or use a dedicated email service.
 - Maintain an unsubscribe link in each issue for compliance.
-- You can mark a subscriber as unsubscribed in newsletter/subscribers.csv (status column).
+- Subscribers are stored locally in newsletter/subscribers.csv (ignored by git). Use newsletter/subscribers.example.csv as the template.
+- GitHub Actions can load lists from secrets: NEWSLETTER_SUBSCRIBERS_CSV and NEWSLETTER_PREVIEW_SUBSCRIBERS_CSV.
 - Edit newsletter/generate_config.json to tune keywords, pools, and links.
 - For PubMed, set your email/tool in newsletter/generate_config.json for NCBI compliance.
 - For Nature and other journals, add RSS feed URLs under sources.rss.feeds.

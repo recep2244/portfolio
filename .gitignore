@@ -3,3 +3,6 @@ public/
 resources/
 .hugo_build.lock
 hugo_stats.json
+newsletter/newsletter/.env
+newsletter/newsletter/subscribers.csv
+newsletter/newsletter/preview_subscribers.csv

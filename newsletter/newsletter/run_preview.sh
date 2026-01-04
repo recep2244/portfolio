@@ -11,6 +11,17 @@ if [ -f "$ROOT_DIR/newsletter/.env" ]; then
   set +a
 fi
 
+write_csv_from_env() {
+  local path="$1"
+  local var_name="$2"
+  local value="${!var_name:-}"
+  if [ ! -f "$path" ] && [ -n "$value" ]; then
+    printf "%s" "$value" > "$path"
+  fi
+}
+
+write_csv_from_env "$ROOT_DIR/newsletter/preview_subscribers.csv" "NEWSLETTER_PREVIEW_SUBSCRIBERS_CSV"
+
 python3 "$ROOT_DIR/newsletter/generate_issue.py" \
   --issue-date "$ISSUE_DATE" \
   --config "$ROOT_DIR/newsletter/generate_config.json" \
