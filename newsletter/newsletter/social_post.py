@@ -748,11 +748,11 @@ def main():
     tw_tok_sec = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
     if tw_key and tw_sec and tw_tok and tw_tok_sec:
         post_twitter(twitter_text, tw_key, tw_sec, tw_tok, tw_tok_sec)
-        if not args.twitter_main_only and ai_post:
+        if ai_post:
             post_twitter(ai_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec)
-        if not args.twitter_main_only and industry_post:
+        if industry_post:
             post_twitter(industry_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec)
-        if not args.twitter_main_only and job_post:
+        if job_post:
             post_twitter(job_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec)
     else:
         print("Skipping Twitter (credentials missing)")
