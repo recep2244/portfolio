@@ -17,11 +17,19 @@ NS = {
 
 
 def fetch_channel_id(handle, session):
-    url = f"https://www.youtube.com/@{handle}"
-    resp = session.get(url, timeout=20)
-    resp.raise_for_status()
-    match = re.search(r'"channelId":"(UC[^"]+)"', resp.text)
-    return match.group(1) if match else None
+    urls = [
+        f"https://www.youtube.com/@{handle}",
+        f"https://www.youtube.com/@{handle}/about",
+    ]
+    headers = {"User-Agent": "Mozilla/5.0 (compatible; PodcastSync/1.0)"}
+    for url in urls:
+        resp = session.get(url, headers=headers, timeout=20)
+        if resp.status_code != 200:
+            continue
+        match = re.search(r'"channelId":"(UC[^"]+)"', resp.text)
+        if match:
+            return match.group(1)
+    return None
 
 
 def fetch_feed(channel_id, session):
@@ -89,13 +97,59 @@ def parse_feed(xml_text, limit):
 def update_yaml(path, entries):
     with open(path, "r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
-    if not entries:
+    manual = data.get("podcasts_manual") or []
+    manual_entries = normalize_manual_entries(manual)
+    combined = manual_entries + entries
+    if not combined:
         print("No entries found; leaving existing podcasts unchanged.")
         return False
-    data["podcasts"] = entries
+    data["podcasts"] = combined
     with open(path, "w", encoding="utf-8") as f:
         yaml.safe_dump(data, f, sort_keys=False, allow_unicode=False)
     return True
+
+
+def fetch_oembed_info(youtube_url, session):
+    url = "https://www.youtube.com/oembed"
+    resp = session.get(url, params={"url": youtube_url, "format": "json"}, timeout=20)
+    if resp.status_code != 200:
+        return {}
+    try:
+        return resp.json()
+    except ValueError:
+        return {}
+
+
+def normalize_manual_entries(items):
+    if not items:
+        return []
+    session = requests.Session()
+    normalized = []
+    for item in items:
+        url = (item.get("youtube_url") or "").strip()
+        if not url:
+            continue
+        title = (item.get("title") or "").strip()
+        description = (item.get("description") or "").strip()
+        date = (item.get("date") or "").strip()
+        duration = (item.get("duration") or "").strip()
+        if not title or not description:
+            info = fetch_oembed_info(url, session)
+            if not title:
+                title = info.get("title", "").strip()
+            if not description:
+                author = info.get("author_name", "").strip()
+                description = f"Featured talk from {author}." if author else "Featured talk from a partner channel."
+        normalized.append(
+            {
+                "title": title or "Featured talk",
+                "description": description or "Featured talk from a partner channel.",
+                "youtube_url": url,
+                "date": date,
+                "duration": duration,
+            }
+        )
+    return normalized
 
 
 def main():
@@ -106,15 +160,13 @@ def main():
     args = parser.parse_args()
 
     session = requests.Session()
-    channel_id = fetch_channel_id(args.handle, session)
-    if not channel_id:
-        channel_id = os.getenv("YOUTUBE_CHANNEL_ID")
-    if not channel_id:
-        print("Failed to resolve channel ID.", file=sys.stderr)
-        return 1
-
-    feed_xml = fetch_feed(channel_id, session)
-    entries = parse_feed(feed_xml, args.limit)
+    channel_id = fetch_channel_id(args.handle, session) or os.getenv("YOUTUBE_CHANNEL_ID")
+    entries = []
+    if channel_id:
+        feed_xml = fetch_feed(channel_id, session)
+        entries = parse_feed(feed_xml, args.limit)
+    else:
+        print("Warning: channel ID not resolved; syncing manual entries only.", file=sys.stderr)
     changed = update_yaml(args.output, entries)
     if changed:
         print(f"Updated {args.output} with {len(entries)} episodes.")
