@@ -134,6 +134,28 @@
         margin-bottom: 1rem;
     }
 
+    .prose h2#ai-research-news,
+    .prose h2#ai--research-news {
+        border-left-color: #0ea5e9;
+        background: #e0f2fe;
+    }
+
+    .prose h2#industry-insight-applications,
+    .prose h2#industry-insight--applications {
+        border-left-color: #f59e0b;
+        background: #fffbeb;
+    }
+
+    .prose h2#pipeline-tip {
+        border-left-color: #10b981;
+        background: #ecfdf5;
+    }
+
+    .prose h2#resources {
+        border-left-color: #14b8a6;
+        background: #f0fdfa;
+    }
+
     .prose a {
         word-break: break-word;
     }
@@ -141,6 +163,45 @@
     .prose h3 a {
         color: #0ea5e9;
         border-bottom: 2px solid #bae6fd;
+    }
+
+    .prose h2 + ul {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 1.5rem;
+        display: grid;
+        gap: 1.25rem;
+    }
+
+    .prose h2 + ul li {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 1.25rem;
+        padding: 1.25rem 1.5rem;
+        box-shadow: 0 20px 45px -40px rgba(15, 23, 42, 0.6);
+    }
+
+    .prose h2#ai-research-news + ul li,
+    .prose h2#ai--research-news + ul li {
+        border-left: 4px solid #0ea5e9;
+    }
+
+    .prose h2#industry-insight-applications + ul li,
+    .prose h2#industry-insight--applications + ul li {
+        border-left: 4px solid #f59e0b;
+    }
+
+    .prose h2#resources + ul li {
+        border-left: 4px solid #14b8a6;
+    }
+
+    .prose h2#pipeline-tip + p {
+        background: #ecfdf5;
+        border: 1px solid #bbf7d0;
+        border-left: 4px solid #10b981;
+        padding: 1.25rem 1.5rem;
+        border-radius: 1.25rem;
+        box-shadow: 0 20px 45px -40px rgba(16, 185, 129, 0.6);
     }
 
     .prose hr {
