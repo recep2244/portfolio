@@ -323,7 +323,6 @@ def main():
     updated_count = 0
     unsub_count = 0
     processed = 0
-
     for msg_id in data[0].split():
         typ, msg_data = mail.fetch(msg_id, "(BODY.PEEK[])")
         if typ != "OK" or not msg_data:
@@ -379,15 +378,14 @@ def main():
             if changed:
                 updated_count += 1
         else:
-            rows.append(
-                {
-                    "email": email_addr,
-                    "name": name or "",
-                    "status": "active",
-                    "frequency": frequency or "daily",
-                }
-            )
-            index[email_norm] = rows[-1]
+            new_row = {
+                "email": email_addr,
+                "name": name or "",
+                "status": "active",
+                "frequency": frequency or "daily",
+            }
+            rows.append(new_row)
+            index[email_norm] = new_row
             new_count += 1
 
         mail.store(msg_id, "+FLAGS", "\\Seen")
@@ -402,7 +400,6 @@ def main():
         return 0
 
     rows, _, dedupe_after = dedupe_rows(rows, blocked)
-
     if new_count or updated_count or unsub_count or dedupe_changed or dedupe_after:
         write_subscribers(path, rows, fieldnames)
         print(
