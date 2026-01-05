@@ -23,8 +23,11 @@
                     <span class="pill text-[11px] font-semibold">{{ . }}</span>
                     {{ end }}
                 </div>
-                <a href="{{ if hasPrefix .link "http" }}{{ .link }}{{ else }}{{ .link | relURL }}{{ end }}" {{ if
-                    hasPrefix .link "http" }}target="_blank" rel="noreferrer" {{ end }}
+                {{ $rawLink := .link }}
+                {{ $isExternal := hasPrefix $rawLink "http" }}
+                {{ $cleanLink := trim $rawLink "/" }}
+                <a href="{{ if $isExternal }}{{ $rawLink }}{{ else }}{{ printf "/%s/" $cleanLink | relURL }}{{ end }}" {{ if
+                    $isExternal }}target="_blank" rel="noreferrer" {{ end }}
                     class="inline-flex items-center gap-2 text-accent mt-5 text-sm font-bold hover:underline">
                     Read more
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
