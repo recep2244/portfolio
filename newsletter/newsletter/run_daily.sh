@@ -43,27 +43,54 @@ if [ "$(date +%u)" = "5" ]; then
     --issues-dir "$ROOT_DIR/newsletter/issues"
 fi
 
+PREVIEW_LIST="$ROOT_DIR/newsletter/preview_subscribers.csv"
+
 if [ "${NEWSLETTER_SEND_CURATION_REMINDER:-}" = "1" ]; then
+  if [ ! -f "$PREVIEW_LIST" ]; then
+    echo "Error: preview_subscribers.csv not found. Aborting curation reminder."
+    PREVIEW_LIST=""
+  fi
   CURATION_TZ="${NEWSLETTER_CURATION_TZ:-Europe/London}"
   CURATION_HOUR="${NEWSLETTER_CURATION_HOUR:-10}"
   CURATION_MINUTE="${NEWSLETTER_CURATION_MINUTE:-00}"
-  CURRENT_HOUR="$(TZ="$CURATION_TZ" date +%H)"
-  CURRENT_MINUTE="$(TZ="$CURATION_TZ" date +%M)"
+  CURATION_WINDOW_MINUTES="${NEWSLETTER_CURATION_WINDOW_MINUTES:-10}"
+  SHOULD_SEND="$(python3 - <<PY
+from datetime import datetime, time
+from zoneinfo import ZoneInfo
 
-  if [ "$CURRENT_HOUR" = "$CURATION_HOUR" ] && [ "$CURRENT_MINUTE" = "$CURATION_MINUTE" ]; then
-    if [ -z "${NEWSLETTER_GMAIL_USER:-}" ] || [ -z "${NEWSLETTER_GMAIL_APP_PASSWORD:-}" ]; then
+tz = ZoneInfo("${CURATION_TZ}")
+now = datetime.now(tz)
+target = datetime.combine(now.date(), time(int("${CURATION_HOUR}"), int("${CURATION_MINUTE}")), tz)
+delta_minutes = abs((now - target).total_seconds()) / 60
+print("yes" if delta_minutes <= int("${CURATION_WINDOW_MINUTES}") else "no")
+PY
+)"
+
+  if [ "${NEWSLETTER_START_CURATION_SERVER:-0}" = "1" ]; then
+    PORT="${NEWSLETTER_CURATION_PORT:-5050}"
+    LOG_PATH="${ROOT_DIR}/newsletter/curation_server.log"
+    nohup "$ROOT_DIR/newsletter/run_curation_server.sh" "today" "$PORT" > "$LOG_PATH" 2>&1 &
+    sleep 2
+  fi
+
+  if [ "$SHOULD_SEND" = "yes" ]; then
+    if [ -z "$PREVIEW_LIST" ]; then
+      echo "Warning: Missing preview list. Skipping curation reminder email."
+    elif [ -z "${NEWSLETTER_GMAIL_USER:-}" ] || [ -z "${NEWSLETTER_GMAIL_APP_PASSWORD:-}" ]; then
       echo "Warning: Missing Gmail credentials. Skipping curation reminder email."
     else
+      PORT="${NEWSLETTER_CURATION_PORT:-5050}"
+      CURATION_URL="${NEWSLETTER_CURATION_URL:-http://127.0.0.1:${PORT}}"
       python3 "$ROOT_DIR/newsletter/send_reminder.py" \
         --preview-list "$PREVIEW_LIST" \
         --subject "Protein Design Digest: Curation Ready [$(date +%Y-%m-%d)]" \
-        --body "Your daily curation is ready." \
+        --body "Your daily curation is ready. Open ${CURATION_URL} to curate and approve." \
         --issue "$ROOT_DIR/newsletter/issues/$(date +%Y-%m-%d).json" || echo "Warning: curation reminder failed."
     fi
 
     echo "Curation reminder sent. Social posting will run after approval."
   else
-    echo "Skipping curation reminder: runs only at ${CURATION_HOUR}:${CURATION_MINUTE} $CURATION_TZ."
+    echo "Skipping curation reminder: runs within ${CURATION_WINDOW_MINUTES} min of ${CURATION_HOUR}:${CURATION_MINUTE} $CURATION_TZ."
   fi
 fi
 
