@@ -43,32 +43,6 @@ if [ "$(date +%u)" = "5" ]; then
     --issues-dir "$ROOT_DIR/newsletter/issues"
 fi
 
-PREVIEW_LIST="$ROOT_DIR/newsletter/preview_subscribers.csv"
-if [ ! -f "$PREVIEW_LIST" ]; then
-  echo "Error: preview_subscribers.csv not found. Aborting preview send."
-  exit 1
-fi
-
-if [ -z "${NEWSLETTER_GMAIL_USER:-}" ] || [ -z "${NEWSLETTER_GMAIL_APP_PASSWORD:-}" ]; then
-  echo "Warning: Missing Gmail credentials. Rendering preview only."
-  python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
-    --issue-date today \
-    --issues-dir "$ROOT_DIR/newsletter/issues" \
-    --subscribers "$PREVIEW_LIST" \
-    --template-html "$ROOT_DIR/newsletter/template.html" \
-    --template-text "$ROOT_DIR/newsletter/template.txt" \
-    --frequency daily \
-    --render-only
-else
-  python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
-    --issue-date today \
-    --issues-dir "$ROOT_DIR/newsletter/issues" \
-    --subscribers "$PREVIEW_LIST" \
-    --template-html "$ROOT_DIR/newsletter/template.html" \
-    --template-text "$ROOT_DIR/newsletter/template.txt" \
-    --frequency daily || echo "Warning: preview send failed."
-fi
-
 if [ "${NEWSLETTER_SEND_CURATION_REMINDER:-}" = "1" ]; then
   CURATION_TZ="${NEWSLETTER_CURATION_TZ:-Europe/London}"
   CURATION_HOUR="${NEWSLETTER_CURATION_HOUR:-10}"
@@ -93,4 +67,34 @@ if [ "${NEWSLETTER_SEND_CURATION_REMINDER:-}" = "1" ]; then
   fi
 fi
 
-echo "Preview sent (or rendered). Run run_send_confirmed.sh after approval to email everyone."
+if [ "${NEWSLETTER_SEND_PREVIEW:-0}" = "1" ]; then
+  PREVIEW_LIST="$ROOT_DIR/newsletter/preview_subscribers.csv"
+  if [ ! -f "$PREVIEW_LIST" ]; then
+    echo "Error: preview_subscribers.csv not found. Aborting preview send."
+    exit 1
+  fi
+
+  if [ -z "${NEWSLETTER_GMAIL_USER:-}" ] || [ -z "${NEWSLETTER_GMAIL_APP_PASSWORD:-}" ]; then
+    echo "Warning: Missing Gmail credentials. Rendering preview only."
+    python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
+      --issue-date today \
+      --issues-dir "$ROOT_DIR/newsletter/issues" \
+      --subscribers "$PREVIEW_LIST" \
+      --template-html "$ROOT_DIR/newsletter/template.html" \
+      --template-text "$ROOT_DIR/newsletter/template.txt" \
+      --frequency daily \
+      --render-only
+  else
+    python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
+      --issue-date today \
+      --issues-dir "$ROOT_DIR/newsletter/issues" \
+      --subscribers "$PREVIEW_LIST" \
+      --template-html "$ROOT_DIR/newsletter/template.html" \
+      --template-text "$ROOT_DIR/newsletter/template.txt" \
+      --frequency daily || echo "Warning: preview send failed."
+  fi
+else
+  echo "Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews."
+fi
+
+echo "Daily run complete. Run run_send_confirmed.sh after approval to email everyone."
