@@ -122,6 +122,124 @@ def extract_email_from_text(text):
     return match.group(0) if match else ""
 
 
+def normalize_frequency(value):
+    value = (value or "").strip().lower()
+    return value if value in {"daily", "weekly"} else "daily"
+
+
+def normalize_status(value):
+    value = (value or "").strip().lower()
+    if value in {"unsubscribed", "inactive", "bounced"}:
+        return value
+    if value in ACTIVE_STATUSES:
+        return "active"
+    return value or "active"
+
+
+def status_rank(status):
+    status = (status or "").strip().lower()
+    if status == "unsubscribed":
+        return 3
+    if status == "bounced":
+        return 2
+    if status == "inactive":
+        return 1
+    return 0
+
+
+def merge_rows(existing, incoming):
+    changed = False
+
+    existing_status = normalize_status(existing.get("status"))
+    incoming_status = normalize_status(incoming.get("status"))
+    if status_rank(incoming_status) > status_rank(existing_status):
+        existing["status"] = incoming_status
+        changed = True
+    else:
+        if existing.get("status") != existing_status:
+            existing["status"] = existing_status
+            changed = True
+
+    existing_freq = normalize_frequency(existing.get("frequency"))
+    incoming_freq = normalize_frequency(incoming.get("frequency"))
+    desired_freq = "weekly" if "weekly" in {existing_freq, incoming_freq} else "daily"
+    if existing.get("frequency") != desired_freq:
+        existing["frequency"] = desired_freq
+        changed = True
+
+    if not (existing.get("name") or "").strip() and (incoming.get("name") or "").strip():
+        existing["name"] = incoming.get("name")
+        changed = True
+
+    for key, value in incoming.items():
+        if key in {"email", "status", "frequency", "name"}:
+            continue
+        if value and not existing.get(key):
+            existing[key] = value
+            changed = True
+
+    return changed
+
+
+def load_blocklist(path):
+    blocked = set()
+    if not path or not path.exists():
+        return blocked
+    try:
+        with path.open("r", encoding="utf-8", newline="") as handle:
+            first_line = handle.readline()
+            handle.seek(0)
+            if "email" in (first_line or "").lower():
+                reader = csv.DictReader(handle)
+                for row in reader:
+                    email = normalize_email(row.get("email"))
+                    if email:
+                        blocked.add(email)
+            else:
+                for line in handle:
+                    email = normalize_email(line.split(",")[0])
+                    if email:
+                        blocked.add(email)
+    except OSError:
+        return blocked
+    return blocked
+
+
+def dedupe_rows(rows, blocklist):
+    merged = []
+    index = {}
+    changed = False
+
+    for row in rows:
+        email_raw = row.get("email")
+        email_norm = normalize_email(email_raw)
+        if not email_norm:
+            continue
+        if blocklist and email_norm in blocklist:
+            changed = True
+            continue
+        if email_norm not in index:
+            normalized = dict(row)
+            normalized["email"] = email_norm
+            normalized["status"] = normalize_status(row.get("status"))
+            normalized["frequency"] = normalize_frequency(row.get("frequency"))
+            merged.append(normalized)
+            index[email_norm] = normalized
+            if email_raw != email_norm:
+                changed = True
+            if normalized["status"] != (row.get("status") or ""):
+                changed = True
+            if normalized["frequency"] != (row.get("frequency") or ""):
+                changed = True
+        else:
+            existing = index[email_norm]
+            if merge_rows(existing, row):
+                changed = True
+            changed = True
+
+    return merged, index, changed
+
+
 def should_process(subject, sender, subjects, senders):
     subject = (subject or "").lower()
     sender = (sender or "").lower()
@@ -158,17 +276,31 @@ def main():
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
-    if not args.imap_user or not args.imap_password:
-        print("Subscriber sync skipped: missing NEWSLETTER_GMAIL_USER or NEWSLETTER_GMAIL_APP_PASSWORD.")
-        return 0
-
     subjects = [s.strip().lower() for s in args.subjects.split(",") if s.strip()]
     senders = [s.strip().lower() for s in args.senders.split(",") if s.strip()]
     unsubscribe_keywords = [s.strip().lower() for s in args.unsubscribe_keywords.split(",") if s.strip()]
 
     path = Path(args.subscribers)
     rows, fieldnames = load_subscribers(path)
-    index = {normalize_email(r.get("email")): r for r in rows if r.get("email")}
+    blocklist_env = {
+        normalize_email(item)
+        for item in (os.getenv("NEWSLETTER_INVALID_EMAILS") or "").split(",")
+        if item.strip()
+    }
+    blocklist_path = Path(
+        os.getenv("NEWSLETTER_INVALID_EMAILS_PATH", path.parent / "invalid_emails.csv")
+    )
+    blocked = load_blocklist(blocklist_path)
+    blocked |= blocklist_env
+    rows, index, dedupe_changed = dedupe_rows(rows, blocked)
+
+    if not args.imap_user or not args.imap_password:
+        if dedupe_changed and not args.dry_run:
+            write_subscribers(path, rows, fieldnames)
+            print("Subscriber sync: duplicates removed (no Gmail sync).")
+        else:
+            print("Subscriber sync skipped: missing NEWSLETTER_GMAIL_USER or NEWSLETTER_GMAIL_APP_PASSWORD.")
+        return 0
 
     try:
         mail = imaplib.IMAP4_SSL(args.imap_host)
@@ -205,6 +337,10 @@ def main():
             from_email = parseaddr(sender)[1]
             email_addr = from_email or extract_email_from_text(text)
             email_norm = normalize_email(email_addr)
+            if email_norm and email_norm in blocked:
+                mail.store(msg_id, "+FLAGS", "\\Seen")
+                processed += 1
+                continue
             if email_norm and email_norm in index:
                 row = index[email_norm]
                 if (row.get("status") or "").strip().lower() != "unsubscribed":
@@ -220,6 +356,10 @@ def main():
         name, email_addr, frequency = extract_fields(text)
         email_norm = normalize_email(email_addr)
         if not email_norm:
+            continue
+        if email_norm in blocked:
+            mail.store(msg_id, "+FLAGS", "\\Seen")
+            processed += 1
             continue
 
         if email_norm in index:
@@ -261,7 +401,9 @@ def main():
         )
         return 0
 
-    if new_count or updated_count or unsub_count:
+    rows, _, dedupe_after = dedupe_rows(rows, blocked)
+
+    if new_count or updated_count or unsub_count or dedupe_changed or dedupe_after:
         write_subscribers(path, rows, fieldnames)
         print(
             f"Subscriber sync: {new_count} new, {updated_count} updated, {unsub_count} unsubscribed."

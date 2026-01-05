@@ -1,17 +1,22 @@
 #!/usr/bin/env python3
 import argparse
+import hashlib
 import json
 import os
 import re
+import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from email.utils import parsedate_to_datetime
-from urllib.parse import quote, urlencode
+from pathlib import Path
+from urllib.parse import quote, urlencode, urlparse
 from urllib.request import Request, urlopen
 import xml.etree.ElementTree as ET
 from zoneinfo import ZoneInfo
 
 DEFAULT_TIMEZONE = "Europe/London"
+CACHE_DEFAULT_TTL = 21600
+_CACHE_SETTINGS = None
 
 
 @dataclass
@@ -49,10 +54,111 @@ def load_latest_issue(issues_dir):
         return None
 
 
+def get_cache_settings():
+    global _CACHE_SETTINGS
+    if _CACHE_SETTINGS is not None:
+        return _CACHE_SETTINGS
+    enabled_raw = os.getenv("NEWSLETTER_CACHE_ENABLED", "1")
+    enabled = str(enabled_raw).strip().lower() not in {"0", "false", "no", "off"}
+    ttl_raw = os.getenv("NEWSLETTER_CACHE_TTL_SECONDS", str(CACHE_DEFAULT_TTL))
+    try:
+        ttl = int(ttl_raw)
+    except (TypeError, ValueError):
+        ttl = CACHE_DEFAULT_TTL
+    cache_dir = os.getenv("NEWSLETTER_CACHE_DIR")
+    if cache_dir:
+        cache_path = Path(cache_dir).expanduser()
+    else:
+        cache_path = Path(__file__).resolve().parent / ".cache"
+    _CACHE_SETTINGS = {
+        "enabled": enabled,
+        "ttl": ttl,
+        "dir": cache_path,
+    }
+    return _CACHE_SETTINGS
+
+
+def cache_path_for(url, cache_dir):
+    digest = hashlib.sha256(url.encode("utf-8")).hexdigest()
+    return cache_dir / f"{digest}.cache"
+
+
+def read_cache(path, ttl):
+    try:
+        stat = path.stat()
+    except FileNotFoundError:
+        return None
+    if ttl is not None and ttl >= 0:
+        age = time.time() - stat.st_mtime
+        if age > ttl:
+            return None
+    try:
+        return path.read_bytes()
+    except OSError:
+        return None
+
+
 def fetch_url(url, user_agent):
+    cache = get_cache_settings()
+    cache_path = None
+    if cache["enabled"]:
+        cache_path = cache_path_for(url, cache["dir"])
+        cached = read_cache(cache_path, cache["ttl"])
+        if cached is not None:
+            return cached
     req = Request(url, headers={"User-Agent": user_agent})
-    with urlopen(req, timeout=30) as resp:
-        return resp.read()
+    try:
+        with urlopen(req, timeout=30) as resp:
+            data = resp.read()
+    except Exception as exc:
+        if cache["enabled"] and cache_path:
+            stale = read_cache(cache_path, None)
+            if stale is not None:
+                print(f"Warning: Using stale cache for {url}: {exc}")
+                return stale
+        raise
+    if cache["enabled"] and cache_path:
+        cache["dir"].mkdir(parents=True, exist_ok=True)
+        try:
+            cache_path.write_bytes(data)
+        except OSError:
+            pass
+    return data
+
+
+def resolve_redirect_url(url, user_agent):
+    cache = get_cache_settings()
+    cache_path = None
+    cache_key = f"redirect::{url}"
+    if cache["enabled"]:
+        cache_path = cache_path_for(cache_key, cache["dir"])
+        cached = read_cache(cache_path, cache["ttl"])
+        if cached is not None:
+            try:
+                return cached.decode("utf-8").strip()
+            except UnicodeDecodeError:
+                return url
+    req = Request(url, headers={"User-Agent": user_agent})
+    try:
+        with urlopen(req, timeout=20) as resp:
+            final_url = resp.geturl()
+    except Exception as exc:
+        if cache["enabled"] and cache_path:
+            stale = read_cache(cache_path, None)
+            if stale is not None:
+                try:
+                    return stale.decode("utf-8").strip()
+                except UnicodeDecodeError:
+                    return url
+        print(f"Warning: Failed to resolve redirect for {url}: {exc}")
+        return url
+    if cache["enabled"] and cache_path:
+        cache["dir"].mkdir(parents=True, exist_ok=True)
+        try:
+            cache_path.write_text(final_url + "\n", encoding="utf-8")
+        except OSError:
+            pass
+    return final_url
 
 def safe_fetch(url, user_agent, label):
     try:
@@ -498,7 +604,7 @@ def fetch_semantic_scholar(keywords, start_date, end_date, max_results, user_age
     return papers
 
 
-def normalize_news_link(link, source_url):
+def normalize_news_link(link, source_url, user_agent):
     if not link:
         return link
     if "news.google.com" in link and source_url:
@@ -511,7 +617,15 @@ def normalize_news_link(link, source_url):
                 return source_url
         except Exception:
             return link
-        return link
+    if "news.google.com" in link:
+        resolve_enabled = str(os.getenv("NEWSLETTER_RESOLVE_NEWS_LINKS", "1")).strip().lower() not in {
+            "0",
+            "false",
+            "no",
+            "off",
+        }
+        if resolve_enabled:
+            return resolve_redirect_url(link, user_agent)
     return link
 
 
@@ -574,7 +688,7 @@ def fetch_rss_feed(feed, keywords, max_results, user_agent, timezone):
             published = parse_rss_date(published_raw, timezone)
             if not title or not link or not published:
                 continue
-            link = normalize_news_link(link, source_url)
+            link = normalize_news_link(link, source_url, user_agent)
             papers.append(
                 Paper(
                     title=title,

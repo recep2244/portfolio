@@ -24,6 +24,64 @@ def run_python(script_path, args, cwd):
     cmd = [os.environ.get("PYTHON", "python3"), str(script_path)] + args
     subprocess.run(cmd, check=True, cwd=cwd)
 
+def is_truthy(value):
+    return str(value or "").strip().lower() in {"1", "true", "yes", "y", "on"}
+
+
+def write_sent_marker(path, issue_date, timezone):
+    payload = {
+        "issue_date": issue_date,
+        "sent_at": datetime.now(timezone).isoformat(),
+    }
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+def sync_archive(root_dir, issue_date):
+    result = {"status": "skipped", "message": ""}
+    if not is_truthy(os.getenv("NEWSLETTER_SYNC_ARCHIVE")):
+        return result
+    try:
+        subprocess.run(
+            ["git", "add", "content/newsletter"],
+            cwd=root_dir,
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
+        diff = subprocess.run(
+            ["git", "diff", "--cached", "--quiet"],
+            cwd=root_dir,
+            check=False,
+        )
+        if diff.returncode == 0:
+            result["status"] = "no_changes"
+            return result
+        commit_message = os.getenv("NEWSLETTER_SYNC_COMMIT_MESSAGE") or f"Sync newsletter archive ({issue_date})"
+        subprocess.run(
+            ["git", "commit", "-m", commit_message],
+            cwd=root_dir,
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+        )
+        result["status"] = "committed"
+        if is_truthy(os.getenv("NEWSLETTER_SYNC_PUSH")):
+            subprocess.run(
+                ["git", "push"],
+                cwd=root_dir,
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+            )
+            result["status"] = "pushed"
+        return result
+    except (subprocess.CalledProcessError, FileNotFoundError) as exc:
+        result["status"] = "failed"
+        result["message"] = str(exc)
+        return result
+
 
 class CurationServer(BaseHTTPRequestHandler):
     def _send(self, status, payload, content_type="application/json"):
@@ -138,6 +196,22 @@ class CurationServer(BaseHTTPRequestHandler):
             return
 
         if parsed.path == "/approve-send":
+            if self.server.sent_marker.exists() and not is_truthy(
+                os.getenv("NEWSLETTER_ALLOW_RESEND")
+            ):
+                sent_data = {}
+                try:
+                    sent_data = json.loads(self.server.sent_marker.read_text(encoding="utf-8"))
+                except (OSError, json.JSONDecodeError):
+                    pass
+                self._send(
+                    409,
+                    {
+                        "error": "Issue already sent.",
+                        "sent_at": sent_data.get("sent_at", ""),
+                    },
+                )
+                return
             try:
                 self._save_issue(payload)
                 run_python(
@@ -162,21 +236,38 @@ class CurationServer(BaseHTTPRequestHandler):
                         str(self.server.template_html),
                         "--template-text",
                         str(self.server.template_text),
+                        "--frequency",
+                        self.server.send_frequency,
                     ],
                     self.server.root_dir,
                 )
-                run_python(
-                    self.server.social_post,
-                    [
-                        "--issue",
-                        str(self.server.issue_path),
-                    ],
-                    self.server.root_dir,
-                )
+                social_error = None
+                try:
+                    run_python(
+                        self.server.social_post,
+                        [
+                            "--issue",
+                            str(self.server.issue_path),
+                        ],
+                        self.server.root_dir,
+                    )
+                except subprocess.CalledProcessError as exc:
+                    social_error = exc
+                write_sent_marker(self.server.sent_marker, self.server.issue_date, self.server.timezone)
             except subprocess.CalledProcessError as exc:
                 self._send(500, {"error": f"Send failed: {exc}"})
                 return
-            self._send(200, {"message": "Sent to all subscribers."})
+            message = "Sent to all subscribers."
+            if social_error:
+                message = f"{message} Social post failed: {social_error}"
+            sync_result = sync_archive(self.server.root_dir, self.server.issue_date)
+            if sync_result["status"] == "failed":
+                message = f"{message} Archive sync failed: {sync_result['message']}"
+            elif sync_result["status"] == "committed":
+                message = f"{message} Archive synced."
+            elif sync_result["status"] == "pushed":
+                message = f"{message} Archive synced and pushed."
+            self._send(200, {"message": message})
             return
 
         self._send(404, {"error": "Not found"})
@@ -219,6 +310,7 @@ def main():
     server.issue_date = issue_date
     server.issues_dir = issues_dir
     server.issue_path = issue_path
+    server.sent_marker = issues_dir / f"{issue_date}.sent"
     server.html_path = newsletter_dir / "curate_issue.html"
     server.preview_list = newsletter_dir / "preview_subscribers.csv"
     server.subscribers_list = newsletter_dir / "subscribers.csv"
@@ -228,6 +320,9 @@ def main():
     server.newsletter_to_md = newsletter_dir / "newsletter_to_md.py"
     server.social_post = newsletter_dir / "social_post.py"
     server.sync_subscribers = newsletter_dir / "sync_subscribers_from_gmail.py"
+    server.timezone = tz
+    send_frequency = (os.getenv("NEWSLETTER_SEND_FREQUENCY") or "daily").strip().lower()
+    server.send_frequency = send_frequency if send_frequency in {"daily", "weekly"} else "daily"
 
     print(f"Curation server running at http://127.0.0.1:{args.port}")
     print(f"Issue date: {issue_date}")

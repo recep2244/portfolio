@@ -31,6 +31,9 @@ SUBSCRIBE_LABEL = "Subnewsletter"
 TWITTER_LIMIT = 280
 BLUESKY_LIMIT = 300
 DEFAULT_BASE_URL = "https://recep2244.github.io/portfolio/#newsletter"
+DEFAULT_TWITTER_TEMPLATE = "{header}\n{title}\n{extras}\n{summary}\n{subscribe}\n{link}\n{tags}"
+DEFAULT_BLUESKY_TEMPLATE = "{header}\n{title}\n{extras}\n{summary}\n{link}\n{subscribe}\n{tags}"
+DEFAULT_SECTION_TEMPLATE = "{header}\n{title}\n{summary}\n{link}\n{subscribe}\n{tags}"
 
 
 def load_json(path):
@@ -68,23 +71,53 @@ def extract_title_line(text, fallback):
     return fallback
 
 
-def ensure_subscribe_label(text, limit):
+def ensure_subscribe_label(text, limit, subscribe_label=SUBSCRIBE_LABEL):
     if not text:
         return text
-    if SUBSCRIBE_LABEL in text:
+    if subscribe_label in text:
         return text
-    line = f"\n{SUBSCRIBE_LABEL}"
+    line = f"\n{subscribe_label}"
     if len(text) + len(line) <= limit:
         return text + line
     lines = text.splitlines()
     if lines and lines[-1].startswith("#"):
         lines.pop()
         text = "\n".join(lines)
-        if SUBSCRIBE_LABEL in text:
+        if subscribe_label in text:
             return text
         if len(text) + len(line) <= limit:
             return text + line
     return text
+
+
+class SafeFormatDict(dict):
+    def __missing__(self, key):
+        return ""
+
+
+def render_template(template, values):
+    text = template.format_map(SafeFormatDict(values))
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    return "\n".join(lines)
+
+
+def load_template(env_key, fallback):
+    value = (os.getenv(env_key) or "").strip()
+    return value or fallback
+
+
+def get_subscribe_label(channel):
+    override = os.getenv(f"{channel.upper()}_SUBSCRIBE_LABEL") or os.getenv(
+        "SOCIAL_SUBSCRIBE_LABEL"
+    )
+    override = (override or "").strip()
+    return override or SUBSCRIBE_LABEL
+
+
+def is_truthy(value, default=False):
+    if value is None or value == "":
+        return default
+    return str(value).strip().lower() in {"1", "true", "yes", "y", "on"}
 
 
 def normalize_text_for_compare(value):
@@ -143,6 +176,8 @@ def build_social_text(
     header_label=None,
     url_length=None,
     omit_long_links=False,
+    template=None,
+    subscribe_label=SUBSCRIBE_LABEL,
 ):
     def measure_text(text):
         if not url_length:
@@ -158,7 +193,7 @@ def build_social_text(
 
     tail_lines = []
     subscribe_line = (
-        f"{SUBSCRIBE_LABEL} {sub_url}" if subscribe_url_in_text else SUBSCRIBE_LABEL
+        f"{subscribe_label} {sub_url}" if subscribe_url_in_text else subscribe_label
     )
     if subscribe_url_in_text and signal_link:
         tail_lines.append(subscribe_line)
@@ -170,6 +205,21 @@ def build_social_text(
 
     if extra_lines is None:
         extra_lines = []
+
+    if template:
+        return build_social_text_from_template(
+            template,
+            header,
+            title,
+            summary,
+            extra_lines or [],
+            subscribe_line,
+            signal_link,
+            tags_line,
+            limit,
+            url_length,
+            omit_long_links,
+        )
 
     base_lines = [header] + tail_lines
     if tags_line:
@@ -243,6 +293,8 @@ def build_social_text(
                 extra_lines=extra_lines,
                 header_label=header_label,
                 url_length=url_length,
+                template=template,
+                subscribe_label=subscribe_label,
                 omit_long_links=False,
             )
         return rebuilt_text
@@ -261,9 +313,89 @@ def build_social_text(
             extra_lines=extra_lines,
             header_label=header_label,
             url_length=url_length,
+            template=template,
+            subscribe_label=subscribe_label,
             omit_long_links=False,
         )
     return final_text
+
+
+def build_social_text_from_template(
+    template,
+    header,
+    title,
+    summary,
+    extra_lines,
+    subscribe_line,
+    signal_link,
+    tags_line,
+    limit,
+    url_length,
+    omit_long_links,
+):
+    def measure_text(text):
+        if not url_length:
+            return len(text)
+        return len(re.sub(r"https?://\S+", "x" * url_length, text))
+
+    extras_text = "\n".join([line for line in extra_lines if line])
+    values = {
+        "header": header,
+        "title": title,
+        "summary": summary or "",
+        "extras": extras_text,
+        "subscribe": subscribe_line,
+        "link": signal_link or "",
+        "tags": tags_line or "",
+    }
+
+    def render(values_map):
+        return render_template(template, values_map)
+
+    def fit_field(values_map, field):
+        base_values = dict(values_map)
+        base_values[field] = ""
+        base_text = render(base_values)
+        remaining = limit - measure_text(base_text)
+        if remaining <= 0:
+            return ""
+        return shorten_text(values_map.get(field, ""), remaining)
+
+    text = render(values)
+    if measure_text(text) <= limit:
+        return text
+
+    if values.get("summary"):
+        values["summary"] = fit_field(values, "summary")
+        text = render(values)
+        if measure_text(text) <= limit:
+            return text
+
+    if values.get("extras"):
+        values["extras"] = fit_field(values, "extras")
+        text = render(values)
+        if measure_text(text) <= limit:
+            return text
+
+    if values.get("tags"):
+        values["tags"] = ""
+        text = render(values)
+        if measure_text(text) <= limit:
+            return text
+
+    if values.get("title"):
+        values["title"] = fit_field(values, "title") or "Signal"
+        text = render(values)
+        if measure_text(text) <= limit:
+            return text
+
+    if omit_long_links and values.get("link"):
+        values["link"] = ""
+        text = render(values)
+        if measure_text(text) <= limit:
+            return text
+
+    return render(values)
 
 
 def post_twitter(content, api_key, api_secret, access_token, access_token_secret):
@@ -370,7 +502,9 @@ def post_linkedin(content, access_token):
         print(f"❌ LinkedIn Company Page Error: {e}")
 
 
-def build_bluesky_facets(text, subscribe_url=None, paper_url=None):
+def build_bluesky_facets(
+    text, subscribe_url=None, paper_url=None, subscribe_label=SUBSCRIBE_LABEL
+):
     facets = []
     seen = set()
 
@@ -422,7 +556,7 @@ def build_bluesky_facets(text, subscribe_url=None, paper_url=None):
         )
 
     if subscribe_url:
-        label = SUBSCRIBE_LABEL
+        label = subscribe_label
         idx = text.find(label)
         if idx != -1:
             add_facet(
@@ -435,7 +569,14 @@ def build_bluesky_facets(text, subscribe_url=None, paper_url=None):
 
 
 def post_bluesky(
-    content, handle, password, service, subscribe_url=None, paper_url=None, embed=None
+    content,
+    handle,
+    password,
+    service,
+    subscribe_url=None,
+    paper_url=None,
+    embed=None,
+    subscribe_label=SUBSCRIBE_LABEL,
 ):
     if not requests:
         print("Requests not installed, skipping Bluesky.")
@@ -467,7 +608,10 @@ def post_bluesky(
         if embed:
             record["record"]["embed"] = embed
         facets = build_bluesky_facets(
-            content, subscribe_url=subscribe_url, paper_url=paper_url
+            content,
+            subscribe_url=subscribe_url,
+            paper_url=paper_url,
+            subscribe_label=subscribe_label,
         )
         if facets:
             record["record"]["facets"] = facets
@@ -536,6 +680,22 @@ def main():
 
     base_url = DEFAULT_BASE_URL
     sub_url = base_url
+    twitter_template = load_template("TWITTER_TEMPLATE", DEFAULT_TWITTER_TEMPLATE)
+    bluesky_template = load_template("BLUESKY_TEMPLATE", DEFAULT_BLUESKY_TEMPLATE)
+    twitter_section_template = load_template(
+        "TWITTER_SECTION_TEMPLATE", DEFAULT_SECTION_TEMPLATE
+    )
+    bluesky_section_template = load_template(
+        "BLUESKY_SECTION_TEMPLATE", DEFAULT_SECTION_TEMPLATE
+    )
+    twitter_subscribe_label = get_subscribe_label("twitter")
+    bluesky_subscribe_label = get_subscribe_label("bluesky")
+    twitter_subscribe_in_text = is_truthy(
+        os.getenv("TWITTER_SUBSCRIBE_URL_IN_TEXT"), default=False
+    )
+    bluesky_subscribe_in_text = is_truthy(
+        os.getenv("BLUESKY_SUBSCRIBE_URL_IN_TEXT"), default=False
+    )
 
     issue_date = issue.get("issue_date", "")
     social_twitter = (social_cfg.get("twitter") or "").strip()
@@ -548,9 +708,11 @@ def main():
         TWITTER_LIMIT,
         include_tags=True,
         issue_date=issue_date,
-        subscribe_url_in_text=True,
+        subscribe_url_in_text=twitter_subscribe_in_text,
         extra_lines=extras,
         url_length=23,
+        template=twitter_template,
+        subscribe_label=twitter_subscribe_label,
     )
     bluesky_text = social_bluesky or build_social_text(
         signal_title,
@@ -560,9 +722,11 @@ def main():
         BLUESKY_LIMIT,
         include_tags=True,
         issue_date=issue_date,
-        subscribe_url_in_text=False,
+        subscribe_url_in_text=bluesky_subscribe_in_text,
         extra_lines=extras,
         omit_long_links=True,
+        template=bluesky_template,
+        subscribe_label=bluesky_subscribe_label,
     )
 
     def build_section_post(item, header_label):
@@ -588,10 +752,12 @@ def main():
                 TWITTER_LIMIT,
                 include_tags=True,
                 issue_date=issue_date,
-                subscribe_url_in_text=True,
+                subscribe_url_in_text=twitter_subscribe_in_text,
                 extra_lines=None,
                 header_label=header_label,
                 url_length=23,
+                template=twitter_section_template,
+                subscribe_label=twitter_subscribe_label,
             ),
             "bluesky": build_social_text(
                 title,
@@ -601,10 +767,12 @@ def main():
                 BLUESKY_LIMIT,
                 include_tags=True,
                 issue_date=issue_date,
-                subscribe_url_in_text=False,
+                subscribe_url_in_text=bluesky_subscribe_in_text,
                 extra_lines=None,
                 header_label=header_label,
                 omit_long_links=True,
+                template=bluesky_section_template,
+                subscribe_label=bluesky_subscribe_label,
             ),
         }
 
@@ -688,10 +856,12 @@ def main():
                 TWITTER_LIMIT,
                 include_tags=True,
                 issue_date=issue_date,
-                subscribe_url_in_text=True,
+                subscribe_url_in_text=twitter_subscribe_in_text,
                 extra_lines=None,
                 header_label=header_label,
                 url_length=23,
+                template=twitter_section_template,
+                subscribe_label=twitter_subscribe_label,
             )
         if not post.get("bluesky"):
             post["bluesky"] = build_social_text(
@@ -702,10 +872,12 @@ def main():
                 BLUESKY_LIMIT,
                 include_tags=True,
                 issue_date=issue_date,
-                subscribe_url_in_text=False,
+                subscribe_url_in_text=bluesky_subscribe_in_text,
                 extra_lines=None,
                 header_label=header_label,
                 omit_long_links=True,
+                template=bluesky_section_template,
+                subscribe_label=bluesky_subscribe_label,
             )
         return post
 
@@ -777,7 +949,9 @@ def main():
     bs_service = os.getenv("BLUESKY_SERVICE", "https://bsky.social")
     bs_subscribe = os.getenv("BLUESKY_SUBSCRIBE_URL", DEFAULT_BASE_URL)
     if "bluesky" in channels and bs_handle and bs_pass:
-        bluesky_text = ensure_subscribe_label(bluesky_text, BLUESKY_LIMIT)
+        bluesky_text = ensure_subscribe_label(
+            bluesky_text, BLUESKY_LIMIT, subscribe_label=bluesky_subscribe_label
+        )
         main_link = signal_link or extract_first_url(twitter_text) or extract_first_url(bluesky_text)
         main_title = signal_title or extract_title_line(twitter_text or bluesky_text, "Paper of the day")
         embed = build_external_embed(main_title, summary, main_link)
@@ -789,11 +963,14 @@ def main():
             subscribe_url=bs_subscribe,
             paper_url=main_link,
             embed=embed,
+            subscribe_label=bluesky_subscribe_label,
         )
         for post in (ai_post, industry_post, job_post):
             if not post:
                 continue
-            post["bluesky"] = ensure_subscribe_label(post["bluesky"], BLUESKY_LIMIT)
+            post["bluesky"] = ensure_subscribe_label(
+                post["bluesky"], BLUESKY_LIMIT, subscribe_label=bluesky_subscribe_label
+            )
             embed = build_external_embed(post["title"], post.get("summary", ""), post.get("link", ""))
             post_bluesky(
                 post["bluesky"],
@@ -803,6 +980,7 @@ def main():
                 subscribe_url=bs_subscribe,
                 paper_url=post.get("link", ""),
                 embed=embed,
+                subscribe_label=bluesky_subscribe_label,
             )
     elif "bluesky" in channels:
         print("Skipping Bluesky (credentials missing)")

@@ -108,11 +108,18 @@
     "max_items": 7,
     "keywords": [
       "partnership",
-      "partnership",
+      "collaboration",
       "clinical",
+      "trial",
       "FDA",
+      "approval",
       "investment",
-      "drug candidate"
+      "funding",
+      "acquisition",
+      "merger",
+      "licensing",
+      "drug candidate",
+      "platform"
     ],
     "feeds": [
       {
@@ -122,6 +129,22 @@
       {
         "name": "Biotech Application News",
         "url": "https://news.google.com/rss/search?q=biotech+drug+candidate+clinical+application+protein+engineering+when:7d&hl=en-US&gl=US&ceid=US:en"
+      },
+      {
+        "name": "Protein Therapeutics & Biologics",
+        "url": "https://news.google.com/rss/search?q=%22protein+therapeutics%22+OR+biologics+OR+%22protein+engineering%22+clinical+trial+when:14d&hl=en-US&gl=US&ceid=US:en"
+      },
+      {
+        "name": "Biotech Funding & M&A",
+        "url": "https://news.google.com/rss/search?q=biotech+funding+OR+%22Series+A%22+OR+%22Series+B%22+OR+acquisition+OR+merger+OR+IPO+when:14d&hl=en-US&gl=US&ceid=US:en"
+      },
+      {
+        "name": "Industry Partnerships & Licensing",
+        "url": "https://news.google.com/rss/search?q=biotech+partnership+OR+collaboration+OR+licensing+OR+%22platform+deal%22+when:14d&hl=en-US&gl=US&ceid=US:en"
+      },
+      {
+        "name": "Fierce Biotech",
+        "url": "https://www.fiercebiotech.com/rss/xml"
       }
     ]
   },
@@ -377,8 +400,16 @@
           "url": "https://news.google.com/rss/search?q=site:greenhouse.io+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
         },
         {
+          "name": "Greenhouse Boards",
+          "url": "https://news.google.com/rss/search?q=site:boards.greenhouse.io+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
           "name": "Lever",
           "url": "https://news.google.com/rss/search?q=site:lever.co+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "name": "Lever Jobs",
+          "url": "https://news.google.com/rss/search?q=site:jobs.lever.co+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
         },
         {
           "name": "Workable",
@@ -387,6 +418,10 @@
         {
           "name": "SmartRecruiters",
           "url": "https://news.google.com/rss/search?q=site:smartrecruiters.com+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "name": "Workday Jobs",
+          "url": "https://news.google.com/rss/search?q=site:workdayjobs.com+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
         }
       ]
     }

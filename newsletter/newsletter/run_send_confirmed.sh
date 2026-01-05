@@ -4,6 +4,24 @@ set -euo pipefail
 ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 ISSUE_DATE="${1:-today}"
 
+resolve_issue_date() {
+  if [ "$ISSUE_DATE" = "today" ]; then
+    python3 - <<PY
+from datetime import datetime
+from zoneinfo import ZoneInfo
+import os
+tz = ZoneInfo(os.environ.get("NEWSLETTER_TIMEZONE", "Europe/London"))
+print(datetime.now(tz).date().isoformat())
+PY
+  else
+    printf "%s" "$ISSUE_DATE"
+  fi
+}
+
+ISSUE_DATE_RESOLVED="$(resolve_issue_date)"
+SENT_MARKER="$ROOT_DIR/newsletter/issues/${ISSUE_DATE_RESOLVED}.sent"
+SEND_FREQUENCY="${NEWSLETTER_SEND_FREQUENCY:-daily}"
+
 # Load environment variables from .env if it exists
 if [ -f "$ROOT_DIR/newsletter/.env" ]; then
   set -a
@@ -27,6 +45,12 @@ if [ "${NEWSLETTER_SYNC_SUBSCRIBERS:-1}" = "1" ]; then
     --subscribers "$ROOT_DIR/newsletter/subscribers.csv" || echo "Warning: subscriber sync failed."
 fi
 
+ALLOW_RESEND="$(printf "%s" "${NEWSLETTER_ALLOW_RESEND:-}" | tr '[:upper:]' '[:lower:]')"
+if [ -f "$SENT_MARKER" ] && [ "$ALLOW_RESEND" != "1" ] && [ "$ALLOW_RESEND" != "true" ] && [ "$ALLOW_RESEND" != "yes" ] && [ "$ALLOW_RESEND" != "y" ] && [ "$ALLOW_RESEND" != "on" ]; then
+  echo "Error: issue already sent ($ISSUE_DATE_RESOLVED). Set NEWSLETTER_ALLOW_RESEND=1 to resend."
+  exit 1
+fi
+
 if [ "${NEWSLETTER_SEND_APPROVED:-}" != "yes" ] && [ "${NEWSLETTER_SEND_APPROVED:-}" != "true" ]; then
   echo "Error: approval missing. Set NEWSLETTER_SEND_APPROVED=yes to send."
   exit 1
@@ -46,7 +70,36 @@ python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
   --subscribers "$ROOT_DIR/newsletter/subscribers.csv" \
   --template-html "$ROOT_DIR/newsletter/template.html" \
   --template-text "$ROOT_DIR/newsletter/template.txt" \
-  --frequency daily
+  --frequency "$SEND_FREQUENCY"
+
+SENT_MARKER_PATH="$SENT_MARKER" ISSUE_DATE_RESOLVED="$ISSUE_DATE_RESOLVED" python3 - <<'PY'
+import json
+import os
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
+path = os.environ["SENT_MARKER_PATH"]
+issue_date = os.environ["ISSUE_DATE_RESOLVED"]
+tz = ZoneInfo(os.environ.get("NEWSLETTER_TIMEZONE", "Europe/London"))
+payload = {
+    "issue_date": issue_date,
+    "sent_at": datetime.now(tz).isoformat(),
+}
+with open(path, "w", encoding="utf-8") as f:
+    json.dump(payload, f, indent=2, sort_keys=True)
+    f.write("\n")
+PY
+
+if [ "${NEWSLETTER_SYNC_ARCHIVE:-0}" = "1" ]; then
+  git -C "$ROOT_DIR" add content/newsletter
+  if ! git -C "$ROOT_DIR" diff --cached --quiet; then
+    COMMIT_MSG="${NEWSLETTER_SYNC_COMMIT_MESSAGE:-Sync newsletter archive (${ISSUE_DATE_RESOLVED})}"
+    git -C "$ROOT_DIR" commit -m "$COMMIT_MSG"
+    if [ "${NEWSLETTER_SYNC_PUSH:-0}" = "1" ]; then
+      git -C "$ROOT_DIR" push
+    fi
+  fi
+fi
 
 echo "📣 Publishing announcement to social media..."
 python3 "$ROOT_DIR/newsletter/social_post.py" \
