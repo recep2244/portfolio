@@ -5,10 +5,13 @@ import html
 import imaplib
 import os
 import re
+import smtplib
 import sys
 from datetime import datetime, timedelta
 from email import message_from_bytes
 from email.header import decode_header
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from email.utils import parseaddr
 from pathlib import Path
 
@@ -18,6 +21,14 @@ DEFAULT_SENDERS = "formsubmit.co,formspree.io"
 ACTIVE_STATUSES = {"active", ""}
 SKIP_STATUSES = {"unsubscribed", "inactive", "bounced"}
 DEFAULT_UNSUBSCRIBE_KEYWORDS = "unsubscribe,remove me,stop emails,stop sending"
+DEFAULT_WELCOME_SUBJECT = "Welcome to Protein Design Digest"
+DEFAULT_WELCOME_TEXT = (
+    "Welcome to the Protein Design Digest newsletter, curated by Recep Adiyaman.\n\n"
+    "You are subscribed with {email}.\n"
+    "Manage your subscription: {subscribe_link}\n\n"
+    "Thanks,\n"
+    "{from_name}\n"
+)
 
 
 def decode_header_value(value):
@@ -240,6 +251,82 @@ def dedupe_rows(rows, blocklist):
     return merged, index, changed
 
 
+def render_welcome_text(template, name, email, subscribe_link, from_name):
+    safe_name = name.strip() if name and name.strip() else "there"
+    values = {
+        "name": safe_name,
+        "email": email,
+        "subscribe_link": subscribe_link,
+        "from_name": from_name,
+    }
+    try:
+        return template.format_map(values)
+    except KeyError:
+        return template
+
+
+def build_welcome_message(subject, from_email, from_name, to_email, reply_to, text_body, html_body):
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    if from_name:
+        msg["From"] = f"{from_name} <{from_email}>"
+    else:
+        msg["From"] = from_email
+    msg["To"] = to_email
+    if reply_to:
+        msg["Reply-To"] = reply_to
+    msg.attach(MIMEText(text_body, "plain", "utf-8"))
+    if html_body:
+        msg.attach(MIMEText(html_body, "html", "utf-8"))
+    return msg
+
+
+def send_welcome_emails(
+    recipients,
+    smtp_user,
+    smtp_pass,
+    from_email,
+    from_name,
+    reply_to,
+    subject,
+    text_template,
+    html_template,
+    subscribe_link,
+):
+    sent = 0
+    if not recipients:
+        return sent
+    with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
+        smtp.ehlo()
+        smtp.starttls()
+        smtp.login(smtp_user, smtp_pass)
+        for recipient in recipients:
+            email_addr = recipient.get("email")
+            name = recipient.get("name", "")
+            if not email_addr:
+                continue
+            text_body = render_welcome_text(
+                text_template, name, email_addr, subscribe_link, from_name
+            )
+            html_body = ""
+            if html_template:
+                html_body = render_welcome_text(
+                    html_template, name, email_addr, subscribe_link, from_name
+                )
+            msg = build_welcome_message(
+                subject,
+                from_email,
+                from_name,
+                email_addr,
+                reply_to,
+                text_body,
+                html_body,
+            )
+            smtp.sendmail(from_email, [email_addr], msg.as_string())
+            sent += 1
+    return sent
+
+
 def should_process(subject, sender, subjects, senders):
     subject = (subject or "").lower()
     sender = (sender or "").lower()
@@ -282,6 +369,8 @@ def main():
 
     path = Path(args.subscribers)
     rows, fieldnames = load_subscribers(path)
+    if "welcome_sent" not in fieldnames:
+        fieldnames.append("welcome_sent")
     blocklist_env = {
         normalize_email(item)
         for item in (os.getenv("NEWSLETTER_INVALID_EMAILS") or "").split(",")
@@ -323,6 +412,7 @@ def main():
     updated_count = 0
     unsub_count = 0
     processed = 0
+    welcome_targets = []
     for msg_id in data[0].split():
         typ, msg_data = mail.fetch(msg_id, "(BODY.PEEK[])")
         if typ != "OK" or not msg_data:
@@ -383,10 +473,12 @@ def main():
                 "name": name or "",
                 "status": "active",
                 "frequency": frequency or "daily",
+                "welcome_sent": "",
             }
             rows.append(new_row)
             index[email_norm] = new_row
             new_count += 1
+            welcome_targets.append(new_row)
 
         mail.store(msg_id, "+FLAGS", "\\Seen")
         processed += 1
@@ -400,6 +492,73 @@ def main():
         return 0
 
     rows, _, dedupe_after = dedupe_rows(rows, blocked)
+    welcome_enabled = str(os.getenv("NEWSLETTER_SEND_WELCOME", "0")).strip().lower() in {
+        "1",
+        "true",
+        "yes",
+        "y",
+        "on",
+    }
+    welcome_existing = str(os.getenv("NEWSLETTER_WELCOME_SEND_EXISTING", "0")).strip().lower() in {
+        "1",
+        "true",
+        "yes",
+        "y",
+        "on",
+    }
+    sent_welcome = 0
+    if welcome_enabled:
+        target_emails = {normalize_email(row.get("email")) for row in welcome_targets}
+        if welcome_existing:
+            target_emails |= {normalize_email(row.get("email")) for row in rows}
+        final_targets = []
+        for row in rows:
+            email_norm = normalize_email(row.get("email"))
+            if not email_norm or email_norm not in target_emails:
+                continue
+            if row.get("welcome_sent"):
+                continue
+            status = normalize_status(row.get("status"))
+            if status in SKIP_STATUSES:
+                continue
+            if blocked and email_norm in blocked:
+                continue
+            final_targets.append(row)
+
+        if final_targets:
+            smtp_user = os.getenv("NEWSLETTER_GMAIL_USER") or ""
+            smtp_pass = os.getenv("NEWSLETTER_GMAIL_APP_PASSWORD") or ""
+            from_email = os.getenv("NEWSLETTER_FROM_EMAIL") or smtp_user
+            from_name = os.getenv("NEWSLETTER_FROM_NAME", "")
+            reply_to = os.getenv("NEWSLETTER_REPLY_TO", "")
+            subscribe_link = os.getenv(
+                "NEWSLETTER_WELCOME_LINK", "https://recep2244.github.io/portfolio/#newsletter"
+            )
+            subject = os.getenv("NEWSLETTER_WELCOME_SUBJECT", DEFAULT_WELCOME_SUBJECT)
+            text_template = os.getenv("NEWSLETTER_WELCOME_TEXT", DEFAULT_WELCOME_TEXT)
+            html_template = os.getenv("NEWSLETTER_WELCOME_HTML", "")
+            if smtp_user and smtp_pass and from_email:
+                try:
+                    sent_welcome = send_welcome_emails(
+                        final_targets,
+                        smtp_user,
+                        smtp_pass,
+                        from_email,
+                        from_name,
+                        reply_to,
+                        subject,
+                        text_template,
+                        html_template,
+                        subscribe_link,
+                    )
+                    now_str = datetime.now().isoformat()
+                    for row in final_targets:
+                        row["welcome_sent"] = now_str
+                except smtplib.SMTPException as exc:
+                    print(f"Welcome email send failed: {exc}")
+            else:
+                print("Welcome email skipped: missing SMTP credentials.")
+
     if new_count or updated_count or unsub_count or dedupe_changed or dedupe_after:
         write_subscribers(path, rows, fieldnames)
         print(
@@ -407,6 +566,8 @@ def main():
         )
     else:
         print("Subscriber sync: no new subscribers found.")
+    if sent_welcome:
+        print(f"Welcome emails sent: {sent_welcome}")
     return 0
 
 

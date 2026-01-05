@@ -26,7 +26,8 @@
                 {{ $rawLink := .link }}
                 {{ $isExternal := hasPrefix $rawLink "http" }}
                 {{ $cleanLink := trim $rawLink "/" }}
-                <a href="{{ if $isExternal }}{{ $rawLink }}{{ else }}{{ printf "/%s/" $cleanLink | relURL }}{{ end }}" {{ if
+                {{ $internalLink := printf "%s/" $cleanLink | absURL }}
+                <a href="{{ if $isExternal }}{{ $rawLink }}{{ else }}{{ $internalLink }}{{ end }}" {{ if
                     $isExternal }}target="_blank" rel="noreferrer" {{ end }}
                     class="inline-flex items-center gap-2 text-accent mt-5 text-sm font-bold hover:underline">
                     Read more

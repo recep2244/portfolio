@@ -865,13 +865,36 @@ def pick_pool_items(items, index, count, fallback):
     return picked
 
 
-def build_issue_number(issues_dir):
+def build_issue_number(issues_dir, issue_date=None):
     if not os.path.isdir(issues_dir):
         return 1
+    issue_date_str = None
+    if issue_date:
+        issue_date_str = issue_date if isinstance(issue_date, str) else issue_date.isoformat()
+        existing_path = os.path.join(issues_dir, f"{issue_date_str}.json")
+        if os.path.exists(existing_path):
+            try:
+                existing = load_json(existing_path)
+                existing_number = existing.get("issue_number")
+                if isinstance(existing_number, int) and existing_number > 0:
+                    return existing_number
+            except (OSError, json.JSONDecodeError):
+                pass
+    max_number = 0
     count = 0
     for name in os.listdir(issues_dir):
-        if name.endswith(".json"):
-            count += 1
+        if not name.endswith(".json"):
+            continue
+        count += 1
+        try:
+            data = load_json(os.path.join(issues_dir, name))
+        except (OSError, json.JSONDecodeError):
+            continue
+        number = data.get("issue_number")
+        if isinstance(number, int) and number > max_number:
+            max_number = number
+    if max_number > 0:
+        return max_number + 1
     return count + 1
 
 
@@ -983,7 +1006,7 @@ def build_issue(config, issue_date, timezone):
         if not fallback_issue:
             template_path = os.path.join(os.path.dirname(__file__), "issue_template.json")
             fallback_issue = load_json(template_path)
-        issue_number = build_issue_number(issues_dir)
+        issue_number = build_issue_number(issues_dir, issue_date)
         signal_title = (fallback_issue.get("signal") or {}).get("title", "Daily Signal")
         subject_prefix = config.get(
             "subject_prefix",
@@ -1037,7 +1060,7 @@ def build_issue(config, issue_date, timezone):
     signal_extras = take_unique_papers(secondary_pool, signal_extra_count, used_titles)
     quick_papers = take_unique_papers(secondary_pool, quick_count, used_titles)
 
-    issue_number = build_issue_number(config.get("issues_dir", "newsletter/issues"))
+    issue_number = build_issue_number(config.get("issues_dir", "newsletter/issues"), issue_date)
 
     dataset_pool = config.get("dataset_pool", [])
     tool_pool = config.get("tool_pool", [])
