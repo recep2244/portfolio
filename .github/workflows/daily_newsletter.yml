@@ -2,8 +2,10 @@ name: Daily Newsletter Automation
 
 on:
   schedule:
-    - cron: '0 10,12,14,16,18 * 11,12,1,2,3 1-5' # 10:00-18:00 UK (GMT) on weekdays
-    - cron: '0 9,11,13,15,17 * 4-10 1-5' # 10:00-18:00 UK (BST) on weekdays
+    - cron: '1 0 * 11,12,1,2,3 *' # 00:01 UK (GMT)
+    - cron: '1 23 * 4-10 *' # 00:01 UK (BST)
+    - cron: '0 10 * 11,12,1,2,3 *' # 10:00 UK (GMT)
+    - cron: '0 9 * 4-10 *' # 10:00 UK (BST)
   workflow_dispatch: # Allows manual triggering
 
 permissions:
@@ -44,6 +46,13 @@ jobs:
           NEWSLETTER_GMAIL_USER: ${{ secrets.NEWSLETTER_GMAIL_USER }}
           NEWSLETTER_GMAIL_APP_PASSWORD: ${{ secrets.NEWSLETTER_GMAIL_APP_PASSWORD }}
           NEWSLETTER_SEND_CURATION_REMINDER: "1"
+          NEWSLETTER_CURATION_HOUR: "0"
+          NEWSLETTER_CURATION_MINUTE: "01"
+          NEWSLETTER_SEND_HOUR: "10"
+          NEWSLETTER_SEND_MINUTE: "00"
+          NEWSLETTER_AUTO_SEND: "1"
+          NEWSLETTER_AUTO_SEND_WEEKLY: "1"
+          NEWSLETTER_WEEKLY_SEND_DOW: "5"
           TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
           TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
           TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}

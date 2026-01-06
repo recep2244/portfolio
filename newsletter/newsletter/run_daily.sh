@@ -51,8 +51,8 @@ if [ "${NEWSLETTER_SEND_CURATION_REMINDER:-}" = "1" ]; then
     PREVIEW_LIST=""
   fi
   CURATION_TZ="${NEWSLETTER_CURATION_TZ:-Europe/London}"
-  CURATION_HOUR="${NEWSLETTER_CURATION_HOUR:-10}"
-  CURATION_MINUTE="${NEWSLETTER_CURATION_MINUTE:-00}"
+  CURATION_HOUR="${NEWSLETTER_CURATION_HOUR:-0}"
+  CURATION_MINUTE="${NEWSLETTER_CURATION_MINUTE:-01}"
   CURATION_WINDOW_MINUTES="${NEWSLETTER_CURATION_WINDOW_MINUTES:-10}"
   SHOULD_SEND="$(python3 - <<PY
 from datetime import datetime, time
@@ -122,6 +122,36 @@ if [ "${NEWSLETTER_SEND_PREVIEW:-0}" = "1" ]; then
   fi
 else
   echo "Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews."
+fi
+
+SEND_TZ="${NEWSLETTER_SEND_TZ:-Europe/London}"
+SEND_HOUR="${NEWSLETTER_SEND_HOUR:-10}"
+SEND_MINUTE="${NEWSLETTER_SEND_MINUTE:-00}"
+SEND_WINDOW_MINUTES="${NEWSLETTER_SEND_WINDOW_MINUTES:-10}"
+AUTO_SEND="${NEWSLETTER_AUTO_SEND:-0}"
+WEEKLY_AUTO_SEND="${NEWSLETTER_AUTO_SEND_WEEKLY:-0}"
+WEEKLY_SEND_DOW="${NEWSLETTER_WEEKLY_SEND_DOW:-5}"
+SHOULD_SEND="$(python3 - <<PY
+from datetime import datetime, time
+from zoneinfo import ZoneInfo
+
+tz = ZoneInfo("${SEND_TZ}")
+now = datetime.now(tz)
+target = datetime.combine(now.date(), time(int("${SEND_HOUR}"), int("${SEND_MINUTE}")), tz)
+delta_minutes = abs((now - target).total_seconds()) / 60
+print("yes" if delta_minutes <= int("${SEND_WINDOW_MINUTES}") else "no")
+PY
+)"
+
+if [ "$AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ]; then
+  NEWSLETTER_SEND_APPROVED=yes "$ROOT_DIR/newsletter/run_send_confirmed.sh" "today" || echo "Warning: auto send failed."
+fi
+
+if [ "$WEEKLY_AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ] && [ "$(date +%u)" = "$WEEKLY_SEND_DOW" ]; then
+  python3 "$ROOT_DIR/newsletter/send_weekly_digest.py" \
+    --issues-dir "$ROOT_DIR/newsletter/issues" \
+    --subscribers "$ROOT_DIR/newsletter/subscribers.csv" \
+    --config "$ROOT_DIR/newsletter/generate_config.json" || echo "Warning: weekly digest send failed."
 fi
 
 echo "Daily run complete. Run run_send_confirmed.sh after approval to email everyone."
