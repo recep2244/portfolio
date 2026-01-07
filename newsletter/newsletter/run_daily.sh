@@ -42,8 +42,10 @@ python3 "$ROOT_DIR/newsletter/generate_issue.py" \
   --issues-dir "$ROOT_DIR/newsletter/issues"
 
 # Convert to Hugo Content
-python3 "$ROOT_DIR/newsletter/newsletter_to_md.py" \
-  --issues-dir "$ROOT_DIR/newsletter/issues"
+if [ "${NEWSLETTER_SYNC_ARCHIVE_AT_CURATION:-0}" = "1" ]; then
+  python3 "$ROOT_DIR/newsletter/newsletter_to_md.py" \
+    --issues-dir "$ROOT_DIR/newsletter/issues"
+fi
 
 # Weekly Digest on Fridays (UK timezone)
 WEEKDAY="$(python3 - <<PY
