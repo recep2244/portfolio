@@ -10,6 +10,15 @@ if [ -f "$ROOT_DIR/newsletter/.env" ]; then
   set +a
 fi
 
+DEFAULT_TZ="${NEWSLETTER_TIMEZONE:-Europe/London}"
+TODAY_DATE="$(python3 - <<PY
+from datetime import datetime
+from zoneinfo import ZoneInfo
+tz = ZoneInfo("${DEFAULT_TZ}")
+print(datetime.now(tz).date().isoformat())
+PY
+)"
+
 write_csv_from_env() {
   local path="$1"
   local var_name="$2"
@@ -28,7 +37,7 @@ if [ "${NEWSLETTER_SYNC_SUBSCRIBERS:-1}" = "1" ]; then
 fi
 
 python3 "$ROOT_DIR/newsletter/generate_issue.py" \
-  --issue-date today \
+  --issue-date "$TODAY_DATE" \
   --config "$ROOT_DIR/newsletter/generate_config.json" \
   --issues-dir "$ROOT_DIR/newsletter/issues"
 
@@ -36,8 +45,15 @@ python3 "$ROOT_DIR/newsletter/generate_issue.py" \
 python3 "$ROOT_DIR/newsletter/newsletter_to_md.py" \
   --issues-dir "$ROOT_DIR/newsletter/issues"
 
-# Weekly Digest on Fridays
-if [ "$(date +%u)" = "5" ]; then
+# Weekly Digest on Fridays (UK timezone)
+WEEKDAY="$(python3 - <<PY
+from datetime import datetime
+from zoneinfo import ZoneInfo
+tz = ZoneInfo("${DEFAULT_TZ}")
+print(datetime.now(tz).isoweekday())
+PY
+)"
+if [ "$WEEKDAY" = "5" ]; then
   echo "📅 Friday detected: Generating Weekly Digest..."
   python3 "$ROOT_DIR/newsletter/generate_weekly_digest.py" \
     --issues-dir "$ROOT_DIR/newsletter/issues"
@@ -83,9 +99,9 @@ PY
       CURATION_URL="${NEWSLETTER_CURATION_URL:-http://127.0.0.1:${PORT}}"
       python3 "$ROOT_DIR/newsletter/send_reminder.py" \
         --preview-list "$PREVIEW_LIST" \
-        --subject "Protein Design Digest: Curation Ready [$(date +%Y-%m-%d)]" \
+        --subject "Protein Design Digest: Curation Ready [${TODAY_DATE}]" \
         --body "Your daily curation is ready. Open ${CURATION_URL} to curate and approve." \
-        --issue "$ROOT_DIR/newsletter/issues/$(date +%Y-%m-%d).json" || echo "Warning: curation reminder failed."
+        --issue "$ROOT_DIR/newsletter/issues/${TODAY_DATE}.json" || echo "Warning: curation reminder failed."
     fi
 
     echo "Curation reminder sent. Social posting will run after approval."
@@ -125,7 +141,7 @@ else
 fi
 
 SEND_TZ="${NEWSLETTER_SEND_TZ:-Europe/London}"
-SEND_HOUR="${NEWSLETTER_SEND_HOUR:-10}"
+SEND_HOUR="${NEWSLETTER_SEND_HOUR:-9}"
 SEND_MINUTE="${NEWSLETTER_SEND_MINUTE:-00}"
 SEND_WINDOW_MINUTES="${NEWSLETTER_SEND_WINDOW_MINUTES:-10}"
 AUTO_SEND="${NEWSLETTER_AUTO_SEND:-0}"
@@ -144,10 +160,15 @@ PY
 )"
 
 if [ "$AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ]; then
-  NEWSLETTER_SEND_APPROVED=yes "$ROOT_DIR/newsletter/run_send_confirmed.sh" "today" || echo "Warning: auto send failed."
+  APPROVAL_MARKER="$ROOT_DIR/newsletter/issues/${TODAY_DATE}.approved"
+  if [ "${NEWSLETTER_DELAY_SEND:-0}" = "1" ] && [ ! -f "$APPROVAL_MARKER" ]; then
+    echo "Auto send skipped: approval not found for ${TODAY_DATE}."
+  else
+    NEWSLETTER_TIMEZONE="$DEFAULT_TZ" NEWSLETTER_SEND_APPROVED=yes "$ROOT_DIR/newsletter/run_send_confirmed.sh" "today" || echo "Warning: auto send failed."
+  fi
 fi
 
-if [ "$WEEKLY_AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ] && [ "$(date +%u)" = "$WEEKLY_SEND_DOW" ]; then
+if [ "$WEEKLY_AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ] && [ "$WEEKDAY" = "$WEEKLY_SEND_DOW" ]; then
   python3 "$ROOT_DIR/newsletter/send_weekly_digest.py" \
     --issues-dir "$ROOT_DIR/newsletter/issues" \
     --subscribers "$ROOT_DIR/newsletter/subscribers.csv" \

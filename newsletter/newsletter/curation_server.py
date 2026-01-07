@@ -35,6 +35,13 @@ def write_sent_marker(path, issue_date, timezone):
     }
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
+def write_approval_marker(path, issue_date, timezone):
+    payload = {
+        "issue_date": issue_date,
+        "approved_at": datetime.now(timezone).isoformat(),
+    }
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
 def sync_archive(root_dir, issue_date):
     result = {"status": "skipped", "message": ""}
     if not is_truthy(os.getenv("NEWSLETTER_SYNC_ARCHIVE")):
@@ -214,6 +221,22 @@ class CurationServer(BaseHTTPRequestHandler):
                 return
             try:
                 self._save_issue(payload)
+                if is_truthy(os.getenv("NEWSLETTER_DELAY_SEND")):
+                    write_approval_marker(
+                        self.server.approval_marker,
+                        self.server.issue_date,
+                        self.server.timezone,
+                    )
+                    run_python(
+                        self.server.newsletter_to_md,
+                        ["--issues-dir", str(self.server.issues_dir)],
+                        self.server.root_dir,
+                    )
+                    self._send(
+                        200,
+                        {"message": "Approved. Scheduled to send at the configured time."},
+                    )
+                    return
                 run_python(
                     self.server.sync_subscribers,
                     [
@@ -311,6 +334,7 @@ def main():
     server.issues_dir = issues_dir
     server.issue_path = issue_path
     server.sent_marker = issues_dir / f"{issue_date}.sent"
+    server.approval_marker = issues_dir / f"{issue_date}.approved"
     server.html_path = newsletter_dir / "curate_issue.html"
     server.preview_list = newsletter_dir / "preview_subscribers.csv"
     server.subscribers_list = newsletter_dir / "subscribers.csv"
