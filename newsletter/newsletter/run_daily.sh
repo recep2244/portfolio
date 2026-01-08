@@ -84,7 +84,16 @@ print("yes" if delta_minutes <= int("${CURATION_WINDOW_MINUTES}") else "no")
 PY
 )"
 
-  if [ "${NEWSLETTER_START_CURATION_SERVER:-0}" = "1" ]; then
+  START_CURATION_SERVER="${NEWSLETTER_START_CURATION_SERVER:-}"
+  if [ -z "$START_CURATION_SERVER" ]; then
+    if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
+      START_CURATION_SERVER="0"
+    else
+      START_CURATION_SERVER="1"
+    fi
+  fi
+
+  if [ "$START_CURATION_SERVER" = "1" ]; then
     PORT="${NEWSLETTER_CURATION_PORT:-5050}"
     LOG_PATH="${ROOT_DIR}/newsletter/curation_server.log"
     nohup "$ROOT_DIR/newsletter/run_curation_server.sh" "today" "$PORT" > "$LOG_PATH" 2>&1 &
