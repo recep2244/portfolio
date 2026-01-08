@@ -691,7 +691,7 @@ def main():
     twitter_subscribe_label = get_subscribe_label("twitter")
     bluesky_subscribe_label = get_subscribe_label("bluesky")
     twitter_subscribe_in_text = is_truthy(
-        os.getenv("TWITTER_SUBSCRIBE_URL_IN_TEXT"), default=False
+        os.getenv("TWITTER_SUBSCRIBE_URL_IN_TEXT"), default=True
     )
     bluesky_subscribe_in_text = is_truthy(
         os.getenv("BLUESKY_SUBSCRIBE_URL_IN_TEXT"), default=False
