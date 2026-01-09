@@ -772,6 +772,37 @@ def dedupe_papers(papers):
     return list(seen.values())
 
 
+def load_recent_titles(issues_dir, days, timezone):
+    if not days or days <= 0:
+        return set()
+    issues_path = Path(issues_dir)
+    if not issues_path.exists():
+        return set()
+    cutoff = datetime.now(timezone).date() - timedelta(days=days)
+    titles = set()
+    for issue_path in issues_path.glob("*.json"):
+        try:
+            data = load_json(issue_path)
+        except Exception:
+            continue
+        issue_date_raw = str(data.get("issue_date") or issue_path.stem).strip()
+        try:
+            issue_date = datetime.strptime(issue_date_raw[:10], "%Y-%m-%d").date()
+        except ValueError:
+            continue
+        if issue_date < cutoff:
+            continue
+        signal = data.get("signal") or {}
+        signal_title = (signal.get("title") or "").strip()
+        if signal_title:
+            titles.add(normalize_title(signal_title))
+        for item in data.get("quick_reads", []) or []:
+            title = (item.get("title") or "").strip()
+            if title:
+                titles.add(normalize_title(title))
+    return titles
+
+
 def filter_by_date(papers, start_date, end_date, timezone):
     # Ensure start/end are datetimes
     if isinstance(start_date, str):
@@ -1044,7 +1075,27 @@ def build_issue(config, issue_date, timezone):
     rss_items = dedupe_papers(rss_items)
     rss_items = filter_by_date(rss_items, start_dt, end_dt, timezone)
 
+    quick_count = int(config.get("quick_reads_count", 3))
+    signal_extra_count = int(config.get("signal_extras_count", 0))
+    avoid_recent_days = int(config.get("avoid_recent_days", 0))
+    recent_titles = load_recent_titles(
+        config.get("issues_dir", "newsletter/issues"),
+        avoid_recent_days,
+        timezone,
+    )
+
     paper_scored = rank_papers(papers, keywords)
+    if recent_titles:
+        min_required = max(1, quick_count + 1)
+        filtered_scored = [
+            (score, paper)
+            for score, paper in paper_scored
+            if normalize_title(paper.title) not in recent_titles
+        ]
+        if len(filtered_scored) >= min_required:
+            paper_scored = filtered_scored
+        else:
+            print("Warning: Not enough new papers after recent-title filter; using full pool.")
     paper_ranked = [item[1] for item in paper_scored]
     paper_strict = [item[1] for item in paper_scored if item[0] > 0]
 
@@ -1052,10 +1103,11 @@ def build_issue(config, issue_date, timezone):
     signal_paper = signal_candidates[0]
 
     rss_ranked = [item[1] for item in rank_papers(rss_items, keywords)]
+    if recent_titles:
+        rss_ranked = [
+            item for item in rss_ranked if normalize_title(item.title) not in recent_titles
+        ]
     secondary_pool = merge_unique_papers(paper_ranked, rss_ranked)
-
-    quick_count = int(config.get("quick_reads_count", 3))
-    signal_extra_count = int(config.get("signal_extras_count", 0))
     used_titles = {normalize_title(signal_paper.title)}
     signal_extras = take_unique_papers(secondary_pool, signal_extra_count, used_titles)
     quick_papers = take_unique_papers(secondary_pool, quick_count, used_titles)
@@ -1092,10 +1144,29 @@ def build_issue(config, issue_date, timezone):
     job_cfg = config.get("community", {}).get("dynamic_jobs", {})
     if job_cfg.get("enabled", False):
         all_jobs = []
+        job_keywords = job_cfg.get(
+            "keywords",
+            ["protein", "structural", "design", "bioinformatics"],
+        )
+        job_max = int(job_cfg.get("max_results", 5))
+        seen_jobs = set()
         for feed in job_cfg.get("feeds", []):
-            rj_items = fetch_rss_feed(feed, ["protein", "structural", "design", "bioinformatics"], 5, user_agent, timezone)
+            rj_items = fetch_rss_feed(feed, job_keywords, job_max, user_agent, timezone)
             for rj in rj_items:
-                all_jobs.append({"title": rj.title, "org": feed.get("name", "Job Board"), "link": rj.link})
+                title = (rj.title or "").strip()
+                if not title:
+                    continue
+                title_key = normalize_title(title)
+                if title_key in seen_jobs:
+                    continue
+                seen_jobs.add(title_key)
+                all_jobs.append(
+                    {
+                        "title": title,
+                        "org": feed.get("name", "Job Board"),
+                        "link": rj.link,
+                    }
+                )
         if all_jobs:
             for offset in range(job_count):
                 job.append(all_jobs[(day_index + offset) % len(all_jobs)])

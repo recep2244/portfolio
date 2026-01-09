@@ -6,6 +6,7 @@
   "subject_prefix": "Protein Design Digest",
   "quick_reads_count": 8,
   "signal_extras_count": 3,
+  "avoid_recent_days": 7,
   "resource_counts": {
     "datasets": 2,
     "tools": 2,
@@ -13,7 +14,7 @@
     "jobs": 2
   },
   "lookback_days": 14,
-  "max_results_per_source": 50,
+  "max_results_per_source": 80,
   "keywords": [
     "protein structure prediction",
     "protein design",
@@ -38,7 +39,16 @@
     "docking",
     "protein-protein interaction",
     "molecular docking",
-    "epitope design"
+    "epitope design",
+    "protein folding",
+    "protein modeling",
+    "structure modeling",
+    "protein sequence design",
+    "protein language model",
+    "protein complex prediction",
+    "binding affinity",
+    "antibody design",
+    "protein function prediction"
   ],
   "sources": {
     "arxiv": {
@@ -51,11 +61,11 @@
     },
     "biorxiv": {
       "enabled": true,
-      "max_results": 50
+      "max_results": 80
     },
     "medrxiv": {
       "enabled": true,
-      "max_results": 30
+      "max_results": 50
     },
     "pubmed": {
       "enabled": true,
@@ -386,42 +396,67 @@
     ],
     "dynamic_jobs": {
       "enabled": true,
+      "max_results": 10,
+      "keywords": [
+        "protein",
+        "structural",
+        "bioinformatics",
+        "computational biology",
+        "protein design",
+        "protein engineering"
+      ],
       "feeds": [
         {
           "name": "Bioinformatics Careers",
-          "url": "https://news.google.com/rss/search?q=site:linkedin.com/jobs+%22protein+design%22+OR+%22bioinformatics%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+          "url": "https://news.google.com/rss/search?q=site:linkedin.com/jobs+(%22protein+design%22+OR+%22structural+biology%22+OR+%22computational+biology%22+OR+%22bioinformatics%22+OR+%22protein+engineering%22)+when:7d&hl=en-US&gl=US&ceid=US:en"
         },
         {
           "name": "Indeed Jobs",
-          "url": "https://news.google.com/rss/search?q=site:indeed.com+%22protein+design%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+OR+%22protein+engineering%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+          "url": "https://news.google.com/rss/search?q=site:indeed.com+(%22protein+design%22+OR+%22structural+biology%22+OR+%22computational+biology%22+OR+%22bioinformatics%22+OR+%22protein+engineering%22)+when:7d&hl=en-US&gl=US&ceid=US:en"
         },
         {
           "name": "Greenhouse",
-          "url": "https://news.google.com/rss/search?q=site:greenhouse.io+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+          "url": "https://news.google.com/rss/search?q=site:greenhouse.io+(%22protein%22+OR+%22structural+biology%22+OR+%22computational+biology%22+OR+%22bioinformatics%22)+when:7d&hl=en-US&gl=US&ceid=US:en"
         },
         {
           "name": "Greenhouse Boards",
-          "url": "https://news.google.com/rss/search?q=site:boards.greenhouse.io+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+          "url": "https://news.google.com/rss/search?q=site:boards.greenhouse.io+(%22protein%22+OR+%22structural+biology%22+OR+%22computational+biology%22+OR+%22bioinformatics%22)+when:7d&hl=en-US&gl=US&ceid=US:en"
         },
         {
           "name": "Lever",
-          "url": "https://news.google.com/rss/search?q=site:lever.co+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+          "url": "https://news.google.com/rss/search?q=site:lever.co+(%22protein%22+OR+%22structural+biology%22+OR+%22computational+biology%22+OR+%22bioinformatics%22)+when:7d&hl=en-US&gl=US&ceid=US:en"
         },
         {
           "name": "Lever Jobs",
-          "url": "https://news.google.com/rss/search?q=site:jobs.lever.co+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+          "url": "https://news.google.com/rss/search?q=site:jobs.lever.co+(%22protein%22+OR+%22structural+biology%22+OR+%22computational+biology%22+OR+%22bioinformatics%22)+when:7d&hl=en-US&gl=US&ceid=US:en"
         },
         {
           "name": "Workable",
-          "url": "https://news.google.com/rss/search?q=site:workable.com+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+          "url": "https://news.google.com/rss/search?q=site:workable.com+(%22protein%22+OR+%22structural+biology%22+OR+%22computational+biology%22+OR+%22bioinformatics%22)+when:7d&hl=en-US&gl=US&ceid=US:en"
         },
         {
           "name": "SmartRecruiters",
-          "url": "https://news.google.com/rss/search?q=site:smartrecruiters.com+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+          "url": "https://news.google.com/rss/search?q=site:smartrecruiters.com+(%22protein%22+OR+%22structural+biology%22+OR+%22computational+biology%22+OR+%22bioinformatics%22)+when:7d&hl=en-US&gl=US&ceid=US:en"
         },
         {
           "name": "Workday Jobs",
-          "url": "https://news.google.com/rss/search?q=site:workdayjobs.com+%22protein%22+OR+%22bioinformatics%22+OR+%22computational+biology%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+          "url": "https://news.google.com/rss/search?q=site:workdayjobs.com+(%22protein%22+OR+%22structural+biology%22+OR+%22computational+biology%22+OR+%22bioinformatics%22)+when:7d&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "name": "Nature Careers",
+          "url": "https://news.google.com/rss/search?q=site:nature.com+jobs+(%22bioinformatics%22+OR+%22computational+biology%22+OR+%22structural+biology%22)+when:14d&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "name": "Euraxess",
+          "url": "https://news.google.com/rss/search?q=site:euraxess.ec.europa.eu+(%22bioinformatics%22+OR+%22computational+biology%22+OR+%22structural+biology%22)+when:14d&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "name": "Jobs.ac.uk",
+          "url": "https://news.google.com/rss/search?q=site:jobs.ac.uk+(%22bioinformatics%22+OR+%22computational+biology%22+OR+%22structural+biology%22)+when:14d&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "name": "Academic Positions",
+          "url": "https://news.google.com/rss/search?q=site:academicpositions.com+(%22bioinformatics%22+OR+%22computational+biology%22+OR+%22structural+biology%22)+when:14d&hl=en-US&gl=US&ceid=US:en"
         }
       ]
     }
