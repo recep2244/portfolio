@@ -678,8 +678,8 @@ def main():
         print("No signal content to post.")
         sys.exit(0)
 
-    base_url = DEFAULT_BASE_URL
-    sub_url = base_url
+    twitter_subscribe_url = os.getenv("TWITTER_SUBSCRIBE_URL", DEFAULT_BASE_URL)
+    bluesky_subscribe_url = os.getenv("BLUESKY_SUBSCRIBE_URL", DEFAULT_BASE_URL)
     twitter_template = load_template("TWITTER_TEMPLATE", DEFAULT_TWITTER_TEMPLATE)
     bluesky_template = load_template("BLUESKY_TEMPLATE", DEFAULT_BLUESKY_TEMPLATE)
     twitter_section_template = load_template(
@@ -704,7 +704,7 @@ def main():
         signal_title,
         summary,
         signal_link,
-        sub_url,
+        twitter_subscribe_url,
         TWITTER_LIMIT,
         include_tags=True,
         issue_date=issue_date,
@@ -718,7 +718,7 @@ def main():
         signal_title,
         summary,
         signal_link,
-        sub_url,
+        bluesky_subscribe_url,
         BLUESKY_LIMIT,
         include_tags=True,
         issue_date=issue_date,
@@ -748,7 +748,7 @@ def main():
                 title,
                 summary_text,
                 link,
-                sub_url,
+                twitter_subscribe_url,
                 TWITTER_LIMIT,
                 include_tags=True,
                 issue_date=issue_date,
@@ -763,7 +763,7 @@ def main():
                 title,
                 summary_text,
                 link,
-                sub_url,
+                bluesky_subscribe_url,
                 BLUESKY_LIMIT,
                 include_tags=True,
                 issue_date=issue_date,
@@ -947,7 +947,7 @@ def main():
     bs_handle = os.getenv("BLUESKY_HANDLE")
     bs_pass = os.getenv("BLUESKY_APP_PASSWORD") or os.getenv("BLUESKY_PASSWORD")
     bs_service = os.getenv("BLUESKY_SERVICE", "https://bsky.social")
-    bs_subscribe = os.getenv("BLUESKY_SUBSCRIBE_URL", DEFAULT_BASE_URL)
+    bs_subscribe = bluesky_subscribe_url
     if "bluesky" in channels and bs_handle and bs_pass:
         bluesky_text = ensure_subscribe_label(
             bluesky_text, BLUESKY_LIMIT, subscribe_label=bluesky_subscribe_label
