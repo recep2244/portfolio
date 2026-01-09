@@ -64,11 +64,7 @@
                     </a>
                 </div>
 
-                <div class="overflow-hidden rounded-2xl">
-                    <iframe title="Subscribe to Protein Design Digest"
-                        src="{{ "subscribe-form.html" | relURL }}"
-                        class="w-full h-[720px] border-0 bg-white"></iframe>
-                </div>
+                {{ partial "subscribe_form.html" (dict "showHeading" false) }}
             </div>
 
             <!-- Right Side: Latest Issues -->

@@ -23,10 +23,8 @@
                 {{ partial "social_cards.html" . }}
             </div>
 
-            <div class="mb-12 max-w-4xl mx-auto overflow-hidden rounded-2xl">
-                <iframe title="Subscribe to Protein Design Digest"
-                    src="{{ "subscribe-form.html" | relURL }}"
-                    class="w-full h-[720px] border-0 bg-white"></iframe>
+            <div class="mb-12 max-w-4xl mx-auto">
+                {{ partial "subscribe_form.html" . }}
             </div>
         </header>
 
