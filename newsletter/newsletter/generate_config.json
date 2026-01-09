@@ -6,7 +6,7 @@
   "subject_prefix": "Protein Design Digest",
   "quick_reads_count": 8,
   "signal_extras_count": 3,
-  "avoid_recent_days": 7,
+  "avoid_recent_days": 10,
   "resource_counts": {
     "datasets": 2,
     "tools": 2,
