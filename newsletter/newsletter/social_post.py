@@ -398,7 +398,28 @@ def build_social_text_from_template(
     return render(values)
 
 
-def post_twitter(content, api_key, api_secret, access_token, access_token_secret):
+def format_duplicate_suffix(issue_date):
+    template = (os.getenv("TWITTER_DUPLICATE_SUFFIX") or "").strip()
+    if template:
+        return template.format(issue_date=issue_date or "").strip()
+    return f"upd {datetime.now().strftime('%H%M')}"
+
+
+def append_suffix(text, suffix, limit=TWITTER_LIMIT):
+    suffix = (suffix or "").strip()
+    if not suffix:
+        return text
+    if suffix in text:
+        return text
+    if len(text) + len(suffix) + 1 <= limit:
+        return f"{text} {suffix}"
+    trimmed = text[: max(0, limit - len(suffix) - 1)].rstrip()
+    if not trimmed:
+        return text[:limit]
+    return f"{trimmed} {suffix}"
+
+
+def post_twitter(content, api_key, api_secret, access_token, access_token_secret, issue_date=None):
     if not tweepy:
         print("Tweepy not installed, skipping Twitter.")
         return
@@ -413,6 +434,18 @@ def post_twitter(content, api_key, api_secret, access_token, access_token_secret
         response = client.create_tweet(text=content)
         print(f"Posted to Twitter: {response.data['id']}")
     except Exception as e:
+        msg = str(e).lower()
+        if "duplicate" in msg or "403" in msg:
+            suffix = format_duplicate_suffix(issue_date)
+            retry_text = append_suffix(content, suffix, TWITTER_LIMIT)
+            if retry_text != content:
+                try:
+                    response = client.create_tweet(text=retry_text)
+                    print(f"Posted to Twitter (retry): {response.data['id']}")
+                    return
+                except Exception as retry_err:
+                    print(f"Failed to post to Twitter (retry): {retry_err}")
+                    return
         print(f"Failed to post to Twitter: {e}")
 
 
@@ -925,13 +958,13 @@ def main():
     tw_tok = os.getenv("TWITTER_ACCESS_TOKEN")
     tw_tok_sec = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
     if "twitter" in channels and tw_key and tw_sec and tw_tok and tw_tok_sec:
-        post_twitter(twitter_text, tw_key, tw_sec, tw_tok, tw_tok_sec)
+        post_twitter(twitter_text, tw_key, tw_sec, tw_tok, tw_tok_sec, issue_date)
         if ai_post:
-            post_twitter(ai_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec)
+            post_twitter(ai_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec, issue_date)
         if industry_post:
-            post_twitter(industry_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec)
+            post_twitter(industry_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec, issue_date)
         if job_post:
-            post_twitter(job_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec)
+            post_twitter(job_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec, issue_date)
     elif "twitter" in channels:
         print("Skipping Twitter (credentials missing)")
 
