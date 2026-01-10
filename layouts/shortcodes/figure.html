@@ -1,10 +1,15 @@
-<figure class="group relative my-12 {{ .Get " class" }}">
+<figure class="group relative my-12 {{ .Get "class" }}">
     <div
         class="absolute -inset-1 bg-gradient-to-r from-accent to-blue-600 rounded-2xl blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200">
     </div>
     <div class="relative">
-        <img src="{{ .Get " src" | relURL }}" alt="{{ .Get " title" }}"
-            class="w-full max-h-[700px] object-contain mx-auto rounded-2xl shadow-2xl border border-slate-200 bg-white" />
+        <img
+            src="{{ .Get "src" | relURL }}"
+            alt="{{ .Get "alt" | default (.Get "title") }}"
+            loading="lazy"
+            decoding="async"
+            class="w-full max-h-[700px] object-contain mx-auto rounded-2xl shadow-2xl border border-slate-200 bg-white"
+        />
     </div>
     {{ with .Get "title" }}
     <figcaption class="text-center mt-6">

@@ -1,14 +1,28 @@
 {
-  "name": "hugo",
+  "name": "recep-adiyaman-portfolio",
   "version": "1.0.0",
-  "description": "",
+  "description": "Professional portfolio and blog for Recep Adiyaman - Bioinformatician",
   "main": "index.js",
   "scripts": {
+    "dev": "hugo server --buildDrafts --buildFuture --disableFastRender",
+    "build": "hugo --gc --minify",
+    "build:preview": "hugo --gc --minify --buildDrafts --buildFuture -b $DEPLOY_PRIME_URL",
+    "clean": "rm -rf public resources",
+    "serve": "hugo server",
+    "new:blog": "hugo new blog/${npm_config_name}.md",
+    "new:newsletter": "hugo new newsletter/${npm_config_name}.md",
+    "lint:css": "postcss assets/css/*.css --no-map",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "bioinformatics",
+    "portfolio",
+    "hugo",
+    "tailwindcss",
+    "protein-structure"
+  ],
+  "author": "Recep Adiyaman <recepadiyaman2244@gmail.com>",
+  "license": "MIT",
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.17",
     "autoprefixer": "^10.4.22",
@@ -16,5 +30,8 @@
     "postcss": "^8.5.6",
     "postcss-cli": "^11.0.1",
     "tailwindcss": "^4.1.17"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

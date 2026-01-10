@@ -1,23 +1,93 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
-  <meta name="description" content="{{ .Site.Params.description | default .Description }}">
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
+  {{/* Page title */}}
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+
+  {{/* SEO Meta Tags */}}
+  {{ $description := .Description | default .Site.Params.description | default "Bioinformatician specializing in protein structure prediction, AI, and molecular dynamics" }}
+  <meta name="description" content="{{ $description }}">
+  <meta name="author" content="Recep Adiyaman">
+  <meta name="keywords" content="bioinformatics, protein structure, AlphaFold, molecular dynamics, drug discovery, AI, machine learning">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="{{ .Permalink }}">
+
+  {{/* Open Graph / Facebook */}}
+  <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
   <meta property="og:url" content="{{ .Permalink }}">
   <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
-  <meta property="og:description" content="{{ .Description | default .Site.Params.description }}">
-  <meta property="og:image" content="{{ .Permalink }}og-image.png">
+  <meta property="og:description" content="{{ $description }}">
+  <meta property="og:site_name" content="{{ .Site.Title }}">
+  <meta property="og:locale" content="en_US">
+  {{ if .Params.image }}
+  <meta property="og:image" content="{{ .Params.image | absURL }}">
+  {{ else }}
+  <meta property="og:image" content="{{ "images/og-default.png" | absURL }}">
+  {{ end }}
+  {{ if .IsPage }}
+  <meta property="article:author" content="Recep Adiyaman">
+  <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+  {{ if .Lastmod }}<meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
+  {{ end }}
 
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="{{ .Permalink }}">
-  <meta property="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
-  <meta property="twitter:description" content="{{ .Description | default .Site.Params.description }}">
-  <meta property="twitter:image" content="{{ .Permalink }}og-image.png">
+  {{/* Twitter Card */}}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@recep_adiyaman">
+  <meta name="twitter:creator" content="@recep_adiyaman">
+  <meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+  <meta name="twitter:description" content="{{ $description }}">
+  {{ if .Params.image }}
+  <meta name="twitter:image" content="{{ .Params.image | absURL }}">
+  {{ else }}
+  <meta name="twitter:image" content="{{ "images/og-default.png" | absURL }}">
+  {{ end }}
 
+  {{/* JSON-LD Structured Data */}}
+  {{ if .IsHome }}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Recep Adiyaman",
+    "url": "{{ .Site.BaseURL }}",
+    "jobTitle": "Bioinformatician",
+    "description": "{{ $description }}",
+    "sameAs": [
+      "https://twitter.com/recep_adiyaman",
+      "https://github.com/recep2244",
+      "https://linkedin.com/in/recepadiyaman"
+    ],
+    "knowsAbout": ["Protein Structure Prediction", "AlphaFold", "Molecular Dynamics", "Drug Discovery", "Machine Learning"]
+  }
+  </script>
+  {{ else if .IsPage }}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{ .Title }}",
+    "description": "{{ $description }}",
+    "author": {
+      "@type": "Person",
+      "name": "Recep Adiyaman"
+    },
+    "datePublished": "{{ .Date.Format "2006-01-02" }}",
+    {{ if .Lastmod }}"dateModified": "{{ .Lastmod.Format "2006-01-02" }}",{{ end }}
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ .Site.Title }}",
+      "url": "{{ .Site.BaseURL }}"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{ .Permalink }}"
+    }
+  }
+  </script>
+  {{ end }}
+
+  {{/* Styles */}}
   {{ $styles := resources.Get "css/main.css" }}
   {{ if $styles }}
   {{ $styles = $styles | css.PostCSS }}
@@ -27,9 +97,19 @@
   <link rel="stylesheet" href="{{ $styles.RelPermalink }}">
   {{ end }}
 
+  {{/* Fonts with display swap for performance */}}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;600&display=swap"
     rel="stylesheet">
+
+  {{/* Favicon */}}
+  <link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | relURL }}">
+  <link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | relURL }}">
+
+  {{/* RSS Feed */}}
+  {{ with .OutputFormats.Get "RSS" }}
+  <link rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}" href="{{ .Permalink }}">
+  {{ end }}
 </head>
