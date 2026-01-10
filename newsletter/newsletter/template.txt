@@ -1,53 +1,109 @@
-{{newsletter_name}} - {{issue_date}}
+════════════════════════════════════════════════════════════════
+{{newsletter_name}}
 {{newsletter_tagline}}
-Issue {{issue_number}} | {{edition_time}}
+════════════════════════════════════════════════════════════════
 
-Signal of the day
+{{issue_date}}  •  Issue #{{issue_number}}  •  {{edition_time}}
+
+Hi Research Community,
+
+I'm Recep Adiyaman — here's your daily signal on protein design
+and structural biology.
+
+────────────────────────────────────────────────────────────────
+🎯 SIGNAL OF THE DAY
+────────────────────────────────────────────────────────────────
+
 {{signal_title}}
-{{signal_summary}}
-Why it matters: {{signal_why_it_matters}}
-Read: {{signal_link}}
 
-Additional signals
+{{signal_summary}}
+
+💡 Why It Matters:
+{{signal_why_it_matters}}
+
+→ Read the paper: {{signal_link}}
+
 {{signal_extras_text}}
 
-Quick reads
+────────────────────────────────────────────────────────────────
+⚡ QUICK READS
+────────────────────────────────────────────────────────────────
+
 {{quick_reads_text}}
 
-AI & Research news
+────────────────────────────────────────────────────────────────
+🧠 AI & RESEARCH NEWS
+────────────────────────────────────────────────────────────────
+
 {{ai_news_text}}
 
-Industry Insight & Applications
+────────────────────────────────────────────────────────────────
+🏢 INDUSTRY UPDATES
+────────────────────────────────────────────────────────────────
+
 {{industry_news_text}}
 
-Resources
-Dataset spotlight
+────────────────────────────────────────────────────────────────
+🧰 RESOURCES & TOOLS
+────────────────────────────────────────────────────────────────
+
+📊 DATASET SPOTLIGHT
 {{dataset_title}}
 {{dataset_summary}}
-Explore: {{dataset_link}}
-More datasets
+→ Explore: {{dataset_link}}
+
 {{dataset_list_text}}
 
-Tool of the day
+🛠️ TOOL OF THE DAY
 {{tool_title}}
 {{tool_summary}}
-View: {{tool_link}}
-More tools
+→ Try it: {{tool_link}}
+
 {{tool_list_text}}
 
-Pipeline tip
+────────────────────────────────────────────────────────────────
+💡 PIPELINE TIP
+────────────────────────────────────────────────────────────────
+
 {{pipeline_tip}}
 
-Community board
-Event: {{event_title}} - {{event_date}} ({{event_link}})
-More events
+────────────────────────────────────────────────────────────────
+💼 CAREERS & EVENTS
+────────────────────────────────────────────────────────────────
+
+📅 EVENT: {{event_title}}
+   Date: {{event_date}}
+   → {{event_link}}
+
 {{event_list_text}}
-Job: {{job_title}} - {{job_org}} ({{job_link}})
-More jobs
+
+💼 JOB: {{job_title}}
+   Organization: {{job_org}}
+   → {{job_link}}
+
 {{job_list_text}}
 
-"{{quote}}" - {{quote_source}}
+────────────────────────────────────────────────────────────────
+💬 QUOTE OF THE DAY
+────────────────────────────────────────────────────────────────
+
+"{{quote}}"
+— {{quote_source}}
+
+════════════════════════════════════════════════════════════════
+WORKING ON PROTEIN DESIGN?
+
+I specialize in MD refinement and ligand prediction.
+Let's collaborate!
+
+LinkedIn: https://www.linkedin.com/in/recep-adiyaman/
+Email: recepadiyaman2244@gmail.com
+════════════════════════════════════════════════════════════════
 
 Manage preferences: {{manage_prefs_link}}
 Unsubscribe: {{unsubscribe_link}}
+
 {{sender_address}}
+
+© 2026 {{newsletter_name}}
+Curated with care for the research community.
