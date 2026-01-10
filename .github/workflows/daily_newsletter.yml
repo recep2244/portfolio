@@ -4,8 +4,8 @@ on:
   schedule:
     - cron: '1 0 * 11,12,1,2,3 *' # 00:01 UK (GMT)
     - cron: '1 23 * 4-10 *' # 00:01 UK (BST)
-    - cron: '0 9 * 11,12,1,2,3 *' # 09:00 UK (GMT)
-    - cron: '0 8 * 4-10 *' # 09:00 UK (BST)
+    - cron: '0 10 * 11,12,1,2,3 *' # 10:00 UK (GMT)
+    - cron: '0 9 * 4-10 *' # 10:00 UK (BST)
   workflow_dispatch: # Allows manual triggering
 
 permissions:
@@ -48,8 +48,8 @@ jobs:
           NEWSLETTER_SEND_CURATION_REMINDER: "1"
           NEWSLETTER_CURATION_HOUR: "0"
           NEWSLETTER_CURATION_MINUTE: "01"
-          NEWSLETTER_CURATION_WINDOW_MINUTES: "120"
-          NEWSLETTER_SEND_HOUR: "9"
+          NEWSLETTER_CURATION_WINDOW_MINUTES: "240"
+          NEWSLETTER_SEND_HOUR: "10"
           NEWSLETTER_SEND_MINUTE: "00"
           NEWSLETTER_SEND_WINDOW_MINUTES: "120"
           NEWSLETTER_AUTO_SEND: "1"
@@ -58,6 +58,7 @@ jobs:
           NEWSLETTER_SYNC_PUSH: "1"
           NEWSLETTER_AUTO_SEND_WEEKLY: "1"
           NEWSLETTER_WEEKLY_SEND_DOW: "5"
+          NEWSLETTER_WEEKLY_SOCIAL: "1"
           TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
           TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
           TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}

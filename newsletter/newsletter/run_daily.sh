@@ -184,6 +184,10 @@ if [ "$WEEKLY_AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ] && [ "$WEEKDAY" =
     --issues-dir "$ROOT_DIR/newsletter/issues" \
     --subscribers "$ROOT_DIR/newsletter/subscribers.csv" \
     --config "$ROOT_DIR/newsletter/generate_config.json" || echo "Warning: weekly digest send failed."
+  if [ "${NEWSLETTER_WEEKLY_SOCIAL:-1}" = "1" ]; then
+    python3 "$ROOT_DIR/newsletter/post_weekly_digest.py" \
+      --date "$TODAY_DATE" || echo "Warning: weekly digest social post failed."
+  fi
 fi
 
 echo "Daily run complete. Run run_send_confirmed.sh after approval to email everyone."
