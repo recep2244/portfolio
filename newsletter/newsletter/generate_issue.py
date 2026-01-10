@@ -1,26 +1,55 @@
 #!/usr/bin/env python3
+"""
+Generate daily bioinformatics newsletter issues from multiple academic sources.
+
+This module fetches papers from arXiv, bioRxiv, medRxiv, PubMed, Europe PMC,
+Semantic Scholar, and RSS feeds, then ranks and formats them into a newsletter issue.
+"""
+from __future__ import annotations
+
 import argparse
 import hashlib
 import json
+import logging
 import os
 import re
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from email.utils import parsedate_to_datetime
+from functools import wraps
 from pathlib import Path
+from typing import Any, Callable, TypeVar
+from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlencode, urlparse
 from urllib.request import Request, urlopen
 import xml.etree.ElementTree as ET
 from zoneinfo import ZoneInfo
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+logger = logging.getLogger(__name__)
+
 DEFAULT_TIMEZONE = "Europe/London"
 CACHE_DEFAULT_TTL = 21600
+MAX_RETRIES = 3
+RETRY_DELAY = 2.0  # seconds
+REQUEST_TIMEOUT = 30  # seconds
 _CACHE_SETTINGS = None
+
+# Type variable for generic retry decorator
+T = TypeVar("T")
 
 
 @dataclass
 class Paper:
+    """Represents a scientific paper fetched from an academic source."""
+
     title: str
     summary: str
     link: str
@@ -28,15 +57,47 @@ class Paper:
     source: str
 
 
-def load_json(path):
+def load_json(path: str) -> dict[str, Any]:
+    """Load and parse a JSON file."""
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
-def save_json(path, data):
+def save_json(path: str, data: dict[str, Any]) -> None:
+    """Save data to a JSON file with pretty formatting."""
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, sort_keys=True)
         f.write("\n")
+
+
+def retry_with_backoff(
+    max_retries: int = MAX_RETRIES,
+    delay: float = RETRY_DELAY,
+    exceptions: tuple = (URLError, HTTPError, TimeoutError),
+) -> Callable[[Callable[..., T]], Callable[..., T]]:
+    """Decorator that retries a function with exponential backoff on failure."""
+
+    def decorator(func: Callable[..., T]) -> Callable[..., T]:
+        @wraps(func)
+        def wrapper(*args: Any, **kwargs: Any) -> T:
+            last_exception = None
+            for attempt in range(max_retries):
+                try:
+                    return func(*args, **kwargs)
+                except exceptions as e:
+                    last_exception = e
+                    if attempt < max_retries - 1:
+                        sleep_time = delay * (2**attempt)
+                        logger.warning(
+                            f"Attempt {attempt + 1}/{max_retries} failed for {func.__name__}: {e}. "
+                            f"Retrying in {sleep_time:.1f}s..."
+                        )
+                        time.sleep(sleep_time)
+            raise last_exception  # type: ignore
+
+        return wrapper
+
+    return decorator
 
 
 def load_latest_issue(issues_dir):
@@ -98,7 +159,9 @@ def read_cache(path, ttl):
         return None
 
 
-def fetch_url(url, user_agent):
+@retry_with_backoff()
+def fetch_url(url: str, user_agent: str) -> bytes:
+    """Fetch content from a URL with caching and retry logic."""
     cache = get_cache_settings()
     cache_path = None
     if cache["enabled"]:
@@ -108,13 +171,13 @@ def fetch_url(url, user_agent):
             return cached
     req = Request(url, headers={"User-Agent": user_agent})
     try:
-        with urlopen(req, timeout=30) as resp:
+        with urlopen(req, timeout=REQUEST_TIMEOUT) as resp:
             data = resp.read()
     except Exception as exc:
         if cache["enabled"] and cache_path:
             stale = read_cache(cache_path, None)
             if stale is not None:
-                print(f"Warning: Using stale cache for {url}: {exc}")
+                logger.warning(f"Using stale cache for {url}: {exc}")
                 return stale
         raise
     if cache["enabled"] and cache_path:
@@ -160,15 +223,29 @@ def resolve_redirect_url(url, user_agent):
             pass
     return final_url
 
-def safe_fetch(url, user_agent, label):
+def safe_fetch(url: str, user_agent: str, label: str) -> bytes | None:
+    """Safely fetch URL content, returning None on failure."""
     try:
         return fetch_url(url, user_agent)
     except Exception as exc:
-        print(f"Warning: {label} fetch failed: {exc}")
+        logger.warning(f"{label} fetch failed: {exc}")
         return None
 
 
-def ensure_timezone(dt, timezone):
+def safe_fetch_papers(
+    label: str, fetch_fn: Callable[..., list[Paper]], *args: Any, **kwargs: Any
+) -> list[Paper]:
+    """Safely execute a paper fetch function, returning empty list on failure."""
+    try:
+        result = fetch_fn(*args, **kwargs)
+        logger.info(f"{label}: fetched {len(result)} papers")
+        return result
+    except Exception as exc:
+        logger.warning(f"{label} fetch failed: {exc}")
+        return []
+
+
+def ensure_timezone(dt: datetime | None, timezone: ZoneInfo) -> datetime | None:
     if dt is None:
         return None
     if dt.tzinfo is None:
@@ -772,6 +849,49 @@ def dedupe_papers(papers):
     return list(seen.values())
 
 
+def semantic_dedupe_papers(papers, threshold=0.80, keywords=None, verbose=False):
+    """
+    Remove semantic duplicates using sentence embeddings.
+
+    Args:
+        papers: List of Paper objects
+        threshold: Cosine similarity threshold (default 0.80)
+        keywords: Keywords for scoring (used to keep best paper from each group)
+        verbose: Print debug information
+
+    Returns:
+        Tuple of (deduplicated papers, number of groups merged)
+    """
+    if len(papers) < 2:
+        return papers, 0
+
+    try:
+        from .dedup.similarity import semantic_dedupe_papers as _semantic_dedupe
+    except ImportError:
+        if verbose:
+            print("Warning: Semantic dedup not available (sentence-transformers not installed)")
+        return papers, 0
+
+    # Define scoring function if keywords provided
+    score_fn = None
+    if keywords:
+        def score_fn(paper):
+            return score_paper(paper, keywords)
+
+    try:
+        deduplicated, groups = _semantic_dedupe(
+            papers,
+            threshold=threshold,
+            score_fn=score_fn,
+            verbose=verbose,
+        )
+        return deduplicated, len(groups)
+    except Exception as e:
+        if verbose:
+            print(f"Warning: Semantic dedup failed: {e}")
+        return papers, 0
+
+
 def load_recent_titles(issues_dir, days, timezone):
     if not days or days <= 0:
         return set()
@@ -929,7 +1049,20 @@ def build_issue_number(issues_dir, issue_date=None):
     return count + 1
 
 
-def build_issue(config, issue_date, timezone):
+def build_issue(
+    config: dict[str, Any], issue_date: datetime, timezone: ZoneInfo
+) -> dict[str, Any]:
+    """
+    Build a newsletter issue by fetching papers from configured sources concurrently.
+
+    Args:
+        config: Configuration dictionary with sources, keywords, etc.
+        issue_date: The date for this issue
+        timezone: Timezone for date handling
+
+    Returns:
+        A dictionary containing the complete newsletter issue data
+    """
     user_agent = config.get("user_agent", "GenomeDaily/1.0")
     lookback_days = int(config.get("lookback_days", 7))
     max_results = int(config.get("max_results_per_source", 50))
@@ -942,52 +1075,48 @@ def build_issue(config, issue_date, timezone):
     start_dt = datetime.combine(start_date, datetime.min.time(), tzinfo=timezone)
     end_dt = datetime.combine(end_date, datetime.max.time(), tzinfo=timezone)
 
-    papers = []
-    rss_items = []
     sources = config.get("sources", {})
+
+    # Build list of fetch tasks for concurrent execution
+    fetch_tasks: list[tuple[str, Callable[..., list[Paper]], tuple, dict]] = []
+    rss_tasks: list[tuple[str, Callable[..., list[Paper]], tuple, dict]] = []
 
     if sources.get("arxiv", {}).get("enabled", True):
         arxiv_max = int(sources.get("arxiv", {}).get("max_results", max_results))
-        papers.extend(fetch_arxiv(keywords, arxiv_max, user_agent, timezone))
+        fetch_tasks.append(
+            ("arXiv", fetch_arxiv, (keywords, arxiv_max, user_agent, timezone), {})
+        )
 
     if sources.get("europe_pmc", {}).get("enabled", True):
         page_size = int(sources.get("europe_pmc", {}).get("page_size", max_results))
-        papers.extend(
-            fetch_europe_pmc(
-                keywords,
-                start_date.isoformat(),
-                end_date.isoformat(),
-                page_size,
-                user_agent,
-                timezone,
+        fetch_tasks.append(
+            (
+                "Europe PMC",
+                fetch_europe_pmc,
+                (keywords, start_date.isoformat(), end_date.isoformat(), page_size, user_agent, timezone),
+                {},
             )
         )
 
     if sources.get("biorxiv", {}).get("enabled", False):
         biorxiv_max = int(sources.get("biorxiv", {}).get("max_results", max_results))
-        papers.extend(
-            fetch_biorxiv(
-                keywords,
-                start_date.isoformat(),
-                end_date.isoformat(),
-                biorxiv_max,
-                user_agent,
-                timezone,
-                server="biorxiv",
+        fetch_tasks.append(
+            (
+                "bioRxiv",
+                fetch_biorxiv,
+                (keywords, start_date.isoformat(), end_date.isoformat(), biorxiv_max, user_agent, timezone),
+                {"server": "biorxiv"},
             )
         )
 
     if sources.get("medrxiv", {}).get("enabled", False):
         medrxiv_max = int(sources.get("medrxiv", {}).get("max_results", max_results))
-        papers.extend(
-            fetch_biorxiv(
-                keywords,
-                start_date.isoformat(),
-                end_date.isoformat(),
-                medrxiv_max,
-                user_agent,
-                timezone,
-                server="medrxiv",
+        fetch_tasks.append(
+            (
+                "medRxiv",
+                fetch_biorxiv,
+                (keywords, start_date.isoformat(), end_date.isoformat(), medrxiv_max, user_agent, timezone),
+                {"server": "medrxiv"},
             )
         )
 
@@ -996,30 +1125,23 @@ def build_issue(config, issue_date, timezone):
         pubmed_email = sources.get("pubmed", {}).get("email")
         pubmed_tool = sources.get("pubmed", {}).get("tool")
         pubmed_key = sources.get("pubmed", {}).get("api_key")
-        papers.extend(
-            fetch_pubmed(
-                keywords,
-                start_date.isoformat(),
-                end_date.isoformat(),
-                pubmed_max,
-                user_agent,
-                timezone,
-                email=pubmed_email,
-                tool=pubmed_tool,
-                api_key=pubmed_key,
+        fetch_tasks.append(
+            (
+                "PubMed",
+                fetch_pubmed,
+                (keywords, start_date.isoformat(), end_date.isoformat(), pubmed_max, user_agent, timezone),
+                {"email": pubmed_email, "tool": pubmed_tool, "api_key": pubmed_key},
             )
         )
-    
+
     if sources.get("semantic_scholar", {}).get("enabled", True):
         ss_max = int(sources.get("semantic_scholar", {}).get("max_results", max_results))
-        papers.extend(
-            fetch_semantic_scholar(
-                keywords,
-                start_date.isoformat(),
-                end_date.isoformat(),
-                ss_max,
-                user_agent,
-                timezone
+        fetch_tasks.append(
+            (
+                "Semantic Scholar",
+                fetch_semantic_scholar,
+                (keywords, start_date.isoformat(), end_date.isoformat(), ss_max, user_agent, timezone),
+                {},
             )
         )
 
@@ -1027,10 +1149,54 @@ def build_issue(config, issue_date, timezone):
         feed_max = int(sources.get("rss", {}).get("max_results", max_results))
         feeds = sources.get("rss", {}).get("feeds", [])
         for feed in feeds:
-            rss_items.extend(fetch_rss_feed(feed, keywords, feed_max, user_agent, timezone))
+            rss_tasks.append(
+                (
+                    f"RSS ({feed.get('name', 'Unknown')})",
+                    fetch_rss_feed,
+                    (feed, keywords, feed_max, user_agent, timezone),
+                    {},
+                )
+            )
+
+    # Execute all fetch tasks concurrently
+    papers: list[Paper] = []
+    rss_items: list[Paper] = []
+    all_tasks = fetch_tasks + rss_tasks
+    logger.info(f"Fetching from {len(all_tasks)} sources concurrently...")
+
+    with ThreadPoolExecutor(max_workers=min(len(all_tasks), 8)) as executor:
+        future_to_task = {
+            executor.submit(safe_fetch_papers, label, fn, *args, **kwargs): (label, label.startswith("RSS"))
+            for label, fn, args, kwargs in all_tasks
+        }
+
+        for future in as_completed(future_to_task):
+            label, is_rss = future_to_task[future]
+            try:
+                result = future.result()
+                if is_rss:
+                    rss_items.extend(result)
+                else:
+                    papers.extend(result)
+            except Exception as exc:
+                logger.error(f"{label} generated an exception: {exc}")
 
     papers = dedupe_papers(papers)
     papers = filter_by_date(papers, start_dt, end_dt, timezone)
+
+    # Semantic deduplication (if enabled)
+    semantic_dedup_cfg = config.get("semantic_dedup", {})
+    if semantic_dedup_cfg.get("enabled", False):
+        threshold = float(semantic_dedup_cfg.get("threshold", 0.80))
+        papers, num_groups = semantic_dedupe_papers(
+            papers,
+            threshold=threshold,
+            keywords=keywords,
+            verbose=True,
+        )
+        if num_groups > 0:
+            print(f"Semantic dedup: merged {num_groups} duplicate groups")
+
     if not papers:
         issues_dir = config.get("issues_dir", "newsletter/issues")
         fallback_issue = load_latest_issue(issues_dir)
@@ -1273,6 +1439,7 @@ def build_issue(config, issue_date, timezone):
             "job": job,
         },
         "quote": quote,
+        "trending": [],  # Will be populated if trending is enabled
         "manage_prefs_link": config.get("manage_prefs_link", ""),
         "unsubscribe_link": config.get("unsubscribe_link", ""),
         "sender_address": config.get("sender_address", ""),
@@ -1308,6 +1475,35 @@ def main():
     config["issues_dir"] = args.issues_dir
 
     issue = build_issue(config, issue_date, timezone)
+
+    # Add trending topics if enabled
+    trending_cfg = config.get("trending", {})
+    if trending_cfg.get("enabled", True):
+        try:
+            from .trending import TrendingDB, analyze_issue, extract_keywords
+            db_path = Path(trending_cfg.get("db_path", "newsletter/trending.db"))
+            trending_db = TrendingDB(db_path)
+
+            # Record keywords from this issue
+            all_text = ""
+            signal = issue.get("signal", {})
+            all_text += f"{signal.get('title', '')} {signal.get('summary', '')} "
+            for item in issue.get("quick_reads", []):
+                all_text += f"{item.get('title', '')} {item.get('abstract', '')} "
+
+            counts = extract_keywords(all_text)
+            if counts:
+                trending_db.record_keywords(issue_date.isoformat(), counts)
+
+            # Get trending for the issue
+            trending = trending_db.get_trending(days=7)
+            issue["trending"] = trending[:5]
+            if trending:
+                print(f"Trending topics: {', '.join(t['keyword'] for t in trending[:5])}")
+        except ImportError:
+            print("Warning: Trending module not available")
+        except Exception as e:
+            print(f"Warning: Trending analysis failed: {e}")
 
     os.makedirs(args.issues_dir, exist_ok=True)
     issue_path = os.path.join(args.issues_dir, f"{issue_date.isoformat()}.json")
