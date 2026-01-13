@@ -12,6 +12,8 @@ if [ -f "$ROOT_DIR/newsletter/.env" ]; then
   set +a
 fi
 
-python3 "$ROOT_DIR/newsletter/curation_server.py" \
+PYTHON_BIN="${NEWSLETTER_PYTHON:-python3}"
+
+"$PYTHON_BIN" "$ROOT_DIR/newsletter/curation_server.py" \
   --issue-date "$ISSUE_DATE" \
   --port "$PORT"

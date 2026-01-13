@@ -10,6 +10,8 @@ if [ -f "$ROOT_DIR/newsletter/.env" ]; then
   set +a
 fi
 
+PYTHON_BIN="${NEWSLETTER_PYTHON:-python3}"
+
 write_csv_from_env() {
   local path="$1"
   local var_name="$2"
@@ -21,5 +23,5 @@ write_csv_from_env() {
 
 write_csv_from_env "$ROOT_DIR/newsletter/subscribers.csv" "NEWSLETTER_SUBSCRIBERS_CSV"
 
-python3 "$ROOT_DIR/newsletter/sync_subscribers_from_gmail.py" \
+"$PYTHON_BIN" "$ROOT_DIR/newsletter/sync_subscribers_from_gmail.py" \
   --subscribers "$ROOT_DIR/newsletter/subscribers.csv"

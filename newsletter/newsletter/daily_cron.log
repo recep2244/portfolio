@@ -180,3 +180,51 @@ Curation reminder sent. Social posting will run after approval.
 Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
 Daily run complete. Run run_send_confirmed.sh after approval to email everyone.
 /bin/sh: 1: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/run_sync_subscribers.sh: Permission denied
+Subscriber sync: no new subscribers found.
+2026-01-13 09:00:05 - INFO - Fetching from 13 sources concurrently...
+2026-01-13 09:00:05 - INFO - RSS (Nature Struct & Mol Bio): fetched 8 papers
+2026-01-13 09:00:05 - INFO - RSS (Nature Biotechnology): fetched 8 papers
+2026-01-13 09:00:05 - INFO - RSS (Nature Communications): fetched 8 papers
+2026-01-13 09:00:05 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 429: . Retrying in 2.0s...
+2026-01-13 09:00:06 - INFO - RSS (Nature Methods): fetched 8 papers
+2026-01-13 09:00:06 - INFO - RSS (PNAS): fetched 80 papers
+2026-01-13 09:00:06 - INFO - RSS (Science): fetched 40 papers
+2026-01-13 09:00:06 - INFO - medRxiv: fetched 80 papers
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/generate_issue.py:761: DeprecationWarning: Testing an element's truth value will raise an exception in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+  source_node = item.find("source") or item.find("{*}source")
+2026-01-13 09:00:07 - INFO - PubMed: fetched 80 papers
+2026-01-13 09:00:07 - INFO - Europe PMC: fetched 80 papers
+2026-01-13 09:00:08 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 429: . Retrying in 4.0s...
+2026-01-13 09:00:12 - INFO - Semantic Scholar: fetched 0 papers
+2026-01-13 09:00:14 - INFO - arXiv: fetched 80 papers
+2026-01-13 09:00:17 - INFO - RSS (Biotech Industry News): fetched 41 papers
+2026-01-13 09:00:20 - INFO - bioRxiv: fetched 120 papers
+Warning: Semantic dedup not available (No module named 'numpy')
+Warning: Trending module not available
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-13.json
+Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
+Auto send skipped: approval not found for 2026-01-13.
+Daily run complete. Run run_send_confirmed.sh after approval to email everyone.
+Subscriber sync: no new subscribers found.
+2026-01-13 09:30:05 - INFO - Fetching from 13 sources concurrently...
+2026-01-13 09:30:05 - INFO - medRxiv: fetched 80 papers
+2026-01-13 09:30:05 - INFO - Semantic Scholar: fetched 0 papers
+2026-01-13 09:30:05 - INFO - arXiv: fetched 80 papers
+2026-01-13 09:30:05 - INFO - RSS (Nature Biotechnology): fetched 8 papers
+2026-01-13 09:30:05 - INFO - RSS (Nature Struct & Mol Bio): fetched 8 papers
+2026-01-13 09:30:05 - INFO - Europe PMC: fetched 80 papers
+2026-01-13 09:30:05 - INFO - PubMed: fetched 80 papers
+2026-01-13 09:30:05 - INFO - RSS (Nature Communications): fetched 8 papers
+2026-01-13 09:30:05 - INFO - bioRxiv: fetched 120 papers
+2026-01-13 09:30:05 - INFO - RSS (Science): fetched 40 papers
+2026-01-13 09:30:05 - INFO - RSS (PNAS): fetched 80 papers
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/generate_issue.py:761: DeprecationWarning: Testing an element's truth value will raise an exception in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+  source_node = item.find("source") or item.find("{*}source")
+2026-01-13 09:30:05 - INFO - RSS (Nature Methods): fetched 8 papers
+2026-01-13 09:30:05 - INFO - RSS (Biotech Industry News): fetched 41 papers
+Warning: Semantic dedup not available (No module named 'numpy')
+Warning: Trending module not available
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-13.json
+Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
+Reminder sent to 1 recipients
+Daily run complete. Run run_send_confirmed.sh after approval to email everyone.

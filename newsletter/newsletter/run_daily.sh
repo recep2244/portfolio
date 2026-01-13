@@ -10,8 +10,10 @@ if [ -f "$ROOT_DIR/newsletter/.env" ]; then
   set +a
 fi
 
+PYTHON_BIN="${NEWSLETTER_PYTHON:-python3}"
+
 DEFAULT_TZ="${NEWSLETTER_TIMEZONE:-Europe/London}"
-TODAY_DATE="$(python3 - <<PY
+TODAY_DATE="$($PYTHON_BIN - <<PY
 from datetime import datetime
 from zoneinfo import ZoneInfo
 tz = ZoneInfo("${DEFAULT_TZ}")
@@ -32,23 +34,23 @@ write_csv_from_env "$ROOT_DIR/newsletter/subscribers.csv" "NEWSLETTER_SUBSCRIBER
 write_csv_from_env "$ROOT_DIR/newsletter/preview_subscribers.csv" "NEWSLETTER_PREVIEW_SUBSCRIBERS_CSV"
 
 if [ "${NEWSLETTER_SYNC_SUBSCRIBERS:-1}" = "1" ]; then
-  python3 "$ROOT_DIR/newsletter/sync_subscribers_from_gmail.py" \
+  "$PYTHON_BIN" "$ROOT_DIR/newsletter/sync_subscribers_from_gmail.py" \
     --subscribers "$ROOT_DIR/newsletter/subscribers.csv" || echo "Warning: subscriber sync failed."
 fi
 
-python3 "$ROOT_DIR/newsletter/generate_issue.py" \
+"$PYTHON_BIN" "$ROOT_DIR/newsletter/generate_issue.py" \
   --issue-date "$TODAY_DATE" \
   --config "$ROOT_DIR/newsletter/generate_config.json" \
   --issues-dir "$ROOT_DIR/newsletter/issues"
 
 # Convert to Hugo Content
 if [ "${NEWSLETTER_SYNC_ARCHIVE_AT_CURATION:-0}" = "1" ]; then
-  python3 "$ROOT_DIR/newsletter/newsletter_to_md.py" \
+  "$PYTHON_BIN" "$ROOT_DIR/newsletter/newsletter_to_md.py" \
     --issues-dir "$ROOT_DIR/newsletter/issues"
 fi
 
 # Weekly Digest on Fridays (UK timezone)
-WEEKDAY="$(python3 - <<PY
+WEEKDAY="$($PYTHON_BIN - <<PY
 from datetime import datetime
 from zoneinfo import ZoneInfo
 tz = ZoneInfo("${DEFAULT_TZ}")
@@ -57,7 +59,7 @@ PY
 )"
 if [ "$WEEKDAY" = "5" ]; then
   echo "📅 Friday detected: Generating Weekly Digest..."
-  python3 "$ROOT_DIR/newsletter/generate_weekly_digest.py" \
+  "$PYTHON_BIN" "$ROOT_DIR/newsletter/generate_weekly_digest.py" \
     --issues-dir "$ROOT_DIR/newsletter/issues"
 fi
 
@@ -70,9 +72,9 @@ if [ "${NEWSLETTER_SEND_CURATION_REMINDER:-}" = "1" ]; then
   fi
   CURATION_TZ="${NEWSLETTER_CURATION_TZ:-Europe/London}"
   CURATION_HOUR="${NEWSLETTER_CURATION_HOUR:-0}"
-  CURATION_MINUTE="${NEWSLETTER_CURATION_MINUTE:-01}"
+  CURATION_MINUTE="${NEWSLETTER_CURATION_MINUTE:-02}"
   CURATION_WINDOW_MINUTES="${NEWSLETTER_CURATION_WINDOW_MINUTES:-10}"
-  SHOULD_SEND="$(python3 - <<PY
+  SHOULD_SEND="$($PYTHON_BIN - <<PY
 from datetime import datetime, time
 from zoneinfo import ZoneInfo
 
@@ -108,7 +110,7 @@ PY
     else
       PORT="${NEWSLETTER_CURATION_PORT:-5050}"
       CURATION_URL="${NEWSLETTER_CURATION_URL:-http://127.0.0.1:${PORT}}"
-      python3 "$ROOT_DIR/newsletter/send_reminder.py" \
+      "$PYTHON_BIN" "$ROOT_DIR/newsletter/send_reminder.py" \
         --preview-list "$PREVIEW_LIST" \
         --subject "Protein Design Digest: Curation Ready [${TODAY_DATE}]" \
         --body "Your daily curation is ready. Open ${CURATION_URL} to curate and approve." \
@@ -158,7 +160,7 @@ SEND_WINDOW_MINUTES="${NEWSLETTER_SEND_WINDOW_MINUTES:-10}"
 AUTO_SEND="${NEWSLETTER_AUTO_SEND:-0}"
 WEEKLY_AUTO_SEND="${NEWSLETTER_AUTO_SEND_WEEKLY:-0}"
 WEEKLY_SEND_DOW="${NEWSLETTER_WEEKLY_SEND_DOW:-5}"
-SHOULD_SEND="$(python3 - <<PY
+SHOULD_SEND="$($PYTHON_BIN - <<PY
 from datetime import datetime, time
 from zoneinfo import ZoneInfo
 
@@ -184,7 +186,7 @@ if [ "${NEWSLETTER_SEND_APPROVAL_REMINDER:-}" = "1" ]; then
   APPROVAL_REMINDER_HOUR="${NEWSLETTER_APPROVAL_REMINDER_HOUR:-9}"
   APPROVAL_REMINDER_MINUTE="${NEWSLETTER_APPROVAL_REMINDER_MINUTE:-30}"
   APPROVAL_REMINDER_WINDOW_MINUTES="${NEWSLETTER_APPROVAL_REMINDER_WINDOW_MINUTES:-10}"
-  SHOULD_REMIND="$(python3 - <<PY
+  SHOULD_REMIND="$($PYTHON_BIN - <<PY
 from datetime import datetime, time
 from zoneinfo import ZoneInfo
 
@@ -212,7 +214,7 @@ PY
         CURATION_URL="${NEWSLETTER_CURATION_URL:-http://127.0.0.1:${PORT}}"
         APPROVAL_SUBJECT="${NEWSLETTER_APPROVAL_REMINDER_SUBJECT:-Protein Design Digest: approval pending [${TODAY_DATE}]}"
         APPROVAL_BODY="${NEWSLETTER_APPROVAL_REMINDER_BODY:-Approval is still pending. Please review and approve at ${CURATION_URL} before send.}"
-        python3 "$ROOT_DIR/newsletter/send_reminder.py" \
+        "$PYTHON_BIN" "$ROOT_DIR/newsletter/send_reminder.py" \
           --preview-list "$PREVIEW_LIST" \
           --subject "$APPROVAL_SUBJECT" \
           --body "$APPROVAL_BODY" \
@@ -232,7 +234,7 @@ if [ "${NEWSLETTER_SEND_WEEKLY_CURATION_REMINDER:-}" = "1" ]; then
     WEEKLY_CURATION_HOUR="${NEWSLETTER_WEEKLY_CURATION_HOUR:-0}"
     WEEKLY_CURATION_MINUTE="${NEWSLETTER_WEEKLY_CURATION_MINUTE:-02}"
     WEEKLY_CURATION_WINDOW_MINUTES="${NEWSLETTER_WEEKLY_CURATION_WINDOW_MINUTES:-10}"
-    SHOULD_WEEKLY_REMIND="$(python3 - <<PY
+    SHOULD_WEEKLY_REMIND="$($PYTHON_BIN - <<PY
 from datetime import datetime, time
 from zoneinfo import ZoneInfo
 
@@ -269,7 +271,7 @@ PY
         CURATION_URL="${NEWSLETTER_CURATION_URL:-http://127.0.0.1:${PORT}}"
         WEEKLY_SUBJECT="${NEWSLETTER_WEEKLY_CURATION_SUBJECT:-Protein Design Digest: weekly curation ready [${TODAY_DATE}]}"
         WEEKLY_BODY="${NEWSLETTER_WEEKLY_CURATION_BODY:-Weekly curation is ready. Open ${CURATION_URL} to curate and approve the weekly digest.}"
-        python3 "$ROOT_DIR/newsletter/send_reminder.py" \
+        "$PYTHON_BIN" "$ROOT_DIR/newsletter/send_reminder.py" \
           --preview-list "$PREVIEW_LIST" \
           --subject "$WEEKLY_SUBJECT" \
           --body "$WEEKLY_BODY" \
@@ -282,12 +284,12 @@ PY
 fi
 
 if [ "$WEEKLY_AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ] && [ "$WEEKDAY" = "$WEEKLY_SEND_DOW" ]; then
-  python3 "$ROOT_DIR/newsletter/send_weekly_digest.py" \
+  "$PYTHON_BIN" "$ROOT_DIR/newsletter/send_weekly_digest.py" \
     --issues-dir "$ROOT_DIR/newsletter/issues" \
     --subscribers "$ROOT_DIR/newsletter/subscribers.csv" \
     --config "$ROOT_DIR/newsletter/generate_config.json" || echo "Warning: weekly digest send failed."
   if [ "${NEWSLETTER_WEEKLY_SOCIAL:-1}" = "1" ]; then
-    python3 "$ROOT_DIR/newsletter/post_weekly_digest.py" \
+    "$PYTHON_BIN" "$ROOT_DIR/newsletter/post_weekly_digest.py" \
       --date "$TODAY_DATE" || echo "Warning: weekly digest social post failed."
   fi
 fi
