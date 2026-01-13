@@ -6,15 +6,15 @@
   "subject_prefix": "Protein Design Digest",
   "quick_reads_count": 8,
   "signal_extras_count": 3,
-  "avoid_recent_days": 30,
+  "avoid_recent_days": 45,
   "resource_counts": {
     "datasets": 2,
     "tools": 2,
     "events": 2,
     "jobs": 2
   },
-  "lookback_days": 30,
-  "max_results_per_source": 150,
+  "lookback_days": 45,
+  "max_results_per_source": 200,
   "allow_recent_fallback": false,
   "keywords": [
     "protein structure prediction",
@@ -54,30 +54,30 @@
   "sources": {
     "arxiv": {
       "enabled": true,
-      "max_results": 120
+      "max_results": 160
     },
     "europe_pmc": {
       "enabled": true,
-      "page_size": 120
+      "page_size": 160
     },
     "biorxiv": {
       "enabled": true,
-      "max_results": 150
+      "max_results": 200
     },
     "medrxiv": {
       "enabled": true,
-      "max_results": 120
+      "max_results": 160
     },
     "pubmed": {
       "enabled": true,
-      "max_results": 120,
+      "max_results": 160,
       "email": "recepadiyaman2244@gmail.com",
       "tool": "ProteinDesignDigest",
       "api_key": ""
     },
     "rss": {
       "enabled": true,
-      "max_results": 100,
+      "max_results": 120,
       "feeds": [
         {
           "name": "Nature Biotechnology",
@@ -96,12 +96,36 @@
           "url": "http://feeds.nature.com/ng/rss/current"
         },
         {
+          "name": "Nature Reviews Molecular Cell Biology",
+          "url": "http://feeds.nature.com/nrm/rss/current"
+        },
+        {
+          "name": "Nature Reviews Genetics",
+          "url": "http://feeds.nature.com/nrg/rss/current"
+        },
+        {
           "name": "Nature Methods",
           "url": "http://feeds.nature.com/nmeth/rss/current"
         },
         {
           "name": "Nature Communications",
           "url": "http://feeds.nature.com/ncomms/rss/current"
+        },
+        {
+          "name": "Cell",
+          "url": "https://www.cell.com/cell/rss"
+        },
+        {
+          "name": "Structure",
+          "url": "https://www.cell.com/structure/rss"
+        },
+        {
+          "name": "Cell Systems",
+          "url": "https://www.cell.com/cell-systems/rss"
+        },
+        {
+          "name": "Cell Reports",
+          "url": "https://www.cell.com/cell-reports/rss"
         },
         {
           "name": "PLOS Computational Biology",
@@ -128,12 +152,28 @@
           "url": "https://bmcbiol.biomedcentral.com/articles/rss"
         },
         {
+          "name": "Genome Biology",
+          "url": "https://genomebiology.biomedcentral.com/articles/rss"
+        },
+        {
+          "name": "Nucleic Acids Research",
+          "url": "https://academic.oup.com/rss/advancearticles/nar"
+        },
+        {
           "name": "Science",
           "url": "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science"
         },
         {
           "name": "PNAS",
           "url": "https://www.pnas.org/rss/current.xml"
+        },
+        {
+          "name": "Protein Folding & Design News",
+          "url": "https://news.google.com/rss/search?q=%22protein+folding%22+OR+%22protein+design%22+OR+%22protein+engineering%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
+          "name": "Structure Prediction News",
+          "url": "https://news.google.com/rss/search?q=%22structure+prediction%22+OR+%22protein+structure%22+OR+%22cryo-EM%22+when:7d&hl=en-US&gl=US&ceid=US:en"
         },
         {
           "name": "Protein Design News",
@@ -147,7 +187,7 @@
     },
     "semantic_scholar": {
       "enabled": true,
-      "max_results": 120
+      "max_results": 160
     }
   },
   "ai_news": {
