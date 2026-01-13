@@ -1261,10 +1261,19 @@ def build_issue(
             for score, paper in paper_scored
             if normalize_title(paper.title) not in recent_titles
         ]
+        allow_fallback = config.get("allow_recent_fallback", True)
         if len(filtered_scored) >= min_required:
             paper_scored = filtered_scored
         else:
-            print("Warning: Not enough new papers after recent-title filter; using full pool.")
+            if not filtered_scored:
+                print("Warning: No new papers after recent-title filter; using full pool.")
+            elif not allow_fallback:
+                print(
+                    "Warning: Not enough new papers after recent-title filter; keeping filtered pool."
+                )
+                paper_scored = filtered_scored
+            else:
+                print("Warning: Not enough new papers after recent-title filter; using full pool.")
     paper_ranked = [item[1] for item in paper_scored]
     paper_strict = [item[1] for item in paper_scored if item[0] > 0]
 

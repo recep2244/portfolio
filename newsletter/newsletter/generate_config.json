@@ -6,15 +6,16 @@
   "subject_prefix": "Protein Design Digest",
   "quick_reads_count": 8,
   "signal_extras_count": 3,
-  "avoid_recent_days": 21,
+  "avoid_recent_days": 30,
   "resource_counts": {
     "datasets": 2,
     "tools": 2,
     "events": 2,
     "jobs": 2
   },
-  "lookback_days": 21,
-  "max_results_per_source": 120,
+  "lookback_days": 30,
+  "max_results_per_source": 150,
+  "allow_recent_fallback": false,
   "keywords": [
     "protein structure prediction",
     "protein design",
@@ -53,30 +54,30 @@
   "sources": {
     "arxiv": {
       "enabled": true,
-      "max_results": 80
+      "max_results": 120
     },
     "europe_pmc": {
       "enabled": true,
-      "page_size": 80
+      "page_size": 120
     },
     "biorxiv": {
       "enabled": true,
-      "max_results": 120
+      "max_results": 150
     },
     "medrxiv": {
       "enabled": true,
-      "max_results": 80
+      "max_results": 120
     },
     "pubmed": {
       "enabled": true,
-      "max_results": 80,
+      "max_results": 120,
       "email": "recepadiyaman2244@gmail.com",
       "tool": "ProteinDesignDigest",
       "api_key": ""
     },
     "rss": {
       "enabled": true,
-      "max_results": 80,
+      "max_results": 100,
       "feeds": [
         {
           "name": "Nature Biotechnology",
@@ -87,12 +88,44 @@
           "url": "http://feeds.nature.com/nsmb/rss/current"
         },
         {
+          "name": "Nature Chemical Biology",
+          "url": "http://feeds.nature.com/nchembio/rss/current"
+        },
+        {
+          "name": "Nature Genetics",
+          "url": "http://feeds.nature.com/ng/rss/current"
+        },
+        {
           "name": "Nature Methods",
           "url": "http://feeds.nature.com/nmeth/rss/current"
         },
         {
           "name": "Nature Communications",
           "url": "http://feeds.nature.com/ncomms/rss/current"
+        },
+        {
+          "name": "PLOS Computational Biology",
+          "url": "https://journals.plos.org/ploscompbiol/rss"
+        },
+        {
+          "name": "PLOS Biology",
+          "url": "https://journals.plos.org/plosbiology/rss"
+        },
+        {
+          "name": "PLOS ONE",
+          "url": "https://journals.plos.org/plosone/rss"
+        },
+        {
+          "name": "eLife",
+          "url": "https://elifesciences.org/rss.xml"
+        },
+        {
+          "name": "BMC Bioinformatics",
+          "url": "https://bmcbioinformatics.biomedcentral.com/articles/rss"
+        },
+        {
+          "name": "BMC Biology",
+          "url": "https://bmcbiol.biomedcentral.com/articles/rss"
         },
         {
           "name": "Science",
@@ -103,6 +136,10 @@
           "url": "https://www.pnas.org/rss/current.xml"
         },
         {
+          "name": "Protein Design News",
+          "url": "https://news.google.com/rss/search?q=%22protein+design%22+OR+%22protein+engineering%22+OR+%22protein+structure%22+when:7d&hl=en-US&gl=US&ceid=US:en"
+        },
+        {
           "name": "Biotech Industry News",
           "url": "https://news.google.com/rss/search?q=protein+design+industry+OR+biotech+partnership+OR+drug+discovery+clinical+application+when:7d&hl=en-US&gl=US&ceid=US:en"
         }
@@ -110,7 +147,7 @@
     },
     "semantic_scholar": {
       "enabled": true,
-      "max_results": 80
+      "max_results": 120
     }
   },
   "ai_news": {
