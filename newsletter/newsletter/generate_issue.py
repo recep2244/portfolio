@@ -866,10 +866,13 @@ def semantic_dedupe_papers(papers, threshold=0.80, keywords=None, verbose=False)
         return papers, 0
 
     try:
-        from .dedup.similarity import semantic_dedupe_papers as _semantic_dedupe
-    except ImportError:
+        try:
+            from .dedup.similarity import semantic_dedupe_papers as _semantic_dedupe
+        except ImportError:
+            from dedup.similarity import semantic_dedupe_papers as _semantic_dedupe
+    except ImportError as exc:
         if verbose:
-            print("Warning: Semantic dedup not available (sentence-transformers not installed)")
+            print(f"Warning: Semantic dedup not available ({exc})")
         return papers, 0
 
     # Define scoring function if keywords provided

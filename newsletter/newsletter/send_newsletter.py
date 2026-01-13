@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import csv
+import hashlib
 import html
 import json
 import os
@@ -9,9 +10,62 @@ import smtplib
 from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from pathlib import Path
+from urllib.parse import quote as url_quote, urlencode
 from zoneinfo import ZoneInfo
 
 DEFAULT_TIMEZONE = "Europe/London"
+
+
+def hash_email(email: str) -> str:
+    """Hash email for tracking (privacy-preserving)."""
+    return hashlib.sha256(email.lower().strip().encode()).hexdigest()[:16]
+
+
+def build_tracking_pixel_html(tracker_url: str, issue_date: str, subscriber_hash: str) -> str:
+    """Build tracking pixel HTML."""
+    if not tracker_url:
+        return ""
+    pixel_url = f"{tracker_url.rstrip('/')}/pixel/{issue_date}/{subscriber_hash}.gif"
+    return f'<img src="{pixel_url}" width="1" height="1" style="display:none;" alt="">'
+
+
+def wrap_link_with_tracking(
+    link_url: str, tracker_url: str, issue_date: str, subscriber_hash: str, link_type: str = ""
+) -> str:
+    """Wrap a URL with click tracking redirect."""
+    if not tracker_url or not link_url:
+        return link_url
+    params = {"url": link_url}
+    if link_type:
+        params["link_type"] = link_type
+    tracking_url = f"{tracker_url.rstrip('/')}/click/{issue_date}/{subscriber_hash}?{urlencode(params)}"
+    return tracking_url
+
+
+def add_tracking_to_html(html_body: str, tracker_url: str, issue_date: str, subscriber_hash: str) -> str:
+    """Add tracking pixel and wrap links in HTML body."""
+    if not tracker_url:
+        return html_body
+
+    # Add tracking pixel before closing </body>
+    pixel_html = build_tracking_pixel_html(tracker_url, issue_date, subscriber_hash)
+    if "</body>" in html_body:
+        html_body = html_body.replace("</body>", f"{pixel_html}</body>")
+    else:
+        html_body += pixel_html
+
+    # Wrap href links with tracking (only external links)
+    def replace_link(match):
+        href = match.group(1)
+        # Skip internal anchors, mailto, tel links
+        if href.startswith("#") or href.startswith("mailto:") or href.startswith("tel:"):
+            return match.group(0)
+        tracked = wrap_link_with_tracking(href, tracker_url, issue_date, subscriber_hash, "email")
+        return f'href="{tracked}"'
+
+    html_body = re.sub(r'href="([^"]+)"', replace_link, html_body)
+    return html_body
 
 
 def load_text(path):
@@ -339,6 +393,32 @@ def build_context(issue):
     else:
         html_context["signal_extras_html"] = ""
 
+    # Build Trending Topics HTML
+    trending = issue.get("trending") or []
+    if trending:
+        trending_items = ""
+        for item in trending[:5]:
+            keyword = html.escape(item.get("keyword", "").title())
+            growth = html.escape(item.get("growth_display", ""))
+            if growth == "NEW":
+                badge_style = "background:#dcfce7;color:#166534;"
+            else:
+                badge_style = "background:#dbeafe;color:#1e40af;"
+            trending_items += f'''
+            <span style="display:inline-block;margin:4px 8px 4px 0;">
+                <span style="font-family:Arial,sans-serif;font-size:13px;color:#334155;">{keyword}</span>
+                <span style="font-family:Arial,sans-serif;font-size:10px;padding:2px 6px;border-radius:4px;margin-left:4px;{badge_style}">{growth}</span>
+            </span>'''
+        html_context["trending_html"] = f'''
+        <div style="margin-top:30px;padding:20px;background:#f8fafc;border-radius:12px;border:1px solid #e2e8f0;">
+            <div style="font-family:Arial,sans-serif;font-size:12px;color:#0b6e4f;font-weight:bold;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;">
+                📈 Trending This Week
+            </div>
+            <div>{trending_items}</div>
+        </div>'''
+    else:
+        html_context["trending_html"] = ""
+
     # Build Text Context
     text_context = {k: str(v) for k, v in raw_data.items()}
     text_context["quick_reads_text"] = build_quick_reads_text(quick_reads)
@@ -463,6 +543,10 @@ def main():
     parser.add_argument("--reply-to", default=os.getenv("NEWSLETTER_REPLY_TO", ""))
     parser.add_argument("--smtp-user", default=os.getenv("NEWSLETTER_GMAIL_USER"))
     parser.add_argument("--smtp-pass", default=os.getenv("NEWSLETTER_GMAIL_APP_PASSWORD"))
+    parser.add_argument("--tracker-url", default=os.getenv("NEWSLETTER_TRACKER_URL", ""),
+                        help="Analytics tracker URL (e.g., http://localhost:8080)")
+    parser.add_argument("--analytics-db", default=os.getenv("NEWSLETTER_ANALYTICS_DB", ""),
+                        help="Path to analytics SQLite database")
     args = parser.parse_args()
 
     issue_path = resolve_issue_path(args)
@@ -503,25 +587,54 @@ def main():
         print(f"Rendered: {text_path}")
         return
 
+    # Record send in analytics DB
+    analytics_db = None
+    if args.analytics_db:
+        try:
+            from .analytics.storage import AnalyticsDB
+            analytics_db = AnalyticsDB(Path(args.analytics_db))
+        except ImportError:
+            print("Warning: analytics module not available")
+
+    # Get raw issue date for tracking
+    raw_issue_date = issue.get("issue_date", "")
+
     with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
         smtp.ehlo()
         smtp.starttls()
         smtp.login(args.smtp_user, args.smtp_pass)
         for batch in chunk_list(subscribers, args.batch_size):
-            msg = build_message(
-                subject,
-                from_email,
-                args.from_name,
-                to_email,
-                args.reply_to,
-                text_body,
-                html_body,
-                text_context.get("unsubscribe_link"),
-            )
-            msg["Bcc"] = ", ".join(batch)
-            smtp.sendmail(from_email, [to_email] + batch, msg.as_string())
+            for recipient in batch:
+                # Generate unique tracking for each subscriber
+                subscriber_hash = hash_email(recipient)
+
+                # Add tracking to HTML if tracker URL is configured
+                tracked_html = html_body
+                if args.tracker_url:
+                    tracked_html = add_tracking_to_html(
+                        html_body, args.tracker_url, raw_issue_date, subscriber_hash
+                    )
+
+                msg = build_message(
+                    subject,
+                    from_email,
+                    args.from_name,
+                    to_email,
+                    args.reply_to,
+                    text_body,
+                    tracked_html,
+                    text_context.get("unsubscribe_link"),
+                )
+                msg["Bcc"] = recipient
+                smtp.sendmail(from_email, [to_email, recipient], msg.as_string())
+
+    # Record total sent
+    if analytics_db:
+        analytics_db.record_send(raw_issue_date, len(subscribers))
 
     print(f"Sent '{subject}' to {len(subscribers)} recipients")
+    if args.tracker_url:
+        print(f"Tracking enabled via: {args.tracker_url}")
 
 
 if __name__ == "__main__":

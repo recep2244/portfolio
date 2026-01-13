@@ -1,0 +1,79 @@
+Protein Design Digest - Sunday, January 04, 2026
+Curated protein signals by Recep Adiyaman
+Issue 13 | 10:00 UK
+
+Signal of the day
+AlphaFold for Docking Screens.
+AlphaFold is an AI system developed by Google DeepMind to generate three-dimensional structures of proteins without experimental data. The models created with AlphaFold are available on the AlphaFold Protein Structure Database (AlphaFoldDB) ( https://alphafold.ebi.ac.uk/ ). The AlphaFold database is searchable by sequence and protein identification. This chapter focuses on an AlphaFold model and its use for docking screens using Molegro Virtual Docker. We rely on Jupyter Notebooks to integrate docking simulations and build regression models based on the atomic coordinates of protein-pose complexes. Our study focuses on constructing a neural network regression model to predict the inhibition of cyclin-dependent kinase 19 (CDK19). This enzyme is a target for anticancer drugs and does not have experimental data for its atomic coordinates. We utilize the Molegro Data Modeller to construct a regression model based on docking results of inhibitors for which binding affinity data is available. All CDK19 datasets and Jupyter Notebooks discussed in this work are available at GitHub: https://github.com/azevedolab/docking#readme .
+Why it matters: Provides actionable mutations to enhance catalytic efficiency or thermostability.
+Read: https://doi.org/10.1007/978-1-0716-4949-7_13
+
+Additional signals
+- Geometric deep learning assists protein engineering. Opportunities and Challenges. (https://doi.org/10.1016/j.biotechadv.2025.108790)
+- Modeling Protein-Protein Complexes by Combining pyDock and AlphaFold. (https://doi.org/10.1007/978-1-0716-4828-5_15)
+- Combining network pharmacology, machine learning, molecular docking, molecular simulation dynamics and experimental validation to explore the mechanism of Zhenwu decoction in treating major depression through TNF-α pathways. (https://doi.org/10.1016/j.bbr.2025.115997)
+
+Quick reads
+- Exploring the Anti-Inflammatory Molecular Mechanism of Gentiana szechenyii Kanitz. Based on UPLC-MS/MS Combined With Network Pharmacology, Molecular Docking, and Molecular Dynamics Simulation. - Europe PMC - 2026-01-01 (https://doi.org/10.1002/cbdv.202502421)
+  Abstract: This study explored the anti-inflammatory mechanisms of Gentiana szechenyii Kanitz. (GS), a Tibetan medicinal herb, by combining UPLC-MS/MS, network pharmacology, molecular docking, and molecular dynamics (MD) simulation. Using the lipopolysaccharide (LPS)-induced RAW264.7 cell inflammation model, the anti-inflammatory effect of GS was confirmed by detecting the release amount of nitric oxide (NO)...
+- Targeting spermidine synthase in &lt;i&gt;Leishmania donovani&lt;/i&gt;: molecular docking and molecular dynamics simulation-based evaluation of Indian medicinal plant phytochemicals. - Europe PMC - 2025-12-24 (https://doi.org/10.1007/s40203-025-00525-z)
+  Abstract: Visceral leishmaniasis, caused by Leishmania donovani , remains a critical global health challenge due to limited, toxic, and costly treatment options and rising drug resistance. Targeting spermidine synthase (LdSpdS), an essential enzyme for parasite growth, we explored plant-derived phytochemicals as potential inhibitors. A curated phytochemical-inhibitor library was screened against a homology-...
+- Convolutional neural network-assisted screening of natural product inhibitors against &lt;i&gt;Naja naja&lt;/i&gt; venom: insights from molecular docking, molecular dynamics simulations and ADMET profiling. - Europe PMC - 2025-12-24 (https://doi.org/10.1007/s40203-025-00527-x)
+  Abstract: Snakebite envenomation continues to be a major issue of public health which is mainly the case in tropical areas such as India where Naja naja is the main cause of death and diseases related to snakebite. Traditional antivenoms have certain defects, among which poor effectiveness against local tissue injuries and the variability of snake venom are the most significant. This study investigates the ...
+- Establishing FDA-approved oncology drugs as GPR176 inhibitor through homology modelling, molecular docking, MMGBSA, DFT, and molecular dynamics simulation. - PubMed - 2026-01-02 (https://pubmed.ncbi.nlm.nih.gov/41484214/)
+- Unraveling the mechanism of curcumin in coronary slow flow phenomenon through network pharmacology and molecular docking. - Europe PMC - 2025-12-24 (https://doi.org/10.1038/s41598-025-28358-y)
+  Abstract: The coronary slow flow phenomenon (CSFP) is associated with an increased risk of adverse cardiovascular events, yet standardized treatment is lacking. Curcumin, a natural compound, has shown potential in alleviating angina and improving metabolic risk factors in CSFP, but its underlying molecular mechanisms remain unclear. This study employed an integrated computational strategy. Network pharmacol...
+- Molecular docking and dynamic simulation of escherichia coli K-12 Elements as a Biosensor for Detecting 2,4,6-Trinitrotoluene (TNT). - Europe PMC - 2026-01-03 (https://doi.org/10.1007/s10867-025-09697-3)
+  Abstract: Trinitrotoluene (TNT) is widely used in military and industrial fields due to its strong explosive properties and chemical stability. However, its persistence in the environment and harmful effects on living organisms make it important to develop sensitive and selective detection methods. Previous research has identified the Escherichia coli genes yadG and aspC as promising components for TNT bios...
+- Assessing the validity of leucine zipper constructs predicted by AlphaFold. - Europe PMC - 2026-01-01 (https://doi.org/10.1002/pro.70438)
+  Abstract: AP-1 transcription factors are a network of cellular regulators that combine in different dimer pairs to control a range of pathways involved in differentiation, growth, and cell death. They dimerize via leucine zipper coiled-coil domains that are preceded by a basic DNA binding domain. Depending on which AP-1 transcription factors dimerize, different DNA sequences will be recognized resulting in ...
+- A screening strategy for bioactive components from Amaranth: An integrated approach of network pharmacology, molecular docking and molecular dynamics simulation. - Europe PMC - 2025-12-26 (https://doi.org/10.1371/journal.pone.0338443)
+  Abstract: Amaranth is a traditional medicinal and forage plant with promising anti-inflammatory properties. To enhance its utilization in livestock and feed industries, this study investigated the bioactive compounds and mechanisms of Amaranth at different growth stages using metabolomics and network pharmacology. LC-MS/MS identified 266 metabolites, including key compounds such as ferulic acid, isoferulic ...
+
+AI & Research news
+- The Thinking Game - i-programmer.info - AI Biology Research - 2026-01-04 (https://news.google.com/rss/articles/CBMilgFBVV95cUxNU2JRRmVlSzVJYTR3bUhIVklOYTRXRW5peTFUUHpsRUgwYUtOSDctZk5qTm5wTTFyWHZyQVFUTmV1Y3B5RHdWSlRudlNndUg1Z3lnU0VMMzJ1NEhpWEw2dXg1bFNzaGo0cDh2d0xfUDZhVU4zeU13bW5tM09ycGh0aTNoaW5FaVlxSnlGUjU2OHJSTms3aXc?oc=5)
+  Abstract: The Thinking Game &nbsp;&nbsp; i-programmer.info
+- Bets on Generative AI to Redefine Drug Discovery——IntelliGenAI and Their Foundation Model Approach - Pandaily - AI Biology Research - 2026-01-03 (https://news.google.com/rss/articles/CBMivAFBVV95cUxNWXA4QVcxZUpfeXN4VlB5bWZEOUVLbklsVnVwZmIxRk82czlIRE5NX3Nxejh1cU5NNXFSUnVmcFJJanNnZzkxM08wbjJta25tVE1URW9sTlhqWnlYbW1kRWFwVG5PSUZZTTVpVVpPOUl2RFhvN0p5WkFmekRnZkxKeFJ5TV9KM0FJT1FIVlF2SkZuWmF1SUd5dUpRdWxYeW5WNnVvLWd4VDdDTTQxOGdzd1J2ZWhNcXBEc1lpVw?oc=5)
+  Abstract: Bets on Generative AI to Redefine Drug Discovery——IntelliGenAI and Their Foundation Model Approach &nbsp;&nbsp; Pandaily
+
+Industry Insight & Applications
+- Protein Engineering for Pharmaceutical Biotechnology Training Course: Understand How to Advance Ther - PharmiWeb.com - Biotech Application News - 2026-01-03 (https://news.google.com/rss/articles/CBMi5AFBVV95cUxPRDVkTVBKdXVJV0trZktDMDMwZWc1eGlrN09JS1RydWd6Zzc4cjQ2bE84SXFnZjVwMzNaaXNUUm8zU0owZjk2cWNLVEpYb1p0MzE4dUtSOU1PUzBlN0wtZDZSdko1eXdUYTQ2VU1aOXNHT19DLVJpUlBXNzhNeGstbmctcGpFRXBobUVqZlo1MHhOa1JadDVWdXdDVTZZQmlacDdTQmtET1V4WWNPczRhR3BKSVlUTlozdDRzVTduYjNnVXAxSUlRR2c1cHo1WFdPekZHNzNRZVFhYjJvem5nMXZWT28?oc=5)
+  Abstract: Protein Engineering for Pharmaceutical Biotechnology Training Course: Understand How to Advance Ther &nbsp;&nbsp; PharmiWeb.com
+- Layoff Tracker: Nido Will Close Following Lead Candidate’s Disappointing Phase II Results - BioSpace - Biotech Application News - 2026-01-02 (https://news.google.com/rss/articles/CBMiXEFVX3lxTFB1N2d4NnYwN0JiU181Tm9vV0dUM1c1NWVMUHNCdlZFVmRSZXpmRFp3TnBQUVJXYnFYV1VlNVBIZXU0TzY4bE5BNTd4NGpIT21aYlZHMy1qSW1HWDFH?oc=5)
+  Abstract: Layoff Tracker: Nido Will Close Following Lead Candidate’s Disappointing Phase II Results &nbsp;&nbsp; BioSpace
+- Retro Bio commences first-in-human trial - Longevity.Technology - Biotech Application News - 2025-12-30 (https://news.google.com/rss/articles/CBMigAFBVV95cUxONktCd2pzNlpaSmcxZVN6RkdKYmxXc01HNlFvUnR2aExHMUx3Q1Z2LThGV3MxYTlnUXVwVFBXaXhQWDMzZXk2Ny1lbzltb3lzcVN1MWRlYnZMcnVlNjcxZTh3U3k5MGhwNjIxb0ljVDlfV2tiVkFXSmRMWUlld3AtYw?oc=5)
+  Abstract: Retro Bio commences first-in-human trial &nbsp;&nbsp; Longevity.Technology
+- Oncodesign Precision Medicine and Navigo Proteins Announce the End of Their Collaboration in the Development of Radiotheranostics - Business Wire - Industry Protein Design - 2025-12-29 (https://news.google.com/rss/articles/CBMilAJBVV95cUxOQ0FRZHlSM1ZQdndRdUVYaV9ZbHd1RTNQNGNFd3RLU20yOGduWjlhNE1iREhPTi1uLV9EZ19nTWxQbFRFeDNnaHRYVFZiNkVWRzg1Qm1KVGZyMjZGOWZlazVTU2hfV1UtWGtqc0xmMjlvMEFDOVVlSDRHdTMzcjBtaGJnQnFWanRMVnJzRmlqLXBXeG5Ycksxa1VaQ0Q3b1Z0STV3bHlIbzN0akxmNVlYak5OWEc3WkNiZS0yN1F2cEMzOUR4XzlpdUljbUppY0FIN0YzSE5ZaHBoQWZaQ3dUU3RDOTRKV1ZsVDZXcWR4THVIMGp4dXl2eWNGN05UeUwzSno3MXpOQVF6ZXpvNGhTX0ktbTE?oc=5)
+  Abstract: Oncodesign Precision Medicine and Navigo Proteins Announce the End of Their Collaboration in the Development of Radiotheranostics &nbsp;&nbsp; Business Wire
+
+Resources
+Dataset spotlight
+Protein Data Bank (PDB)
+The single global archive for macromolecular structure data.
+Explore: https://www.rcsb.org/
+More datasets
+- AlphaFold Structure Database (https://alphafold.ebi.ac.uk/)
+
+Tool of the day
+AlphaFill
+Ligand and cofactor transfer into AlphaFold models.
+View: https://alphafill.eu/
+More tools
+- ReFOLD4 (https://www.reading.ac.uk/bioinf/ReFOLD/)
+
+Pipeline tip
+Pin reference genomes by checksum to avoid version drift.
+
+Community board
+Event: Protein Design Hub (LinkedIn Group) - Ongoing (https://www.linkedin.com/groups/16324018/)
+More events
+- Structural Biology Events (https://www.nature.com/natureconferences/index.html)
+Job: Mercor hiring Computational Bioinformatics Analyst in United Kingdom - LinkedIn - Bioinformatics Careers (https://news.google.com/rss/articles/CBMilgFBVV95cUxQRV95aFJldDB0U1VKcndOWERKRnhkdEpoSW1DVHdpczZQUVViV2U4WnBmMWQzTFBMc1hZaTY2T19tTUQwc3ZOZFhWbkpkeWg5aDNxVERCbW1qS3ViMlp4U1FLcV9IeWVEMHVvQ3gwUmJuMk9YbHZQY3BqRWV1OElaSXgya1dRQzVubXN0QlJIZDg3ZmEzYXc?oc=5)
+More jobs
+- Mercor hiring Bioinformatics Data-Science Specialist in Greater Montreal Metropolitan Area - LinkedIn (https://news.google.com/rss/articles/CBMimAFBVV95cUxPNTZITzFqdlpEc3NiUUo4TFIyMW9pNDZZVWNyMng4M0VsUjFFNk9CdnNLcjJ6ZGlrT01wMVZDNlkzVDMyZHRWR2o0bWpDeVlPNTg2RXRVNW9tMjR0ZWRZU3NtNnhHYmlYOS01QjkzM2lMUkRXU2pZOFNQRko4TF92d3lZME12UlN0M2JaZklJcWo4OTJZeEM5QQ?oc=5)
+
+"The protein structure is the language of life; design is its poetry." - Recep Adiyaman
+
+Manage preferences: https://recep2244.github.io/portfolio/newsletter/
+Unsubscribe: mailto:recepadiyaman2244@gmail.com?subject=UNSUBSCRIBE%20Protein%20Design%20Digest
+Recep Adiyaman | Reading, UK

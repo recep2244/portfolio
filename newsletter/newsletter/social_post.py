@@ -31,9 +31,12 @@ SUBSCRIBE_LABEL = "Subnewsletter"
 TWITTER_LIMIT = 280
 BLUESKY_LIMIT = 300
 DEFAULT_BASE_URL = "https://recep2244.github.io/portfolio/subscribe-form.html"
+DEFAULT_ISSUE_BASE_URL = "https://recep2244.github.io/portfolio/newsletter/"
 DEFAULT_TWITTER_TEMPLATE = "{header}\n{title}\n{extras}\n{summary}\n{subscribe}\n{link}\n{tags}"
 DEFAULT_BLUESKY_TEMPLATE = "{header}\n{title}\n{extras}\n{summary}\n{link}\n{subscribe}\n{tags}"
 DEFAULT_SECTION_TEMPLATE = "{header}\n{title}\n{summary}\n{link}\n{subscribe}\n{tags}"
+DEFAULT_TWITTER_THREAD_TEMPLATE = "{header}\n{title}\n{extras}\n{summary}\n{tags}"
+DEFAULT_BLUESKY_THREAD_TEMPLATE = "{header}\n{title}\n{extras}\n{summary}\n{tags}"
 
 
 def load_json(path):
@@ -69,6 +72,51 @@ def extract_title_line(text, fallback):
     if len(lines) >= 2:
         return lines[1]
     return fallback
+
+
+def strip_urls(text):
+    return re.sub(r"https?://\S+", "", text or "")
+
+
+def normalize_lines(text):
+    lines = [line.strip() for line in (text or "").splitlines() if line.strip()]
+    return "\n".join(lines)
+
+
+def sanitize_thread_text(text):
+    stripped = strip_urls(text)
+    lines = []
+    for line in (stripped or "").splitlines():
+        clean = line.strip()
+        if not clean:
+            continue
+        if re.fullmatch(
+            r"(?i)(paper|newsletter|digest|daily digest|issue|link)\s*:?",
+            clean,
+        ):
+            continue
+        lines.append(clean)
+    return "\n".join(lines)
+
+
+def build_link_reply_text(paper_url, newsletter_url):
+    lines = []
+    if paper_url:
+        lines.append(f"Paper: {paper_url}")
+    if newsletter_url:
+        lines.append(f"Newsletter: {newsletter_url}")
+    return "\n".join(lines).strip()
+
+
+def build_issue_url(issue_date, issue_number, base_url):
+    if not issue_date or not issue_number:
+        return ""
+    base_url = (base_url or "").strip()
+    if not base_url:
+        return ""
+    if not base_url.endswith("/"):
+        base_url = f"{base_url}/"
+    return f"{base_url}{issue_date}-issue-{issue_number}/"
 
 
 def ensure_subscribe_label(text, limit, subscribe_label=SUBSCRIBE_LABEL):
@@ -419,10 +467,18 @@ def append_suffix(text, suffix, limit=TWITTER_LIMIT):
     return f"{trimmed} {suffix}"
 
 
-def post_twitter(content, api_key, api_secret, access_token, access_token_secret, issue_date=None):
+def post_twitter(
+    content,
+    api_key,
+    api_secret,
+    access_token,
+    access_token_secret,
+    issue_date=None,
+    reply_to_id=None,
+):
     if not tweepy:
         print("Tweepy not installed, skipping Twitter.")
-        return
+        return None
 
     try:
         client = tweepy.Client(
@@ -431,22 +487,29 @@ def post_twitter(content, api_key, api_secret, access_token, access_token_secret
             access_token=access_token,
             access_token_secret=access_token_secret
         )
-        response = client.create_tweet(text=content)
-        print(f"Posted to Twitter: {response.data['id']}")
+        if reply_to_id:
+            response = client.create_tweet(text=content, in_reply_to_tweet_id=reply_to_id)
+        else:
+            response = client.create_tweet(text=content)
+        tweet_id = response.data["id"]
+        print(f"Posted to Twitter: {tweet_id}")
+        return tweet_id
     except Exception as e:
         msg = str(e).lower()
-        if "duplicate" in msg or "403" in msg:
+        if reply_to_id is None and ("duplicate" in msg or "403" in msg):
             suffix = format_duplicate_suffix(issue_date)
             retry_text = append_suffix(content, suffix, TWITTER_LIMIT)
             if retry_text != content:
                 try:
                     response = client.create_tweet(text=retry_text)
-                    print(f"Posted to Twitter (retry): {response.data['id']}")
-                    return
+                    tweet_id = response.data["id"]
+                    print(f"Posted to Twitter (retry): {tweet_id}")
+                    return tweet_id
                 except Exception as retry_err:
                     print(f"Failed to post to Twitter (retry): {retry_err}")
-                    return
+                    return None
         print(f"Failed to post to Twitter: {e}")
+        return None
 
 
 def post_linkedin(content, access_token):
@@ -601,6 +664,53 @@ def build_bluesky_facets(
     return facets if facets else None
 
 
+def create_bluesky_session(handle, password, service):
+    session_resp = requests.post(
+        f"{service}/xrpc/com.atproto.server.createSession",
+        json={"identifier": handle, "password": password},
+        timeout=30,
+    )
+    if session_resp.status_code != 200:
+        print(f"Bluesky login failed: {session_resp.status_code} - {session_resp.text}")
+        return None, None
+    session = session_resp.json()
+    access = session.get("accessJwt")
+    did = session.get("did")
+    if not access or not did:
+        print("Bluesky session missing fields.")
+        return None, None
+    return access, did
+
+
+def post_bluesky_record(access, did, service, content, embed=None, facets=None, reply=None):
+    record = {
+        "repo": did,
+        "collection": "app.bsky.feed.post",
+        "record": {
+            "text": content,
+            "createdAt": datetime.utcnow().isoformat() + "Z",
+        },
+    }
+    if embed:
+        record["record"]["embed"] = embed
+    if facets:
+        record["record"]["facets"] = facets
+    if reply:
+        record["record"]["reply"] = reply
+
+    post_resp = requests.post(
+        f"{service}/xrpc/com.atproto.repo.createRecord",
+        headers={"Authorization": f"Bearer {access}"},
+        json=record,
+        timeout=30,
+    )
+    if post_resp.status_code != 200:
+        print(f"Bluesky post failed: {post_resp.status_code} - {post_resp.text}")
+        return None
+    data = post_resp.json()
+    return data.get("uri"), data.get("cid")
+
+
 def post_bluesky(
     content,
     handle,
@@ -613,54 +723,31 @@ def post_bluesky(
 ):
     if not requests:
         print("Requests not installed, skipping Bluesky.")
-        return
+        return None
     try:
-        session_resp = requests.post(
-            f"{service}/xrpc/com.atproto.server.createSession",
-            json={"identifier": handle, "password": password},
-            timeout=30,
-        )
-        if session_resp.status_code != 200:
-            print(f"Bluesky login failed: {session_resp.status_code} - {session_resp.text}")
-            return
-        session = session_resp.json()
-        access = session.get("accessJwt")
-        did = session.get("did")
-        if not access or not did:
-            print("Bluesky session missing fields.")
-            return
-
-        record = {
-            "repo": did,
-            "collection": "app.bsky.feed.post",
-            "record": {
-                "text": content,
-                "createdAt": datetime.utcnow().isoformat() + "Z",
-            },
-        }
-        if embed:
-            record["record"]["embed"] = embed
         facets = build_bluesky_facets(
             content,
             subscribe_url=subscribe_url,
             paper_url=paper_url,
             subscribe_label=subscribe_label,
         )
-        if facets:
-            record["record"]["facets"] = facets
-
-        post_resp = requests.post(
-            f"{service}/xrpc/com.atproto.repo.createRecord",
-            headers={"Authorization": f"Bearer {access}"},
-            json=record,
-            timeout=30,
+        access, did = create_bluesky_session(handle, password, service)
+        if not access or not did:
+            return None
+        result = post_bluesky_record(
+            access,
+            did,
+            service,
+            content,
+            embed=embed,
+            facets=facets,
         )
-        if post_resp.status_code != 200:
-            print(f"Bluesky post failed: {post_resp.status_code} - {post_resp.text}")
-            return
-        print("Posted to Bluesky")
+        if result:
+            print("Posted to Bluesky")
+        return result
     except Exception as e:
         print(f"Failed to post to Bluesky: {e}")
+        return None
 
 
 def main():
@@ -715,6 +802,12 @@ def main():
     bluesky_subscribe_url = os.getenv("BLUESKY_SUBSCRIBE_URL", DEFAULT_BASE_URL)
     twitter_template = load_template("TWITTER_TEMPLATE", DEFAULT_TWITTER_TEMPLATE)
     bluesky_template = load_template("BLUESKY_TEMPLATE", DEFAULT_BLUESKY_TEMPLATE)
+    twitter_thread_template = load_template(
+        "TWITTER_THREAD_TEMPLATE", DEFAULT_TWITTER_THREAD_TEMPLATE
+    )
+    bluesky_thread_template = load_template(
+        "BLUESKY_THREAD_TEMPLATE", DEFAULT_BLUESKY_THREAD_TEMPLATE
+    )
     twitter_section_template = load_template(
         "TWITTER_SECTION_TEMPLATE", DEFAULT_SECTION_TEMPLATE
     )
@@ -731,9 +824,12 @@ def main():
     )
 
     issue_date = issue.get("issue_date", "")
+    issue_number = issue.get("issue_number")
+    issue_base_url = os.getenv("NEWSLETTER_ISSUE_BASE_URL", DEFAULT_ISSUE_BASE_URL)
+    issue_url = build_issue_url(issue_date, issue_number, issue_base_url)
     social_twitter = (social_cfg.get("twitter") or "").strip()
     social_bluesky = (social_cfg.get("bluesky") or "").strip()
-    twitter_text = social_twitter or build_social_text(
+    twitter_full_text = social_twitter or build_social_text(
         signal_title,
         summary,
         signal_link,
@@ -747,7 +843,7 @@ def main():
         template=twitter_template,
         subscribe_label=twitter_subscribe_label,
     )
-    bluesky_text = social_bluesky or build_social_text(
+    bluesky_full_text = social_bluesky or build_social_text(
         signal_title,
         summary,
         signal_link,
@@ -761,6 +857,46 @@ def main():
         template=bluesky_template,
         subscribe_label=bluesky_subscribe_label,
     )
+    twitter_thread_text = sanitize_thread_text(social_twitter) if social_twitter else ""
+    if not twitter_thread_text:
+        twitter_thread_text = build_social_text(
+            signal_title,
+            summary,
+            "",
+            twitter_subscribe_url,
+            TWITTER_LIMIT,
+            include_tags=True,
+            issue_date=issue_date,
+            subscribe_url_in_text=False,
+            extra_lines=extras,
+            url_length=23,
+            template=twitter_thread_template,
+            subscribe_label=twitter_subscribe_label,
+        )
+    bluesky_thread_text = sanitize_thread_text(social_bluesky) if social_bluesky else ""
+    if not bluesky_thread_text:
+        bluesky_thread_text = build_social_text(
+            signal_title,
+            summary,
+            "",
+            bluesky_subscribe_url,
+            BLUESKY_LIMIT,
+            include_tags=True,
+            issue_date=issue_date,
+            subscribe_url_in_text=False,
+            extra_lines=extras,
+            omit_long_links=True,
+            template=bluesky_thread_template,
+            subscribe_label=bluesky_subscribe_label,
+        )
+    if not twitter_thread_text:
+        twitter_thread_text = sanitize_thread_text(twitter_full_text)
+    if not bluesky_thread_text:
+        bluesky_thread_text = sanitize_thread_text(bluesky_full_text)
+
+    newsletter_url = issue_url or twitter_subscribe_url
+    twitter_link_reply = build_link_reply_text(signal_link, newsletter_url)
+    bluesky_link_reply = build_link_reply_text(signal_link, issue_url or bluesky_subscribe_url)
 
     def build_section_post(item, header_label):
         if not item:
@@ -885,7 +1021,7 @@ def main():
                 title,
                 summary_text,
                 link,
-                sub_url,
+                twitter_subscribe_url,
                 TWITTER_LIMIT,
                 include_tags=True,
                 issue_date=issue_date,
@@ -901,7 +1037,7 @@ def main():
                 title,
                 summary_text,
                 link,
-                sub_url,
+                bluesky_subscribe_url,
                 BLUESKY_LIMIT,
                 include_tags=True,
                 issue_date=issue_date,
@@ -918,12 +1054,20 @@ def main():
     industry_post = ensure_channel(industry_post, "Industry news of the day")
     job_post = ensure_channel(job_post, "Job of the day")
 
-    print("--- Twitter Post ---")
-    print(twitter_text)
-    print("--------------------")
-    print("--- Bluesky Post ---")
-    print(bluesky_text)
-    print("--------------------")
+    print("--- Twitter Thread (Main) ---")
+    print(twitter_thread_text)
+    print("----------------------------")
+    if twitter_link_reply:
+        print("--- Twitter Thread (Links) ---")
+        print(twitter_link_reply)
+        print("------------------------------")
+    print("--- Bluesky Thread (Main) ---")
+    print(bluesky_thread_text)
+    print("-----------------------------")
+    if bluesky_link_reply:
+        print("--- Bluesky Thread (Links) ---")
+        print(bluesky_link_reply)
+        print("------------------------------")
     if ai_post:
         print("--- AI News Post (Twitter) ---")
         print(ai_post["twitter"])
@@ -958,7 +1102,24 @@ def main():
     tw_tok = os.getenv("TWITTER_ACCESS_TOKEN")
     tw_tok_sec = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
     if "twitter" in channels and tw_key and tw_sec and tw_tok and tw_tok_sec:
-        post_twitter(twitter_text, tw_key, tw_sec, tw_tok, tw_tok_sec, issue_date)
+        root_id = post_twitter(
+            twitter_thread_text,
+            tw_key,
+            tw_sec,
+            tw_tok,
+            tw_tok_sec,
+            issue_date,
+        )
+        if root_id and twitter_link_reply:
+            post_twitter(
+                twitter_link_reply,
+                tw_key,
+                tw_sec,
+                tw_tok,
+                tw_tok_sec,
+                issue_date,
+                reply_to_id=root_id,
+            )
         if ai_post:
             post_twitter(ai_post["twitter"], tw_key, tw_sec, tw_tok, tw_tok_sec, issue_date)
         if industry_post:
@@ -971,7 +1132,7 @@ def main():
     # LinkedIn
     li_tok = os.getenv("LINKEDIN_ACCESS_TOKEN")
     if "linkedin" in channels and li_tok:
-        li_text = (social_cfg.get("linkedin") or "").strip() or twitter_text
+        li_text = (social_cfg.get("linkedin") or "").strip() or twitter_full_text
         post_linkedin(li_text, li_tok)
     elif "linkedin" in channels:
         print("Skipping LinkedIn (credentials missing)")
@@ -982,22 +1143,30 @@ def main():
     bs_service = os.getenv("BLUESKY_SERVICE", "https://bsky.social")
     bs_subscribe = bluesky_subscribe_url
     if "bluesky" in channels and bs_handle and bs_pass:
-        bluesky_text = ensure_subscribe_label(
-            bluesky_text, BLUESKY_LIMIT, subscribe_label=bluesky_subscribe_label
-        )
-        main_link = signal_link or extract_first_url(twitter_text) or extract_first_url(bluesky_text)
-        main_title = signal_title or extract_title_line(twitter_text or bluesky_text, "Paper of the day")
-        embed = build_external_embed(main_title, summary, main_link)
-        post_bluesky(
-            bluesky_text,
-            bs_handle,
-            bs_pass,
-            bs_service,
-            subscribe_url=bs_subscribe,
-            paper_url=main_link,
-            embed=embed,
-            subscribe_label=bluesky_subscribe_label,
-        )
+        access, did = create_bluesky_session(bs_handle, bs_pass, bs_service)
+        if access and did:
+            main_facets = build_bluesky_facets(bluesky_thread_text)
+            root = post_bluesky_record(
+                access,
+                did,
+                bs_service,
+                bluesky_thread_text,
+                facets=main_facets,
+            )
+            if root and bluesky_link_reply:
+                root_uri, root_cid = root
+                reply_facets = build_bluesky_facets(bluesky_link_reply)
+                post_bluesky_record(
+                    access,
+                    did,
+                    bs_service,
+                    bluesky_link_reply,
+                    facets=reply_facets,
+                    reply={
+                        "root": {"uri": root_uri, "cid": root_cid},
+                        "parent": {"uri": root_uri, "cid": root_cid},
+                    },
+                )
         for post in (ai_post, industry_post, job_post):
             if not post:
                 continue

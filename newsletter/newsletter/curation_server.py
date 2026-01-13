@@ -90,6 +90,35 @@ def sync_archive(root_dir, issue_date):
         return result
 
 
+def _parse_int_env(key, default):
+    value = os.getenv(key)
+    if value is None or value == "":
+        return default
+    try:
+        return int(value)
+    except ValueError:
+        return default
+
+
+def _send_timezone(default_tz):
+    name = (os.getenv("NEWSLETTER_SEND_TZ") or os.getenv("NEWSLETTER_TIMEZONE") or "").strip()
+    if not name:
+        return default_tz
+    try:
+        return ZoneInfo(name)
+    except Exception:
+        return default_tz
+
+
+def should_send_on_approval(default_tz):
+    tz = _send_timezone(default_tz)
+    now = datetime.now(tz)
+    send_hour = _parse_int_env("NEWSLETTER_SEND_HOUR", 9)
+    send_minute = _parse_int_env("NEWSLETTER_SEND_MINUTE", 0)
+    target = now.replace(hour=send_hour, minute=send_minute, second=0, microsecond=0)
+    return now >= target
+
+
 class CurationServer(BaseHTTPRequestHandler):
     def _send(self, status, payload, content_type="application/json"):
         body = payload if isinstance(payload, (bytes, bytearray)) else json.dumps(payload).encode("utf-8")
@@ -221,6 +250,7 @@ class CurationServer(BaseHTTPRequestHandler):
                 return
             try:
                 self._save_issue(payload)
+                rendered = False
                 if is_truthy(os.getenv("NEWSLETTER_DELAY_SEND")):
                     write_approval_marker(
                         self.server.approval_marker,
@@ -232,11 +262,13 @@ class CurationServer(BaseHTTPRequestHandler):
                         ["--issues-dir", str(self.server.issues_dir)],
                         self.server.root_dir,
                     )
-                    self._send(
-                        200,
-                        {"message": "Approved. Scheduled to send at the configured time."},
-                    )
-                    return
+                    rendered = True
+                    if not should_send_on_approval(self.server.timezone):
+                        self._send(
+                            200,
+                            {"message": "Approved. Scheduled to send at the configured time."},
+                        )
+                        return
                 run_python(
                     self.server.sync_subscribers,
                     [
@@ -245,7 +277,12 @@ class CurationServer(BaseHTTPRequestHandler):
                     ],
                     self.server.root_dir,
                 )
-                run_python(self.server.newsletter_to_md, ["--issues-dir", str(self.server.issues_dir)], self.server.root_dir)
+                if not rendered:
+                    run_python(
+                        self.server.newsletter_to_md,
+                        ["--issues-dir", str(self.server.issues_dir)],
+                        self.server.root_dir,
+                    )
                 run_python(
                     self.server.send_newsletter,
                     [

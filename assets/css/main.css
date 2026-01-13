@@ -398,3 +398,371 @@
 @utility delay-300 {
   animation-delay: 300ms;
 }
+
+/* ========================================
+   ENHANCED READABILITY & INTERACTIVITY
+   ======================================== */
+
+@layer components {
+  /* Reading Progress Bar */
+  .reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, #0ea5e9, #3b82f6, #a855f7);
+    z-index: 9999;
+    transition: width 0.1s ease-out;
+  }
+
+  /* Smooth Focus States */
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid #0ea5e9;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Enhanced Link Hover */
+  .prose a {
+    position: relative;
+    transition: all 0.2s ease;
+  }
+
+  .prose a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #0ea5e9, #3b82f6);
+    transition: width 0.3s ease;
+  }
+
+  .prose a:hover::after {
+    width: 100%;
+  }
+
+  /* Interactive Cards */
+  .interactive-card {
+    @apply transition-all duration-300 ease-out;
+    transform: translateY(0);
+  }
+
+  .interactive-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -12px rgba(14, 165, 233, 0.25);
+  }
+
+  /* Smooth Button Interactions */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3 font-bold rounded-xl transition-all duration-200;
+    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+    color: white;
+    box-shadow: 0 4px 14px rgba(14, 165, 233, 0.35);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(14, 165, 233, 0.45);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-6 py-3 font-bold rounded-xl transition-all duration-200;
+    @apply bg-white border-2 border-slate-200 text-slate-700;
+  }
+
+  .btn-secondary:hover {
+    @apply border-accent text-accent;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15);
+  }
+
+  /* Reading Time Badge */
+  .reading-time {
+    @apply inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold rounded-full;
+    @apply bg-slate-100 text-slate-600;
+  }
+
+  /* Table of Contents */
+  .toc {
+    @apply sticky top-24 p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-slate-200;
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+  }
+
+  .toc-title {
+    @apply text-xs font-bold uppercase tracking-wider text-slate-500 mb-4;
+  }
+
+  .toc-link {
+    @apply block py-2 px-3 text-sm text-slate-600 rounded-lg transition-all duration-200;
+    @apply hover:bg-slate-100 hover:text-accent;
+  }
+
+  .toc-link.active {
+    @apply bg-accent/10 text-accent font-semibold;
+    border-left: 3px solid #0ea5e9;
+  }
+
+  /* Scroll to Top Button */
+  .scroll-to-top {
+    @apply fixed bottom-8 right-8 p-4 rounded-full bg-white shadow-lg border border-slate-200;
+    @apply transition-all duration-300 opacity-0 invisible;
+    z-index: 50;
+  }
+
+  .scroll-to-top.visible {
+    @apply opacity-100 visible;
+  }
+
+  .scroll-to-top:hover {
+    @apply bg-accent text-white border-accent;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(14, 165, 233, 0.3);
+  }
+
+  /* Share Buttons */
+  .share-btn {
+    @apply flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200;
+    @apply bg-slate-100 text-slate-600 hover:text-white;
+  }
+
+  .share-btn:hover {
+    transform: scale(1.1);
+  }
+
+  .share-btn.twitter:hover {
+    @apply bg-[#1DA1F2];
+  }
+
+  .share-btn.linkedin:hover {
+    @apply bg-[#0077B5];
+  }
+
+  .share-btn.copy:hover {
+    @apply bg-slate-700;
+  }
+
+  /* Code Block Enhancements */
+  .prose pre {
+    @apply relative;
+  }
+
+  .copy-code-btn {
+    @apply absolute top-3 right-3 px-3 py-1 text-xs font-semibold rounded-md;
+    @apply bg-slate-700 text-slate-300 opacity-0 transition-opacity duration-200;
+  }
+
+  .prose pre:hover .copy-code-btn {
+    @apply opacity-100;
+  }
+
+  .copy-code-btn:hover {
+    @apply bg-slate-600 text-white;
+  }
+
+  /* Tooltip */
+  .tooltip {
+    @apply relative;
+  }
+
+  .tooltip::after {
+    content: attr(data-tooltip);
+    @apply absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2;
+    @apply px-3 py-1 text-xs font-medium text-white bg-slate-800 rounded-lg;
+    @apply opacity-0 invisible transition-all duration-200;
+    white-space: nowrap;
+  }
+
+  .tooltip:hover::after {
+    @apply opacity-100 visible;
+  }
+
+  /* Skeleton Loading */
+  .skeleton {
+    @apply animate-pulse bg-slate-200 rounded;
+  }
+
+  /* Highlight on Scroll */
+  .highlight-section {
+    @apply transition-all duration-500;
+  }
+
+  .highlight-section.is-highlighted {
+    @apply bg-accent/5 -mx-4 px-4 rounded-xl;
+  }
+
+  /* Image Zoom on Hover */
+  .zoomable-image {
+    @apply cursor-zoom-in overflow-hidden rounded-2xl;
+  }
+
+  .zoomable-image img {
+    @apply transition-transform duration-500 ease-out;
+  }
+
+  .zoomable-image:hover img {
+    transform: scale(1.05);
+  }
+
+  /* Notification Toast */
+  .toast {
+    @apply fixed bottom-8 left-1/2 transform -translate-x-1/2;
+    @apply px-6 py-3 bg-slate-800 text-white rounded-xl shadow-xl;
+    @apply transition-all duration-300 opacity-0 translate-y-4;
+    z-index: 100;
+  }
+
+  .toast.show {
+    @apply opacity-100 translate-y-0;
+  }
+
+  /* Enhanced Blockquotes */
+  .prose blockquote {
+    @apply relative;
+  }
+
+  .prose blockquote::before {
+    content: '"';
+    @apply absolute -top-4 -left-2 text-6xl text-accent/20 font-serif;
+  }
+
+  /* Better List Items */
+  .prose ul li::marker {
+    color: #0ea5e9;
+  }
+
+  .prose ol li::marker {
+    color: #0ea5e9;
+    font-weight: 700;
+  }
+
+  /* Section Fade-in on Scroll */
+  .fade-in-section {
+    @apply opacity-0 translate-y-8 transition-all duration-700 ease-out;
+  }
+
+  .fade-in-section.is-visible {
+    @apply opacity-100 translate-y-0;
+  }
+
+  /* Staggered Animation */
+  .stagger-children > * {
+    @apply opacity-0 translate-y-4;
+    animation: staggerFadeIn 0.5s ease-out forwards;
+  }
+
+  .stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
+  .stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
+  .stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
+  .stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
+  .stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
+  .stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+
+  @keyframes staggerFadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Magnetic Button Effect */
+  .magnetic-btn {
+    @apply transition-transform duration-200 ease-out;
+  }
+
+  /* Better Typography for Articles */
+  .article-content {
+    font-size: 1.125rem;
+    line-height: 1.85;
+  }
+
+  .article-content p {
+    @apply mb-6;
+  }
+
+  .article-content h2 {
+    @apply mt-16 mb-6 text-3xl font-extrabold;
+  }
+
+  .article-content h3 {
+    @apply mt-12 mb-4 text-2xl font-bold;
+  }
+
+  /* Drop Cap for First Paragraph */
+  .drop-cap::first-letter {
+    @apply float-left text-6xl font-bold leading-none mr-3 mt-1;
+    color: #0ea5e9;
+  }
+
+  /* Callout Boxes */
+  .callout {
+    @apply p-6 rounded-2xl border-l-4 my-8;
+  }
+
+  .callout-info {
+    @apply bg-blue-50 border-blue-500;
+  }
+
+  .callout-warning {
+    @apply bg-amber-50 border-amber-500;
+  }
+
+  .callout-success {
+    @apply bg-emerald-50 border-emerald-500;
+  }
+
+  .callout-title {
+    @apply font-bold mb-2 flex items-center gap-2;
+  }
+
+  /* Accordion */
+  .accordion-item {
+    @apply border border-slate-200 rounded-xl mb-3 overflow-hidden;
+  }
+
+  .accordion-header {
+    @apply w-full p-4 text-left font-semibold flex items-center justify-between;
+    @apply bg-white hover:bg-slate-50 transition-colors;
+  }
+
+  .accordion-content {
+    @apply max-h-0 overflow-hidden transition-all duration-300;
+  }
+
+  .accordion-item.open .accordion-content {
+    @apply max-h-96;
+  }
+
+  .accordion-icon {
+    @apply transition-transform duration-300;
+  }
+
+  .accordion-item.open .accordion-icon {
+    transform: rotate(180deg);
+  }
+}
+
+/* Smooth Scroll Behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

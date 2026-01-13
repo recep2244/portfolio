@@ -6,15 +6,15 @@
   "subject_prefix": "Protein Design Digest",
   "quick_reads_count": 8,
   "signal_extras_count": 3,
-  "avoid_recent_days": 10,
+  "avoid_recent_days": 21,
   "resource_counts": {
     "datasets": 2,
     "tools": 2,
     "events": 2,
     "jobs": 2
   },
-  "lookback_days": 14,
-  "max_results_per_source": 80,
+  "lookback_days": 21,
+  "max_results_per_source": 120,
   "keywords": [
     "protein structure prediction",
     "protein design",
@@ -53,30 +53,30 @@
   "sources": {
     "arxiv": {
       "enabled": true,
-      "max_results": 50
+      "max_results": 80
     },
     "europe_pmc": {
       "enabled": true,
-      "page_size": 50
+      "page_size": 80
     },
     "biorxiv": {
       "enabled": true,
-      "max_results": 80
+      "max_results": 120
     },
     "medrxiv": {
       "enabled": true,
-      "max_results": 50
+      "max_results": 80
     },
     "pubmed": {
       "enabled": true,
-      "max_results": 50,
+      "max_results": 80,
       "email": "recepadiyaman2244@gmail.com",
       "tool": "ProteinDesignDigest",
       "api_key": ""
     },
     "rss": {
       "enabled": true,
-      "max_results": 50,
+      "max_results": 80,
       "feeds": [
         {
           "name": "Nature Biotechnology",
@@ -87,6 +87,22 @@
           "url": "http://feeds.nature.com/nsmb/rss/current"
         },
         {
+          "name": "Nature Methods",
+          "url": "http://feeds.nature.com/nmeth/rss/current"
+        },
+        {
+          "name": "Nature Communications",
+          "url": "http://feeds.nature.com/ncomms/rss/current"
+        },
+        {
+          "name": "Science",
+          "url": "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science"
+        },
+        {
+          "name": "PNAS",
+          "url": "https://www.pnas.org/rss/current.xml"
+        },
+        {
           "name": "Biotech Industry News",
           "url": "https://news.google.com/rss/search?q=protein+design+industry+OR+biotech+partnership+OR+drug+discovery+clinical+application+when:7d&hl=en-US&gl=US&ceid=US:en"
         }
@@ -94,7 +110,7 @@
     },
     "semantic_scholar": {
       "enabled": true,
-      "max_results": 50
+      "max_results": 80
     }
   },
   "ai_news": {
@@ -475,5 +491,21 @@
   "subscribe_link": "https://recep2244.github.io/portfolio/newsletter/",
   "unsubscribe_link": "mailto:recepadiyaman2244@gmail.com?subject=UNSUBSCRIBE%20Protein%20Design%20Digest",
   "sender_address": "Recep Adiyaman | Reading, UK",
-  "user_agent": "ProteinDesignDigest/1.0 (contact: recepadiyaman2244@gmail.com)"
+  "user_agent": "ProteinDesignDigest/1.0 (contact: recepadiyaman2244@gmail.com)",
+  "analytics": {
+    "enabled": true,
+    "tracker_url": "",
+    "db_path": "newsletter/newsletter/analytics.db"
+  },
+  "semantic_dedup": {
+    "enabled": true,
+    "threshold": 0.80,
+    "model": "all-MiniLM-L6-v2",
+    "cache_dir": "newsletter/newsletter/.embeddings_cache"
+  },
+  "trending": {
+    "enabled": true,
+    "db_path": "newsletter/newsletter/trending.db",
+    "compare_days": 7
+  }
 }

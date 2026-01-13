@@ -1,0 +1,182 @@
+Subscriber sync: no new subscribers found.
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/generate_issue.py:684: DeprecationWarning: Testing an element's truth value will raise an exception in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+  source_node = item.find("source") or item.find("{*}source")
+Warning: Using stale cache for http://export.arxiv.org/api/query?search_query=%28all%3A%22protein+structure+prediction%22+OR+all%3A%22protein+design%22+OR+all%3A%22protein+engineering%22+OR+all%3A%22structural+biology%22+OR+all%3A%22de+novo+protein+design%22+OR+all%3A%22enzyme+engineering%22+OR+all%3A%22benchmark%22+OR+all%3A%22methodology%22+OR+all%3A%22ligand+interaction%22+OR+all%3A%22software+tool%22+OR+all%3A%22structure+prediction+software%22+OR+all%3A%22alphafold%22+OR+all%3A%22rosettafold%22+OR+all%3A%22model+refinement%22+OR+all%3A%22docking+benchmark%22+OR+all%3A%22geometric+deep+learning%22+OR+all%3A%22molecular+dynamics%22+OR+all%3A%22drug+discovery%22+OR+all%3A%22generative+biology%22+OR+all%3A%22protein+binders%22+OR+all%3A%22docking%22+OR+all%3A%22protein-protein+interaction%22+OR+all%3A%22molecular+docking%22+OR+all%3A%22epitope+design%22%29&start=0&max_results=50&sortBy=submittedDate&sortOrder=descending: HTTP Error 429: Unknown Error
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-08.json
+Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
+Auto send skipped: approval not found for 2026-01-08.
+Daily run complete. Run run_send_confirmed.sh after approval to email everyone.
+Subscriber sync: no new subscribers found.
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/generate_issue.py:684: DeprecationWarning: Testing an element's truth value will raise an exception in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+  source_node = item.find("source") or item.find("{*}source")
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-09.json
+📅 Friday detected: Generating Weekly Digest...
+Generating digest for period: 2026-01-05 to 2026-01-09
+Successfully generated weekly digest: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/../../content/newsletter/weekly-digest-2026-01-09.md
+Reminder sent to 1 recipients
+Curation reminder sent. Social posting will run after approval.
+Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
+Daily run complete. Run run_send_confirmed.sh after approval to email everyone.
+Subscriber sync: no new subscribers found.
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/generate_issue.py:684: DeprecationWarning: Testing an element's truth value will raise an exception in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+  source_node = item.find("source") or item.find("{*}source")
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-09.json
+📅 Friday detected: Generating Weekly Digest...
+Generating digest for period: 2026-01-05 to 2026-01-09
+Successfully generated weekly digest: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/../../content/newsletter/weekly-digest-2026-01-09.md
+Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
+Subscriber sync: no new subscribers found.
+Converted 2025-12-30.json -> 2025-12-30-issue-8.md
+Converted 2026-01-03.json -> 2026-01-03-issue-12.md
+Converted 2026-01-08.json -> 2026-01-08-issue-16.md
+Converted 2025-12-23.json -> 2025-12-23-issue-3.md
+Converted 2026-01-05.json -> 2026-01-05-issue-14.md
+Converted 2025-12-28.json -> 2025-12-28-issue-7.md
+Converted 2025-12-27.json -> 2025-12-27-issue-5.md
+Converted 2025-12-21.json -> 2025-12-21-issue-2.md
+Converted 2025-12-29.json -> 2025-12-29-issue-7.md
+Converted 2025-12-22.json -> 2025-12-22-issue-3.md
+Converted 2026-01-01.json -> 2026-01-01-issue-10.md
+Converted 2026-01-09.json -> 2026-01-09-issue-17.md
+Converted 2026-01-07.json -> 2026-01-07-issue-15.md
+Converted 2025-12-24.json -> 2025-12-24-issue-4.md
+Converted 2025-12-31.json -> 2025-12-31-issue-9.md
+Converted 2026-01-04.json -> 2026-01-04-issue-13.md
+Sent 'Protein Design Digest - 2026-01-09 - Discovery of PPARγ Partial Agonists for Treatment of Type 2 Diabetes Based on an Integrated Virtual Screening Strategy that Combines Fragment Molecular Orbital Calculations, Machine Learning, Molecular Docking, Interaction Fingerprint Filtering, and Molecular Dynamics Simulations.' to 4 recipients
+📣 Publishing announcement to social media...
+Issue file not found: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/today.json
+⚠️ Social publishing failed, skipping...
+Daily run complete. Run run_send_confirmed.sh after approval to email everyone.
+Subscriber sync: no new subscribers found.
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/generate_issue.py:684: DeprecationWarning: Testing an element's truth value will raise an exception in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+  source_node = item.find("source") or item.find("{*}source")
+Warning: Using stale cache for https://api.semanticscholar.org/graph/v1/paper/search?query=protein+structure+prediction+OR+protein+design+OR+protein+engineering+OR+structural+biology+OR+de+novo+protein+design&limit=50&fields=title%2Cabstract%2Curl%2CpublicationDate%2Cvenue&year=2025-: HTTP Error 429: 
+Warning: Semantic dedup not available (sentence-transformers not installed)
+Warning: Trending module not available
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-10.json
+Reminder sent to 1 recipients
+Curation reminder sent. Social posting will run after approval.
+Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
+Daily run complete. Run run_send_confirmed.sh after approval to email everyone.
+Subscriber sync: no new subscribers found.
+2026-01-10 09:00:08 - INFO - Fetching from 9 sources concurrently...
+2026-01-10 09:00:08 - INFO - RSS (Nature Struct & Mol Bio): fetched 8 papers
+2026-01-10 09:00:08 - INFO - RSS (Nature Biotechnology): fetched 8 papers
+2026-01-10 09:00:09 - WARNING - Using stale cache for https://api.semanticscholar.org/graph/v1/paper/search?query=protein+structure+prediction+OR+protein+design+OR+protein+engineering+OR+structural+biology+OR+de+novo+protein+design&limit=50&fields=title%2Cabstract%2Curl%2CpublicationDate%2Cvenue&year=2025-: HTTP Error 429: 
+2026-01-10 09:00:09 - INFO - Semantic Scholar: fetched 0 papers
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/generate_issue.py:761: DeprecationWarning: Testing an element's truth value will raise an exception in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+  source_node = item.find("source") or item.find("{*}source")
+2026-01-10 09:00:09 - INFO - medRxiv: fetched 50 papers
+2026-01-10 09:00:09 - INFO - Europe PMC: fetched 50 papers
+2026-01-10 09:00:10 - INFO - PubMed: fetched 50 papers
+2026-01-10 09:00:14 - INFO - arXiv: fetched 50 papers
+2026-01-10 09:00:15 - INFO - bioRxiv: fetched 80 papers
+2026-01-10 09:00:20 - INFO - RSS (Biotech Industry News): fetched 44 papers
+Warning: Semantic dedup not available (sentence-transformers not installed)
+Warning: Trending module not available
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-10.json
+Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
+Auto send skipped: approval not found for 2026-01-10.
+Daily run complete. Run run_send_confirmed.sh after approval to email everyone.
+Subscriber sync: 5 new, 0 updated, 0 unsubscribed.
+2026-01-11 00:01:11 - INFO - Fetching from 9 sources concurrently...
+2026-01-11 00:01:12 - INFO - RSS (Nature Biotechnology): fetched 8 papers
+2026-01-11 00:01:12 - INFO - RSS (Nature Struct & Mol Bio): fetched 8 papers
+2026-01-11 00:01:12 - WARNING - Using stale cache for https://api.semanticscholar.org/graph/v1/paper/search?query=protein+structure+prediction+OR+protein+design+OR+protein+engineering+OR+structural+biology+OR+de+novo+protein+design&limit=50&fields=title%2Cabstract%2Curl%2CpublicationDate%2Cvenue&year=2025-: HTTP Error 429: 
+2026-01-11 00:01:12 - INFO - Semantic Scholar: fetched 0 papers
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/generate_issue.py:761: DeprecationWarning: Testing an element's truth value will raise an exception in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+  source_node = item.find("source") or item.find("{*}source")
+2026-01-11 00:01:13 - INFO - Europe PMC: fetched 50 papers
+2026-01-11 00:01:13 - INFO - medRxiv: fetched 50 papers
+2026-01-11 00:01:13 - INFO - PubMed: fetched 50 papers
+2026-01-11 00:01:17 - INFO - arXiv: fetched 50 papers
+2026-01-11 00:01:22 - INFO - bioRxiv: fetched 80 papers
+2026-01-11 00:01:23 - INFO - RSS (Biotech Industry News): fetched 41 papers
+Warning: Semantic dedup not available (sentence-transformers not installed)
+Warning: Trending module not available
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-11.json
+Reminder sent to 1 recipients
+Curation reminder sent. Social posting will run after approval.
+Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
+Daily run complete. Run run_send_confirmed.sh after approval to email everyone.
+Subscriber sync: no new subscribers found.
+2026-01-11 09:00:14 - INFO - Fetching from 9 sources concurrently...
+2026-01-11 09:00:14 - INFO - RSS (Nature Struct & Mol Bio): fetched 8 papers
+2026-01-11 09:00:14 - INFO - RSS (Nature Biotechnology): fetched 8 papers
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/generate_issue.py:761: DeprecationWarning: Testing an element's truth value will raise an exception in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+  source_node = item.find("source") or item.find("{*}source")
+2026-01-11 09:00:14 - INFO - Semantic Scholar: fetched 0 papers
+2026-01-11 09:00:15 - INFO - medRxiv: fetched 50 papers
+2026-01-11 09:00:15 - INFO - Europe PMC: fetched 50 papers
+2026-01-11 09:00:15 - INFO - PubMed: fetched 50 papers
+2026-01-11 09:00:20 - INFO - arXiv: fetched 50 papers
+2026-01-11 09:00:22 - INFO - bioRxiv: fetched 80 papers
+2026-01-11 09:00:26 - INFO - RSS (Biotech Industry News): fetched 43 papers
+Warning: Semantic dedup not available (sentence-transformers not installed)
+Warning: Trending module not available
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-11.json
+Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
+Auto send skipped: approval not found for 2026-01-11.
+Daily run complete. Run run_send_confirmed.sh after approval to email everyone.
+Subscriber sync: no new subscribers found.
+2026-01-12 00:01:08 - INFO - Fetching from 9 sources concurrently...
+2026-01-12 00:01:08 - INFO - RSS (Nature Struct & Mol Bio): fetched 8 papers
+2026-01-12 00:01:09 - INFO - RSS (Nature Biotechnology): fetched 8 papers
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/generate_issue.py:761: DeprecationWarning: Testing an element's truth value will raise an exception in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+  source_node = item.find("source") or item.find("{*}source")
+2026-01-12 00:01:09 - INFO - medRxiv: fetched 50 papers
+2026-01-12 00:01:09 - INFO - Europe PMC: fetched 50 papers
+2026-01-12 00:01:09 - INFO - Semantic Scholar: fetched 0 papers
+2026-01-12 00:01:10 - INFO - PubMed: fetched 50 papers
+2026-01-12 00:01:12 - INFO - arXiv: fetched 50 papers
+2026-01-12 00:01:16 - INFO - bioRxiv: fetched 80 papers
+2026-01-12 00:01:21 - INFO - RSS (Biotech Industry News): fetched 44 papers
+Warning: Semantic dedup not available (sentence-transformers not installed)
+Warning: Trending module not available
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-12.json
+Reminder sent to 1 recipients
+Curation reminder sent. Social posting will run after approval.
+Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
+Daily run complete. Run run_send_confirmed.sh after approval to email everyone.
+Subscriber sync: no new subscribers found.
+2026-01-12 09:00:10 - INFO - Fetching from 9 sources concurrently...
+2026-01-12 09:00:10 - INFO - RSS (Nature Biotechnology): fetched 8 papers
+2026-01-12 09:00:10 - INFO - RSS (Nature Struct & Mol Bio): fetched 8 papers
+2026-01-12 09:00:11 - WARNING - Using stale cache for https://api.semanticscholar.org/graph/v1/paper/search?query=protein+structure+prediction+OR+protein+design+OR+protein+engineering+OR+structural+biology+OR+de+novo+protein+design&limit=50&fields=title%2Cabstract%2Curl%2CpublicationDate%2Cvenue&year=2025-: HTTP Error 429: 
+2026-01-12 09:00:11 - INFO - Semantic Scholar: fetched 0 papers
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/generate_issue.py:761: DeprecationWarning: Testing an element's truth value will raise an exception in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+  source_node = item.find("source") or item.find("{*}source")
+2026-01-12 09:00:11 - INFO - medRxiv: fetched 50 papers
+2026-01-12 09:00:12 - INFO - Europe PMC: fetched 50 papers
+2026-01-12 09:00:12 - INFO - PubMed: fetched 50 papers
+2026-01-12 09:00:16 - INFO - arXiv: fetched 50 papers
+2026-01-12 09:00:19 - INFO - bioRxiv: fetched 80 papers
+2026-01-12 09:00:21 - INFO - RSS (Biotech Industry News): fetched 38 papers
+Warning: Semantic dedup not available (sentence-transformers not installed)
+Warning: Trending module not available
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-12.json
+Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
+Auto send skipped: approval not found for 2026-01-12.
+Daily run complete. Run run_send_confirmed.sh after approval to email everyone.
+Subscriber sync: no new subscribers found.
+2026-01-13 00:01:05 - INFO - Fetching from 9 sources concurrently...
+2026-01-13 00:01:05 - INFO - RSS (Nature Biotechnology): fetched 8 papers
+2026-01-13 00:01:06 - WARNING - Using stale cache for https://api.semanticscholar.org/graph/v1/paper/search?query=protein+structure+prediction+OR+protein+design+OR+protein+engineering+OR+structural+biology+OR+de+novo+protein+design&limit=50&fields=title%2Cabstract%2Curl%2CpublicationDate%2Cvenue&year=2025-: HTTP Error 429: 
+2026-01-13 00:01:06 - INFO - Semantic Scholar: fetched 0 papers
+2026-01-13 00:01:06 - INFO - RSS (Nature Struct & Mol Bio): fetched 8 papers
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/generate_issue.py:761: DeprecationWarning: Testing an element's truth value will raise an exception in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+  source_node = item.find("source") or item.find("{*}source")
+2026-01-13 00:01:06 - INFO - Europe PMC: fetched 50 papers
+2026-01-13 00:01:07 - INFO - PubMed: fetched 50 papers
+2026-01-13 00:01:07 - INFO - medRxiv: fetched 50 papers
+2026-01-13 00:01:12 - INFO - arXiv: fetched 50 papers
+2026-01-13 00:01:12 - INFO - bioRxiv: fetched 80 papers
+2026-01-13 00:01:18 - INFO - RSS (Biotech Industry News): fetched 45 papers
+Warning: Semantic dedup not available (sentence-transformers not installed)
+Warning: Trending module not available
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-13.json
+Reminder sent to 1 recipients
+Curation reminder sent. Social posting will run after approval.
+Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
+Daily run complete. Run run_send_confirmed.sh after approval to email everyone.
+/bin/sh: 1: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/run_sync_subscribers.sh: Permission denied

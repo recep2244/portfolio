@@ -1,2 +1,28 @@
-Warning: Semantic Scholar fetch failed: HTTP Error 429: 
-Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-04.json
+2026-01-13 00:01:55 - INFO - Fetching from 9 sources concurrently...
+2026-01-13 00:01:55 - INFO - Europe PMC: fetched 50 papers
+2026-01-13 00:01:55 - INFO - bioRxiv: fetched 80 papers
+2026-01-13 00:01:55 - INFO - arXiv: fetched 50 papers
+2026-01-13 00:01:55 - INFO - medRxiv: fetched 50 papers
+2026-01-13 00:01:55 - INFO - RSS (Nature Biotechnology): fetched 8 papers
+2026-01-13 00:01:55 - INFO - PubMed: fetched 50 papers
+2026-01-13 00:01:55 - INFO - RSS (Nature Struct & Mol Bio): fetched 8 papers
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/generate_issue.py:761: DeprecationWarning: Testing an element's truth value will raise an exception in future versions.  Use specific 'len(elem)' or 'elem is not None' test instead.
+  source_node = item.find("source") or item.find("{*}source")
+2026-01-13 00:01:55 - INFO - RSS (Biotech Industry News): fetched 45 papers
+2026-01-13 00:01:56 - INFO - Semantic Scholar: fetched 0 papers
+Warning: Semantic dedup not available (sentence-transformers not installed)
+Warning: Trending module not available
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-13.json
+Traceback (most recent call last):
+  File "/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/curation_server.py", line 394, in <module>
+    main()
+  File "/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/curation_server.py", line 368, in main
+    server = HTTPServer(("127.0.0.1", args.port), CurationServer)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/lib/python3.12/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/lib/python3.12/socketserver.py", line 473, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use

@@ -175,7 +175,109 @@ if [ "$AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ]; then
   if [ "${NEWSLETTER_DELAY_SEND:-0}" = "1" ] && [ ! -f "$APPROVAL_MARKER" ]; then
     echo "Auto send skipped: approval not found for ${TODAY_DATE}."
   else
-    NEWSLETTER_TIMEZONE="$DEFAULT_TZ" NEWSLETTER_SEND_APPROVED=yes "$ROOT_DIR/newsletter/run_send_confirmed.sh" "today" || echo "Warning: auto send failed."
+    NEWSLETTER_TIMEZONE="$DEFAULT_TZ" NEWSLETTER_SEND_FREQUENCY=daily NEWSLETTER_SEND_APPROVED=yes "$ROOT_DIR/newsletter/run_send_confirmed.sh" "today" || echo "Warning: auto send failed."
+  fi
+fi
+
+if [ "${NEWSLETTER_SEND_APPROVAL_REMINDER:-}" = "1" ]; then
+  APPROVAL_REMINDER_TZ="${NEWSLETTER_APPROVAL_REMINDER_TZ:-$SEND_TZ}"
+  APPROVAL_REMINDER_HOUR="${NEWSLETTER_APPROVAL_REMINDER_HOUR:-9}"
+  APPROVAL_REMINDER_MINUTE="${NEWSLETTER_APPROVAL_REMINDER_MINUTE:-30}"
+  APPROVAL_REMINDER_WINDOW_MINUTES="${NEWSLETTER_APPROVAL_REMINDER_WINDOW_MINUTES:-10}"
+  SHOULD_REMIND="$(python3 - <<PY
+from datetime import datetime, time
+from zoneinfo import ZoneInfo
+
+tz = ZoneInfo("${APPROVAL_REMINDER_TZ}")
+now = datetime.now(tz)
+target = datetime.combine(now.date(), time(int("${APPROVAL_REMINDER_HOUR}"), int("${APPROVAL_REMINDER_MINUTE}")), tz)
+delta_minutes = abs((now - target).total_seconds()) / 60
+print("yes" if delta_minutes <= int("${APPROVAL_REMINDER_WINDOW_MINUTES}") else "no")
+PY
+)"
+  APPROVAL_MARKER="$ROOT_DIR/newsletter/issues/${TODAY_DATE}.approved"
+  SENT_MARKER="$ROOT_DIR/newsletter/issues/${TODAY_DATE}.sent"
+  if [ "$SHOULD_REMIND" = "yes" ]; then
+    if [ -f "$SENT_MARKER" ]; then
+      echo "Skipping approval reminder: issue already sent."
+    elif [ -f "$APPROVAL_MARKER" ]; then
+      echo "Skipping approval reminder: approval already recorded."
+    else
+      if [ ! -f "$PREVIEW_LIST" ]; then
+        echo "Error: preview_subscribers.csv not found. Aborting approval reminder."
+      elif [ -z "${NEWSLETTER_GMAIL_USER:-}" ] || [ -z "${NEWSLETTER_GMAIL_APP_PASSWORD:-}" ]; then
+        echo "Warning: Missing Gmail credentials. Skipping approval reminder email."
+      else
+        PORT="${NEWSLETTER_CURATION_PORT:-5050}"
+        CURATION_URL="${NEWSLETTER_CURATION_URL:-http://127.0.0.1:${PORT}}"
+        APPROVAL_SUBJECT="${NEWSLETTER_APPROVAL_REMINDER_SUBJECT:-Protein Design Digest: approval pending [${TODAY_DATE}]}"
+        APPROVAL_BODY="${NEWSLETTER_APPROVAL_REMINDER_BODY:-Approval is still pending. Please review and approve at ${CURATION_URL} before send.}"
+        python3 "$ROOT_DIR/newsletter/send_reminder.py" \
+          --preview-list "$PREVIEW_LIST" \
+          --subject "$APPROVAL_SUBJECT" \
+          --body "$APPROVAL_BODY" \
+          --issue "$ROOT_DIR/newsletter/issues/${TODAY_DATE}.json" || echo "Warning: approval reminder failed."
+      fi
+    fi
+  else
+    echo "Skipping approval reminder: runs within ${APPROVAL_REMINDER_WINDOW_MINUTES} min of ${APPROVAL_REMINDER_HOUR}:${APPROVAL_REMINDER_MINUTE} $APPROVAL_REMINDER_TZ."
+  fi
+fi
+
+if [ "${NEWSLETTER_SEND_WEEKLY_CURATION_REMINDER:-}" = "1" ]; then
+  if [ "$WEEKDAY" != "5" ]; then
+    echo "Skipping weekly curation reminder: not Friday."
+  else
+    WEEKLY_CURATION_TZ="${NEWSLETTER_WEEKLY_CURATION_TZ:-$DEFAULT_TZ}"
+    WEEKLY_CURATION_HOUR="${NEWSLETTER_WEEKLY_CURATION_HOUR:-0}"
+    WEEKLY_CURATION_MINUTE="${NEWSLETTER_WEEKLY_CURATION_MINUTE:-02}"
+    WEEKLY_CURATION_WINDOW_MINUTES="${NEWSLETTER_WEEKLY_CURATION_WINDOW_MINUTES:-10}"
+    SHOULD_WEEKLY_REMIND="$(python3 - <<PY
+from datetime import datetime, time
+from zoneinfo import ZoneInfo
+
+tz = ZoneInfo("${WEEKLY_CURATION_TZ}")
+now = datetime.now(tz)
+target = datetime.combine(now.date(), time(int("${WEEKLY_CURATION_HOUR}"), int("${WEEKLY_CURATION_MINUTE}")), tz)
+delta_minutes = abs((now - target).total_seconds()) / 60
+print("yes" if delta_minutes <= int("${WEEKLY_CURATION_WINDOW_MINUTES}") else "no")
+PY
+)"
+    if [ "$SHOULD_WEEKLY_REMIND" = "yes" ]; then
+      START_CURATION_SERVER="${NEWSLETTER_START_CURATION_SERVER:-}"
+      if [ -z "$START_CURATION_SERVER" ]; then
+        if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
+          START_CURATION_SERVER="0"
+        else
+          START_CURATION_SERVER="1"
+        fi
+      fi
+
+      if [ "$START_CURATION_SERVER" = "1" ]; then
+        PORT="${NEWSLETTER_CURATION_PORT:-5050}"
+        LOG_PATH="${ROOT_DIR}/newsletter/curation_server.log"
+        nohup "$ROOT_DIR/newsletter/run_curation_server.sh" "today" "$PORT" > "$LOG_PATH" 2>&1 &
+        sleep 2
+      fi
+
+      if [ ! -f "$PREVIEW_LIST" ]; then
+        echo "Error: preview_subscribers.csv not found. Aborting weekly curation reminder."
+      elif [ -z "${NEWSLETTER_GMAIL_USER:-}" ] || [ -z "${NEWSLETTER_GMAIL_APP_PASSWORD:-}" ]; then
+        echo "Warning: Missing Gmail credentials. Skipping weekly curation reminder email."
+      else
+        PORT="${NEWSLETTER_CURATION_PORT:-5050}"
+        CURATION_URL="${NEWSLETTER_CURATION_URL:-http://127.0.0.1:${PORT}}"
+        WEEKLY_SUBJECT="${NEWSLETTER_WEEKLY_CURATION_SUBJECT:-Protein Design Digest: weekly curation ready [${TODAY_DATE}]}"
+        WEEKLY_BODY="${NEWSLETTER_WEEKLY_CURATION_BODY:-Weekly curation is ready. Open ${CURATION_URL} to curate and approve the weekly digest.}"
+        python3 "$ROOT_DIR/newsletter/send_reminder.py" \
+          --preview-list "$PREVIEW_LIST" \
+          --subject "$WEEKLY_SUBJECT" \
+          --body "$WEEKLY_BODY" \
+          --issue "$ROOT_DIR/newsletter/issues/${TODAY_DATE}.json" || echo "Warning: weekly curation reminder failed."
+      fi
+    else
+      echo "Skipping weekly curation reminder: runs within ${WEEKLY_CURATION_WINDOW_MINUTES} min of ${WEEKLY_CURATION_HOUR}:${WEEKLY_CURATION_MINUTE} $WEEKLY_CURATION_TZ."
+    fi
   fi
 fi
 
