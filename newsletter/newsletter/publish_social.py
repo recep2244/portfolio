@@ -1,11 +1,12 @@
 import os
-import json
 import re
 import requests
 import argparse
 from datetime import datetime
 from pathlib import Path
 from dotenv import load_dotenv
+
+from utils import load_json, coerce_list
 
 # Optional: Using tweepy for Twitter if available, otherwise we can use direct requests
 try:
@@ -25,20 +26,11 @@ def load_issue(issue_date, issues_dir):
     if not os.path.exists(filepath):
         print(f"Issue file not found: {filepath}")
         return None
-    with open(filepath, 'r', encoding='utf-8') as f:
-        return json.load(f)
+    return load_json(filepath)
 
 def load_env():
     env_path = Path(__file__).resolve().parent / ".env"
     load_dotenv(dotenv_path=env_path, override=False)
-
-
-def coerce_list(value):
-    if isinstance(value, list):
-        return value
-    if isinstance(value, dict):
-        return [value]
-    return []
 
 
 def shorten_text(text, max_len):

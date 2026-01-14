@@ -3,6 +3,38 @@ set -euo pipefail
 
 ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 
+# Log rotation function - rotate logs if they exceed MAX_LOG_SIZE
+rotate_logs() {
+  local log_file="$1"
+  local max_size="${2:-1048576}"  # 1MB default
+  local max_backups="${3:-3}"
+
+  if [ ! -f "$log_file" ]; then
+    return
+  fi
+
+  local size
+  size=$(stat -f%z "$log_file" 2>/dev/null || stat -c%s "$log_file" 2>/dev/null || echo "0")
+
+  if [ "$size" -gt "$max_size" ]; then
+    # Rotate existing backups
+    for i in $(seq $((max_backups - 1)) -1 1); do
+      if [ -f "${log_file}.${i}" ]; then
+        mv "${log_file}.${i}" "${log_file}.$((i + 1))"
+      fi
+    done
+    # Move current log to .1
+    mv "$log_file" "${log_file}.1"
+    # Remove oldest backup if it exists
+    rm -f "${log_file}.$((max_backups + 1))"
+    echo "Log rotated: $log_file"
+  fi
+}
+
+# Rotate logs at startup
+rotate_logs "$ROOT_DIR/newsletter/daily_cron.log" 1048576 3
+rotate_logs "$ROOT_DIR/newsletter/curation_server.log" 524288 2
+
 # Load environment variables from .env if it exists
 if [ -f "$ROOT_DIR/newsletter/.env" ]; then
   set -a

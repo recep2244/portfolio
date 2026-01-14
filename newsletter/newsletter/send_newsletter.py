@@ -3,7 +3,6 @@ import argparse
 import csv
 import hashlib
 import html
-import json
 import os
 import re
 import smtplib
@@ -13,6 +12,8 @@ from email.mime.text import MIMEText
 from pathlib import Path
 from urllib.parse import quote as url_quote, urlencode
 from zoneinfo import ZoneInfo
+
+from utils import load_json
 
 DEFAULT_TIMEZONE = "Europe/London"
 
@@ -71,11 +72,6 @@ def add_tracking_to_html(html_body: str, tracker_url: str, issue_date: str, subs
 def load_text(path):
     with open(path, "r", encoding="utf-8") as f:
         return f.read()
-
-
-def load_json(path):
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
 
 
 def require_field(data, path):

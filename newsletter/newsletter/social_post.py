@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 import argparse
-import json
 import os
 import sys
 import re
 from datetime import datetime
 from pathlib import Path
+
+from utils import load_json, coerce_list
 
 # Load .env file if present (for local development)
 try:
@@ -37,19 +38,6 @@ DEFAULT_BLUESKY_TEMPLATE = "{header}\n{title}\n{extras}\n{summary}\n{link}\n{sub
 DEFAULT_SECTION_TEMPLATE = "{header}\n{title}\n{summary}\n{link}\n{subscribe}\n{tags}"
 DEFAULT_TWITTER_THREAD_TEMPLATE = "{header}\n{title}\n{extras}\n{summary}\n{tags}"
 DEFAULT_BLUESKY_THREAD_TEMPLATE = "{header}\n{title}\n{extras}\n{summary}\n{tags}"
-
-
-def load_json(path):
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-def coerce_list(value):
-    if isinstance(value, list):
-        return value
-    if isinstance(value, dict):
-        return [value]
-    return []
 
 
 def shorten_text(text, max_len):

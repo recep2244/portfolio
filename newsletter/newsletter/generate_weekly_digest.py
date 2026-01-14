@@ -3,22 +3,7 @@ import os
 import argparse
 from datetime import datetime, timedelta
 
-
-def coerce_list(value):
-    if isinstance(value, list):
-        return value
-    if isinstance(value, dict):
-        return [value]
-    return []
-
-
-def truncate_text(text, max_len=240):
-    if not text:
-        return ""
-    text = str(text).strip()
-    if len(text) <= max_len:
-        return text
-    return text[: max_len - 3].rstrip() + "..."
+from utils import coerce_list, truncate_text
 
 # Configuration
 ISSUES_DIR = "issues"

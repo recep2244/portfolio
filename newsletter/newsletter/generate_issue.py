@@ -27,6 +27,8 @@ from urllib.request import Request, urlopen
 import xml.etree.ElementTree as ET
 from zoneinfo import ZoneInfo
 
+from utils import load_json, save_json
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -55,19 +57,6 @@ class Paper:
     link: str
     published: datetime
     source: str
-
-
-def load_json(path: str) -> dict[str, Any]:
-    """Load and parse a JSON file."""
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-def save_json(path: str, data: dict[str, Any]) -> None:
-    """Save data to a JSON file with pretty formatting."""
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, sort_keys=True)
-        f.write("\n")
 
 
 def retry_with_backoff(
@@ -157,6 +146,44 @@ def read_cache(path, ttl):
         return path.read_bytes()
     except OSError:
         return None
+
+
+def clean_old_cache(max_age_days: int = 7):
+    """Remove cache files older than max_age_days."""
+    cache = get_cache_settings()
+    if not cache["enabled"]:
+        return 0
+
+    removed = 0
+    max_age_seconds = max_age_days * 24 * 60 * 60
+    now = time.time()
+
+    # Clean HTTP response cache
+    cache_dir = cache["dir"]
+    if cache_dir.exists():
+        for cache_file in cache_dir.glob("*.cache"):
+            try:
+                if now - cache_file.stat().st_mtime > max_age_seconds:
+                    cache_file.unlink()
+                    removed += 1
+            except OSError:
+                pass
+
+    # Clean embeddings cache (30 days for embeddings)
+    embeddings_cache = Path(__file__).resolve().parent / ".embeddings_cache"
+    embeddings_max_age = 30 * 24 * 60 * 60
+    if embeddings_cache.exists():
+        for emb_file in embeddings_cache.glob("*.npy"):
+            try:
+                if now - emb_file.stat().st_mtime > embeddings_max_age:
+                    emb_file.unlink()
+                    removed += 1
+            except OSError:
+                pass
+
+    if removed > 0:
+        logger.info(f"Cleaned {removed} old cache files")
+    return removed
 
 
 @retry_with_backoff()
@@ -1526,6 +1553,9 @@ def main():
         return
 
     print(f"Generated issue: {issue_path}")
+
+    # Clean up old cache files
+    clean_old_cache()
 
 
 if __name__ == "__main__":
