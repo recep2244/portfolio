@@ -6,3 +6,9 @@ hugo_stats.json
 newsletter/newsletter/.env
 newsletter/newsletter/subscribers.csv
 newsletter/newsletter/preview_subscribers.csv
+
+# Newsletter cache and logs
+newsletter/newsletter/.embeddings_cache/
+newsletter/newsletter/*.log
+newsletter/newsletter/analytics.db
+newsletter/newsletter/trending.db

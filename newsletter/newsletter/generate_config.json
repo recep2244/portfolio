@@ -6,7 +6,7 @@
   "subject_prefix": "Protein Design Digest",
   "quick_reads_count": 8,
   "signal_extras_count": 3,
-  "avoid_recent_days": 45,
+  "avoid_recent_days": 60,
   "resource_counts": {
     "datasets": 2,
     "tools": 2,
@@ -158,6 +158,50 @@
         {
           "name": "Nucleic Acids Research",
           "url": "https://academic.oup.com/rss/advancearticles/nar"
+        },
+        {
+          "name": "Bioinformatics (Oxford)",
+          "url": "https://academic.oup.com/bioinformatics/rss/current_issue"
+        },
+        {
+          "name": "Journal of Molecular Biology",
+          "url": "https://www.sciencedirect.com/journal/journal-of-molecular-biology/rss"
+        },
+        {
+          "name": "Current Opinion in Structural Biology",
+          "url": "https://www.sciencedirect.com/journal/current-opinion-in-structural-biology/rss"
+        },
+        {
+          "name": "Journal of Biological Chemistry",
+          "url": "https://www.jbc.org/rss/current.xml"
+        },
+        {
+          "name": "Proteins: Structure, Function, and Bioinformatics",
+          "url": "https://onlinelibrary.wiley.com/feed/10970134/most-recent"
+        },
+        {
+          "name": "Journal of Computational Chemistry",
+          "url": "https://onlinelibrary.wiley.com/feed/1096987x/most-recent"
+        },
+        {
+          "name": "Journal of Chemical Information and Modeling",
+          "url": "https://pubs.acs.org/action/showFeed?type=axatoc&feed=rss&jc=jcisd8"
+        },
+        {
+          "name": "ACS Chemical Biology",
+          "url": "https://pubs.acs.org/action/showFeed?type=axatoc&feed=rss&jc=acbcct"
+        },
+        {
+          "name": "Journal of the American Chemical Society",
+          "url": "https://pubs.acs.org/action/showFeed?type=axatoc&feed=rss&jc=jacsat"
+        },
+        {
+          "name": "ACS Synthetic Biology",
+          "url": "https://pubs.acs.org/action/showFeed?type=axatoc&feed=rss&jc=asbcd6"
+        },
+        {
+          "name": "Biochemistry",
+          "url": "https://pubs.acs.org/action/showFeed?type=axatoc&feed=rss&jc=bichaw"
         },
         {
           "name": "Science",
@@ -576,7 +620,7 @@
   },
   "semantic_dedup": {
     "enabled": true,
-    "threshold": 0.80,
+    "threshold": 0.70,
     "model": "all-MiniLM-L6-v2",
     "cache_dir": "newsletter/newsletter/.embeddings_cache"
   },
