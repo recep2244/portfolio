@@ -65,6 +65,11 @@ def main():
     parser.add_argument("--timezone", default="Europe/London")
     parser.add_argument("--batch-size", type=int, default=50)
     parser.add_argument("--max-recipients", type=int, default=500)
+    parser.add_argument(
+        "--frequency",
+        default="",
+        help="Subscriber frequency to target: weekly, daily, or all (default: env NEWSLETTER_WEEKLY_FREQUENCY or weekly).",
+    )
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -103,7 +108,13 @@ def main():
             html.escape(line) for line in footer_lines
         ) + "</p>"
 
-    subscribers = load_subscribers(args.subscribers, "weekly")
+    freq = (args.frequency or os.getenv("NEWSLETTER_WEEKLY_FREQUENCY") or "weekly").strip().lower()
+    if freq in {"", "all", "any"}:
+        subscribers = load_subscribers(args.subscribers, None)
+    elif freq in {"daily", "weekly"}:
+        subscribers = load_subscribers(args.subscribers, freq)
+    else:
+        raise ValueError(f"Unknown frequency '{freq}'. Use daily, weekly, or all.")
     if not subscribers:
         raise ValueError("No weekly subscribers found.")
     if args.max_recipients and len(subscribers) > args.max_recipients:

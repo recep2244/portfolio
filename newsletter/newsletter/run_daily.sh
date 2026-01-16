@@ -44,6 +44,15 @@ fi
 
 PYTHON_BIN="${NEWSLETTER_PYTHON:-python3}"
 
+is_truthy() {
+  local value
+  value="$(printf "%s" "${1:-}" | tr '[:upper:]' '[:lower:]')"
+  case "$value" in
+    1|true|yes|y|on) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
 DEFAULT_TZ="${NEWSLETTER_TIMEZONE:-Europe/London}"
 TODAY_DATE="$($PYTHON_BIN - <<PY
 from datetime import datetime
@@ -111,7 +120,7 @@ fi
 
 PREVIEW_LIST="$ROOT_DIR/newsletter/preview_subscribers.csv"
 
-if [ "${NEWSLETTER_SEND_CURATION_REMINDER:-}" = "1" ]; then
+if [ "${NEWSLETTER_SEND_CURATION_REMINDER:-}" = "1" ] && ! is_truthy "${NEWSLETTER_WEEKLY_ONLY:-}"; then
   if [ ! -f "$PREVIEW_LIST" ]; then
     echo "Error: preview_subscribers.csv not found. Aborting curation reminder."
     PREVIEW_LIST=""
@@ -169,7 +178,7 @@ PY
   fi
 fi
 
-if [ "${NEWSLETTER_SEND_PREVIEW:-0}" = "1" ]; then
+if [ "${NEWSLETTER_SEND_PREVIEW:-0}" = "1" ] && ! is_truthy "${NEWSLETTER_WEEKLY_ONLY:-}"; then
   PREVIEW_LIST="$ROOT_DIR/newsletter/preview_subscribers.csv"
   if [ ! -f "$PREVIEW_LIST" ]; then
     echo "Error: preview_subscribers.csv not found. Aborting preview send."
@@ -218,7 +227,7 @@ print("yes" if delta_minutes <= int("${SEND_WINDOW_MINUTES}") else "no")
 PY
 )"
 
-if [ "$AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ]; then
+if [ "$AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ] && ! is_truthy "${NEWSLETTER_WEEKLY_ONLY:-}"; then
   APPROVAL_MARKER="$ROOT_DIR/newsletter/issues/${TODAY_DATE}.approved"
   if [ "${NEWSLETTER_DELAY_SEND:-0}" = "1" ] && [ ! -f "$APPROVAL_MARKER" ]; then
     echo "Auto send skipped: approval not found for ${TODAY_DATE}."
@@ -227,7 +236,7 @@ if [ "$AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ]; then
   fi
 fi
 
-if [ "${NEWSLETTER_SEND_APPROVAL_REMINDER:-}" = "1" ]; then
+if [ "${NEWSLETTER_SEND_APPROVAL_REMINDER:-}" = "1" ] && ! is_truthy "${NEWSLETTER_WEEKLY_ONLY:-}"; then
   APPROVAL_REMINDER_TZ="${NEWSLETTER_APPROVAL_REMINDER_TZ:-$SEND_TZ}"
   APPROVAL_REMINDER_HOUR="${NEWSLETTER_APPROVAL_REMINDER_HOUR:-9}"
   APPROVAL_REMINDER_MINUTE="${NEWSLETTER_APPROVAL_REMINDER_MINUTE:-30}"
@@ -330,14 +339,20 @@ PY
 fi
 
 if [ "$WEEKLY_AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ] && [ "$WEEKDAY" = "$WEEKLY_SEND_DOW" ]; then
+  WEEKLY_FREQUENCY="${NEWSLETTER_WEEKLY_FREQUENCY:-weekly}"
   "$PYTHON_BIN" "$ROOT_DIR/newsletter/send_weekly_digest.py" \
     --issues-dir "$ROOT_DIR/newsletter/issues" \
     --subscribers "$ROOT_DIR/newsletter/subscribers.csv" \
-    --config "$ROOT_DIR/newsletter/generate_config.json" || echo "Warning: weekly digest send failed."
+    --config "$ROOT_DIR/newsletter/generate_config.json" \
+    --frequency "$WEEKLY_FREQUENCY" || echo "Warning: weekly digest send failed."
   if [ "${NEWSLETTER_WEEKLY_SOCIAL:-1}" = "1" ]; then
     "$PYTHON_BIN" "$ROOT_DIR/newsletter/post_weekly_digest.py" \
       --date "$TODAY_DATE" || echo "Warning: weekly digest social post failed."
   fi
 fi
 
-echo "Daily run complete. Run run_send_confirmed.sh after approval to email everyone."
+if is_truthy "${NEWSLETTER_WEEKLY_ONLY:-}"; then
+  echo "Daily run complete. Weekly digest will send on the configured weekday."
+else
+  echo "Daily run complete. Run run_send_confirmed.sh after approval to email everyone."
+fi
