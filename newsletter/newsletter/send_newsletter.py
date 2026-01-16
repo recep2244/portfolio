@@ -16,6 +16,11 @@ from zoneinfo import ZoneInfo
 from utils import load_json
 
 DEFAULT_TIMEZONE = "Europe/London"
+TRUTHY_VALUES = {"1", "true", "yes", "y", "on"}
+
+
+def is_truthy(value: str) -> bool:
+    return str(value or "").strip().lower() in TRUTHY_VALUES
 
 
 def hash_email(email: str) -> str:
@@ -576,7 +581,7 @@ def main():
     if not args.smtp_user or not args.smtp_pass:
         raise ValueError("SMTP credentials missing (NEWSLETTER_GMAIL_USER and NEWSLETTER_GMAIL_APP_PASSWORD)")
 
-    to_email = from_email
+    send_self = is_truthy(os.getenv("NEWSLETTER_SEND_SELF"))
     if args.dry_run:
         print(f"Dry run: would send '{subject}' to {len(subscribers)} recipients")
         print(f"Rendered: {html_path}")
@@ -615,14 +620,16 @@ def main():
                     subject,
                     from_email,
                     args.from_name,
-                    to_email,
+                    recipient,
                     args.reply_to,
                     text_body,
                     tracked_html,
                     text_context.get("unsubscribe_link"),
                 )
-                msg["Bcc"] = recipient
-                smtp.sendmail(from_email, [to_email, recipient], msg.as_string())
+                recipients = [recipient]
+                if send_self and from_email and from_email not in recipients:
+                    recipients.append(from_email)
+                smtp.sendmail(from_email, recipients, msg.as_string())
 
     # Record total sent
     if analytics_db:

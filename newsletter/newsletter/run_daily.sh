@@ -79,6 +79,20 @@ fi
 if [ "${NEWSLETTER_SYNC_ARCHIVE_AT_CURATION:-0}" = "1" ]; then
   "$PYTHON_BIN" "$ROOT_DIR/newsletter/newsletter_to_md.py" \
     --issues-dir "$ROOT_DIR/newsletter/issues"
+
+  ARCHIVE_PATH="$ROOT_DIR/content/newsletter"
+  if [ -d "$ARCHIVE_PATH" ]; then
+    git -C "$ROOT_DIR" add "$ARCHIVE_PATH"
+    if ! git -C "$ROOT_DIR" diff --cached --quiet -- "$ARCHIVE_PATH"; then
+      COMMIT_MSG="${NEWSLETTER_SYNC_COMMIT_MESSAGE:-Sync newsletter archive (${TODAY_DATE})}"
+      git -C "$ROOT_DIR" commit -m "$COMMIT_MSG" -- "$ARCHIVE_PATH"
+      if [ "${NEWSLETTER_SYNC_PUSH:-0}" = "1" ]; then
+        git -C "$ROOT_DIR" push
+      fi
+    fi
+  else
+    echo "Warning: archive path missing ($ARCHIVE_PATH). Skipping git sync."
+  fi
 fi
 
 # Weekly Digest on Fridays (UK timezone)
@@ -104,7 +118,7 @@ if [ "${NEWSLETTER_SEND_CURATION_REMINDER:-}" = "1" ]; then
   fi
   CURATION_TZ="${NEWSLETTER_CURATION_TZ:-Europe/London}"
   CURATION_HOUR="${NEWSLETTER_CURATION_HOUR:-0}"
-  CURATION_MINUTE="${NEWSLETTER_CURATION_MINUTE:-01}"
+  CURATION_MINUTE="${NEWSLETTER_CURATION_MINUTE:-02}"
   CURATION_WINDOW_MINUTES="${NEWSLETTER_CURATION_WINDOW_MINUTES:-10}"
   SHOULD_SEND="$($PYTHON_BIN - <<PY
 from datetime import datetime, time
@@ -264,7 +278,7 @@ if [ "${NEWSLETTER_SEND_WEEKLY_CURATION_REMINDER:-}" = "1" ]; then
   else
     WEEKLY_CURATION_TZ="${NEWSLETTER_WEEKLY_CURATION_TZ:-$DEFAULT_TZ}"
     WEEKLY_CURATION_HOUR="${NEWSLETTER_WEEKLY_CURATION_HOUR:-0}"
-    WEEKLY_CURATION_MINUTE="${NEWSLETTER_WEEKLY_CURATION_MINUTE:-01}"
+    WEEKLY_CURATION_MINUTE="${NEWSLETTER_WEEKLY_CURATION_MINUTE:-02}"
     WEEKLY_CURATION_WINDOW_MINUTES="${NEWSLETTER_WEEKLY_CURATION_WINDOW_MINUTES:-10}"
     SHOULD_WEEKLY_REMIND="$($PYTHON_BIN - <<PY
 from datetime import datetime, time

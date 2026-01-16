@@ -91,16 +91,21 @@ with open(path, "w", encoding="utf-8") as f:
 PY
 
 if [ "${NEWSLETTER_SYNC_ARCHIVE:-0}" = "1" ]; then
-  git -C "$ROOT_DIR" add content/newsletter
-  if ! git -C "$ROOT_DIR" diff --cached --quiet; then
-    COMMIT_MSG="${NEWSLETTER_SYNC_COMMIT_MESSAGE:-Sync newsletter archive (${ISSUE_DATE_RESOLVED})}"
-    git -C "$ROOT_DIR" commit -m "$COMMIT_MSG"
-    if [ "${NEWSLETTER_SYNC_PUSH:-0}" = "1" ]; then
-      git -C "$ROOT_DIR" push
+  ARCHIVE_PATH="$ROOT_DIR/content/newsletter"
+  if [ -d "$ARCHIVE_PATH" ]; then
+    git -C "$ROOT_DIR" add "$ARCHIVE_PATH"
+    if ! git -C "$ROOT_DIR" diff --cached --quiet; then
+      COMMIT_MSG="${NEWSLETTER_SYNC_COMMIT_MESSAGE:-Sync newsletter archive (${ISSUE_DATE_RESOLVED})}"
+      git -C "$ROOT_DIR" commit -m "$COMMIT_MSG"
+      if [ "${NEWSLETTER_SYNC_PUSH:-0}" = "1" ]; then
+        git -C "$ROOT_DIR" push
+      fi
     fi
+  else
+    echo "Warning: archive path missing ($ARCHIVE_PATH). Skipping git sync."
   fi
 fi
 
 echo "📣 Publishing announcement to social media..."
 python3 "$ROOT_DIR/newsletter/social_post.py" \
-  --issue "$ROOT_DIR/newsletter/issues/$ISSUE_DATE.json" || echo "⚠️ Social publishing failed, skipping..."
+  --issue "$ROOT_DIR/newsletter/issues/$ISSUE_DATE_RESOLVED.json" || echo "⚠️ Social publishing failed, skipping..."

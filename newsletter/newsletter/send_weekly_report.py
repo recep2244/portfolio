@@ -1,0 +1,319 @@
+#!/usr/bin/env python3
+"""Send weekly analytics report via email."""
+
+import argparse
+import os
+import smtplib
+from datetime import datetime, timedelta
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from pathlib import Path
+from zoneinfo import ZoneInfo
+
+# Load .env if present
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).parent / ".env")
+except ImportError:
+    pass
+
+from analytics.storage import AnalyticsDB
+
+DEFAULT_TIMEZONE = "Europe/London"
+
+
+def get_week_range(timezone_str: str = DEFAULT_TIMEZONE):
+    """Get the date range for the past week (Mon-Sun)."""
+    tz = ZoneInfo(timezone_str)
+    today = datetime.now(tz).date()
+    # Go back to last Monday
+    days_since_monday = today.weekday()
+    if days_since_monday == 0:  # If today is Monday, report on last week
+        days_since_monday = 7
+    end_date = today - timedelta(days=days_since_monday)
+    start_date = end_date - timedelta(days=6)
+    return start_date, end_date
+
+
+def generate_report(db: AnalyticsDB, start_date, end_date) -> dict:
+    """Generate weekly analytics report data."""
+    trend_data = db.get_trend_data(days=14)
+
+    # Filter to our week
+    week_data = [
+        d for d in trend_data
+        if start_date.isoformat() <= d["issue_date"] <= end_date.isoformat()
+    ]
+
+    # Aggregate stats
+    total_sent = sum(d.get("total_sent", 0) or 0 for d in week_data)
+    total_opens = sum(d.get("unique_opens", 0) or 0 for d in week_data)
+    total_clickers = sum(d.get("unique_clickers", 0) or 0 for d in week_data)
+    issues_sent = len([d for d in week_data if d.get("total_sent", 0)])
+
+    # Get source performance
+    source_perf = db.get_source_performance(days=7)
+    top_sources = sorted(source_perf, key=lambda x: x.get("total_selected", 0), reverse=True)[:5]
+
+    # Get individual issue stats
+    issue_stats = []
+    for d in week_data:
+        if d.get("total_sent", 0):
+            stats = db.get_issue_stats(d["issue_date"])
+            issue_stats.append(stats)
+
+    # Top clicked links across the week
+    all_top_links = {}
+    for stats in issue_stats:
+        for link in stats.get("top_links", []):
+            url = link.get("link_url", "")
+            if url:
+                all_top_links[url] = all_top_links.get(url, 0) + link.get("click_count", 0)
+
+    top_links_sorted = sorted(all_top_links.items(), key=lambda x: x[1], reverse=True)[:10]
+
+    return {
+        "start_date": start_date.isoformat(),
+        "end_date": end_date.isoformat(),
+        "issues_sent": issues_sent,
+        "total_sent": total_sent,
+        "total_opens": total_opens,
+        "total_clickers": total_clickers,
+        "avg_open_rate": (total_opens / total_sent * 100) if total_sent > 0 else 0,
+        "avg_click_rate": (total_clickers / total_sent * 100) if total_sent > 0 else 0,
+        "top_sources": top_sources,
+        "top_links": top_links_sorted,
+        "daily_stats": issue_stats,
+    }
+
+
+def format_report_text(report: dict) -> str:
+    """Format report as plain text."""
+    lines = [
+        "=" * 50,
+        "PROTEIN DESIGN DIGEST - WEEKLY ANALYTICS REPORT",
+        "=" * 50,
+        "",
+        f"Period: {report['start_date']} to {report['end_date']}",
+        "",
+        "SUMMARY",
+        "-" * 30,
+        f"Issues Sent:     {report['issues_sent']}",
+        f"Total Recipients: {report['total_sent']}",
+        f"Unique Opens:    {report['total_opens']}",
+        f"Unique Clickers: {report['total_clickers']}",
+        f"Avg Open Rate:   {report['avg_open_rate']:.1f}%",
+        f"Avg Click Rate:  {report['avg_click_rate']:.1f}%",
+        "",
+    ]
+
+    if report.get("daily_stats"):
+        lines.extend([
+            "DAILY BREAKDOWN",
+            "-" * 30,
+        ])
+        for day in report["daily_stats"]:
+            lines.append(
+                f"  {day['issue_date']}: {day['total_sent']} sent, "
+                f"{day['unique_opens']} opens ({day['open_rate']:.1f}%), "
+                f"{day['unique_clickers']} clicks ({day['click_rate']:.1f}%)"
+            )
+        lines.append("")
+
+    if report.get("top_sources"):
+        lines.extend([
+            "TOP SOURCES (by papers selected)",
+            "-" * 30,
+        ])
+        for src in report["top_sources"]:
+            lines.append(
+                f"  {src['source']}: {src.get('total_selected', 0)} selected "
+                f"/ {src.get('total_fetched', 0)} fetched"
+            )
+        lines.append("")
+
+    if report.get("top_links"):
+        lines.extend([
+            "TOP CLICKED LINKS",
+            "-" * 30,
+        ])
+        for url, count in report["top_links"][:5]:
+            short_url = url[:60] + "..." if len(url) > 60 else url
+            lines.append(f"  {count} clicks: {short_url}")
+        lines.append("")
+
+    lines.extend([
+        "=" * 50,
+        "Generated by Protein Design Digest Analytics",
+        "",
+    ])
+
+    return "\n".join(lines)
+
+
+def format_report_html(report: dict) -> str:
+    """Format report as HTML."""
+    html = f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {{ font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }}
+        h1 {{ color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }}
+        h2 {{ color: #34495e; margin-top: 25px; }}
+        .metric {{ display: inline-block; margin: 10px 20px 10px 0; }}
+        .metric-value {{ font-size: 24px; font-weight: bold; color: #3498db; }}
+        .metric-label {{ font-size: 12px; color: #7f8c8d; }}
+        table {{ width: 100%; border-collapse: collapse; margin: 15px 0; }}
+        th, td {{ padding: 8px 12px; text-align: left; border-bottom: 1px solid #ecf0f1; }}
+        th {{ background: #f8f9fa; color: #2c3e50; }}
+        .highlight {{ background: #e8f4f8; }}
+        .footer {{ margin-top: 30px; padding-top: 20px; border-top: 1px solid #ecf0f1; color: #7f8c8d; font-size: 12px; }}
+    </style>
+</head>
+<body>
+    <h1>Weekly Analytics Report</h1>
+    <p><strong>Period:</strong> {report['start_date']} to {report['end_date']}</p>
+
+    <div class="metrics">
+        <div class="metric">
+            <div class="metric-value">{report['issues_sent']}</div>
+            <div class="metric-label">Issues Sent</div>
+        </div>
+        <div class="metric">
+            <div class="metric-value">{report['total_sent']}</div>
+            <div class="metric-label">Total Recipients</div>
+        </div>
+        <div class="metric">
+            <div class="metric-value">{report['avg_open_rate']:.1f}%</div>
+            <div class="metric-label">Avg Open Rate</div>
+        </div>
+        <div class="metric">
+            <div class="metric-value">{report['avg_click_rate']:.1f}%</div>
+            <div class="metric-label">Avg Click Rate</div>
+        </div>
+    </div>
+"""
+
+    if report.get("daily_stats"):
+        html += """
+    <h2>Daily Breakdown</h2>
+    <table>
+        <tr><th>Date</th><th>Sent</th><th>Opens</th><th>Open Rate</th><th>Clicks</th></tr>
+"""
+        for day in report["daily_stats"]:
+            html += f"""
+        <tr>
+            <td>{day['issue_date']}</td>
+            <td>{day['total_sent']}</td>
+            <td>{day['unique_opens']}</td>
+            <td>{day['open_rate']:.1f}%</td>
+            <td>{day['unique_clickers']}</td>
+        </tr>
+"""
+        html += "    </table>\n"
+
+    if report.get("top_sources"):
+        html += """
+    <h2>Top Sources</h2>
+    <table>
+        <tr><th>Source</th><th>Selected</th><th>Fetched</th></tr>
+"""
+        for src in report["top_sources"]:
+            html += f"""
+        <tr>
+            <td>{src['source']}</td>
+            <td>{src.get('total_selected', 0)}</td>
+            <td>{src.get('total_fetched', 0)}</td>
+        </tr>
+"""
+        html += "    </table>\n"
+
+    if report.get("top_links"):
+        html += """
+    <h2>Top Clicked Links</h2>
+    <table>
+        <tr><th>Link</th><th>Clicks</th></tr>
+"""
+        for url, count in report["top_links"][:5]:
+            short_url = url[:50] + "..." if len(url) > 50 else url
+            html += f"""
+        <tr>
+            <td><a href="{url}">{short_url}</a></td>
+            <td>{count}</td>
+        </tr>
+"""
+        html += "    </table>\n"
+
+    html += """
+    <div class="footer">
+        <p>Generated by Protein Design Digest Analytics</p>
+    </div>
+</body>
+</html>
+"""
+    return html
+
+
+def send_report_email(report: dict, recipient: str):
+    """Send the weekly report via email."""
+    gmail_user = os.environ.get("NEWSLETTER_GMAIL_USER")
+    gmail_password = os.environ.get("NEWSLETTER_GMAIL_APP_PASSWORD")
+
+    if not gmail_user or not gmail_password:
+        print("Error: Gmail credentials not set")
+        return False
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = f"Weekly Analytics Report: {report['start_date']} to {report['end_date']}"
+    msg["From"] = gmail_user
+    msg["To"] = recipient
+
+    text_content = format_report_text(report)
+    html_content = format_report_html(report)
+
+    msg.attach(MIMEText(text_content, "plain"))
+    msg.attach(MIMEText(html_content, "html"))
+
+    try:
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.starttls()
+            server.login(gmail_user, gmail_password)
+            server.sendmail(gmail_user, [recipient], msg.as_string())
+        print(f"Weekly report sent to {recipient}")
+        return True
+    except Exception as e:
+        print(f"Failed to send report: {e}")
+        return False
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Send weekly analytics report")
+    parser.add_argument("--recipient", default=os.environ.get("NEWSLETTER_GMAIL_USER"),
+                        help="Email recipient for the report")
+    parser.add_argument("--db-path", default=None, help="Path to analytics database")
+    parser.add_argument("--dry-run", action="store_true", help="Print report without sending")
+    parser.add_argument("--timezone", default=DEFAULT_TIMEZONE)
+    args = parser.parse_args()
+
+    db_path = Path(args.db_path) if args.db_path else None
+    db = AnalyticsDB(db_path)
+
+    start_date, end_date = get_week_range(args.timezone)
+    print(f"Generating report for {start_date} to {end_date}...")
+
+    report = generate_report(db, start_date, end_date)
+
+    if args.dry_run:
+        print(format_report_text(report))
+        return
+
+    if not args.recipient:
+        print("Error: No recipient specified")
+        return
+
+    send_report_email(report, args.recipient)
+
+
+if __name__ == "__main__":
+    main()
