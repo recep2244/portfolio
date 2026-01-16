@@ -54,13 +54,13 @@ The development of small-molecule tyrosine kinase inhibitors remains a high-prio
 ## 🤖 AI in Research Recap
 
 - **[The Atomic Revolution: How AlphaFold 3’s Open-Source Pivot Has Redefined Global Drug Discovery in 2026 - FinancialContent](https://news.google.com/rss/articles/CBMi_wFBVV95cUxNWF93dWY2akFpTHVQX2dfTDc3RlE0ZHo5Um5YbXc0ZGM5ZFpmdTlldHhQVDY5X2k3YWotX3hBWEo3alpaWjQ0RklacXk0MWduQnh5M2lmcHN3b2xsU3Mwd09YQzhGcGxJSThIaGF0Wm5NVDhqLS01RV9qTFRTUGFKTnUxTktEQ3VsV0liSUh0c3hXYXVOQ1NHRzg4T3lWWTkzMHFlYVJyZXpHbTVTRUs2ZExadWJLZWlha1dvRC1Pa2tLUXZIcFg3MU43RXgtWnFxX1ZYV1NmWFlEQjN5Qk52QktWLWVEeGlEcGhzVGRoSU0wQTJYWEFHOEtfWmFoalE?oc=5&hl=en-US&gl=US&ceid=US:en)**: The Atomic Revolution: How AlphaFold 3’s Open-Source Pivot Has Redefined Global Drug Discovery in 2026 &nbsp;&nbsp; FinancialContent
-- **[‘Avatar’ Oscar Winner Mark Sagar, Graphic India’s Sharad Devarajan Launch AI Storytelling Studio FaiBLE (Exclusive) - IMDb](https://news.google.com/rss/articles/CBMiZkFVX3lxTE81eGJxUXFPMERubUdzaGRvWXkyMzFRbzhHa1dsTEt4azZtUWRrSUp2NllHdnRJSG5mT0FKSS16d2RpMUMxYzUxTHNiQXdxMDJSWDR4TTdKQ3hTWENQVnNkY0dfSnVuQQ?oc=5&hl=en-US&gl=US&ceid=US:en)**: ‘Avatar’ Oscar Winner Mark Sagar, Graphic India’s Sharad Devarajan Launch AI Storytelling Studio FaiBLE (Exclusive) &nbsp;&nbsp; IMDb
+- **[‘Avatar’ Oscar Winner Mark Sagar, Graphic India’s Sharad Devarajan Launch AI Storytelling Studio FaiBLE (Exclusive) - IMDb](https://news.google.com/rss/articles/CBMiYEFVX3lxTFBmbldEeGxTLXMtQ0o0QkZ2Q3ZCT2FHUHA1emQ1akVDUDZuc3lhd28zTmdRcU5OWWgyNVZLM2hiM1laUVVEcnZZalRMbXVpbDdvdldacTRkM2lTWUFHUTJacA?oc=5&hl=en-US&gl=US&ceid=US:en)**: ‘Avatar’ Oscar Winner Mark Sagar, Graphic India’s Sharad Devarajan Launch AI Storytelling Studio FaiBLE (Exclusive) &nbsp;&nbsp; IMDb
 
 ---
 
 ## 🏢 Industry & Real-World Applications
 
-- **[NIH's Evolving Role: Development Partnership for Biotech Startups - BioBuzz](https://news.google.com/rss/articles/CBMitgFBVV95cUxNcXZvN1c5OXBWMTg3Yy16RnN4Ry1lS0ZraWlrOExLR2NtdFdtM3lfQ2hkZkhXbDdHMmV4VlV0Yng3djdfaVFVU19pSk9ENEpoMmxHeERSdzN0Y0dyR3VHN1JPNWRRcjJ4cG9kUEdCOUt5bUVRb0F0VGJUYkpFdEZvS0tUTDFiQks4eHA1MG5zMVdZRkZSN0Y0Vy1jTk5SbkdaNk9Ra1pxWlFlVjQwdU9qMkFOaS05QQ?oc=5&hl=en-US&gl=US&ceid=US:en)**: NIH's Evolving Role: Development Partnership for Biotech Startups &nbsp;&nbsp; BioBuzz
+- **[Beyond SBIRs: How NIH Is Reframing Its Role as a Development Partner for Biotech - BioBuzz](https://news.google.com/rss/articles/CBMitgFBVV95cUxNcXZvN1c5OXBWMTg3Yy16RnN4Ry1lS0ZraWlrOExLR2NtdFdtM3lfQ2hkZkhXbDdHMmV4VlV0Yng3djdfaVFVU19pSk9ENEpoMmxHeERSdzN0Y0dyR3VHN1JPNWRRcjJ4cG9kUEdCOUt5bUVRb0F0VGJUYkpFdEZvS0tUTDFiQks4eHA1MG5zMVdZRkZSN0Y0Vy1jTk5SbkdaNk9Ra1pxWlFlVjQwdU9qMkFOaS05QQ?oc=5&hl=en-US&gl=US&ceid=US:en)**: Beyond SBIRs: How NIH Is Reframing Its Role as a Development Partner for Biotech &nbsp;&nbsp; BioBuzz
 - **[US biotech sector poised for 2026 rebound as IPO interest revives - Reuters](https://news.google.com/rss/articles/CBMisAFBVV95cUxOVk5VRUVpR2FPekUta1JNQ0ZhelZMZGdLZDA1cWRlQzZndGtnbjRNcUhtTG9paHhfblhfUEN0dll4a1BfbzNia2lzLUtkMEhlXzZsSlR6Q0xWQ09VZks5YTRFeEp5ZkV0ZFRNbHJVclk0MUEzd2tOMDM3TUx2QVZlRV9EdGdaN0pxX2lDTllNbFNGT0lhUkUxZXQxYVo5SXNGbmwzLVJNZ0hOczYyN3hOaw?oc=5&hl=en-US&gl=US&ceid=US:en)**: US biotech sector poised for 2026 rebound as IPO interest revives &nbsp;&nbsp; Reuters
 - **[AbbVie inks USD 5.6bn global licensing deal with Chinese biotech for cancer therapy - medwatch.com](https://news.google.com/rss/articles/CBMib0FVX3lxTE56WUgzQ1ZMaVNpSHRfUGY2d0oyc0dORGQ2b254Zi1paEF4VXhaY1FzRU82LV83WVd2cTlOZlI4akhMQ2ljc25UUzhIVGJ5cV8yekIza2YtRnEtWVhiV1lDRERQWURVWEpxVFNjSDJ2dw?oc=5&hl=en-US&gl=US&ceid=US:en)**: AbbVie inks USD 5.6bn global licensing deal with Chinese biotech for cancer therapy &nbsp;&nbsp; medwatch.com
 - **[Layoff Tracker: Lyra Shutters, EMD Serono Downsizes - BioSpace](https://news.google.com/rss/articles/CBMiXEFVX3lxTFB1N2d4NnYwN0JiU181Tm9vV0dUM1c1NWVMUHNCdlZFVmRSZXpmRFp3TnBQUVJXYnFYV1VlNVBIZXU0TzY4bE5BNTd4NGpIT21aYlZHMy1qSW1HWDFH?oc=5&hl=en-US&gl=US&ceid=US:en)**: Layoff Tracker: Lyra Shutters, EMD Serono Downsizes &nbsp;&nbsp; BioSpace
@@ -72,8 +72,8 @@ The development of small-molecule tyrosine kinase inhibitors remains a high-prio
 
 ## 💼 Jobs & Opportunities
 
-- **[Postdoctoral Fellow, Computational Biology & Medicine/Neuroscience - Indeed (Indeed Jobs)](https://news.google.com/rss/articles/CBMiX0FVX3lxTE15U0Z4TWpObWwyNmwxaVhpU1gwbkhJX1NGbW9lLVpSQ3lhYnd4RjRrRkxYYTVPYmR3V1EyaUJZODZlOEFSYmw1QkNrTXdYOWNCcll6MmRGcWk5czc1dFln?oc=5&hl=en-US&gl=US&ceid=US:en)**
-- **[Scientist/Senior Scientist, Protein Engineering - Indeed (Indeed Jobs)](https://news.google.com/rss/articles/CBMiX0FVX3lxTFBxYVVVN2l6X3hTc1BWNGlKWTEyV2ZqMHJtNkJMSUtoRWVPTFFka3dEWW5sNVlEOEVBX3ZScEhRS25namxsblZDa29ldVphTXYyb21nbDRMd2RTend6NVJv?oc=5&hl=en-US&gl=US&ceid=US:en)**
+- **[Product Manager, Customer Growth - Workable (Workable)](https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1qeVRWWGcwZ2hpdExQU3VybVJCZ0pHQ3prcmFjVTEwQllrbEw2MFNzLUI0Q0k3WWQzXzlrUnNMLXBEQWFlbzJKMUE0VWF5dC1uRjFoWk8tLWNPUUhNQjB6dWJFYUVGMU0?oc=5&hl=en-US&gl=US&ceid=US:en)**
+- **[Laboratory Technician - Eitr Biologics, Inc. - Workable (Workable)](https://news.google.com/rss/articles/CBMiakFVX3lxTFBTVnBDWkVscEFUenNMOUFwRlhXRFVpcXphcEZ6eDFlRTVzbEFPVXc5VzFGMFk1RDNKcjh6U1UxdE5yb0FTY19kWUxfTU1OSFBtNVZndnFnV1dGQnVlMkVhNTVMUWpqWk1XZHc?oc=5&hl=en-US&gl=US&ceid=US:en)**
 
 ---
 
