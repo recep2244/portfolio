@@ -53,6 +53,27 @@ is_truthy() {
   esac
 }
 
+should_run_daily() {
+  local weekday
+  weekday="$("$PYTHON_BIN" - <<'PY'
+from datetime import datetime
+from zoneinfo import ZoneInfo
+import os
+tz = ZoneInfo(os.environ.get("NEWSLETTER_TIMEZONE", "Europe/London"))
+print(datetime.now(tz).isoweekday())
+PY
+)"
+  local days
+  days="${NEWSLETTER_DAILY_DAYS:-1,2,3,4,5}"
+  if ! is_truthy "${NEWSLETTER_WEEKLY_ONLY:-}"; then
+    return 0
+  fi
+  if [ -z "$days" ]; then
+    return 1
+  fi
+  printf "%s" "$days" | tr ',' '\n' | awk -v w="$weekday" '$0 == w {found=1} END {exit !found}'
+}
+
 DEFAULT_TZ="${NEWSLETTER_TIMEZONE:-Europe/London}"
 TODAY_DATE="$($PYTHON_BIN - <<PY
 from datetime import datetime
@@ -120,7 +141,7 @@ fi
 
 PREVIEW_LIST="$ROOT_DIR/newsletter/preview_subscribers.csv"
 
-if [ "${NEWSLETTER_SEND_CURATION_REMINDER:-}" = "1" ] && ! is_truthy "${NEWSLETTER_WEEKLY_ONLY:-}"; then
+if [ "${NEWSLETTER_SEND_CURATION_REMINDER:-}" = "1" ] && should_run_daily; then
   if [ ! -f "$PREVIEW_LIST" ]; then
     echo "Error: preview_subscribers.csv not found. Aborting curation reminder."
     PREVIEW_LIST=""
@@ -178,7 +199,7 @@ PY
   fi
 fi
 
-if [ "${NEWSLETTER_SEND_PREVIEW:-0}" = "1" ] && ! is_truthy "${NEWSLETTER_WEEKLY_ONLY:-}"; then
+if [ "${NEWSLETTER_SEND_PREVIEW:-0}" = "1" ] && should_run_daily; then
   PREVIEW_LIST="$ROOT_DIR/newsletter/preview_subscribers.csv"
   if [ ! -f "$PREVIEW_LIST" ]; then
     echo "Error: preview_subscribers.csv not found. Aborting preview send."
@@ -227,7 +248,7 @@ print("yes" if delta_minutes <= int("${SEND_WINDOW_MINUTES}") else "no")
 PY
 )"
 
-if [ "$AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ] && ! is_truthy "${NEWSLETTER_WEEKLY_ONLY:-}"; then
+if [ "$AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ] && should_run_daily; then
   APPROVAL_MARKER="$ROOT_DIR/newsletter/issues/${TODAY_DATE}.approved"
   if [ "${NEWSLETTER_DELAY_SEND:-0}" = "1" ] && [ ! -f "$APPROVAL_MARKER" ]; then
     echo "Auto send skipped: approval not found for ${TODAY_DATE}."
@@ -236,7 +257,7 @@ if [ "$AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ] && ! is_truthy "${NEWSLE
   fi
 fi
 
-if [ "${NEWSLETTER_SEND_APPROVAL_REMINDER:-}" = "1" ] && ! is_truthy "${NEWSLETTER_WEEKLY_ONLY:-}"; then
+if [ "${NEWSLETTER_SEND_APPROVAL_REMINDER:-}" = "1" ] && should_run_daily; then
   APPROVAL_REMINDER_TZ="${NEWSLETTER_APPROVAL_REMINDER_TZ:-$SEND_TZ}"
   APPROVAL_REMINDER_HOUR="${NEWSLETTER_APPROVAL_REMINDER_HOUR:-9}"
   APPROVAL_REMINDER_MINUTE="${NEWSLETTER_APPROVAL_REMINDER_MINUTE:-30}"
