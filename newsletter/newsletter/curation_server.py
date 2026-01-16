@@ -21,7 +21,8 @@ except ImportError:
 
 
 def run_python(script_path, args, cwd):
-    cmd = [os.environ.get("PYTHON", "python3"), str(script_path)] + args
+    python_bin = os.environ.get("NEWSLETTER_PYTHON") or os.environ.get("PYTHON") or "python3"
+    cmd = [python_bin, str(script_path)] + args
     subprocess.run(cmd, check=True, cwd=cwd)
 
 def is_truthy(value):

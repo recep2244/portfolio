@@ -3,10 +3,11 @@ set -euo pipefail
 
 ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 ISSUE_DATE="${1:-today}"
+PYTHON_BIN="${NEWSLETTER_PYTHON:-python3}"
 
 resolve_issue_date() {
   if [ "$ISSUE_DATE" = "today" ]; then
-    python3 - <<PY
+  "$PYTHON_BIN" - <<PY
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import os
@@ -41,7 +42,7 @@ write_csv_from_env() {
 write_csv_from_env "$ROOT_DIR/newsletter/subscribers.csv" "NEWSLETTER_SUBSCRIBERS_CSV"
 
 if [ "${NEWSLETTER_SYNC_SUBSCRIBERS:-1}" = "1" ]; then
-  python3 "$ROOT_DIR/newsletter/sync_subscribers_from_gmail.py" \
+  "$PYTHON_BIN" "$ROOT_DIR/newsletter/sync_subscribers_from_gmail.py" \
     --subscribers "$ROOT_DIR/newsletter/subscribers.csv" || echo "Warning: subscriber sync failed."
 fi
 
@@ -61,10 +62,10 @@ if [ -z "${NEWSLETTER_GMAIL_USER:-}" ] || [ -z "${NEWSLETTER_GMAIL_APP_PASSWORD:
   exit 1
 fi
 
-python3 "$ROOT_DIR/newsletter/newsletter_to_md.py" \
+"$PYTHON_BIN" "$ROOT_DIR/newsletter/newsletter_to_md.py" \
   --issues-dir "$ROOT_DIR/newsletter/issues"
 
-python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
+"$PYTHON_BIN" "$ROOT_DIR/newsletter/send_newsletter.py" \
   --issue-date "$ISSUE_DATE" \
   --issues-dir "$ROOT_DIR/newsletter/issues" \
   --subscribers "$ROOT_DIR/newsletter/subscribers.csv" \
@@ -72,7 +73,7 @@ python3 "$ROOT_DIR/newsletter/send_newsletter.py" \
   --template-text "$ROOT_DIR/newsletter/template.txt" \
   --frequency "$SEND_FREQUENCY"
 
-SENT_MARKER_PATH="$SENT_MARKER" ISSUE_DATE_RESOLVED="$ISSUE_DATE_RESOLVED" python3 - <<'PY'
+SENT_MARKER_PATH="$SENT_MARKER" ISSUE_DATE_RESOLVED="$ISSUE_DATE_RESOLVED" "$PYTHON_BIN" - <<'PY'
 import json
 import os
 from datetime import datetime
@@ -107,5 +108,5 @@ if [ "${NEWSLETTER_SYNC_ARCHIVE:-0}" = "1" ]; then
 fi
 
 echo "📣 Publishing announcement to social media..."
-python3 "$ROOT_DIR/newsletter/social_post.py" \
+"$PYTHON_BIN" "$ROOT_DIR/newsletter/social_post.py" \
   --issue "$ROOT_DIR/newsletter/issues/$ISSUE_DATE_RESOLVED.json" || echo "⚠️ Social publishing failed, skipping..."

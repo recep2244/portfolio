@@ -885,6 +885,13 @@ def main():
     newsletter_url = issue_url or twitter_subscribe_url
     twitter_link_reply = build_link_reply_text(signal_link, newsletter_url)
     bluesky_link_reply = build_link_reply_text(signal_link, issue_url or bluesky_subscribe_url)
+    twitter_main_only = is_truthy(os.getenv("TWITTER_MAIN_ONLY"), default=False)
+    if twitter_main_only:
+        twitter_thread_text = twitter_full_text
+        twitter_link_reply = ""
+        ai_post = None
+        industry_post = None
+        job_post = None
 
     def build_section_post(item, header_label):
         if not item:
