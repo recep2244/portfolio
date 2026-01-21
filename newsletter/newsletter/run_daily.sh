@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+REPO_ROOT=$(cd "$ROOT_DIR/.." && pwd)
 
 # Log rotation function - rotate logs if they exceed MAX_LOG_SIZE
 rotate_logs() {
@@ -35,14 +36,40 @@ rotate_logs() {
 rotate_logs "$ROOT_DIR/newsletter/daily_cron.log" 1048576 3
 rotate_logs "$ROOT_DIR/newsletter/curation_server.log" 524288 2
 
-# Load environment variables from .env if it exists
-if [ -f "$ROOT_DIR/newsletter/.env" ]; then
-  set -a
-  source "$ROOT_DIR/newsletter/.env"
-  set +a
-fi
+load_env() {
+  local env_file="$ROOT_DIR/newsletter/.env"
+  if [ -f "$env_file" ]; then
+    set -a
+    set +e
+    # shellcheck disable=SC1090
+    source "$env_file"
+    local env_status=$?
+    set -e
+    set +a
+    if [ "$env_status" -ne 0 ]; then
+      echo "Warning: Failed to load $env_file. Quote values with spaces." >&2
+    fi
+  fi
+}
+
+load_env
 
 PYTHON_BIN="${NEWSLETTER_PYTHON:-python3}"
+RUN_STATUS_PATH="$ROOT_DIR/newsletter/daily_run.status"
+RUN_START_TS="$(date -Is)"
+
+log_line() {
+  printf "%s - %s\n" "$(date -Is)" "$*"
+}
+
+{
+  echo "started_at=$RUN_START_TS"
+  echo "pid=$$"
+  echo "status=running"
+} > "$RUN_STATUS_PATH"
+log_line "run_daily started (pid $$)"
+
+trap 'status=$?; end_ts=$(date -Is); if [ "$status" -ne 0 ]; then final=failed; else final=success; fi; { echo "started_at=$RUN_START_TS"; echo "ended_at=$end_ts"; echo "pid=$$"; echo "status=$final"; } > "$RUN_STATUS_PATH"; log_line "run_daily $final (status $status)"' EXIT
 
 is_truthy() {
   local value
@@ -110,14 +137,14 @@ if [ "${NEWSLETTER_SYNC_ARCHIVE_AT_CURATION:-0}" = "1" ]; then
   "$PYTHON_BIN" "$ROOT_DIR/newsletter/newsletter_to_md.py" \
     --issues-dir "$ROOT_DIR/newsletter/issues"
 
-  ARCHIVE_PATH="$ROOT_DIR/content/newsletter"
+  ARCHIVE_PATH="$REPO_ROOT/content/newsletter"
   if [ -d "$ARCHIVE_PATH" ]; then
-    git -C "$ROOT_DIR" add "$ARCHIVE_PATH"
-    if ! git -C "$ROOT_DIR" diff --cached --quiet -- "$ARCHIVE_PATH"; then
+    git -C "$REPO_ROOT" add "$ARCHIVE_PATH"
+    if ! git -C "$REPO_ROOT" diff --cached --quiet -- "$ARCHIVE_PATH"; then
       COMMIT_MSG="${NEWSLETTER_SYNC_COMMIT_MESSAGE:-Sync newsletter archive (${TODAY_DATE})}"
-      git -C "$ROOT_DIR" commit -m "$COMMIT_MSG" -- "$ARCHIVE_PATH"
+      git -C "$REPO_ROOT" commit -m "$COMMIT_MSG" -- "$ARCHIVE_PATH"
       if [ "${NEWSLETTER_SYNC_PUSH:-0}" = "1" ]; then
-        git -C "$ROOT_DIR" push
+        git -C "$REPO_ROOT" push
       fi
     fi
   else

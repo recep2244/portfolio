@@ -3,12 +3,23 @@ set -euo pipefail
 
 ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 
-# Load environment variables from .env if it exists
-if [ -f "$ROOT_DIR/newsletter/.env" ]; then
-  set -a
-  source "$ROOT_DIR/newsletter/.env"
-  set +a
-fi
+load_env() {
+  local env_file="$ROOT_DIR/newsletter/.env"
+  if [ -f "$env_file" ]; then
+    set -a
+    set +e
+    # shellcheck disable=SC1090
+    source "$env_file"
+    local env_status=$?
+    set -e
+    set +a
+    if [ "$env_status" -ne 0 ]; then
+      echo "Warning: Failed to load $env_file. Quote values with spaces." >&2
+    fi
+  fi
+}
+
+load_env
 
 PYTHON_BIN="${NEWSLETTER_PYTHON:-python3}"
 

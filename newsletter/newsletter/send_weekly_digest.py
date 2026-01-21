@@ -68,7 +68,12 @@ def main():
     parser.add_argument(
         "--frequency",
         default="",
-        help="Subscriber frequency to target: weekly, daily, or all (default: env NEWSLETTER_WEEKLY_FREQUENCY or weekly).",
+        help="Subscriber frequency to target: weekly, daily, or all (default: env NEWSLETTER_WEEKLY_FREQUENCY or all).",
+    )
+    parser.add_argument(
+        "--send-mode",
+        default=os.getenv("NEWSLETTER_SEND_MODE", "bcc"),
+        help="Send mode: bcc (single message) or per-recipient (individual).",
     )
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
@@ -108,10 +113,13 @@ def main():
             html.escape(line) for line in footer_lines
         ) + "</p>"
 
-    freq = (args.frequency or os.getenv("NEWSLETTER_WEEKLY_FREQUENCY") or "weekly").strip().lower()
+    freq = (args.frequency or os.getenv("NEWSLETTER_WEEKLY_FREQUENCY") or "all").strip().lower()
     if freq in {"", "all", "any"}:
         subscribers = load_subscribers(args.subscribers, None)
-    elif freq in {"daily", "weekly"}:
+    elif freq in {"weekly"}:
+        # Weekly digest should include daily subscribers too.
+        subscribers = load_subscribers(args.subscribers, None)
+    elif freq in {"daily"}:
         subscribers = load_subscribers(args.subscribers, freq)
     else:
         raise ValueError(f"Unknown frequency '{freq}'. Use daily, weekly, or all.")
@@ -130,15 +138,19 @@ def main():
     if not from_email or not smtp_user or not smtp_pass:
         raise ValueError("SMTP credentials missing (NEWSLETTER_GMAIL_USER and NEWSLETTER_GMAIL_APP_PASSWORD)")
 
+    send_mode = (args.send_mode or "bcc").strip().lower()
+    if send_mode not in {"bcc", "per-recipient"}:
+        raise ValueError("send mode must be 'bcc' or 'per-recipient'")
+
     if args.dry_run:
-        print(f"Dry run: would send '{subject}' to {len(subscribers)} weekly subscribers.")
+        print(f"Dry run: would send '{subject}' to {len(subscribers)} subscribers via {send_mode}.")
         return
 
     with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
         smtp.ehlo()
         smtp.starttls()
         smtp.login(smtp_user, smtp_pass)
-        for batch in chunk_list(subscribers, args.batch_size):
+        if send_mode == "bcc":
             msg = build_message(
                 subject,
                 from_email,
@@ -149,9 +161,25 @@ def main():
                 html_body,
                 unsubscribe_link,
             )
-            smtp.sendmail(from_email, batch, msg.as_string())
+            smtp.sendmail(from_email, subscribers, msg.as_string())
+        else:
+            for recipient in subscribers:
+                msg = build_message(
+                    subject,
+                    from_email,
+                    from_name,
+                    recipient,
+                    reply_to,
+                    text_body,
+                    html_body,
+                    unsubscribe_link,
+                )
+                smtp.sendmail(from_email, [recipient], msg.as_string())
 
-    print(f"Weekly digest sent to {len(subscribers)} subscribers.")
+    if send_mode == "bcc":
+        print(f"Weekly digest sent to {len(subscribers)} subscribers via BCC.")
+    else:
+        print(f"Weekly digest sent to {len(subscribers)} subscribers.")
 
 
 if __name__ == "__main__":

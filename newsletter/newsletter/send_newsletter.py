@@ -525,6 +525,10 @@ def save_outputs(output_dir, issue_date, html_body, text_body):
 
 
 def main():
+    default_frequency = (os.getenv("NEWSLETTER_SEND_FREQUENCY") or "daily").strip().lower()
+    if default_frequency not in {"daily", "weekly", "all"}:
+        default_frequency = "daily"
+
     parser = argparse.ArgumentParser(description="Send a daily Gmail newsletter")
     parser.add_argument("--issue", help="Path to issue JSON")
     parser.add_argument("--issue-date", help="YYYY-MM-DD or 'today'")
@@ -538,7 +542,17 @@ def main():
     parser.add_argument("--timezone", default=DEFAULT_TIMEZONE)
     parser.add_argument("--render-only", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
-    parser.add_argument("--frequency", choices=["daily", "weekly"], help="Filter subscribers by frequency")
+    parser.add_argument(
+        "--frequency",
+        choices=["daily", "weekly", "all"],
+        default=default_frequency,
+        help="Filter subscribers by frequency (daily, weekly, or all).",
+    )
+    parser.add_argument(
+        "--send-mode",
+        default=os.getenv("NEWSLETTER_SEND_MODE", "bcc"),
+        help="Send mode: bcc (single message) or per-recipient (individual).",
+    )
     parser.add_argument("--from-email", default=os.getenv("NEWSLETTER_FROM_EMAIL"))
     parser.add_argument("--from-name", default=os.getenv("NEWSLETTER_FROM_NAME", ""))
     parser.add_argument("--reply-to", default=os.getenv("NEWSLETTER_REPLY_TO", ""))
@@ -567,7 +581,10 @@ def main():
         print(f"Rendered: {text_path}")
         return
 
-    subscribers = load_subscribers(args.subscribers, args.frequency)
+    if args.frequency == "all":
+        subscribers = load_subscribers(args.subscribers, None)
+    else:
+        subscribers = load_subscribers(args.subscribers, args.frequency)
     if not subscribers:
         raise ValueError("No subscribers found")
     if args.max_recipients and len(subscribers) > args.max_recipients:
@@ -582,8 +599,11 @@ def main():
         raise ValueError("SMTP credentials missing (NEWSLETTER_GMAIL_USER and NEWSLETTER_GMAIL_APP_PASSWORD)")
 
     send_self = is_truthy(os.getenv("NEWSLETTER_SEND_SELF"))
+    send_mode = (args.send_mode or "bcc").strip().lower()
+    if send_mode not in {"bcc", "per-recipient"}:
+        raise ValueError("send mode must be 'bcc' or 'per-recipient'")
     if args.dry_run:
-        print(f"Dry run: would send '{subject}' to {len(subscribers)} recipients")
+        print(f"Dry run: would send '{subject}' to {len(subscribers)} recipients via {send_mode}")
         print(f"Rendered: {html_path}")
         print(f"Rendered: {text_path}")
         return
@@ -604,38 +624,59 @@ def main():
         smtp.ehlo()
         smtp.starttls()
         smtp.login(args.smtp_user, args.smtp_pass)
-        for batch in chunk_list(subscribers, args.batch_size):
-            for recipient in batch:
-                # Generate unique tracking for each subscriber
-                subscriber_hash = hash_email(recipient)
+        if send_mode == "bcc":
+            if args.tracker_url:
+                print("Warning: tracking disabled in BCC mode.")
+            recipients = list(subscribers)
+            if send_self and from_email and from_email not in recipients:
+                recipients.append(from_email)
+            msg = build_message(
+                subject,
+                from_email,
+                args.from_name,
+                from_email,
+                args.reply_to,
+                text_body,
+                html_body,
+                text_context.get("unsubscribe_link"),
+            )
+            smtp.sendmail(from_email, recipients, msg.as_string())
+        else:
+            for batch in chunk_list(subscribers, args.batch_size):
+                for recipient in batch:
+                    # Generate unique tracking for each subscriber
+                    subscriber_hash = hash_email(recipient)
 
-                # Add tracking to HTML if tracker URL is configured
-                tracked_html = html_body
-                if args.tracker_url:
-                    tracked_html = add_tracking_to_html(
-                        html_body, args.tracker_url, raw_issue_date, subscriber_hash
+                    # Add tracking to HTML if tracker URL is configured
+                    tracked_html = html_body
+                    if args.tracker_url:
+                        tracked_html = add_tracking_to_html(
+                            html_body, args.tracker_url, raw_issue_date, subscriber_hash
+                        )
+
+                    msg = build_message(
+                        subject,
+                        from_email,
+                        args.from_name,
+                        recipient,
+                        args.reply_to,
+                        text_body,
+                        tracked_html,
+                        text_context.get("unsubscribe_link"),
                     )
-
-                msg = build_message(
-                    subject,
-                    from_email,
-                    args.from_name,
-                    recipient,
-                    args.reply_to,
-                    text_body,
-                    tracked_html,
-                    text_context.get("unsubscribe_link"),
-                )
-                recipients = [recipient]
-                if send_self and from_email and from_email not in recipients:
-                    recipients.append(from_email)
-                smtp.sendmail(from_email, recipients, msg.as_string())
+                    recipients = [recipient]
+                    if send_self and from_email and from_email not in recipients:
+                        recipients.append(from_email)
+                    smtp.sendmail(from_email, recipients, msg.as_string())
 
     # Record total sent
     if analytics_db:
         analytics_db.record_send(raw_issue_date, len(subscribers))
 
-    print(f"Sent '{subject}' to {len(subscribers)} recipients")
+    if send_mode == "bcc":
+        print(f"Sent '{subject}' to {len(subscribers)} recipients via BCC")
+    else:
+        print(f"Sent '{subject}' to {len(subscribers)} recipients")
     if args.tracker_url:
         print(f"Tracking enabled via: {args.tracker_url}")
 

@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+REPO_ROOT=$(cd "$ROOT_DIR/.." && pwd)
 ISSUE_DATE="${1:-today}"
 PYTHON_BIN="${NEWSLETTER_PYTHON:-python3}"
 
@@ -23,12 +24,23 @@ ISSUE_DATE_RESOLVED="$(resolve_issue_date)"
 SENT_MARKER="$ROOT_DIR/newsletter/issues/${ISSUE_DATE_RESOLVED}.sent"
 SEND_FREQUENCY="${NEWSLETTER_SEND_FREQUENCY:-daily}"
 
-# Load environment variables from .env if it exists
-if [ -f "$ROOT_DIR/newsletter/.env" ]; then
-  set -a
-  source "$ROOT_DIR/newsletter/.env"
-  set +a
-fi
+load_env() {
+  local env_file="$ROOT_DIR/newsletter/.env"
+  if [ -f "$env_file" ]; then
+    set -a
+    set +e
+    # shellcheck disable=SC1090
+    source "$env_file"
+    local env_status=$?
+    set -e
+    set +a
+    if [ "$env_status" -ne 0 ]; then
+      echo "Warning: Failed to load $env_file. Quote values with spaces." >&2
+    fi
+  fi
+}
+
+load_env
 
 write_csv_from_env() {
   local path="$1"
@@ -92,14 +104,14 @@ with open(path, "w", encoding="utf-8") as f:
 PY
 
 if [ "${NEWSLETTER_SYNC_ARCHIVE:-0}" = "1" ]; then
-  ARCHIVE_PATH="$ROOT_DIR/content/newsletter"
+  ARCHIVE_PATH="$REPO_ROOT/content/newsletter"
   if [ -d "$ARCHIVE_PATH" ]; then
-    git -C "$ROOT_DIR" add "$ARCHIVE_PATH"
-    if ! git -C "$ROOT_DIR" diff --cached --quiet; then
+    git -C "$REPO_ROOT" add "$ARCHIVE_PATH"
+    if ! git -C "$REPO_ROOT" diff --cached --quiet; then
       COMMIT_MSG="${NEWSLETTER_SYNC_COMMIT_MESSAGE:-Sync newsletter archive (${ISSUE_DATE_RESOLVED})}"
-      git -C "$ROOT_DIR" commit -m "$COMMIT_MSG"
+      git -C "$REPO_ROOT" commit -m "$COMMIT_MSG"
       if [ "${NEWSLETTER_SYNC_PUSH:-0}" = "1" ]; then
-        git -C "$ROOT_DIR" push
+        git -C "$REPO_ROOT" push
       fi
     fi
   else

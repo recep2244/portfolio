@@ -1588,3 +1588,728 @@ Successfully generated weekly digest: /home/recep/Desktop/Machine_Learning/proje
 Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
 Skipping approval reminder: issue already sent.
 Daily run complete. Run run_send_confirmed.sh after approval to email everyone.
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/.env: line 13: to: command not found
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/.env: line 13: to: command not found
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/.env: line 13: to: command not found
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/.env: line 13: to: command not found
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/.env: line 13: to: command not found
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/.env: line 13: to: command not found
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/.env: line 13: to: command not found
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/.env: line 13: to: command not found
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/.env: line 13: to: command not found
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/.env: line 13: to: command not found
+Generating report for 2026-01-06 to 2026-01-12...
+Weekly report sent to recepadiyaman2244@gmail.com
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/.env: line 13: to: command not found
+/home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/.env: line 13: to: command not found
+2026-01-20T00:02:01+00:00 - run_daily started (pid 3170961)
+Subscriber sync: no new subscribers found.
+2026-01-20 00:02:03 - INFO - Fetching from 43 sources concurrently...
+2026-01-20 00:02:03 - INFO - arXiv: fetched 160 papers
+2026-01-20 00:02:03 - INFO - RSS (Nature Struct & Mol Bio): fetched 8 papers
+2026-01-20 00:02:03 - INFO - RSS (Nature Chemical Biology): fetched 8 papers
+2026-01-20 00:02:03 - INFO - RSS (Nature Biotechnology): fetched 8 papers
+2026-01-20 00:02:03 - INFO - RSS (Nature Genetics): fetched 8 papers
+2026-01-20 00:02:03 - INFO - RSS (Nature Reviews Molecular Cell Biology): fetched 8 papers
+2026-01-20 00:02:03 - INFO - RSS (Nature Reviews Genetics): fetched 8 papers
+2026-01-20 00:02:03 - INFO - RSS (Nature Communications): fetched 8 papers
+2026-01-20 00:02:03 - INFO - RSS (Nature Methods): fetched 8 papers
+2026-01-20 00:02:03 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 00:02:03 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 00:02:03 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 00:02:03 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 429: . Retrying in 2.0s...
+2026-01-20 00:02:04 - INFO - Europe PMC: fetched 160 papers
+2026-01-20 00:02:04 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 00:02:05 - INFO - medRxiv: fetched 160 papers
+2026-01-20 00:02:05 - INFO - PubMed: fetched 160 papers
+2026-01-20 00:02:05 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 00:02:05 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 00:02:05 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 00:02:05 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 00:02:05 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 00:02:05 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 429: . Retrying in 4.0s...
+2026-01-20 00:02:06 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 00:02:07 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 00:02:07 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 00:02:09 - INFO - RSS (Cell): fetched 0 papers
+2026-01-20 00:02:09 - INFO - RSS (Structure): fetched 0 papers
+2026-01-20 00:02:09 - INFO - RSS (Cell Systems): fetched 0 papers
+2026-01-20 00:02:10 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 00:02:10 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 00:02:10 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 00:02:10 - INFO - Semantic Scholar: fetched 0 papers
+2026-01-20 00:02:10 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 00:02:10 - INFO - RSS (Cell Reports): fetched 0 papers
+2026-01-20 00:02:11 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 00:02:11 - INFO - RSS (PLOS Computational Biology): fetched 0 papers
+2026-01-20 00:02:11 - INFO - RSS (PLOS Biology): fetched 0 papers
+2026-01-20 00:02:12 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 00:02:12 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 00:02:12 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 00:02:12 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 00:02:12 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 00:02:12 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 00:02:13 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 00:02:14 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 00:02:14 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 00:02:16 - INFO - RSS (eLife): fetched 0 papers
+2026-01-20 00:02:16 - INFO - RSS (PLOS ONE): fetched 0 papers
+2026-01-20 00:02:16 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 00:02:16 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 00:02:16 - INFO - RSS (BMC Bioinformatics): fetched 0 papers
+2026-01-20 00:02:16 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 410: . Retrying in 2.0s...
+2026-01-20 00:02:17 - INFO - RSS (BMC Biology): fetched 0 papers
+2026-01-20 00:02:17 - INFO - RSS (Proteins: Structure, Function, and Bioinformatics): fetched 63 papers
+2026-01-20 00:02:17 - INFO - RSS (Journal of Computational Chemistry): fetched 7 papers
+2026-01-20 00:02:17 - INFO - RSS (Journal of Chemical Information and Modeling): fetched 47 papers
+2026-01-20 00:02:17 - INFO - RSS (ACS Chemical Biology): fetched 9 papers
+2026-01-20 00:02:17 - INFO - RSS (Journal of the American Chemical Society): fetched 120 papers
+2026-01-20 00:02:17 - INFO - RSS (ACS Synthetic Biology): fetched 18 papers
+2026-01-20 00:02:17 - INFO - RSS (Biochemistry): fetched 16 papers
+2026-01-20 00:02:17 - INFO - RSS (Science): fetched 37 papers
+2026-01-20 00:02:17 - INFO - RSS (PNAS): fetched 88 papers
+2026-01-20 00:02:17 - INFO - RSS (Protein Folding & Design News): fetched 14 papers
+2026-01-20 00:02:17 - INFO - RSS (Structure Prediction News): fetched 14 papers
+2026-01-20 00:02:17 - INFO - RSS (Protein Design News): fetched 22 papers
+2026-01-20 00:02:17 - INFO - RSS (Biotech Industry News): fetched 38 papers
+2026-01-20 00:02:17 - INFO - RSS (Genome Biology): fetched 0 papers
+2026-01-20 00:02:18 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 00:02:18 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 00:02:19 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 410: . Retrying in 4.0s...
+2026-01-20 00:02:19 - INFO - RSS (Nucleic Acids Research): fetched 0 papers
+2026-01-20 00:02:19 - INFO - RSS (Bioinformatics (Oxford)): fetched 0 papers
+2026-01-20 00:02:20 - INFO - bioRxiv: fetched 200 papers
+2026-01-20 00:02:22 - INFO - RSS (Journal of Molecular Biology): fetched 0 papers
+2026-01-20 00:02:22 - INFO - RSS (Current Opinion in Structural Biology): fetched 0 papers
+2026-01-20 00:02:23 - INFO - RSS (Journal of Biological Chemistry): fetched 0 papers
+2026-01-20 00:02:24 - INFO - Note: NumExpr detected 20 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2026-01-20 00:02:24 - INFO - NumExpr defaulting to 8 threads.
+2026-01-20 00:02:25 - INFO - Use pytorch device_name: cuda:0
+2026-01-20 00:02:25 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+Warning: Failed to parse RSS feed: https://www.cell.com/cell/rss
+Warning: Failed to parse RSS feed: https://www.cell.com/structure/rss
+Warning: Failed to parse RSS feed: https://www.cell.com/cell-systems/rss
+Warning: Semantic Scholar fetch failed: HTTP Error 429: 
+Warning: Failed to parse RSS feed: https://www.cell.com/cell-reports/rss
+Warning: Failed to parse RSS feed: https://journals.plos.org/ploscompbiol/rss
+Warning: Failed to parse RSS feed: https://journals.plos.org/plosbiology/rss
+Warning: Failed to parse RSS feed: https://elifesciences.org/rss.xml
+Warning: Failed to parse RSS feed: https://journals.plos.org/plosone/rss
+Warning: Failed to parse RSS feed: https://bmcbioinformatics.biomedcentral.com/articles/rss
+Warning: Failed to parse RSS feed: https://bmcbiol.biomedcentral.com/articles/rss
+Warning: Failed to parse RSS feed: https://genomebiology.biomedcentral.com/articles/rss
+Warning: Failed to parse RSS feed: https://academic.oup.com/rss/advancearticles/nar
+Warning: Failed to parse RSS feed: https://academic.oup.com/bioinformatics/rss/current_issue
+Warning: Failed to parse RSS feed: https://www.sciencedirect.com/journal/journal-of-molecular-biology/rss
+Warning: Failed to parse RSS feed: https://www.sciencedirect.com/journal/current-opinion-in-structural-biology/rss
+Warning: Failed to parse RSS feed: https://www.jbc.org/rss/current.xml
+Computing embeddings for 776 papers...
+Generating embeddings for 63 papers...
+Batches:   0%|          | 0/2 [00:00<?, ?it/s]Batches:  50%|█████     | 1/2 [00:00<00:00,  3.89it/s]Batches: 100%|██████████| 2/2 [00:00<00:00,  7.46it/s]
+2026-01-20 00:02:28 - INFO - Cleaned 40 old cache files
+Found 13 duplicate groups:
+  Group: ['RLBindDeep: A ResNet-LSTM based novel framework fo', 'Decision Tree for Prediction of Binding Affinity.']
+  Group: ['In-Silico Evaluation of Novel Quercetin Derivative', 'Network pharmacology, molecular docking and molecu']
+  Group: ['Simple computational methods can outperform deep l', 'In silico design of stable single-domain antibodie']
+  Group: ['Structure-based discovery of novel TAOK3 inhibitor', 'Machine learning-guided discovery of mitogen-activ']
+  Group: ['Computational investigation of natural phenolic-3,', 'Targeted anticancer potential of oxazole derivativ']
+  Group: ['From metabolomics to molecular docking: Unveiling ', 'From metabolomics to molecular docking: Unveiling ']
+  Group: ['Rethinking Malaria Seasonality: Humidity-Driven Tr', 'Climate blind spots in malaria control: Frontline ']
+  Group: ['Ceftazidime-Avibactam Resistance in Escherichia co', 'Identification of potential inhibitors derived fro']
+  Group: ['Dual contributions of Xrp1 to genome integrity thr', 'Dual contributions of Xrp1 to genome integrity thr']
+  Group: ['Dynamic regulation of protein homeostasis underlie', 'Dynamic regulation of protein homeostasis underlie']
+  Group: ['Sperm fertility restoration in mice suffering from', 'Sperm motility restoration in mice suffering from ']
+  Group: ['Oncogenic MAPK pathway activation induces a congen', 'Oncogenic MAPK pathway activation disrupts Schwann']
+  Group: ['Directed evolution for cell separation in natural ', 'Directed evolution for cell separation in natural ']
+Removed 13 semantic duplicates, 763 papers remain
+Semantic dedup: merged 13 duplicate groups
+Warning: Trending module not available
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-20.json
+Converted 2025-12-30.json -> 2025-12-30-issue-8.md
+Converted 2026-01-19.json -> 2026-01-19-issue-25.md
+Converted 2026-01-14.json -> 2026-01-14-issue-22.md
+Converted 2026-01-03.json -> 2026-01-03-issue-12.md
+Converted 2026-01-10.json -> 2026-01-10-issue-18.md
+Converted 2026-01-08.json -> 2026-01-08-issue-16.md
+Converted 2025-12-23.json -> 2025-12-23-issue-3.md
+Converted 2026-01-15.json -> 2026-01-15-issue-23.md
+Converted 2026-01-05.json -> 2026-01-05-issue-14.md
+Converted 2025-12-28.json -> 2025-12-28-issue-7.md
+Converted 2025-12-27.json -> 2025-12-27-issue-5.md
+Converted 2026-01-16.json -> 2026-01-16-issue-24.md
+Converted 2025-12-21.json -> 2025-12-21-issue-2.md
+Converted 2025-12-29.json -> 2025-12-29-issue-7.md
+Converted 2025-12-22.json -> 2025-12-22-issue-3.md
+Converted 2026-01-01.json -> 2026-01-01-issue-10.md
+Converted 2026-01-09.json -> 2026-01-09-issue-17.md
+Converted 2026-01-20.json -> 2026-01-20-issue-26.md
+Converted 2026-01-07.json -> 2026-01-07-issue-15.md
+Converted 2026-01-13.json -> 2026-01-13-issue-21.md
+Converted 2026-01-11.json -> 2026-01-11-issue-19.md
+Converted 2025-12-24.json -> 2025-12-24-issue-4.md
+Converted 2025-12-31.json -> 2025-12-31-issue-9.md
+Converted 2026-01-12.json -> 2026-01-12-issue-20.md
+Converted 2026-01-04.json -> 2026-01-04-issue-13.md
+[main 2153048] Sync newsletter archive (2026-01-20)
+ 2 files changed, 192 insertions(+)
+ create mode 100644 content/newsletter/2026-01-19-issue-25.md
+ create mode 100644 content/newsletter/2026-01-20-issue-26.md
+To github.com:recep2244/portfolio.git
+   c1307a7..2153048  main -> main
+Reminder sent to 1 recipients
+Curation reminder sent. Social posting will run after approval.
+Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
+Daily run complete. Weekly digest will send on the configured weekday.
+2026-01-20T00:02:33+00:00 - run_daily success (status 0)
+Subscriber sync: no new subscribers found.
+2026-01-20T09:00:01+00:00 - run_daily started (pid 3372126)
+Subscriber sync: no new subscribers found.
+2026-01-20 09:00:06 - INFO - Fetching from 43 sources concurrently...
+2026-01-20 09:00:06 - INFO - RSS (Nature Biotechnology): fetched 8 papers
+2026-01-20 09:00:06 - INFO - RSS (Nature Chemical Biology): fetched 8 papers
+2026-01-20 09:00:06 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 500: Internal Server Error. Retrying in 2.0s...
+2026-01-20 09:00:06 - INFO - RSS (Nature Struct & Mol Bio): fetched 8 papers
+2026-01-20 09:00:06 - INFO - RSS (Nature Reviews Molecular Cell Biology): fetched 8 papers
+2026-01-20 09:00:07 - INFO - RSS (Nature Genetics): fetched 8 papers
+2026-01-20 09:00:07 - INFO - RSS (Nature Methods): fetched 8 papers
+2026-01-20 09:00:07 - INFO - RSS (Nature Communications): fetched 8 papers
+2026-01-20 09:00:07 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 09:00:07 - INFO - RSS (Nature Reviews Genetics): fetched 8 papers
+2026-01-20 09:00:07 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 09:00:08 - INFO - medRxiv: fetched 160 papers
+2026-01-20 09:00:08 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 09:00:08 - INFO - PubMed: fetched 160 papers
+2026-01-20 09:00:08 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 09:00:08 - INFO - Europe PMC: fetched 160 papers
+2026-01-20 09:00:08 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 429: . Retrying in 4.0s...
+2026-01-20 09:00:08 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:00:09 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 09:00:09 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 09:00:10 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 09:00:10 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 09:00:11 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:00:13 - INFO - Semantic Scholar: fetched 0 papers
+2026-01-20 09:00:13 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:00:13 - INFO - RSS (Cell): fetched 0 papers
+2026-01-20 09:00:13 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:00:13 - INFO - RSS (Structure): fetched 0 papers
+2026-01-20 09:00:13 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:00:14 - INFO - RSS (Cell Systems): fetched 0 papers
+2026-01-20 09:00:14 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:00:14 - INFO - RSS (Cell Reports): fetched 0 papers
+2026-01-20 09:00:15 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:00:15 - INFO - RSS (PLOS Computational Biology): fetched 0 papers
+2026-01-20 09:00:15 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:00:15 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:00:15 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:00:15 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:00:16 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:00:17 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:00:17 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:00:19 - INFO - RSS (PLOS Biology): fetched 0 papers
+2026-01-20 09:00:19 - INFO - RSS (PLOS ONE): fetched 0 papers
+2026-01-20 09:00:20 - INFO - RSS (eLife): fetched 0 papers
+2026-01-20 09:00:20 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 09:00:21 - INFO - bioRxiv: fetched 200 papers
+2026-01-20 09:00:21 - INFO - RSS (BMC Bioinformatics): fetched 0 papers
+2026-01-20 09:00:21 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 09:00:21 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 410: . Retrying in 2.0s...
+2026-01-20 09:00:21 - INFO - RSS (BMC Biology): fetched 0 papers
+2026-01-20 09:00:21 - INFO - RSS (Genome Biology): fetched 0 papers
+2026-01-20 09:00:22 - INFO - RSS (Journal of Computational Chemistry): fetched 3 papers
+2026-01-20 09:00:22 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:00:22 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 09:00:22 - INFO - RSS (Proteins: Structure, Function, and Bioinformatics): fetched 63 papers
+2026-01-20 09:00:22 - INFO - RSS (Journal of Chemical Information and Modeling): fetched 47 papers
+2026-01-20 09:00:22 - INFO - RSS (ACS Chemical Biology): fetched 9 papers
+2026-01-20 09:00:22 - INFO - RSS (ACS Synthetic Biology): fetched 18 papers
+2026-01-20 09:00:22 - INFO - RSS (Journal of the American Chemical Society): fetched 120 papers
+2026-01-20 09:00:23 - INFO - RSS (Biochemistry): fetched 16 papers
+2026-01-20 09:00:23 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 09:00:23 - INFO - RSS (Science): fetched 37 papers
+2026-01-20 09:00:23 - INFO - RSS (PNAS): fetched 88 papers
+2026-01-20 09:00:23 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 410: . Retrying in 4.0s...
+2026-01-20 09:00:24 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:00:26 - INFO - RSS (Journal of Molecular Biology): fetched 0 papers
+2026-01-20 09:00:27 - INFO - RSS (Current Opinion in Structural Biology): fetched 0 papers
+2026-01-20 09:00:27 - INFO - RSS (Structure Prediction News): fetched 13 papers
+2026-01-20 09:00:28 - INFO - RSS (Protein Folding & Design News): fetched 13 papers
+2026-01-20 09:00:28 - INFO - RSS (Journal of Biological Chemistry): fetched 0 papers
+2026-01-20 09:00:29 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:00:29 - INFO - RSS (Protein Design News): fetched 20 papers
+2026-01-20 09:00:30 - INFO - arXiv: fetched 160 papers
+2026-01-20 09:00:32 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:00:38 - INFO - RSS (Bioinformatics (Oxford)): fetched 0 papers
+2026-01-20 09:00:39 - INFO - RSS (Biotech Industry News): fetched 40 papers
+2026-01-20 09:00:40 - INFO - RSS (Nucleic Acids Research): fetched 0 papers
+2026-01-20 09:00:42 - INFO - Note: NumExpr detected 20 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2026-01-20 09:00:42 - INFO - NumExpr defaulting to 8 threads.
+2026-01-20 09:00:42 - INFO - Use pytorch device_name: cuda:0
+2026-01-20 09:00:42 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+Warning: Semantic Scholar fetch failed: HTTP Error 429: 
+Warning: Failed to parse RSS feed: https://www.cell.com/cell/rss
+Warning: Failed to parse RSS feed: https://www.cell.com/structure/rss
+Warning: Failed to parse RSS feed: https://www.cell.com/cell-systems/rss
+Warning: Failed to parse RSS feed: https://www.cell.com/cell-reports/rss
+Warning: Failed to parse RSS feed: https://journals.plos.org/ploscompbiol/rss
+Warning: Failed to parse RSS feed: https://journals.plos.org/plosbiology/rss
+Warning: Failed to parse RSS feed: https://journals.plos.org/plosone/rss
+Warning: Failed to parse RSS feed: https://elifesciences.org/rss.xml
+Warning: Failed to parse RSS feed: https://bmcbioinformatics.biomedcentral.com/articles/rss
+Warning: Failed to parse RSS feed: https://bmcbiol.biomedcentral.com/articles/rss
+Warning: Failed to parse RSS feed: https://genomebiology.biomedcentral.com/articles/rss
+Warning: Failed to parse RSS feed: https://www.sciencedirect.com/journal/journal-of-molecular-biology/rss
+Warning: Failed to parse RSS feed: https://www.sciencedirect.com/journal/current-opinion-in-structural-biology/rss
+Warning: Failed to parse RSS feed: https://www.jbc.org/rss/current.xml
+Warning: Failed to parse RSS feed: https://academic.oup.com/bioinformatics/rss/current_issue
+Warning: Failed to parse RSS feed: https://academic.oup.com/rss/advancearticles/nar
+Computing embeddings for 803 papers...
+Generating embeddings for 59 papers...
+Batches:   0%|          | 0/2 [00:00<?, ?it/s]Batches:  50%|█████     | 1/2 [00:00<00:00,  4.51it/s]Batches: 100%|██████████| 2/2 [00:00<00:00,  8.68it/s]
+2026-01-20 09:01:27 - INFO - Cleaned 63 old cache files
+Found 12 duplicate groups:
+  Group: ['Rethinking Malaria Seasonality: Humidity-Driven Tr', 'Climate blind spots in malaria control: Frontline ']
+  Group: ['Ceftazidime-Avibactam Resistance in Escherichia co', 'Identification of potential inhibitors derived fro']
+  Group: ['RLBindDeep: A ResNet-LSTM based novel framework fo', 'Decision Tree for Prediction of Binding Affinity.']
+  Group: ['Network pharmacology, molecular docking and molecu', 'In-Silico Evaluation of Novel Quercetin Derivative']
+  Group: ['Simple computational methods can outperform deep l', 'In silico design of stable single-domain antibodie']
+  Group: ['Machine learning-guided discovery of mitogen-activ', 'Structure-based discovery of novel TAOK3 inhibitor']
+  Group: ['Targeted anticancer potential of oxazole derivativ', 'Computational investigation of natural phenolic-3,']
+  Group: ['Dual contributions of Xrp1 to genome integrity thr', 'Dual contributions of Xrp1 to genome integrity thr']
+  Group: ['Dynamic regulation of protein homeostasis underlie', 'Dynamic regulation of protein homeostasis underlie']
+  Group: ['Sperm fertility restoration in mice suffering from', 'Sperm motility restoration in mice suffering from ']
+  Group: ['Oncogenic MAPK pathway activation induces a congen', 'Oncogenic MAPK pathway activation disrupts Schwann']
+  Group: ['Directed evolution for cell separation in natural ', 'Directed evolution for cell separation in natural ']
+Removed 12 semantic duplicates, 791 papers remain
+Semantic dedup: merged 12 duplicate groups
+Warning: Trending module not available
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-20.json
+Converted 2025-12-30.json -> 2025-12-30-issue-8.md
+Converted 2026-01-19.json -> 2026-01-19-issue-25.md
+Converted 2026-01-14.json -> 2026-01-14-issue-22.md
+Converted 2026-01-03.json -> 2026-01-03-issue-12.md
+Converted 2026-01-10.json -> 2026-01-10-issue-18.md
+Converted 2026-01-08.json -> 2026-01-08-issue-16.md
+Converted 2025-12-23.json -> 2025-12-23-issue-3.md
+Converted 2026-01-15.json -> 2026-01-15-issue-23.md
+Converted 2026-01-05.json -> 2026-01-05-issue-14.md
+Converted 2025-12-28.json -> 2025-12-28-issue-7.md
+Converted 2025-12-27.json -> 2025-12-27-issue-5.md
+Converted 2026-01-16.json -> 2026-01-16-issue-24.md
+Converted 2025-12-21.json -> 2025-12-21-issue-2.md
+Converted 2025-12-29.json -> 2025-12-29-issue-7.md
+Converted 2025-12-22.json -> 2025-12-22-issue-3.md
+Converted 2026-01-01.json -> 2026-01-01-issue-10.md
+Converted 2026-01-09.json -> 2026-01-09-issue-17.md
+Converted 2026-01-20.json -> 2026-01-20-issue-26.md
+Converted 2026-01-07.json -> 2026-01-07-issue-15.md
+Converted 2026-01-13.json -> 2026-01-13-issue-21.md
+Converted 2026-01-11.json -> 2026-01-11-issue-19.md
+Converted 2025-12-24.json -> 2025-12-24-issue-4.md
+Converted 2025-12-31.json -> 2025-12-31-issue-9.md
+Converted 2026-01-12.json -> 2026-01-12-issue-20.md
+Converted 2026-01-04.json -> 2026-01-04-issue-13.md
+[main 70096b7] Sync newsletter archive (2026-01-20)
+ 1 file changed, 11 insertions(+), 10 deletions(-)
+To github.com:recep2244/portfolio.git
+   2153048..70096b7  main -> main
+Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
+Subscriber sync: no new subscribers found.
+Converted 2025-12-30.json -> 2025-12-30-issue-8.md
+Converted 2026-01-19.json -> 2026-01-19-issue-25.md
+Converted 2026-01-14.json -> 2026-01-14-issue-22.md
+Converted 2026-01-03.json -> 2026-01-03-issue-12.md
+Converted 2026-01-10.json -> 2026-01-10-issue-18.md
+Converted 2026-01-08.json -> 2026-01-08-issue-16.md
+Converted 2025-12-23.json -> 2025-12-23-issue-3.md
+Converted 2026-01-15.json -> 2026-01-15-issue-23.md
+Converted 2026-01-05.json -> 2026-01-05-issue-14.md
+Converted 2025-12-28.json -> 2025-12-28-issue-7.md
+Converted 2025-12-27.json -> 2025-12-27-issue-5.md
+Converted 2026-01-16.json -> 2026-01-16-issue-24.md
+Converted 2025-12-21.json -> 2025-12-21-issue-2.md
+Converted 2025-12-29.json -> 2025-12-29-issue-7.md
+Converted 2025-12-22.json -> 2025-12-22-issue-3.md
+Converted 2026-01-01.json -> 2026-01-01-issue-10.md
+Converted 2026-01-09.json -> 2026-01-09-issue-17.md
+Converted 2026-01-20.json -> 2026-01-20-issue-26.md
+Converted 2026-01-07.json -> 2026-01-07-issue-15.md
+Converted 2026-01-13.json -> 2026-01-13-issue-21.md
+Converted 2026-01-11.json -> 2026-01-11-issue-19.md
+Converted 2025-12-24.json -> 2025-12-24-issue-4.md
+Converted 2025-12-31.json -> 2025-12-31-issue-9.md
+Converted 2026-01-12.json -> 2026-01-12-issue-20.md
+Converted 2026-01-04.json -> 2026-01-04-issue-13.md
+Sent 'Protein Design Digest - 2026-01-20 - Predicting the Mechanism of Action of Bawei Chufan Soup in Treating Teen Depression through Network Pharmacology, Molecular Docking and Molecular Dynamics Simulation.' to 8 recipients
+📣 Publishing announcement to social media...
+--- Twitter Thread (Main) ---
+Paper of the day · 20.01.26
+Predicting the Mechanism of Action of Bawei Chufan Soup in Treating Teen Depression through Network Pharmacology, Molecular Docking and Molecular Dynamics Simulation.
+Subscribe to daily digest: https://recep2244.github.io/portfolio/subscribe-form.html
+https://doi.org/10.2174/0115734099381670251024040419
+----------------------------
+--- Bluesky Thread (Main) ---
+Paper of the day · 20.01.26
+Predicting the Mechanism of Action of Bawei Chufan Soup in Treating Teen Depression through Network Pharmacology, Molecular Docking and Molecular Dynamics Simulation.
+Introduction The Bawei Chufan Sou...
+-----------------------------
+--- Bluesky Thread (Links) ---
+Paper: https://doi.org/10.2174/0115734099381670251024040419
+Newsletter: https://recep2244.github.io/portfolio/newsletter/2026-01-20-issue-26/
+------------------------------
+--- AI News Post (Twitter) ---
+AI news of the day · 20.01.26
+Structural Biology and Molecular Modeling Techniques Market - openPR.com
+Structural Biology and Molecul...
+https://news.google.com/rss/articles/CBMimwFBVV95cUxQYkV2ZEUyUkhZZlJ0MzZfS0RONlF4cldJRURDdm5jeEY1YnZNYWoyaF9aYldHVldyTFNGMElhbzFoRkI5eThITGozZl82cmdma3pJeHMxb2ROQ1J0cnUxbGJ4Z29TVGpCbmRDWjNiRkgzVHdUZGtXcXZua1ZlUzlSWHRib1czYVJPLXBZSVhxN3p4VHpHY0QycWwxOA?oc=5&ucbcb=1&hl=en-GB&gl=GB&ceid=GB:en
+Subscribe to daily digest: https://recep2244.github.io/portfolio/subscribe-form.html
+------------------------------
+--- AI News Post (Bluesky) ---
+AI news of the day · 20.01.26
+Signal
+Subnewsletter
+------------------------------
+--- Industry News Post (Twitter) ---
+Industry news of the day · 20.01.26
+Investing in Biotech: Top UK Biotech Stocks of 2026 - The Motley Fool UK
+Investing in Biotech: To...
+https://news.google.com/rss/articles/CBMimAFBVV95cUxPRTUwT204dkVPUi1CTkNUYTNpQTRQZEVJdmtMaW10amdnQjJ2MUhxRm9pX0JuM01ZUU9EcG9MRzNfTm9XY0xMcmJCZHRxWkg2T1o0azMwcFRsTmRXN0pKNS15UWRkYkd6MzVsMURpN25LS1paU1luT2hrTXpIaklQTkdDSzc5Tm5lS3piNHVFVm81a05ySEpJQQ?oc=5&ucbcb=1&hl=en-GB&gl=GB&ceid=GB:en
+Subscribe to daily digest: https://recep2244.github.io/portfolio/subscribe-form.html
+------------------------------------
+--- Industry News Post (Bluesky) ---
+Industry news of the day · 20.01.26
+Signal
+Subnewsletter
+------------------------------------
+--- Job Post (Twitter) ---
+Job of the day · 20.01.26
+Full Stack Developer (Python + Next.js) - Helical - Workable (Workable)
+https://news.google.com/rss/articles/CBMiW0FVX3lxTE51UWZ6bGlvdzV5SjJTS2s2NWpFUkNlUzh2TVJhZkFxX1hfMWMwbU5oT3g2QmprX2VQd0NsZWl4dUhfREJjdEl2UnlFUzN5UVFGYXBkbEk3bllOLTA?oc=5&ucbcb=1&hl=en-GB&gl=GB&ceid=GB:en
+Subscribe to daily digest: https://recep2244.github.io/portfolio/subscribe-form.html
+#ProteinDesign #StructuralBiology #Bioinformatics #ProteinEngineering
+--------------------------
+--- Job Post (Bluesky) ---
+Job of the day · 20.01.26
+Full Stack Developer (Python + Next.js) - Helical - Wo...
+Subnewsletter
+--------------------------
+Posted to Twitter: 2013537422567452982
+Posted to Twitter: 2013537424106807682
+Posted to Twitter: 2013537425805410665
+Posted to Twitter: 2013537427403456928
+⚠️ Failed to fetch LinkedIn Profile dynamically (/me: 403, /userinfo: 403)
+⚡ Using known fallback Member ID: 780710122
+❌ Failed to post to LinkedIn Profile: {"status":403,"serviceErrorCode":100,"code":"ACCESS_DENIED","message":"Field Value validation failed in REQUEST_BODY: Data Processing Exception while processing fields [/author]"}
+Posted to Bluesky
+Posted to Bluesky
+Posted to Bluesky
+Daily run complete. Weekly digest will send on the configured weekday.
+2026-01-20T09:01:51+00:00 - run_daily success (status 0)
+2026-01-20T09:30:01+00:00 - run_daily started (pid 3383218)
+Subscriber sync: no new subscribers found.
+2026-01-20 09:30:17 - INFO - Fetching from 43 sources concurrently...
+2026-01-20 09:30:17 - INFO - arXiv: fetched 160 papers
+2026-01-20 09:30:17 - INFO - bioRxiv: fetched 200 papers
+2026-01-20 09:30:17 - INFO - medRxiv: fetched 160 papers
+2026-01-20 09:30:17 - INFO - Europe PMC: fetched 160 papers
+2026-01-20 09:30:17 - INFO - RSS (Nature Biotechnology): fetched 8 papers
+2026-01-20 09:30:17 - INFO - RSS (Nature Struct & Mol Bio): fetched 8 papers
+2026-01-20 09:30:17 - INFO - RSS (Nature Genetics): fetched 8 papers
+2026-01-20 09:30:17 - INFO - PubMed: fetched 160 papers
+2026-01-20 09:30:17 - INFO - RSS (Nature Chemical Biology): fetched 8 papers
+2026-01-20 09:30:17 - INFO - RSS (Nature Reviews Genetics): fetched 8 papers
+2026-01-20 09:30:17 - INFO - RSS (Nature Communications): fetched 8 papers
+2026-01-20 09:30:17 - INFO - RSS (Nature Methods): fetched 8 papers
+2026-01-20 09:30:17 - INFO - RSS (Nature Reviews Molecular Cell Biology): fetched 8 papers
+2026-01-20 09:30:17 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 429: . Retrying in 2.0s...
+2026-01-20 09:30:17 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 09:30:17 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 09:30:17 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 09:30:17 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 09:30:17 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:30:17 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:30:17 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:30:19 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 09:30:19 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 09:30:19 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 09:30:19 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 09:30:20 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 429: . Retrying in 4.0s...
+2026-01-20 09:30:20 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:30:20 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:30:20 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:30:24 - INFO - RSS (Cell Systems): fetched 0 papers
+2026-01-20 09:30:24 - INFO - RSS (Structure): fetched 0 papers
+2026-01-20 09:30:24 - INFO - RSS (Cell Reports): fetched 0 papers
+2026-01-20 09:30:24 - INFO - RSS (Cell): fetched 0 papers
+2026-01-20 09:30:24 - INFO - RSS (PLOS ONE): fetched 0 papers
+2026-01-20 09:30:24 - INFO - RSS (PLOS Computational Biology): fetched 0 papers
+2026-01-20 09:30:24 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:30:24 - INFO - Semantic Scholar: fetched 0 papers
+2026-01-20 09:30:24 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:30:24 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 09:30:24 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:30:24 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:30:24 - INFO - RSS (PLOS Biology): fetched 0 papers
+2026-01-20 09:30:24 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-20 09:30:24 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:30:24 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-20 09:30:26 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:30:26 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:30:26 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 09:30:26 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:30:26 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:30:26 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-20 09:30:27 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:30:27 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-20 09:30:30 - INFO - RSS (eLife): fetched 0 papers
+2026-01-20 09:30:30 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 410: . Retrying in 2.0s...
+2026-01-20 09:30:30 - INFO - RSS (Journal of Molecular Biology): fetched 0 papers
+2026-01-20 09:30:30 - INFO - RSS (Proteins: Structure, Function, and Bioinformatics): fetched 63 papers
+2026-01-20 09:30:30 - INFO - RSS (Journal of Computational Chemistry): fetched 3 papers
+2026-01-20 09:30:30 - INFO - RSS (Journal of Chemical Information and Modeling): fetched 47 papers
+2026-01-20 09:30:30 - INFO - RSS (ACS Chemical Biology): fetched 9 papers
+2026-01-20 09:30:30 - INFO - RSS (Journal of the American Chemical Society): fetched 120 papers
+2026-01-20 09:30:30 - INFO - RSS (ACS Synthetic Biology): fetched 18 papers
+2026-01-20 09:30:30 - INFO - RSS (Biochemistry): fetched 16 papers
+2026-01-20 09:30:30 - INFO - RSS (Science): fetched 37 papers
+2026-01-20 09:30:30 - INFO - RSS (PNAS): fetched 88 papers
+2026-01-20 09:30:30 - INFO - RSS (Protein Folding & Design News): fetched 13 papers
+2026-01-20 09:30:30 - INFO - RSS (Structure Prediction News): fetched 13 papers
+2026-01-20 09:30:30 - INFO - RSS (Protein Design News): fetched 20 papers
+2026-01-20 09:30:30 - INFO - RSS (Biotech Industry News): fetched 40 papers
+2026-01-20 09:30:30 - INFO - RSS (BMC Bioinformatics): fetched 0 papers
+2026-01-20 09:30:30 - INFO - RSS (Current Opinion in Structural Biology): fetched 0 papers
+2026-01-20 09:30:30 - INFO - RSS (Genome Biology): fetched 0 papers
+2026-01-20 09:30:31 - INFO - RSS (BMC Biology): fetched 0 papers
+2026-01-20 09:30:31 - INFO - RSS (Bioinformatics (Oxford)): fetched 0 papers
+2026-01-20 09:30:31 - INFO - RSS (Nucleic Acids Research): fetched 0 papers
+2026-01-20 09:30:32 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 410: . Retrying in 4.0s...
+2026-01-20 09:30:37 - INFO - RSS (Journal of Biological Chemistry): fetched 0 papers
+Warning: Failed to parse RSS feed: https://www.cell.com/cell-systems/rss
+Warning: Failed to parse RSS feed: https://www.cell.com/structure/rss
+Warning: Failed to parse RSS feed: https://www.cell.com/cell-reports/rss
+Warning: Failed to parse RSS feed: https://www.cell.com/cell/rss
+Warning: Failed to parse RSS feed: https://journals.plos.org/plosone/rss
+Warning: Failed to parse RSS feed: https://journals.plos.org/ploscompbiol/rss
+Warning: Semantic Scholar fetch failed: HTTP Error 429: 
+Warning: Failed to parse RSS feed: https://journals.plos.org/plosbiology/rss
+Warning: Failed to parse RSS feed: https://elifesciences.org/rss.xml
+Warning: Failed to parse RSS feed: https://www.sciencedirect.com/journal/journal-of-molecular-biology/rss
+Warning: Failed to parse RSS feed: https://bmcbioinformatics.biomedcentral.com/articles/rss
+Warning: Failed to parse RSS feed: https://www.sciencedirect.com/journal/current-opinion-in-structural-biology/rss
+Warning: Failed to parse RSS feed: https://genomebiology.biomedcentral.com/articles/rss
+Warning: Failed to parse RSS feed: https://bmcbiol.biomedcentral.com/articles/rss
+Warning: Failed to parse RSS feed: https://academic.oup.com/bioinformatics/rss/current_issue
+Warning: Failed to parse RSS feed: https://academic.oup.com/rss/advancearticles/nar
+Warning: Failed to parse RSS feed: https://www.jbc.org/rss/current.xml
+Computing embeddings for 803 papers...
+Found 12 duplicate groups:
+  Group: ['Dual contributions of Xrp1 to genome integrity thr', 'Dual contributions of Xrp1 to genome integrity thr']
+  Group: ['Dynamic regulation of protein homeostasis underlie', 'Dynamic regulation of protein homeostasis underlie']
+  Group: ['Sperm fertility restoration in mice suffering from', 'Sperm motility restoration in mice suffering from ']
+  Group: ['Simple computational methods can outperform deep l', 'In silico design of stable single-domain antibodie']
+  Group: ['Oncogenic MAPK pathway activation induces a congen', 'Oncogenic MAPK pathway activation disrupts Schwann']
+  Group: ['Directed evolution for cell separation in natural ', 'Directed evolution for cell separation in natural ']
+  Group: ['Decision Tree for Prediction of Binding Affinity.', 'RLBindDeep: A ResNet-LSTM based novel framework fo']
+  Group: ['Network pharmacology, molecular docking and molecu', 'In-Silico Evaluation of Novel Quercetin Derivative']
+  Group: ['Machine learning-guided discovery of mitogen-activ', 'Structure-based discovery of novel TAOK3 inhibitor']
+  Group: ['Targeted anticancer potential of oxazole derivativ', 'Computational investigation of natural phenolic-3,']
+  Group: ['Rethinking Malaria Seasonality: Humidity-Driven Tr', 'Climate blind spots in malaria control: Frontline ']
+  Group: ['Ceftazidime-Avibactam Resistance in Escherichia co', 'Identification of potential inhibitors derived fro']
+Removed 12 semantic duplicates, 791 papers remain
+Semantic dedup: merged 12 duplicate groups
+Warning: Trending module not available
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-20.json
+Converted 2025-12-30.json -> 2025-12-30-issue-8.md
+Converted 2026-01-19.json -> 2026-01-19-issue-25.md
+Converted 2026-01-14.json -> 2026-01-14-issue-22.md
+Converted 2026-01-03.json -> 2026-01-03-issue-12.md
+Converted 2026-01-10.json -> 2026-01-10-issue-18.md
+Converted 2026-01-08.json -> 2026-01-08-issue-16.md
+Converted 2025-12-23.json -> 2025-12-23-issue-3.md
+Converted 2026-01-15.json -> 2026-01-15-issue-23.md
+Converted 2026-01-05.json -> 2026-01-05-issue-14.md
+Converted 2025-12-28.json -> 2025-12-28-issue-7.md
+Converted 2025-12-27.json -> 2025-12-27-issue-5.md
+Converted 2026-01-16.json -> 2026-01-16-issue-24.md
+Converted 2025-12-21.json -> 2025-12-21-issue-2.md
+Converted 2025-12-29.json -> 2025-12-29-issue-7.md
+Converted 2025-12-22.json -> 2025-12-22-issue-3.md
+Converted 2026-01-01.json -> 2026-01-01-issue-10.md
+Converted 2026-01-09.json -> 2026-01-09-issue-17.md
+Converted 2026-01-20.json -> 2026-01-20-issue-26.md
+Converted 2026-01-07.json -> 2026-01-07-issue-15.md
+Converted 2026-01-13.json -> 2026-01-13-issue-21.md
+Converted 2026-01-11.json -> 2026-01-11-issue-19.md
+Converted 2025-12-24.json -> 2025-12-24-issue-4.md
+Converted 2025-12-31.json -> 2025-12-31-issue-9.md
+Converted 2026-01-12.json -> 2026-01-12-issue-20.md
+Converted 2026-01-04.json -> 2026-01-04-issue-13.md
+[main ee243bd] Sync newsletter archive (2026-01-20)
+ 1 file changed, 21 insertions(+), 21 deletions(-)
+To github.com:recep2244/portfolio.git
+   70096b7..ee243bd  main -> main
+Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
+Skipping approval reminder: issue already sent.
+Daily run complete. Weekly digest will send on the configured weekday.
+2026-01-20T09:30:39+00:00 - run_daily success (status 0)
+2026-01-21T00:02:01+00:00 - run_daily started (pid 33366)
+Subscriber sync: no new subscribers found.
+2026-01-21 00:02:07 - INFO - Fetching from 43 sources concurrently...
+2026-01-21 00:02:07 - INFO - RSS (Nature Biotechnology): fetched 8 papers
+2026-01-21 00:02:07 - INFO - RSS (Nature Struct & Mol Bio): fetched 8 papers
+2026-01-21 00:02:07 - INFO - RSS (Nature Chemical Biology): fetched 8 papers
+2026-01-21 00:02:07 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 429: . Retrying in 2.0s...
+2026-01-21 00:02:07 - INFO - RSS (Nature Reviews Molecular Cell Biology): fetched 8 papers
+2026-01-21 00:02:08 - INFO - RSS (Nature Genetics): fetched 8 papers
+2026-01-21 00:02:08 - INFO - RSS (Nature Methods): fetched 8 papers
+2026-01-21 00:02:08 - INFO - RSS (Nature Reviews Genetics): fetched 8 papers
+2026-01-21 00:02:08 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-21 00:02:08 - INFO - RSS (Nature Communications): fetched 8 papers
+2026-01-21 00:02:08 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-21 00:02:09 - INFO - PubMed: fetched 160 papers
+2026-01-21 00:02:09 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-21 00:02:09 - INFO - Europe PMC: fetched 160 papers
+2026-01-21 00:02:09 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-21 00:02:09 - INFO - medRxiv: fetched 160 papers
+2026-01-21 00:02:10 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-21 00:02:10 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 500: Internal Server Error. Retrying in 4.0s...
+2026-01-21 00:02:10 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-21 00:02:10 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-21 00:02:11 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-21 00:02:11 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-21 00:02:12 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-21 00:02:14 - INFO - RSS (Cell): fetched 0 papers
+2026-01-21 00:02:14 - INFO - Semantic Scholar: fetched 0 papers
+2026-01-21 00:02:14 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-21 00:02:14 - INFO - RSS (Structure): fetched 0 papers
+2026-01-21 00:02:14 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-21 00:02:15 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-21 00:02:15 - INFO - RSS (Cell Systems): fetched 0 papers
+2026-01-21 00:02:15 - INFO - RSS (Cell Reports): fetched 0 papers
+2026-01-21 00:02:15 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-21 00:02:16 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-21 00:02:16 - INFO - arXiv: fetched 160 papers
+2026-01-21 00:02:16 - INFO - RSS (PLOS Computational Biology): fetched 0 papers
+2026-01-21 00:02:16 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-21 00:02:16 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-21 00:02:17 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-21 00:02:17 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-21 00:02:17 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-21 00:02:18 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-21 00:02:18 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-21 00:02:18 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-21 00:02:19 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-21 00:02:21 - INFO - RSS (PLOS Biology): fetched 0 papers
+2026-01-21 00:02:21 - INFO - RSS (PLOS ONE): fetched 0 papers
+2026-01-21 00:02:21 - INFO - RSS (eLife): fetched 0 papers
+2026-01-21 00:02:21 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-21 00:02:21 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 2.0s...
+2026-01-21 00:02:21 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 2.0s...
+2026-01-21 00:02:22 - INFO - RSS (BMC Bioinformatics): fetched 0 papers
+2026-01-21 00:02:22 - INFO - RSS (BMC Biology): fetched 0 papers
+2026-01-21 00:02:22 - INFO - RSS (Proteins: Structure, Function, and Bioinformatics): fetched 63 papers
+2026-01-21 00:02:22 - WARNING - Attempt 1/3 failed for fetch_url: HTTP Error 410: . Retrying in 2.0s...
+2026-01-21 00:02:22 - INFO - RSS (Genome Biology): fetched 0 papers
+2026-01-21 00:02:23 - INFO - RSS (Journal of Computational Chemistry): fetched 3 papers
+2026-01-21 00:02:23 - INFO - RSS (ACS Chemical Biology): fetched 9 papers
+2026-01-21 00:02:23 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-21 00:02:23 - INFO - RSS (Journal of Chemical Information and Modeling): fetched 50 papers
+2026-01-21 00:02:23 - INFO - RSS (Journal of the American Chemical Society): fetched 120 papers
+2026-01-21 00:02:23 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 403: Forbidden. Retrying in 4.0s...
+2026-01-21 00:02:23 - INFO - RSS (ACS Synthetic Biology): fetched 19 papers
+2026-01-21 00:02:23 - INFO - RSS (Biochemistry): fetched 10 papers
+2026-01-21 00:02:24 - INFO - RSS (Nucleic Acids Research): fetched 0 papers
+2026-01-21 00:02:24 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 404: Not Found. Retrying in 4.0s...
+2026-01-21 00:02:24 - INFO - RSS (Science): fetched 37 papers
+2026-01-21 00:02:24 - INFO - RSS (PNAS): fetched 88 papers
+2026-01-21 00:02:24 - WARNING - Attempt 2/3 failed for fetch_url: HTTP Error 410: . Retrying in 4.0s...
+2026-01-21 00:02:26 - INFO - bioRxiv: fetched 200 papers
+2026-01-21 00:02:27 - INFO - RSS (Structure Prediction News): fetched 9 papers
+2026-01-21 00:02:27 - INFO - RSS (Journal of Molecular Biology): fetched 0 papers
+2026-01-21 00:02:27 - INFO - RSS (Current Opinion in Structural Biology): fetched 0 papers
+2026-01-21 00:02:27 - INFO - RSS (Protein Design News): fetched 12 papers
+2026-01-21 00:02:28 - INFO - RSS (Protein Folding & Design News): fetched 11 papers
+2026-01-21 00:02:28 - INFO - RSS (Bioinformatics (Oxford)): fetched 0 papers
+2026-01-21 00:02:29 - INFO - RSS (Journal of Biological Chemistry): fetched 0 papers
+2026-01-21 00:02:38 - INFO - RSS (Biotech Industry News): fetched 39 papers
+2026-01-21 00:02:40 - INFO - Note: NumExpr detected 20 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2026-01-21 00:02:40 - INFO - NumExpr defaulting to 8 threads.
+2026-01-21 00:02:41 - INFO - Use pytorch device_name: cuda:0
+2026-01-21 00:02:41 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+Warning: Failed to parse RSS feed: https://www.cell.com/cell/rss
+Warning: Semantic Scholar fetch failed: HTTP Error 500: Internal Server Error
+Warning: Failed to parse RSS feed: https://www.cell.com/structure/rss
+Warning: Failed to parse RSS feed: https://www.cell.com/cell-systems/rss
+Warning: Failed to parse RSS feed: https://www.cell.com/cell-reports/rss
+Warning: Failed to parse RSS feed: https://journals.plos.org/ploscompbiol/rss
+Warning: Failed to parse RSS feed: https://journals.plos.org/plosbiology/rss
+Warning: Failed to parse RSS feed: https://journals.plos.org/plosone/rss
+Warning: Failed to parse RSS feed: https://elifesciences.org/rss.xml
+Warning: Failed to parse RSS feed: https://bmcbioinformatics.biomedcentral.com/articles/rss
+Warning: Failed to parse RSS feed: https://bmcbiol.biomedcentral.com/articles/rss
+Warning: Failed to parse RSS feed: https://genomebiology.biomedcentral.com/articles/rss
+Warning: Failed to parse RSS feed: https://academic.oup.com/rss/advancearticles/nar
+Warning: Failed to parse RSS feed: https://www.sciencedirect.com/journal/journal-of-molecular-biology/rss
+Warning: Failed to parse RSS feed: https://www.sciencedirect.com/journal/current-opinion-in-structural-biology/rss
+Warning: Failed to parse RSS feed: https://academic.oup.com/bioinformatics/rss/current_issue
+Warning: Failed to parse RSS feed: https://www.jbc.org/rss/current.xml
+Computing embeddings for 819 papers...
+Generating embeddings for 99 papers...
+Batches:   0%|          | 0/4 [00:00<?, ?it/s]Batches:  25%|██▌       | 1/4 [00:00<00:00,  3.79it/s]Batches: 100%|██████████| 4/4 [00:00<00:00, 13.74it/s]
+2026-01-21 00:03:29 - INFO - Cleaned 23 old cache files
+Found 13 duplicate groups:
+  Group: ['Structural Biology of Actin: Interplay Between Mol', 'Universal length fluctuations of actin structures ']
+  Group: ['Correction to: Arugula‑derived isothiocyanates as ', 'Arugula-derived isothiocyanates as novel agents fo']
+  Group: ['Decision Tree for Prediction of Binding Affinity.', 'RLBindDeep: A ResNet-LSTM based novel framework fo']
+  Group: ['Network pharmacology, molecular docking and molecu', 'In-Silico Evaluation of Novel Quercetin Derivative']
+  Group: ['Simple computational methods can outperform deep l', 'In silico design of stable single-domain antibodie']
+  Group: ['Structure-based discovery of novel TAOK3 inhibitor', 'Machine learning-guided discovery of mitogen-activ']
+  Group: ['Computational investigation of natural phenolic-3,', 'Targeted anticancer potential of oxazole derivativ']
+  Group: ['Rethinking Malaria Seasonality: Humidity-Driven Tr', 'Climate blind spots in malaria control: Frontline ']
+  Group: ['Dual contributions of Xrp1 to genome integrity thr', 'Dual contributions of Xrp1 to genome integrity thr']
+  Group: ['Dynamic regulation of protein homeostasis underlie', 'Dynamic regulation of protein homeostasis underlie']
+  Group: ['Sperm fertility restoration in mice suffering from', 'Sperm motility restoration in mice suffering from ']
+  Group: ['Oncogenic MAPK pathway activation induces a congen', 'Oncogenic MAPK pathway activation disrupts Schwann']
+  Group: ['Directed evolution for cell separation in natural ', 'Directed evolution for cell separation in natural ']
+Removed 13 semantic duplicates, 806 papers remain
+Semantic dedup: merged 13 duplicate groups
+Warning: Trending module not available
+Generated issue: /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/issues/2026-01-21.json
+Converted 2025-12-30.json -> 2025-12-30-issue-8.md
+Converted 2026-01-19.json -> 2026-01-19-issue-25.md
+Converted 2026-01-14.json -> 2026-01-14-issue-22.md
+Converted 2026-01-03.json -> 2026-01-03-issue-12.md
+Converted 2026-01-10.json -> 2026-01-10-issue-18.md
+Converted 2026-01-08.json -> 2026-01-08-issue-16.md
+Converted 2025-12-23.json -> 2025-12-23-issue-3.md
+Converted 2026-01-15.json -> 2026-01-15-issue-23.md
+Converted 2026-01-05.json -> 2026-01-05-issue-14.md
+Converted 2025-12-28.json -> 2025-12-28-issue-7.md
+Converted 2025-12-27.json -> 2025-12-27-issue-5.md
+Converted 2026-01-16.json -> 2026-01-16-issue-24.md
+Converted 2025-12-21.json -> 2025-12-21-issue-2.md
+Converted 2025-12-29.json -> 2025-12-29-issue-7.md
+Converted 2025-12-22.json -> 2025-12-22-issue-3.md
+Converted 2026-01-01.json -> 2026-01-01-issue-10.md
+Converted 2026-01-09.json -> 2026-01-09-issue-17.md
+Converted 2026-01-20.json -> 2026-01-20-issue-26.md
+Converted 2026-01-07.json -> 2026-01-07-issue-15.md
+Converted 2026-01-21.json -> 2026-01-21-issue-27.md
+Converted 2026-01-13.json -> 2026-01-13-issue-21.md
+Converted 2026-01-11.json -> 2026-01-11-issue-19.md
+Converted 2025-12-24.json -> 2025-12-24-issue-4.md
+Converted 2025-12-31.json -> 2025-12-31-issue-9.md
+Converted 2026-01-12.json -> 2026-01-12-issue-20.md
+Converted 2026-01-04.json -> 2026-01-04-issue-13.md
+[main 8dcc0e8] Sync newsletter archive (2026-01-21)
+ 1 file changed, 96 insertions(+)
+ create mode 100644 content/newsletter/2026-01-21-issue-27.md
+To github.com:recep2244/portfolio.git
+   ee243bd..8dcc0e8  main -> main
+Reminder sent to 1 recipients
+Curation reminder sent. Social posting will run after approval.
+Preview send disabled. Set NEWSLETTER_SEND_PREVIEW=1 to send previews.
+Daily run complete. Weekly digest will send on the configured weekday.
+2026-01-21T00:03:35+00:00 - run_daily success (status 0)
+Subscriber sync: no new subscribers found.
