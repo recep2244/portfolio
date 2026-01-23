@@ -23,6 +23,7 @@ PY
 ISSUE_DATE_RESOLVED="$(resolve_issue_date)"
 SENT_MARKER="$ROOT_DIR/newsletter/issues/${ISSUE_DATE_RESOLVED}.sent"
 SEND_FREQUENCY="${NEWSLETTER_SEND_FREQUENCY:-daily}"
+APPROVAL_MARKER="${NEWSLETTER_APPROVAL_MARKER:-$ROOT_DIR/newsletter/issues/${ISSUE_DATE_RESOLVED}.approved}"
 
 load_env() {
   local env_file="$ROOT_DIR/newsletter/.env"
@@ -66,6 +67,11 @@ fi
 
 if [ "${NEWSLETTER_SEND_APPROVED:-}" != "yes" ] && [ "${NEWSLETTER_SEND_APPROVED:-}" != "true" ]; then
   echo "Error: approval missing. Set NEWSLETTER_SEND_APPROVED=yes to send."
+  exit 1
+fi
+
+if [ ! -f "$APPROVAL_MARKER" ]; then
+  echo "Error: approval marker missing ($APPROVAL_MARKER)."
   exit 1
 fi
 

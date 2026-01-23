@@ -207,6 +207,12 @@ def main():
     if send_mode not in {"bcc", "per-recipient"}:
         raise ValueError("send mode must be 'bcc' or 'per-recipient'")
 
+    approval_marker = os.getenv("NEWSLETTER_WEEKLY_APPROVAL_MARKER")
+    if not approval_marker:
+        approval_marker = os.path.join(args.issues_dir, f"{today.date().isoformat()}.weekly.approved")
+    if not os.path.exists(approval_marker):
+        raise ValueError(f"Weekly approval marker missing: {approval_marker}")
+
     if args.dry_run:
         print(f"Dry run: would send '{subject}' to {len(subscribers)} subscribers via {send_mode}.")
         return

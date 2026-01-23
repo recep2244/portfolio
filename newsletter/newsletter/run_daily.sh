@@ -318,12 +318,9 @@ PY
 )"
 
 if [ "$AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ] && should_run_daily; then
-  APPROVAL_MARKER="$ROOT_DIR/newsletter/issues/${TODAY_DATE}.approved"
-  REQUIRE_APPROVAL="${NEWSLETTER_REQUIRE_APPROVAL:-1}"
-  if [ "$REQUIRE_APPROVAL" = "1" ] && [ ! -f "$APPROVAL_MARKER" ]; then
-    echo "Auto send skipped: approval not found for ${TODAY_DATE}."
-  elif [ "${NEWSLETTER_DELAY_SEND:-0}" = "1" ] && [ ! -f "$APPROVAL_MARKER" ]; then
-    echo "Auto send skipped: approval not found for ${TODAY_DATE}."
+  APPROVAL_MARKER="${NEWSLETTER_APPROVAL_MARKER:-$ROOT_DIR/newsletter/issues/${TODAY_DATE}.approved}"
+  if [ ! -f "$APPROVAL_MARKER" ]; then
+    echo "Auto send skipped: approval marker missing ($APPROVAL_MARKER)."
   else
     NEWSLETTER_TIMEZONE="$DEFAULT_TZ" NEWSLETTER_SEND_FREQUENCY=daily NEWSLETTER_SEND_APPROVED=yes "$ROOT_DIR/newsletter/run_send_confirmed.sh" "today" || echo "Warning: auto send failed."
   fi
@@ -432,9 +429,8 @@ PY
 fi
 
 if [ "$WEEKLY_AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ] && [ "$WEEKDAY" = "$WEEKLY_SEND_DOW" ]; then
-  WEEKLY_REQUIRE_APPROVAL="${NEWSLETTER_WEEKLY_REQUIRE_APPROVAL:-${NEWSLETTER_REQUIRE_APPROVAL:-1}}"
   WEEKLY_APPROVAL_MARKER="${NEWSLETTER_WEEKLY_APPROVAL_MARKER:-$ROOT_DIR/newsletter/issues/${TODAY_DATE}.weekly.approved}"
-  if [ "$WEEKLY_REQUIRE_APPROVAL" = "1" ] && [ ! -f "$WEEKLY_APPROVAL_MARKER" ]; then
+  if [ ! -f "$WEEKLY_APPROVAL_MARKER" ]; then
     echo "Weekly auto send skipped: approval marker missing ($WEEKLY_APPROVAL_MARKER)."
   else
     WEEKLY_FREQUENCY="${NEWSLETTER_WEEKLY_FREQUENCY:-weekly}"
