@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import html
+import re
 import json
 import os
 import smtplib
@@ -38,12 +39,76 @@ def collect_issues(issues_dir, start_date, end_date):
     return collected
 
 
+def strip_frontmatter(markdown_text):
+    text = markdown_text.lstrip()
+    if text.startswith("---"):
+        parts = text.split("---", 2)
+        if len(parts) >= 3:
+            text = parts[2]
+    text = text.replace("{{< newsletter >}}", "")
+    return text.strip()
+
+
+def _format_inline(text):
+    escaped = html.escape(text)
+
+    def replace_link(match):
+        label = match.group(1)
+        url = match.group(2)
+        return f'<a href="{html.escape(url, quote=True)}" style="color:#0b6e4f;">{label}</a>'
+
+    escaped = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", replace_link, escaped)
+    escaped = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", escaped)
+    escaped = re.sub(r"\*(.+?)\*", r"<em>\1</em>", escaped)
+    return escaped
+
+
 def build_html_from_markdown(markdown_text):
-    escaped = html.escape(markdown_text)
+    lines = markdown_text.splitlines()
+    html_lines = []
+    in_list = False
+    for line in lines:
+        stripped = line.strip()
+        if line.startswith("### "):
+            if in_list:
+                html_lines.append("</ul>")
+                in_list = False
+            html_lines.append(f"<h3>{_format_inline(line[4:])}</h3>")
+            continue
+        if line.startswith("## "):
+            if in_list:
+                html_lines.append("</ul>")
+                in_list = False
+            html_lines.append(f"<h2>{_format_inline(line[3:])}</h2>")
+            continue
+        if line.startswith("# "):
+            if in_list:
+                html_lines.append("</ul>")
+                in_list = False
+            html_lines.append(f"<h1>{_format_inline(line[2:])}</h1>")
+            continue
+        if line.startswith("- "):
+            if not in_list:
+                html_lines.append("<ul>")
+                in_list = True
+            html_lines.append(f"<li>{_format_inline(line[2:])}</li>")
+            continue
+        if in_list:
+            html_lines.append("</ul>")
+            in_list = False
+        if stripped == "---":
+            html_lines.append("<hr>")
+        elif not stripped:
+            html_lines.append("<br>")
+        else:
+            html_lines.append(f"<p>{_format_inline(line)}</p>")
+    if in_list:
+        html_lines.append("</ul>")
+
+    body = "\n".join(html_lines)
     return (
-        "<pre style=\"font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "
-        "'Liberation Mono', 'Courier New', monospace; white-space: pre-wrap; line-height: 1.5;\">"
-        f"{escaped}</pre>"
+        "<div style=\"font-family: Arial, sans-serif; color: #111827; line-height: 1.6;\">"
+        f"{body}</div>"
     )
 
 
@@ -87,7 +152,7 @@ def main():
     if not issues:
         raise ValueError("No issues found for the weekly digest window.")
 
-    md_content = generate_digest_md(issues, start_date, end_date)
+    md_content = strip_frontmatter(generate_digest_md(issues, start_date, end_date))
     config = load_config(args.config)
     newsletter_name = config.get("newsletter_name", "Protein Design Digest")
     date_range = f"{start_date.strftime('%b %d')} - {end_date.strftime('%b %d, %Y')}"

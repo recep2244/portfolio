@@ -111,7 +111,7 @@ if [ "${NEWSLETTER_SYNC_ARCHIVE:-0}" = "1" ]; then
       COMMIT_MSG="${NEWSLETTER_SYNC_COMMIT_MESSAGE:-Sync newsletter archive (${ISSUE_DATE_RESOLVED})}"
       git -C "$REPO_ROOT" commit -m "$COMMIT_MSG"
       if [ "${NEWSLETTER_SYNC_PUSH:-0}" = "1" ]; then
-        git -C "$REPO_ROOT" push
+        git -C "$REPO_ROOT" push || echo "Warning: git push failed."
       fi
     fi
   else

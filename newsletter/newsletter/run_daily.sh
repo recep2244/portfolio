@@ -3,6 +3,24 @@ set -euo pipefail
 
 ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 REPO_ROOT=$(cd "$ROOT_DIR/.." && pwd)
+LOCK_FILE="$ROOT_DIR/newsletter/run_daily.lock"
+LOCK_DIR=""
+
+acquire_lock() {
+  if command -v flock >/dev/null 2>&1; then
+    exec 9>"$LOCK_FILE"
+    if ! flock -n 9; then
+      echo "Another run_daily instance is already running; exiting."
+      exit 0
+    fi
+  else
+    LOCK_DIR="${LOCK_FILE}.d"
+    if ! mkdir "$LOCK_DIR" 2>/dev/null; then
+      echo "Another run_daily instance is already running; exiting."
+      exit 0
+    fi
+  fi
+}
 
 # Log rotation function - rotate logs if they exceed MAX_LOG_SIZE
 rotate_logs() {
@@ -62,6 +80,8 @@ log_line() {
   printf "%s - %s\n" "$(date -Is)" "$*"
 }
 
+acquire_lock
+
 {
   echo "started_at=$RUN_START_TS"
   echo "pid=$$"
@@ -69,7 +89,29 @@ log_line() {
 } > "$RUN_STATUS_PATH"
 log_line "run_daily started (pid $$)"
 
-trap 'status=$?; end_ts=$(date -Is); if [ "$status" -ne 0 ]; then final=failed; else final=success; fi; { echo "started_at=$RUN_START_TS"; echo "ended_at=$end_ts"; echo "pid=$$"; echo "status=$final"; } > "$RUN_STATUS_PATH"; log_line "run_daily $final (status $status)"' EXIT
+cleanup_on_exit() {
+  local status=$?
+  local end_ts
+  local final
+  end_ts=$(date -Is)
+  if [ "$status" -ne 0 ]; then
+    final=failed
+  else
+    final=success
+  fi
+  {
+    echo "started_at=$RUN_START_TS"
+    echo "ended_at=$end_ts"
+    echo "pid=$$"
+    echo "status=$final"
+  } > "$RUN_STATUS_PATH"
+  log_line "run_daily $final (status $status)"
+  if [ -n "$LOCK_DIR" ]; then
+    rmdir "$LOCK_DIR" 2>/dev/null || true
+  fi
+}
+
+trap 'cleanup_on_exit' EXIT
 
 is_truthy() {
   local value
@@ -144,7 +186,7 @@ if [ "${NEWSLETTER_SYNC_ARCHIVE_AT_CURATION:-0}" = "1" ]; then
       COMMIT_MSG="${NEWSLETTER_SYNC_COMMIT_MESSAGE:-Sync newsletter archive (${TODAY_DATE})}"
       git -C "$REPO_ROOT" commit -m "$COMMIT_MSG" -- "$ARCHIVE_PATH"
       if [ "${NEWSLETTER_SYNC_PUSH:-0}" = "1" ]; then
-        git -C "$REPO_ROOT" push
+        git -C "$REPO_ROOT" push || echo "Warning: git push failed."
       fi
     fi
   else
@@ -277,7 +319,10 @@ PY
 
 if [ "$AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ] && should_run_daily; then
   APPROVAL_MARKER="$ROOT_DIR/newsletter/issues/${TODAY_DATE}.approved"
-  if [ "${NEWSLETTER_DELAY_SEND:-0}" = "1" ] && [ ! -f "$APPROVAL_MARKER" ]; then
+  REQUIRE_APPROVAL="${NEWSLETTER_REQUIRE_APPROVAL:-1}"
+  if [ "$REQUIRE_APPROVAL" = "1" ] && [ ! -f "$APPROVAL_MARKER" ]; then
+    echo "Auto send skipped: approval not found for ${TODAY_DATE}."
+  elif [ "${NEWSLETTER_DELAY_SEND:-0}" = "1" ] && [ ! -f "$APPROVAL_MARKER" ]; then
     echo "Auto send skipped: approval not found for ${TODAY_DATE}."
   else
     NEWSLETTER_TIMEZONE="$DEFAULT_TZ" NEWSLETTER_SEND_FREQUENCY=daily NEWSLETTER_SEND_APPROVED=yes "$ROOT_DIR/newsletter/run_send_confirmed.sh" "today" || echo "Warning: auto send failed."
@@ -387,15 +432,21 @@ PY
 fi
 
 if [ "$WEEKLY_AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ] && [ "$WEEKDAY" = "$WEEKLY_SEND_DOW" ]; then
-  WEEKLY_FREQUENCY="${NEWSLETTER_WEEKLY_FREQUENCY:-weekly}"
-  "$PYTHON_BIN" "$ROOT_DIR/newsletter/send_weekly_digest.py" \
-    --issues-dir "$ROOT_DIR/newsletter/issues" \
-    --subscribers "$ROOT_DIR/newsletter/subscribers.csv" \
-    --config "$ROOT_DIR/newsletter/generate_config.json" \
-    --frequency "$WEEKLY_FREQUENCY" || echo "Warning: weekly digest send failed."
-  if [ "${NEWSLETTER_WEEKLY_SOCIAL:-1}" = "1" ]; then
-    "$PYTHON_BIN" "$ROOT_DIR/newsletter/post_weekly_digest.py" \
-      --date "$TODAY_DATE" || echo "Warning: weekly digest social post failed."
+  WEEKLY_REQUIRE_APPROVAL="${NEWSLETTER_WEEKLY_REQUIRE_APPROVAL:-${NEWSLETTER_REQUIRE_APPROVAL:-1}}"
+  WEEKLY_APPROVAL_MARKER="${NEWSLETTER_WEEKLY_APPROVAL_MARKER:-$ROOT_DIR/newsletter/issues/${TODAY_DATE}.weekly.approved}"
+  if [ "$WEEKLY_REQUIRE_APPROVAL" = "1" ] && [ ! -f "$WEEKLY_APPROVAL_MARKER" ]; then
+    echo "Weekly auto send skipped: approval marker missing ($WEEKLY_APPROVAL_MARKER)."
+  else
+    WEEKLY_FREQUENCY="${NEWSLETTER_WEEKLY_FREQUENCY:-weekly}"
+    "$PYTHON_BIN" "$ROOT_DIR/newsletter/send_weekly_digest.py" \
+      --issues-dir "$ROOT_DIR/newsletter/issues" \
+      --subscribers "$ROOT_DIR/newsletter/subscribers.csv" \
+      --config "$ROOT_DIR/newsletter/generate_config.json" \
+      --frequency "$WEEKLY_FREQUENCY" || echo "Warning: weekly digest send failed."
+    if [ "${NEWSLETTER_WEEKLY_SOCIAL:-1}" = "1" ]; then
+      "$PYTHON_BIN" "$ROOT_DIR/newsletter/post_weekly_digest.py" \
+        --date "$TODAY_DATE" || echo "Warning: weekly digest social post failed."
+    fi
   fi
 fi
 
