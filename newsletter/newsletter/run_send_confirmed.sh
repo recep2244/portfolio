@@ -52,6 +52,24 @@ write_csv_from_env() {
   fi
 }
 
+git_push_with_rebase() {
+  local repo_dir="$1"
+  if git -C "$repo_dir" push; then
+    return 0
+  fi
+  echo "Warning: git push failed; attempting pull --rebase and retry."
+  if git -C "$repo_dir" pull --rebase --autostash; then
+    git -C "$repo_dir" push || {
+      echo "Warning: git push failed after rebase."
+      return 1
+    }
+    return 0
+  fi
+  echo "Warning: git pull --rebase failed; skipping push."
+  git -C "$repo_dir" rebase --abort 2>/dev/null || true
+  return 1
+}
+
 write_csv_from_env "$ROOT_DIR/newsletter/subscribers.csv" "NEWSLETTER_SUBSCRIBERS_CSV"
 
 if [ "${NEWSLETTER_SYNC_SUBSCRIBERS:-1}" = "1" ]; then
@@ -117,7 +135,7 @@ if [ "${NEWSLETTER_SYNC_ARCHIVE:-0}" = "1" ]; then
       COMMIT_MSG="${NEWSLETTER_SYNC_COMMIT_MESSAGE:-Sync newsletter archive (${ISSUE_DATE_RESOLVED})}"
       git -C "$REPO_ROOT" commit -m "$COMMIT_MSG"
       if [ "${NEWSLETTER_SYNC_PUSH:-0}" = "1" ]; then
-        git -C "$REPO_ROOT" push || echo "Warning: git push failed."
+        git_push_with_rebase "$REPO_ROOT" || true
       fi
     fi
   else
