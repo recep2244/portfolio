@@ -3,23 +3,32 @@ set -euo pipefail
 
 ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 REPO_ROOT=$(cd "$ROOT_DIR/.." && pwd)
-LOCK_FILE="$ROOT_DIR/newsletter/run_daily.lock"
-LOCK_DIR=""
+LOCK_DIR="$ROOT_DIR/newsletter/run_daily.lockdir"
+LOCK_PID_FILE="$LOCK_DIR/pid"
 
 acquire_lock() {
-  if command -v flock >/dev/null 2>&1; then
-    exec 9>"$LOCK_FILE"
-    if ! flock -n 9; then
-      echo "Another run_daily instance is already running; exiting."
-      exit 0
-    fi
-  else
-    LOCK_DIR="${LOCK_FILE}.d"
-    if ! mkdir "$LOCK_DIR" 2>/dev/null; then
-      echo "Another run_daily instance is already running; exiting."
-      exit 0
-    fi
+  if mkdir "$LOCK_DIR" 2>/dev/null; then
+    echo "$$" > "$LOCK_PID_FILE"
+    return 0
   fi
+
+  local old_pid=""
+  old_pid="$(cat "$LOCK_PID_FILE" 2>/dev/null || true)"
+  if [ -n "$old_pid" ] && kill -0 "$old_pid" 2>/dev/null; then
+    echo "Another run_daily instance is already running (pid $old_pid); exiting."
+    exit 0
+  fi
+
+  # Stale lock (previous run crashed); clear and retry once.
+  rm -f "$LOCK_PID_FILE" 2>/dev/null || true
+  rmdir "$LOCK_DIR" 2>/dev/null || true
+  if mkdir "$LOCK_DIR" 2>/dev/null; then
+    echo "$$" > "$LOCK_PID_FILE"
+    return 0
+  fi
+
+  echo "Another run_daily instance is already running; exiting."
+  exit 0
 }
 
 # Log rotation function - rotate logs if they exceed MAX_LOG_SIZE
@@ -106,9 +115,8 @@ cleanup_on_exit() {
     echo "status=$final"
   } > "$RUN_STATUS_PATH"
   log_line "run_daily $final (status $status)"
-  if [ -n "$LOCK_DIR" ]; then
-    rmdir "$LOCK_DIR" 2>/dev/null || true
-  fi
+  rm -f "$LOCK_PID_FILE" 2>/dev/null || true
+  rmdir "$LOCK_DIR" 2>/dev/null || true
 }
 
 trap 'cleanup_on_exit' EXIT

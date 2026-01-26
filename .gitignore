@@ -13,3 +13,8 @@ newsletter/newsletter/*.log
 newsletter/newsletter/analytics.db
 newsletter/newsletter/trending.db
 newsletter/newsletter/*.pid
+
+# Runtime lock/status (never commit)
+newsletter/newsletter/run_daily.lock
+newsletter/newsletter/run_daily.lockdir/
+newsletter/newsletter/daily_run.status
