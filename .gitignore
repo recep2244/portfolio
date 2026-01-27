@@ -18,3 +18,4 @@ newsletter/newsletter/*.pid
 newsletter/newsletter/run_daily.lock
 newsletter/newsletter/run_daily.lockdir/
 newsletter/newsletter/daily_run.status
+newsletter/newsletter/run_catchup.lockdir/
