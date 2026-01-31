@@ -397,7 +397,13 @@ PY
   fi
 fi
 
-if [ "${NEWSLETTER_SEND_WEEKLY_CURATION_REMINDER:-}" = "1" ]; then
+WEEKLY_REMINDER_ENABLED="${NEWSLETTER_SEND_WEEKLY_CURATION_REMINDER:-}"
+if [ -z "$WEEKLY_REMINDER_ENABLED" ] && [ "$WEEKDAY" = "5" ] && [ "${NEWSLETTER_SEND_CURATION_REMINDER:-}" = "1" ]; then
+  WEEKLY_REMINDER_ENABLED="1"
+  echo "Weekly curation reminder fallback enabled (Friday + daily reminder enabled)."
+fi
+
+if [ "${WEEKLY_REMINDER_ENABLED:-}" = "1" ]; then
   if [ "$WEEKDAY" != "5" ]; then
     echo "Skipping weekly curation reminder: not Friday."
   else
@@ -442,11 +448,15 @@ PY
         CURATION_URL="${NEWSLETTER_CURATION_URL:-http://127.0.0.1:${PORT}}"
         WEEKLY_SUBJECT="${NEWSLETTER_WEEKLY_CURATION_SUBJECT:-Protein Design Digest: weekly curation ready [${TODAY_DATE}]}"
         WEEKLY_BODY="${NEWSLETTER_WEEKLY_CURATION_BODY:-Weekly curation is ready. Open ${CURATION_URL} to curate and approve the weekly digest.}"
-        "$PYTHON_BIN" "$ROOT_DIR/newsletter/send_reminder.py" \
+        if "$PYTHON_BIN" "$ROOT_DIR/newsletter/send_reminder.py" \
           --preview-list "$PREVIEW_LIST" \
           --subject "$WEEKLY_SUBJECT" \
           --body "$WEEKLY_BODY" \
-          --issue "$ROOT_DIR/newsletter/issues/${TODAY_DATE}.json" || echo "Warning: weekly curation reminder failed."
+          --issue "$ROOT_DIR/newsletter/issues/${TODAY_DATE}.json"; then
+          echo "Weekly curation reminder sent."
+        else
+          echo "Warning: weekly curation reminder failed."
+        fi
       fi
     else
       echo "Skipping weekly curation reminder: runs within ${WEEKLY_CURATION_WINDOW_MINUTES} min of ${WEEKLY_CURATION_HOUR}:${WEEKLY_CURATION_MINUTE} $WEEKLY_CURATION_TZ."
