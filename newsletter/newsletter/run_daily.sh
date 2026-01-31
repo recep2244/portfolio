@@ -464,6 +464,56 @@ PY
   fi
 fi
 
+if [ "${NEWSLETTER_SEND_WEEKLY_APPROVAL_REMINDER:-}" = "1" ]; then
+  if [ "$WEEKDAY" != "5" ]; then
+    echo "Skipping weekly approval reminder: not Friday."
+  else
+    WEEKLY_APPROVAL_REMINDER_TZ="${NEWSLETTER_WEEKLY_APPROVAL_REMINDER_TZ:-$SEND_TZ}"
+    WEEKLY_APPROVAL_REMINDER_HOUR="${NEWSLETTER_WEEKLY_APPROVAL_REMINDER_HOUR:-9}"
+    WEEKLY_APPROVAL_REMINDER_MINUTE="${NEWSLETTER_WEEKLY_APPROVAL_REMINDER_MINUTE:-30}"
+    WEEKLY_APPROVAL_REMINDER_WINDOW_MINUTES="${NEWSLETTER_WEEKLY_APPROVAL_REMINDER_WINDOW_MINUTES:-10}"
+    SHOULD_WEEKLY_APPROVAL_REMIND="$($PYTHON_BIN - <<PY
+from datetime import datetime, time
+from zoneinfo import ZoneInfo
+
+tz = ZoneInfo("${WEEKLY_APPROVAL_REMINDER_TZ}")
+now = datetime.now(tz)
+target = datetime.combine(now.date(), time(int("${WEEKLY_APPROVAL_REMINDER_HOUR}"), int("${WEEKLY_APPROVAL_REMINDER_MINUTE}")), tz)
+delta_minutes = abs((now - target).total_seconds()) / 60
+print("yes" if delta_minutes <= int("${WEEKLY_APPROVAL_REMINDER_WINDOW_MINUTES}") else "no")
+PY
+)"
+    WEEKLY_APPROVAL_MARKER="${NEWSLETTER_WEEKLY_APPROVAL_MARKER:-$ROOT_DIR/newsletter/issues/${TODAY_DATE}.weekly.approved}"
+    if [ "$SHOULD_WEEKLY_APPROVAL_REMIND" = "yes" ]; then
+      if [ -f "$WEEKLY_APPROVAL_MARKER" ]; then
+        echo "Skipping weekly approval reminder: approval already recorded."
+      else
+        if [ ! -f "$PREVIEW_LIST" ]; then
+          echo "Error: preview_subscribers.csv not found. Aborting weekly approval reminder."
+        elif [ -z "${NEWSLETTER_GMAIL_USER:-}" ] || [ -z "${NEWSLETTER_GMAIL_APP_PASSWORD:-}" ]; then
+          echo "Warning: Missing Gmail credentials. Skipping weekly approval reminder email."
+        else
+          PORT="${NEWSLETTER_CURATION_PORT:-5050}"
+          CURATION_URL="${NEWSLETTER_CURATION_URL:-http://127.0.0.1:${PORT}}"
+          WEEKLY_APPROVAL_SUBJECT="${NEWSLETTER_WEEKLY_APPROVAL_REMINDER_SUBJECT:-Protein Design Digest: weekly approval pending [${TODAY_DATE}]}"
+          WEEKLY_APPROVAL_BODY="${NEWSLETTER_WEEKLY_APPROVAL_REMINDER_BODY:-Weekly approval is still pending. Please review and approve at ${CURATION_URL} before send.}"
+          if "$PYTHON_BIN" "$ROOT_DIR/newsletter/send_reminder.py" \
+            --preview-list "$PREVIEW_LIST" \
+            --subject "$WEEKLY_APPROVAL_SUBJECT" \
+            --body "$WEEKLY_APPROVAL_BODY" \
+            --issue "$ROOT_DIR/newsletter/issues/${TODAY_DATE}.json"; then
+            echo "Weekly approval reminder sent."
+          else
+            echo "Warning: weekly approval reminder failed."
+          fi
+        fi
+      fi
+    else
+      echo "Skipping weekly approval reminder: runs within ${WEEKLY_APPROVAL_REMINDER_WINDOW_MINUTES} min of ${WEEKLY_APPROVAL_REMINDER_HOUR}:${WEEKLY_APPROVAL_REMINDER_MINUTE} $WEEKLY_APPROVAL_REMINDER_TZ."
+    fi
+  fi
+fi
+
 if [ "$WEEKLY_AUTO_SEND" = "1" ] && [ "$SHOULD_SEND" = "yes" ] && [ "$WEEKDAY" = "$WEEKLY_SEND_DOW" ]; then
   WEEKLY_APPROVAL_MARKER="${NEWSLETTER_WEEKLY_APPROVAL_MARKER:-$ROOT_DIR/newsletter/issues/${TODAY_DATE}.weekly.approved}"
   if [ ! -f "$WEEKLY_APPROVAL_MARKER" ]; then
