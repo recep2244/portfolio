@@ -7,13 +7,14 @@
   "quick_reads_count": 8,
   "signal_extras_count": 3,
   "avoid_recent_days": 60,
+  "strict_no_repeat": true,
   "resource_counts": {
     "datasets": 2,
     "tools": 2,
     "events": 2,
     "jobs": 2
   },
-  "lookback_days": 45,
+  "lookback_days": 120,
   "max_results_per_source": 200,
   "allow_recent_fallback": false,
   "keywords": [

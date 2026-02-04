@@ -195,10 +195,18 @@ if [ "${NEWSLETTER_SYNC_SUBSCRIBERS:-1}" = "1" ]; then
     --subscribers "$ROOT_DIR/newsletter/subscribers.csv" || echo "Warning: subscriber sync failed."
 fi
 
-"$PYTHON_BIN" "$ROOT_DIR/newsletter/generate_issue.py" \
-  --issue-date "$TODAY_DATE" \
-  --config "$ROOT_DIR/newsletter/generate_config.json" \
-  --issues-dir "$ROOT_DIR/newsletter/issues"
+APPROVAL_MARKER="${NEWSLETTER_APPROVAL_MARKER:-$ROOT_DIR/newsletter/issues/${TODAY_DATE}.approved}"
+ISSUE_PATH="$ROOT_DIR/newsletter/issues/${TODAY_DATE}.json"
+FORCE_REGENERATE="${NEWSLETTER_FORCE_REGENERATE:-}"
+
+if [ -f "$APPROVAL_MARKER" ] && [ -f "$ISSUE_PATH" ] && ! is_truthy "$FORCE_REGENERATE"; then
+  echo "Skipping generate_issue: approval marker exists for $TODAY_DATE (set NEWSLETTER_FORCE_REGENERATE=1 to override)."
+else
+  "$PYTHON_BIN" "$ROOT_DIR/newsletter/generate_issue.py" \
+    --issue-date "$TODAY_DATE" \
+    --config "$ROOT_DIR/newsletter/generate_config.json" \
+    --issues-dir "$ROOT_DIR/newsletter/issues"
+fi
 
 # Convert to Hugo Content
 if [ "${NEWSLETTER_SYNC_ARCHIVE_AT_CURATION:-0}" = "1" ]; then

@@ -4,7 +4,7 @@ import json
 import os
 import re
 import subprocess
-from datetime import datetime
+from datetime import datetime, timedelta
 from html import unescape
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
@@ -42,6 +42,69 @@ def write_approval_marker(path, issue_date, timezone):
         "approved_at": datetime.now(timezone).isoformat(),
     }
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def normalize_title(title: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", (title or "").lower()).strip()
+
+
+def find_repeat_signal(issues_dir, issue_path, issue_date, timezone, config_path):
+    if is_truthy(os.getenv("NEWSLETTER_ALLOW_REPEAT")):
+        return None
+    window_raw = (os.getenv("NEWSLETTER_NO_REPEAT_DAYS") or "").strip()
+    window_days = 0
+    if window_raw:
+        try:
+            window_days = int(window_raw)
+        except ValueError:
+            window_days = 0
+    if not window_days and config_path and config_path.exists():
+        try:
+            cfg = json.loads(config_path.read_text(encoding="utf-8"))
+            window_days = int(cfg.get("avoid_recent_days", 0) or 0)
+        except Exception:
+            window_days = 0
+    if window_days <= 0:
+        return None
+
+    if not issue_path.exists():
+        return None
+    try:
+        issue = json.loads(issue_path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    signal_title = normalize_title((issue.get("signal") or {}).get("title", ""))
+    if not signal_title:
+        return None
+
+    cutoff = datetime.now(timezone).date() - timedelta(days=window_days)
+    for sent_path in issues_dir.glob("*.sent"):
+        try:
+            sent_data = json.loads(sent_path.read_text(encoding="utf-8"))
+            sent_date = (sent_data.get("issue_date") or sent_path.stem).strip()
+        except Exception:
+            sent_date = sent_path.stem
+        if not sent_date:
+            continue
+        try:
+            sent_dt = datetime.strptime(sent_date[:10], "%Y-%m-%d").date()
+        except ValueError:
+            continue
+        if sent_dt < cutoff:
+            continue
+        if sent_date == issue_date:
+            continue
+        prev_issue_path = issues_dir / f"{sent_date}.json"
+        if not prev_issue_path.exists():
+            continue
+        try:
+            prev_issue = json.loads(prev_issue_path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        prev_title = normalize_title((prev_issue.get("signal") or {}).get("title", ""))
+        if prev_title and prev_title == signal_title:
+            return sent_date
+    return None
 
 def sync_archive(root_dir, issue_date):
     result = {"status": "skipped", "message": ""}
@@ -160,6 +223,10 @@ class CurationServer(BaseHTTPRequestHandler):
         with self.server.issue_path.open("w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, sort_keys=True)
             f.write("\n")
+        curated_path = self.server.issues_dir / f"{self.server.issue_date}.curated.json"
+        with curated_path.open("w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, sort_keys=True)
+            f.write("\n")
 
     def do_GET(self):
         parsed = urlparse(self.path)
@@ -251,6 +318,22 @@ class CurationServer(BaseHTTPRequestHandler):
                 return
             try:
                 self._save_issue(payload)
+                repeat_date = find_repeat_signal(
+                    self.server.issues_dir,
+                    self.server.issue_path,
+                    self.server.issue_date,
+                    self.server.timezone,
+                    self.server.config_path,
+                )
+                if repeat_date:
+                    self._send(
+                        409,
+                        {
+                            "error": f"Signal already sent on {repeat_date}.",
+                            "hint": "Set NEWSLETTER_ALLOW_REPEAT=1 to override.",
+                        },
+                    )
+                    return
                 rendered = False
                 if is_truthy(os.getenv("NEWSLETTER_DELAY_SEND")):
                     write_approval_marker(
@@ -371,6 +454,7 @@ def main():
     server.issue_date = issue_date
     server.issues_dir = issues_dir
     server.issue_path = issue_path
+    server.config_path = config_path
     server.sent_marker = issues_dir / f"{issue_date}.sent"
     server.approval_marker = issues_dir / f"{issue_date}.approved"
     server.html_path = newsletter_dir / "curate_issue.html"

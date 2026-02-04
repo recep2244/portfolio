@@ -1397,7 +1397,8 @@
             setStatus(payload.error || "Request failed.");
             return;
           }
-          setStatus(payload.message || "Done.");
+          const message = payload.message || "Done.";
+          setStatus(`${message} Curated file saved.`);
         } catch (err) {
           setStatus("Request failed: " + err.message);
         }

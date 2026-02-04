@@ -98,10 +98,112 @@ if [ -z "${NEWSLETTER_GMAIL_USER:-}" ] || [ -z "${NEWSLETTER_GMAIL_APP_PASSWORD:
   exit 1
 fi
 
+ALLOW_REPEAT="$(printf "%s" "${NEWSLETTER_ALLOW_REPEAT:-}" | tr '[:upper:]' '[:lower:]')"
+if [ "$ALLOW_REPEAT" != "1" ] && [ "$ALLOW_REPEAT" != "true" ] && [ "$ALLOW_REPEAT" != "yes" ] && [ "$ALLOW_REPEAT" != "y" ] && [ "$ALLOW_REPEAT" != "on" ]; then
+  ISSUES_DIR="$ROOT_DIR/newsletter/issues" CONFIG_PATH="$ROOT_DIR/newsletter/generate_config.json" ISSUE_DATE_RESOLVED="$ISSUE_DATE_RESOLVED" NEWSLETTER_TIMEZONE="${NEWSLETTER_TIMEZONE:-Europe/London}" "$PYTHON_BIN" - <<'PY'
+import json
+import os
+import re
+import sys
+from datetime import datetime, timedelta
+from pathlib import Path
+from zoneinfo import ZoneInfo
+
+def normalize_title(title: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", title.lower()).strip()
+
+issues_dir = Path(os.environ["ISSUES_DIR"])
+issue_date = os.environ["ISSUE_DATE_RESOLVED"]
+tz = ZoneInfo(os.environ.get("NEWSLETTER_TIMEZONE", "Europe/London"))
+
+window_raw = os.getenv("NEWSLETTER_NO_REPEAT_DAYS", "").strip()
+if window_raw:
+    try:
+        window_days = int(window_raw)
+    except ValueError:
+        window_days = 0
+else:
+    window_days = 0
+    cfg_path = os.environ.get("CONFIG_PATH")
+    if cfg_path and os.path.exists(cfg_path):
+        try:
+            with open(cfg_path, "r", encoding="utf-8") as f:
+                cfg = json.load(f)
+            window_days = int(cfg.get("avoid_recent_days", 0) or 0)
+        except Exception:
+            window_days = 0
+
+if window_days <= 0:
+    sys.exit(0)
+
+issue_path = issues_dir / f"{issue_date}.json"
+if not issue_path.exists():
+    print(f"Error: issue file missing: {issue_path}", file=sys.stderr)
+    sys.exit(2)
+
+try:
+    issue = json.loads(issue_path.read_text(encoding="utf-8"))
+except Exception as exc:
+    print(f"Error: failed to read issue file {issue_path}: {exc}", file=sys.stderr)
+    sys.exit(2)
+
+signal = issue.get("signal") or {}
+signal_title = normalize_title((signal.get("title") or "").strip())
+if not signal_title:
+    sys.exit(0)
+
+cutoff = datetime.now(tz).date() - timedelta(days=window_days)
+for sent_path in issues_dir.glob("*.sent"):
+    try:
+        sent_data = json.loads(sent_path.read_text(encoding="utf-8"))
+        sent_date = (sent_data.get("issue_date") or sent_path.stem).strip()
+    except Exception:
+        sent_date = sent_path.stem
+    if not sent_date:
+        continue
+    try:
+        sent_dt = datetime.strptime(sent_date[:10], "%Y-%m-%d").date()
+    except ValueError:
+        continue
+    if sent_dt < cutoff:
+        continue
+    if sent_date == issue_date:
+        continue
+    prev_issue_path = issues_dir / f"{sent_date}.json"
+    if not prev_issue_path.exists():
+        continue
+    try:
+        prev_issue = json.loads(prev_issue_path.read_text(encoding="utf-8"))
+    except Exception:
+        continue
+    prev_title = normalize_title((prev_issue.get("signal") or {}).get("title", ""))
+    if prev_title and prev_title == signal_title:
+        print(
+            f"Error: signal title already sent on {sent_date}. "
+            f"Set NEWSLETTER_ALLOW_REPEAT=1 to override.",
+            file=sys.stderr,
+        )
+        sys.exit(2)
+
+sys.exit(0)
+PY
+  status=$?
+  if [ "$status" -ne 0 ]; then
+    exit 1
+  fi
+fi
+
 "$PYTHON_BIN" "$ROOT_DIR/newsletter/newsletter_to_md.py" \
   --issues-dir "$ROOT_DIR/newsletter/issues"
 
+CURATED_ISSUE_PATH="$ROOT_DIR/newsletter/issues/${ISSUE_DATE_RESOLVED}.curated.json"
+ISSUE_ARG=()
+if [ -f "$CURATED_ISSUE_PATH" ]; then
+  ISSUE_ARG=(--issue "$CURATED_ISSUE_PATH")
+fi
+
 "$PYTHON_BIN" "$ROOT_DIR/newsletter/send_newsletter.py" \
+  "${ISSUE_ARG[@]}" \
   --issue-date "$ISSUE_DATE" \
   --issues-dir "$ROOT_DIR/newsletter/issues" \
   --subscribers "$ROOT_DIR/newsletter/subscribers.csv" \

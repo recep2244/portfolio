@@ -43,6 +43,7 @@ MAX_RETRIES = 3
 RETRY_DELAY = 2.0  # seconds
 REQUEST_TIMEOUT = 30  # seconds
 _CACHE_SETTINGS = None
+TRUTHY_VALUES = {"1", "true", "yes", "y", "on"}
 
 # Type variable for generic retry decorator
 T = TypeVar("T")
@@ -328,6 +329,10 @@ def first_sentence(text, limit=320):
 
 def normalize_title(title):
     return re.sub(r"[^a-z0-9]+", " ", title.lower()).strip()
+
+
+def is_truthy(value: Any) -> bool:
+    return str(value or "").strip().lower() in TRUTHY_VALUES
 
 
 def build_arxiv_query(keywords):
@@ -1011,6 +1016,19 @@ def take_unique_papers(pool, count, used):
     return picked
 
 
+def pick_nonrecent(candidates, recent_titles, start_index=0):
+    if not candidates:
+        return None
+    if not recent_titles:
+        return candidates[start_index % len(candidates)]
+    total = len(candidates)
+    for offset in range(total):
+        paper = candidates[(start_index + offset) % total]
+        if normalize_title(paper.title) not in recent_titles:
+            return paper
+    return None
+
+
 def format_item(paper):
     return {
         "title": paper.title,
@@ -1100,10 +1118,20 @@ def build_issue(
     if not keywords:
         raise ValueError("No keywords configured")
 
+    avoid_recent_days = int(config.get("avoid_recent_days", 0))
+    strict_no_repeat = is_truthy(config.get("strict_no_repeat", False)) or is_truthy(
+        os.getenv("NEWSLETTER_STRICT_NO_REPEAT")
+    )
+    # Ensure lookback covers the avoidance window so we can pick non-recent items.
+    if avoid_recent_days and lookback_days <= avoid_recent_days:
+        buffer_days = int(config.get("lookback_buffer_days", 7))
+        lookback_days = avoid_recent_days + max(1, buffer_days)
+
     start_date = issue_date - timedelta(days=lookback_days)
     end_date = issue_date
     start_dt = datetime.combine(start_date, datetime.min.time(), tzinfo=timezone)
     end_dt = datetime.combine(end_date, datetime.max.time(), tzinfo=timezone)
+    day_index = issue_date.toordinal()
 
     sources = config.get("sources", {})
 
@@ -1273,19 +1301,20 @@ def build_issue(
 
     quick_count = int(config.get("quick_reads_count", 3))
     signal_extra_count = int(config.get("signal_extras_count", 0))
-    avoid_recent_days = int(config.get("avoid_recent_days", 0))
     recent_titles = load_recent_titles(
         config.get("issues_dir", "newsletter/issues"),
         avoid_recent_days,
         timezone,
     )
 
-    paper_scored = rank_papers(papers, keywords)
+    paper_scored_full = rank_papers(papers, keywords)
+    paper_scored = paper_scored_full
+    fallback_rotation = False
     if recent_titles:
         min_required = max(1, quick_count + 1)
         filtered_scored = [
             (score, paper)
-            for score, paper in paper_scored
+            for score, paper in paper_scored_full
             if normalize_title(paper.title) not in recent_titles
         ]
         allow_fallback = config.get("allow_recent_fallback", True)
@@ -1293,19 +1322,31 @@ def build_issue(
             paper_scored = filtered_scored
         else:
             if not filtered_scored:
-                print("Warning: No new papers after recent-title filter; using full pool.")
+                print("Warning: No new papers after recent-title filter; using full pool with rotation.")
+                fallback_rotation = True
             elif not allow_fallback:
                 print(
                     "Warning: Not enough new papers after recent-title filter; keeping filtered pool."
                 )
                 paper_scored = filtered_scored
             else:
-                print("Warning: Not enough new papers after recent-title filter; using full pool.")
+                print("Warning: Not enough new papers after recent-title filter; using full pool with rotation.")
+                fallback_rotation = True
     paper_ranked = [item[1] for item in paper_scored]
     paper_strict = [item[1] for item in paper_scored if item[0] > 0]
 
     signal_candidates = paper_strict or paper_ranked
-    signal_paper = signal_candidates[0]
+    if not signal_candidates:
+        raise ValueError("No signal candidates available after ranking.")
+    signal_index = day_index % len(signal_candidates) if fallback_rotation else 0
+    signal_paper = pick_nonrecent(signal_candidates, recent_titles, signal_index)
+    if not signal_paper:
+        if strict_no_repeat:
+            raise ValueError(
+                "No non-recent signal candidates available; set NEWSLETTER_STRICT_NO_REPEAT=0 "
+                "or reduce avoid_recent_days."
+            )
+        signal_paper = signal_candidates[signal_index]
 
     rss_ranked = [item[1] for item in rank_papers(rss_items, keywords)]
     if recent_titles:
@@ -1313,6 +1354,14 @@ def build_issue(
             item for item in rss_ranked if normalize_title(item.title) not in recent_titles
         ]
     secondary_pool = merge_unique_papers(paper_ranked, rss_ranked)
+    if strict_no_repeat and recent_titles:
+        secondary_pool = [
+            item for item in secondary_pool
+            if normalize_title(item.title) not in recent_titles
+        ]
+    if fallback_rotation and secondary_pool:
+        rotation = day_index % len(secondary_pool)
+        secondary_pool = secondary_pool[rotation:] + secondary_pool[:rotation]
     used_titles = {normalize_title(signal_paper.title)}
     signal_extras = take_unique_papers(secondary_pool, signal_extra_count, used_titles)
     quick_papers = take_unique_papers(secondary_pool, quick_count, used_titles)
@@ -1331,7 +1380,6 @@ def build_issue(
     events = community.get("events", [])
     jobs = community.get("jobs", [])
 
-    day_index = issue_date.toordinal()
     dataset = pick_pool_items(
         dataset_pool,
         day_index,
