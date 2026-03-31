@@ -12,12 +12,12 @@
         </div>
 
         <!-- Key metrics strip -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 stagger-reveal">
             {{ $metrics := slice
                 (dict "value" "470+" "label" "Citations" "color" "text-accent")
-                (dict "value" "H-index 9" "label" "Scholar Impact" "color" "text-blue-600")
-                (dict "value" "14" "label" "Peer-reviewed Papers" "color" "text-purple-600")
-                (dict "value" "9+ yrs" "label" "Research Experience" "color" "text-teal-600")
+                (dict "value" "H-index 9" "label" "Scholar Impact" "color" "text-accent")
+                (dict "value" "14" "label" "Peer-reviewed Papers" "color" "text-accent")
+                (dict "value" "9+ yrs" "label" "Research Experience" "color" "text-accent")
             }}
             {{ range $metrics }}
             <div class="glass-card p-5 text-center reveal-on-scroll">

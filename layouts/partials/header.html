@@ -6,19 +6,11 @@
             Recep Adiyaman
         </a>
 
-        <nav class="hidden md:flex items-center" style="gap:0.75rem; flex-wrap:nowrap; overflow:visible;">
+        <nav class="hidden md:flex items-center gap-3">
             {{ range .Site.Menus.main }}
-            <a href="{{ .URL | relURL }}"
-                style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#64748b; white-space:nowrap; transition:color 0.2s; text-decoration:none;"
-                onmouseover="this.style.color='var(--accent,#2563eb)'" onmouseout="this.style.color='#64748b'">
-                {{ .Name }}
-            </a>
+            <a href="{{ .URL | relURL }}" class="nav-link" data-nav-link>{{ .Name }}</a>
             {{ end }}
-            <a href="#newsletter"
-                style="padding:0.5rem 1rem; background:var(--accent,#2563eb); color:#fff; border-radius:9999px; font-weight:900; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.08em; white-space:nowrap; box-shadow:0 4px 14px rgba(37,99,235,0.25); transition:transform 0.2s; text-decoration:none; flex-shrink:0;"
-                onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                Subscribe
-            </a>
+            <a href="#newsletter" class="nav-pill">Subscribe</a>
         </nav>
 
         <button id="mobile-menu-toggle" class="md:hidden text-slate-600 hover:text-slate-900"
@@ -31,11 +23,12 @@
     </div>
 
     <div id="mobile-menu"
-        class="md:hidden hidden border-t border-slate-200 bg-white/95 backdrop-blur-md">
+        class="md:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md overflow-hidden"
+        style="max-height:0;transition:max-height 0.3s ease">
         <div class="container mx-auto px-6 py-4 flex flex-col gap-4">
             {{ range .Site.Menus.main }}
             <a href="{{ .URL | relURL }}" data-mobile-link
-                class="text-xs font-bold text-slate-600 uppercase tracking-widest">
+                class="text-xs font-bold text-slate-500 hover:text-accent uppercase tracking-widest transition-colors">
                 {{ .Name }}
             </a>
             {{ end }}
@@ -48,29 +41,43 @@
 </header>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const toggle = document.getElementById("mobile-menu-toggle");
-        const menu = document.getElementById("mobile-menu");
-        if (!toggle || !menu) {
-            return;
-        }
+document.addEventListener("DOMContentLoaded", () => {
+    // ── Mobile menu with smooth slide animation ─────────────────────────────
+    const toggle = document.getElementById("mobile-menu-toggle");
+    const menu   = document.getElementById("mobile-menu");
+    if (toggle && menu) {
+        const openMenu = () => {
+            menu.style.maxHeight = menu.scrollHeight + "px";
+            toggle.setAttribute("aria-expanded", "true");
+        };
         const closeMenu = () => {
-            menu.classList.add("hidden");
+            menu.style.maxHeight = "0";
             toggle.setAttribute("aria-expanded", "false");
         };
         toggle.addEventListener("click", () => {
-            const isOpen = !menu.classList.contains("hidden");
-            if (isOpen) {
-                closeMenu();
-            } else {
-                menu.classList.remove("hidden");
-                toggle.setAttribute("aria-expanded", "true");
-            }
+            menu.style.maxHeight === "0px" || !menu.style.maxHeight ? openMenu() : closeMenu();
         });
-        menu.querySelectorAll("[data-mobile-link]").forEach((link) => {
-            link.addEventListener("click", () => {
-                closeMenu();
+        menu.querySelectorAll("[data-mobile-link]").forEach(link => {
+            link.addEventListener("click", closeMenu);
+        });
+    }
+
+    // ── Scroll spy: highlight active nav link ───────────────────────────────
+    const sections  = document.querySelectorAll("section[id]");
+    const navLinks  = document.querySelectorAll("[data-nav-link]");
+    if (sections.length && navLinks.length) {
+        const spy = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const id = entry.target.id;
+                navLinks.forEach(a => {
+                    const match = a.getAttribute("href").includes("#" + id) ||
+                                  a.getAttribute("href").endsWith("/" + id + "/");
+                    a.classList.toggle("nav-link-active", match);
+                });
             });
-        });
-    });
+        }, { rootMargin: "-40% 0px -55% 0px" });
+        sections.forEach(s => spy.observe(s));
+    }
+});
 </script>
