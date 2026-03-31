@@ -79,7 +79,8 @@ jobs:
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          git add .
-          git commit -m "Automated Daily Newsletter Update [$(date +%Y-%m-%d)]" || echo "No changes to commit"
+          git add newsletter/ content/newsletter/
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "Sync newsletter archive ($(date +%Y-%m-%d))"
           git pull --rebase origin main
           git push
