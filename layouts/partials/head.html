@@ -20,11 +20,9 @@
   <meta property="og:description" content="{{ $description }}">
   <meta property="og:site_name" content="{{ .Site.Title }}">
   <meta property="og:locale" content="en_US">
-  {{ if .Params.image }}
-  <meta property="og:image" content="{{ .Params.image | absURL }}">
-  {{ else }}
-  <meta property="og:image" content="{{ "images/og-default.png" | absURL }}">
-  {{ end }}
+  {{ $ogImage := "images/protein_daily_logo.jpg" | absURL }}
+  {{ if .Params.image }}<meta property="og:image" content="{{ .Params.image | absURL }}">
+  {{ else }}<meta property="og:image" content="{{ $ogImage }}">{{ end }}
   {{ if .IsPage }}
   <meta property="article:author" content="Recep Adiyaman">
   <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
@@ -33,15 +31,12 @@
 
   {{/* Twitter Card */}}
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@recep_adiyaman">
-  <meta name="twitter:creator" content="@recep_adiyaman">
+  <meta name="twitter:site" content="@RcpAdymn">
+  <meta name="twitter:creator" content="@RcpAdymn">
   <meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
   <meta name="twitter:description" content="{{ $description }}">
-  {{ if .Params.image }}
-  <meta name="twitter:image" content="{{ .Params.image | absURL }}">
-  {{ else }}
-  <meta name="twitter:image" content="{{ "images/og-default.png" | absURL }}">
-  {{ end }}
+  {{ if .Params.image }}<meta name="twitter:image" content="{{ .Params.image | absURL }}">
+  {{ else }}<meta name="twitter:image" content="{{ $ogImage }}">{{ end }}
 
   {{/* JSON-LD Structured Data */}}
   {{ if .IsHome }}
@@ -105,8 +100,8 @@
     rel="stylesheet">
 
   {{/* Favicon */}}
-  <link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | relURL }}">
-  <link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | relURL }}">
+  <link rel="icon" type="image/jpeg" href="{{ "images/protein_daily_logo.jpg" | relURL }}">
+  <link rel="apple-touch-icon" href="{{ "images/protein_daily_logo.jpg" | relURL }}">
 
   {{/* RSS Feed */}}
   {{ with .OutputFormats.Get "RSS" }}
