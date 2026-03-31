@@ -1273,16 +1273,20 @@ def build_issue(
         )
         fallback_issue["newsletter_tagline"] = config.get(
             "newsletter_tagline",
-            fallback_issue.get("newsletter_tagline", "Bioinformatics signals, every morning"),
+            fallback_issue.get("newsletter_tagline", "One paper, five minutes, every morning."),
         )
         fallback_issue["issue_date"] = issue_date.isoformat()
         fallback_issue["issue_number"] = issue_number
         fallback_issue["edition_time"] = config.get(
             "edition_time", fallback_issue.get("edition_time", "")
         )
-        fallback_issue["subject"] = f"{subject_prefix} - {issue_date.isoformat()} - {signal_title}"
+        fallback_issue["subject"] = (
+            config.get("subject") or
+            f"{subject_prefix} #{issue_number}: {signal_title[:72]}{'…' if len(signal_title) > 72 else ''}"
+        )
         fallback_issue["preheader_text"] = config.get(
-            "preheader_text", fallback_issue.get("preheader_text", "")
+            "preheader_text",
+            fallback_issue.get("preheader_text") or f"Today's signal: {signal_title[:80]}{'…' if len(signal_title) > 80 else ''}"
         )
         fallback_issue["manage_prefs_link"] = config.get(
             "manage_prefs_link", fallback_issue.get("manage_prefs_link", "")
@@ -1493,13 +1497,17 @@ def build_issue(
 
     issue = {
         "newsletter_name": config.get("newsletter_name", "Genome Daily"),
-        "newsletter_tagline": config.get("newsletter_tagline", "Bioinformatics signals, every morning"),
+        "newsletter_tagline": config.get("newsletter_tagline", "One paper, five minutes, every morning."),
         "issue_date": issue_date.isoformat(),
         "issue_number": issue_number,
         "edition_time": config.get("edition_time", "04:00 UK"),
-        "subject": f"{config.get('subject_prefix', 'Genome Daily')} - {issue_date.isoformat()} - {signal_paper.title}",
+        "subject": (
+            config.get("subject") or
+            f"{config.get('subject_prefix', 'Genome Daily')} #{issue_number}: {signal_paper.title[:72]}{'…' if len(signal_paper.title) > 72 else ''}"
+        ),
         "preheader_text": config.get(
-            "preheader_text", "Top signal, quick reads, and a pipeline tip in under 4 minutes."
+            "preheader_text",
+            f"Today's signal: {signal_paper.title[:80]}{'…' if len(signal_paper.title) > 80 else ''}"
         ),
         "signal": {
             "title": signal_paper.title,

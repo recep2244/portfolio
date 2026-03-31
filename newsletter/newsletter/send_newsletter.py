@@ -262,7 +262,7 @@ def render_template(template, context):
 def build_context(issue):
     newsletter_name = optional_field(issue, "newsletter_name", "Genome Daily")
     newsletter_tagline = optional_field(
-        issue, "newsletter_tagline", "Bioinformatics signals, every morning"
+        issue, "newsletter_tagline", "One paper, five minutes, every morning."
     )
 
     issue_date = str(require_field(issue, "issue_date")).strip()

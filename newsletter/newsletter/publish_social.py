@@ -19,9 +19,6 @@ SUBSCRIBE_LABEL = "Subnewsletter"
 TWITTER_LIMIT = 280
 BLUESKY_LIMIT = 300
 DEFAULT_BASE_URL = "https://recep2244.github.io/portfolio/#newsletter"
-DEFAULT_TWITTER_TEMPLATE = "{header}\n{title}\n{summary}\n{subscribe}\n{link}\n{tags}"
-DEFAULT_BLUESKY_TEMPLATE = "{header}\n{title}\n{summary}\n{engagement}\n{link}\n{subscribe}\n{tags}"
-DEFAULT_TWITTER_THREAD_TEMPLATE = "{header}\n{title}\n{summary}\n{engagement}\n{tags}"
 
 _HUMAN_OPENERS = [
     "This one caught my eye today:",
@@ -731,13 +728,13 @@ def main():
     )
 
     ai_post = (
-        build_section_post(ai_items[0] if ai_items else None, "AI news of the day", sub_url, issue_date)
+        build_section_post(ai_items[0] if ai_items else None, "Also in AI research:", sub_url, issue_date)
         if ai_enabled
         else None
     )
     industry_post = (
         build_section_post(
-            industry_items[0] if industry_items else None, "Industry news of the day", sub_url, issue_date
+            industry_items[0] if industry_items else None, "From the industry:", sub_url, issue_date
         )
         if industry_enabled
         else None
@@ -752,7 +749,7 @@ def main():
                 job_title = f"{job_title} ({job_org})"
             job_item = dict(job_item)
             job_item["title"] = job_title
-            job_post = build_section_post(job_item, "Job of the day", sub_url, issue_date)
+            job_post = build_section_post(job_item, "Open role worth knowing about:", sub_url, issue_date)
 
     def apply_social_override(post, text, header_label, channel):
         if not text:

@@ -9,12 +9,30 @@ def load_issue(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
         return json.load(f)
 
+def _estimate_read_minutes(issue):
+    """Rough word-count estimate of the issue reading time."""
+    parts = [
+        (issue.get('signal') or {}).get('summary', ''),
+        (issue.get('signal') or {}).get('why_it_matters', ''),
+    ]
+    for item in issue.get('ai_news') or []:
+        parts.append(item.get('abstract', ''))
+    for item in issue.get('industry_news') or []:
+        parts.append(item.get('abstract', ''))
+    for item in issue.get('quick_reads') or []:
+        parts.append(item.get('abstract', ''))
+    words = sum(len(p.split()) for p in parts if p)
+    minutes = max(3, round(words / 200))
+    return minutes
+
+
 def format_markdown(issue):
     date_str = issue.get('issue_date')
     title = f"Issue #{issue.get('issue_number', '1')}: {issue.get('signal', {}).get('title', 'Daily Signal')}"
-    
+
     safe_title = title.replace('"', '\\"')
     safe_description = issue.get('subject', '').replace('"', '\\"')
+    read_minutes = _estimate_read_minutes(issue)
 
     def coerce_list(value):
         if isinstance(value, list):
@@ -23,21 +41,29 @@ def format_markdown(issue):
             return [value]
         return []
     
+    def _first_sentence(text):
+        """Return the first sentence of text, trimmed to a hook length."""
+        text = (text or '').strip()
+        first = text.split('. ')[0].rstrip('.')
+        return first + '.' if first else text
+
     # AI News Block
     md_ai = ""
     if issue.get('ai_news'):
         for item in issue.get('ai_news', []):
-            md_ai += f"- **[{item.get('title', 'Untitled')}]({item.get('link', '#')})**: {item.get('abstract', '')}\n"
+            hook = _first_sentence(item.get('abstract', ''))
+            md_ai += f"- **[{item.get('title', 'Untitled')}]({item.get('link', '#')})** — {hook}\n"
     else:
-        md_ai = "No AI research updates today."
+        md_ai = "Nothing jumped out today — check back tomorrow.\n"
 
     # Industry News Block
     md_ind = ""
     if issue.get('industry_news'):
         for item in issue.get('industry_news', []):
-            md_ind += f"- **[{item.get('title', 'Untitled')}]({item.get('link', '#')})**: {item.get('abstract', '')}\n"
+            hook = _first_sentence(item.get('abstract', ''))
+            md_ind += f"- **[{item.get('title', 'Untitled')}]({item.get('link', '#')})** — {hook}\n"
     else:
-        md_ind = "No industry updates today."
+        md_ind = "Quiet day in the industry — nothing material to report.\n"
 
     # Frontmatter
     md = f"""---
@@ -46,6 +72,7 @@ date: {date_str}
 description: "{safe_description}"
 author: "Recep Adiyaman"
 tags: ["bioinformatics", "newsletter", "research"]
+readingTime: {read_minutes}
 ---
 
 {{{{< newsletter >}}}}
@@ -85,7 +112,13 @@ tags: ["bioinformatics", "newsletter", "research"]
     
     for item in issue.get('quick_reads', []):
         md += f"\n### [{item.get('title', 'Untitled')}]({item.get('link', '#')})\n"
-        md += f"{item.get('abstract', '')}\n"
+        abstract = (item.get('abstract') or '').strip()
+        # Show just the first sentence as a hook — keeps the section scannable
+        first_sentence = abstract.split('. ')[0].rstrip('.')
+        if first_sentence and len(first_sentence) < len(abstract):
+            md += f"{first_sentence}. [Read more →]({item.get('link', '#')})\n"
+        elif abstract:
+            md += f"{abstract}\n"
 
     # Pipeline Tip
     if issue.get('pipeline_tip'):

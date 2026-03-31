@@ -1017,12 +1017,12 @@ def main():
         }
 
     ai_post = (
-        build_section_post(ai_items[0] if ai_items else None, "AI news of the day")
+        build_section_post(ai_items[0] if ai_items else None, "Also in AI research:")
         if ai_enabled
         else None
     )
     industry_post = (
-        build_section_post(industry_items[0] if industry_items else None, "Industry news of the day")
+        build_section_post(industry_items[0] if industry_items else None, "From the industry:")
         if industry_enabled
         else None
     )
@@ -1036,7 +1036,7 @@ def main():
                 job_title = f"{job_title} ({job_org})"
             job_item = dict(job_item)
             job_item["title"] = job_title
-            job_post = build_section_post(job_item, "Job of the day")
+            job_post = build_section_post(job_item, "Open role worth knowing about:")
 
     def apply_social_override(post, text, header_label, channel):
         if not text:
@@ -1057,28 +1057,28 @@ def main():
         return post
 
     ai_post = apply_social_override(
-        ai_post, (ai_cfg.get("twitter") or "").strip(), "AI news of the day", "twitter"
+        ai_post, (ai_cfg.get("twitter") or "").strip(), "Also in AI research:", "twitter"
     )
     ai_post = apply_social_override(
-        ai_post, (ai_cfg.get("bluesky") or "").strip(), "AI news of the day", "bluesky"
+        ai_post, (ai_cfg.get("bluesky") or "").strip(), "Also in AI research:", "bluesky"
     )
     industry_post = apply_social_override(
         industry_post,
         (industry_cfg.get("twitter") or "").strip(),
-        "Industry news of the day",
+        "From the industry:",
         "twitter",
     )
     industry_post = apply_social_override(
         industry_post,
         (industry_cfg.get("bluesky") or "").strip(),
-        "Industry news of the day",
+        "From the industry:",
         "bluesky",
     )
     job_post = apply_social_override(
-        job_post, (job_cfg.get("twitter") or "").strip(), "Job of the day", "twitter"
+        job_post, (job_cfg.get("twitter") or "").strip(), "Open role worth knowing about:", "twitter"
     )
     job_post = apply_social_override(
-        job_post, (job_cfg.get("bluesky") or "").strip(), "Job of the day", "bluesky"
+        job_post, (job_cfg.get("bluesky") or "").strip(), "Open role worth knowing about:", "bluesky"
     )
 
     def ensure_channel(post, header_label):
@@ -1121,9 +1121,9 @@ def main():
             )
         return post
 
-    ai_post = ensure_channel(ai_post, "AI news of the day")
-    industry_post = ensure_channel(industry_post, "Industry news of the day")
-    job_post = ensure_channel(job_post, "Job of the day")
+    ai_post = ensure_channel(ai_post, "Also in AI research:")
+    industry_post = ensure_channel(industry_post, "From the industry:")
+    job_post = ensure_channel(job_post, "Open role worth knowing about:")
 
     print("--- Twitter Thread (Main) ---")
     print(twitter_thread_text)
