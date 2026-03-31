@@ -5,7 +5,7 @@
   --color-secondary: #f1f5f9;
   --color-surface: #ffffff;
   --color-panel: #e2e8f0;
-  --color-accent: #0ea5e9;
+  --color-accent: #0f766e;
   --color-text: #0f172a;
   --font-sans: "Space Grotesk", "Inter", system-ui, -apple-system, sans-serif;
 
@@ -139,11 +139,11 @@
 
     0%,
     100% {
-      box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+      box-shadow: 0 0 8px rgba(15, 118, 110, 0.25);
     }
 
     50% {
-      box-shadow: 0 0 30px rgba(34, 211, 238, 0.8), 0 0 50px rgba(34, 211, 238, 0.5);
+      box-shadow: 0 0 20px rgba(15, 118, 110, 0.45), 0 0 36px rgba(15, 118, 110, 0.25);
     }
   }
 }
@@ -154,13 +154,10 @@
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     @apply antialiased;
-    background:
-      radial-gradient(circle at 15% 20%, rgba(14, 165, 233, 0.18), transparent 30%),
-      radial-gradient(circle at 80% 0%, rgba(168, 85, 247, 0.12), transparent 32%),
-      radial-gradient(circle at 15% 75%, rgba(59, 130, 246, 0.12), transparent 28%),
-      linear-gradient(135deg, #f8fafc 0%, #eef2ff 40%, #f0f9ff 100%);
-    background-size: 200% 200%, 120% 120%, 140% 140%, 100% 100%;
-    animation: backgroundShift 14s ease-in-out infinite alternate;
+    background-color: #ffffff;
+    background-image:
+      radial-gradient(circle at 0% 0%, rgba(15, 118, 110, 0.04) 0%, transparent 45%),
+      radial-gradient(circle at 100% 100%, rgba(15, 118, 110, 0.03) 0%, transparent 45%);
     color: var(--color-text);
     font-weight: 400;
   }
@@ -199,20 +196,19 @@
   }
 
   ::selection {
-    background-color: rgba(34, 211, 238, 0.25);
+    background-color: rgba(15, 118, 110, 0.18);
     color: #0b1224;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply relative overflow-hidden rounded-3xl border border-slate-200/70 bg-white/90 backdrop-blur-lg;
-    box-shadow: 0 30px 120px rgba(14, 165, 233, 0.15), 0 12px 36px rgba(15, 23, 42, 0.12);
+    @apply relative overflow-hidden rounded-2xl border border-slate-200 bg-white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.05);
   }
 
   .glass-card::before {
-    content: "";
-    @apply absolute inset-0 pointer-events-none bg-gradient-to-br from-white/60 via-transparent to-transparent;
+    content: none;
   }
 
   .pill {
@@ -220,11 +216,7 @@
   }
 
   .section-heading {
-    @apply text-3xl md:text-4xl font-extrabold;
-    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #a855f7 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    @apply text-3xl md:text-4xl font-extrabold text-slate-900;
   }
 
   .eyebrow {
@@ -232,7 +224,7 @@
   }
 
   .gradient-text {
-    background: linear-gradient(120deg, #0ea5e9, #3b82f6 35%, #a855f7);
+    background: linear-gradient(120deg, #0f766e 0%, #0d9488 55%, #0891b2 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -243,37 +235,37 @@
   }
 
   .cv-card {
-    @apply relative overflow-hidden rounded-3xl border border-slate-200/70 bg-white/90 backdrop-blur-md p-6 md:p-7;
-    box-shadow: 0 30px 120px rgba(14, 165, 233, 0.12), 0 12px 36px rgba(15, 23, 42, 0.12);
+    @apply relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 md:p-7;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.05);
   }
 
   .orb {
     position: absolute;
     border-radius: 9999px;
-    filter: blur(48px);
-    opacity: 0.7;
+    filter: blur(80px);
+    opacity: 0.4;
     pointer-events: none;
   }
 
   .orb-a {
-    width: 260px;
-    height: 260px;
-    background: radial-gradient(circle, rgba(14, 165, 233, 0.24), transparent 60%);
-    animation: float 11s ease-in-out infinite;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(15, 118, 110, 0.12), transparent 65%);
+    animation: float 14s ease-in-out infinite;
   }
 
   .orb-b {
-    width: 220px;
-    height: 220px;
-    background: radial-gradient(circle, rgba(168, 85, 247, 0.2), transparent 60%);
-    animation: float 13s ease-in-out infinite reverse;
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle, rgba(8, 145, 178, 0.10), transparent 65%);
+    animation: float 18s ease-in-out infinite reverse;
   }
 
   .orb-c {
-    width: 180px;
-    height: 180px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.2), transparent 60%);
-    animation: float 15s ease-in-out infinite;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(15, 118, 110, 0.08), transparent 65%);
+    animation: float 20s ease-in-out infinite;
   }
 
   /* Scroll Reveal Animation */
@@ -411,7 +403,7 @@
     left: 0;
     width: 0%;
     height: 3px;
-    background: linear-gradient(90deg, #0ea5e9, #3b82f6, #a855f7);
+    background: linear-gradient(90deg, #0f766e, #0d9488, #0891b2);
     z-index: 9999;
     transition: width 0.1s ease-out;
   }
@@ -419,7 +411,7 @@
   /* Smooth Focus States */
   a:focus-visible,
   button:focus-visible {
-    outline: 2px solid #0ea5e9;
+    outline: 2px solid #0f766e;
     outline-offset: 3px;
     border-radius: 4px;
   }
@@ -437,7 +429,7 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(90deg, #0ea5e9, #3b82f6);
+    background: linear-gradient(90deg, #0f766e, #0d9488);
     transition: width 0.3s ease;
   }
 
@@ -453,20 +445,20 @@
 
   .interactive-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 20px 40px -12px rgba(14, 165, 233, 0.25);
+    box-shadow: 0 20px 40px -12px rgba(15, 118, 110, 0.18);
   }
 
   /* Smooth Button Interactions */
   .btn-primary {
     @apply inline-flex items-center gap-2 px-6 py-3 font-bold rounded-xl transition-all duration-200;
-    background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+    background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
     color: white;
-    box-shadow: 0 4px 14px rgba(14, 165, 233, 0.35);
+    box-shadow: 0 4px 14px rgba(15, 118, 110, 0.30);
   }
 
   .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(14, 165, 233, 0.45);
+    box-shadow: 0 8px 20px rgba(15, 118, 110, 0.40);
   }
 
   .btn-primary:active {
@@ -481,7 +473,7 @@
   .btn-secondary:hover {
     @apply border-accent text-accent;
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15);
+    box-shadow: 0 8px 20px rgba(15, 118, 110, 0.12);
   }
 
   /* Reading Time Badge */
@@ -508,7 +500,7 @@
 
   .toc-link.active {
     @apply bg-accent/10 text-accent font-semibold;
-    border-left: 3px solid #0ea5e9;
+    border-left: 3px solid #0f766e;
   }
 
   /* Scroll to Top Button */
@@ -636,11 +628,11 @@
 
   /* Better List Items */
   .prose ul li::marker {
-    color: #0ea5e9;
+    color: #0f766e;
   }
 
   .prose ol li::marker {
-    color: #0ea5e9;
+    color: #0f766e;
     font-weight: 700;
   }
 
@@ -699,7 +691,7 @@
   /* Drop Cap for First Paragraph */
   .drop-cap::first-letter {
     @apply float-left text-6xl font-bold leading-none mr-3 mt-1;
-    color: #0ea5e9;
+    color: #0f766e;
   }
 
   /* Callout Boxes */
