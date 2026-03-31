@@ -3,6 +3,9 @@ title: "IntFOLD Server"
 summary: "Integrated web resource for high-performance protein structure and function prediction."
 date: 2024-01-01
 tags: ["Structure Prediction", "Function Prediction", "Web Server"]
+casp_rank: "CASP Validated"
+stat: "30K+ users · 400K+ jobs/yr"
+color: "indigo"
 ---
 
 <div class="grid md:grid-cols-2 gap-8 mb-12">

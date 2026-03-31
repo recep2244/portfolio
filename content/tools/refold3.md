@@ -3,6 +3,9 @@ title: "ReFOLD3 Server"
 summary: "Refinement of 3D protein models using molecular dynamics simulations and quality assessment."
 date: 2024-01-01
 tags: ["Protein Refinement", "MD Simulations", "Web Server"]
+casp_rank: "Best Server CASP14"
+stat: "Top-5 CASP13 Refinement"
+color: "blue"
 ---
 
 <div class="grid md:grid-cols-2 gap-8 mb-12">

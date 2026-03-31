@@ -3,6 +3,9 @@ title: "FunFOLD5"
 summary: "Template-based ligand binding site prediction using structural alignment and quality assessment."
 date: 2024-01-01
 tags: ["Docker", "Ligand Binding", "Structure Prediction"]
+casp_rank: "2nd Place CASP16"
+stat: "Surpasses AlphaFold3 Server"
+color: "emerald"
 ---
 
 <div class="grid md:grid-cols-2 gap-8 mb-12">

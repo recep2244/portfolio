@@ -3,6 +3,9 @@ title: "ModFOLDdock2Q"
 summary: "Quality assessment of protein-protein complex models using deep learning and structural features."
 date: 2024-01-01
 tags: ["Docker", "Protein-Protein Docking", "Quality Assessment"]
+casp_rank: "CASP Validated"
+stat: "16,000+ engineered features"
+color: "purple"
 ---
 
 <div class="grid md:grid-cols-2 gap-8 mb-12">
