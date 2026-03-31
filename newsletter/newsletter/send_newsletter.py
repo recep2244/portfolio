@@ -573,7 +573,7 @@ def main():
     html_body = render_template(html_template, html_context)
     text_body = render_template(text_template, text_context)
 
-    issue_date = str(text_context.get("issue_date", "issue"))
+    issue_date = issue.get("issue_date") or str(text_context.get("issue_date", "issue"))
     html_path, text_path = save_outputs(args.output_dir, issue_date, html_body, text_body)
 
     if args.render_only:

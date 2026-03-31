@@ -34,9 +34,15 @@ def fetch_channel_id(handle, session):
 
 def fetch_feed(channel_id, session):
     url = f"https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}"
-    resp = session.get(url, timeout=20)
-    resp.raise_for_status()
-    return resp.text
+    try:
+        resp = session.get(url, timeout=20)
+        if resp.status_code != 200:
+            print(f"Warning: YouTube feed returned {resp.status_code} for channel {channel_id}; skipping feed.", file=sys.stderr)
+            return None
+        return resp.text
+    except Exception as exc:
+        print(f"Warning: failed to fetch YouTube feed: {exc}", file=sys.stderr)
+        return None
 
 
 def format_duration(seconds):
@@ -105,7 +111,7 @@ def update_yaml(path, entries):
         return False
     data["podcasts"] = combined
     with open(path, "w", encoding="utf-8") as f:
-        yaml.safe_dump(data, f, sort_keys=False, allow_unicode=False)
+        yaml.safe_dump(data, f, sort_keys=False, allow_unicode=True)
     return True
 
 
@@ -164,7 +170,10 @@ def main():
     entries = []
     if channel_id:
         feed_xml = fetch_feed(channel_id, session)
-        entries = parse_feed(feed_xml, args.limit)
+        if feed_xml:
+            entries = parse_feed(feed_xml, args.limit)
+        else:
+            print("Warning: YouTube feed unavailable; syncing manual entries only.", file=sys.stderr)
     else:
         print("Warning: channel ID not resolved; syncing manual entries only.", file=sys.stderr)
     changed = update_yaml(args.output, entries)
