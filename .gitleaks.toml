@@ -9,4 +9,14 @@ paths = [
   '''.*/newsletter/out/.*''',
   '''.*/package-lock\.json''',
   '''.*/hugo_stats\.json''',
+  '''.*/\.env\.example''',
+]
+
+# Historical commits where Twitter credentials were accidentally committed to
+# .env.example before being removed in b766d76. Credentials have been rotated.
+commits = [
+  "3195a79c4c9019f06203b8121598d7c9ef1d3884",
+  "0e41ad32c36ec70ba181b8a7ab0d89e77ffcde52",
+  "ed096b10223dc5ee2206b1aa4084445a26de07e7",
+  "141b64857dd79e39b75372013d332693a340e650",
 ]

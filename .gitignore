@@ -3,16 +3,21 @@ public/
 resources/
 .hugo_build.lock
 hugo_stats.json
+
+# Secrets — never commit
 newsletter/newsletter/.env
+newsletter/newsletter/*.env.*
+!newsletter/newsletter/.env.example
 newsletter/newsletter/subscribers.csv
 newsletter/newsletter/preview_subscribers.csv
 
-# Newsletter cache and logs
+# Newsletter cache, output and logs
 newsletter/newsletter/.embeddings_cache/
 newsletter/newsletter/*.log
 newsletter/newsletter/analytics.db
 newsletter/newsletter/trending.db
 newsletter/newsletter/*.pid
+newsletter/newsletter/out/
 
 # Runtime lock/status (never commit)
 newsletter/newsletter/run_daily.lock
