@@ -14,7 +14,7 @@
                 <div class="mt-6 flex flex-wrap gap-3">
                     <a href="https://scholar.google.com/citations?user=4UUzdMsAAAAJ&hl=en" target="_blank"
                         rel="noreferrer"
-                        class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md hover:border-blue-300 transition-all text-slate-700 font-bold group">
+                        class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md hover:border-teal-300 transition-all text-slate-700 font-bold group">
                         <svg class="w-5 h-5 text-blue-500 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" />
                         </svg>
@@ -36,7 +36,7 @@
         <div class="grid gap-5 max-w-4xl">
             {{ range $publications }}
             {{ $citNum := 0 }}{{ with .citations }}{{ $citNum = int . }}{{ end }}
-            <div class="group relative bg-white rounded-2xl p-7 shadow-sm border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all duration-300 overflow-hidden reveal-on-scroll">
+            <div class="group relative bg-white rounded-2xl p-7 shadow-sm border border-slate-100 hover:shadow-xl hover:border-teal-100 transition-all duration-300 overflow-hidden reveal-on-scroll">
                 <div class="absolute right-0 top-0 w-32 h-32 rounded-full bg-accent/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
 
                 <div class="flex flex-col gap-3">
@@ -48,7 +48,7 @@
                             Highly Cited
                         </span>
                         {{ else if ge $citNum 20 }}
-                        <span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                        <span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
                             Well Cited
                         </span>
@@ -61,7 +61,7 @@
                         {{ end }}
                     </div>
 
-                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug">
+                    <h3 class="text-xl font-bold text-slate-900 group-hover:text-teal-700 transition-colors leading-snug">
                         {{ if .link }}<a href="{{ .link }}" target="_blank" rel="noreferrer">{{ .title }}</a>{{ else }}{{ .title }}{{ end }}
                     </h3>
 

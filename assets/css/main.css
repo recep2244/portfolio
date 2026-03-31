@@ -168,8 +168,8 @@
   h4,
   h5,
   h6 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
     font-weight: 800;
-    /* Extra bold */
     letter-spacing: -0.02em;
     color: #0f172a;
   }
@@ -235,10 +235,12 @@
     transition: color 0.2s;
   }
   .nav-link:hover,
-  .nav-link-active {
+  .nav-link-active,
+  .nav-active {
     color: var(--color-accent);
   }
-  .nav-link-active {
+  .nav-link-active,
+  .nav-active {
     font-weight: 900;
   }
 
@@ -788,6 +790,13 @@
   .accordion-item.open .accordion-icon {
     transform: rotate(180deg);
   }
+}
+
+/* Back-to-top button visibility */
+.scroll-to-top.visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  pointer-events: auto !important;
 }
 
 /* Smooth Scroll Behavior */

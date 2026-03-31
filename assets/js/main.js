@@ -39,4 +39,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: true });
         scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     }
+
+    // ─── Scroll-spy: highlight active nav section ─────────────────────────────
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('a[href*="#"]');
+    if (sections.length && navLinks.length) {
+        const spyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    navLinks.forEach(link => {
+                        const isMatch = link.getAttribute('href').endsWith('#' + id) ||
+                                        link.getAttribute('href') === '#' + id;
+                        link.classList.toggle('nav-active', isMatch);
+                    });
+                }
+            });
+        }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+        sections.forEach(s => spyObserver.observe(s));
+    }
 });
