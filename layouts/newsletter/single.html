@@ -72,7 +72,7 @@
         <!-- Share buttons -->
         <div class="flex flex-wrap items-center gap-2 mb-8">
           <span class="text-xs font-bold text-slate-400 uppercase tracking-widest mr-1">Share</span>
-          <a href="https://twitter.com/intent/tweet?text={{ (printf "Issue #%s of Protein Design Digest: %s" (.Params.issue_number | string) .Title) | urlquery }}&url={{ .Permalink | urlquery }}&via=RcpAdymn"
+          <a href="https://twitter.com/intent/tweet?text={{ (printf "%s — Protein Design Digest%s" .Title (cond (isset .Params "issue_number") (printf " #%v" .Params.issue_number) "")) | urlquery }}&url={{ .Permalink | urlquery }}&via=RcpAdymn"
             target="_blank" rel="noreferrer"
             class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-bold hover:bg-slate-700 transition-colors">
             <svg style="width:0.875rem;height:0.875rem" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>

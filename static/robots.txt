@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Don't index debug/test pages
+Disallow: /debug-forms.html
+Disallow: /test-form.html
+Disallow: /subscribe-form.html
+Disallow: /links.html
+
+Sitemap: https://recep2244.github.io/portfolio/sitemap.xml

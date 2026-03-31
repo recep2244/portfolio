@@ -3,6 +3,13 @@ languageCode: 'en-us'
 title: 'Recep Adiyaman | Bioinformatician'
 theme: []
 
+params:
+  email: 'recepadiyaman2244@gmail.com'
+  description: 'Bioinformatician specialising in protein structure prediction, AI, and molecular dynamics'
+  twitter: '@RcpAdymn'
+  linkedin: 'https://www.linkedin.com/in/recep-ad%C4%B1yaman/'
+  github: 'https://github.com/recep2244'
+
 module:
   hugoVersion:
     extended: true
