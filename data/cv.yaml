@@ -1,8 +1,7 @@
 contact:
   name: Recep Adiyaman, PhD
-  title: Structural Bioinformatics Scientist | Protein Structure, MD Refinement, Drug
-    Design
-  location: Reading, UK
+  title: Computational Structural Biologist | Protein Structure Prediction & Drug Design
+  location: Coventry, UK
   email: recepadiyaman2244@gmail.com
   linkedin: https://www.linkedin.com/in/recep-ad%C4%B1yaman/
   github: https://github.com/recep2244
@@ -12,289 +11,417 @@ contact:
   bluesky: https://bsky.app/profile/recep44.bsky.social
   docker: https://hub.docker.com/u/radiyaman
   youtube: https://www.youtube.com/@recepadyaman_proteins
-summary: Pioneering the shift from static snapshots to dynamic ensembles. Integrating
-  AI with Molecular Dynamics to model mutants, de novo designs, and drug resistance.
+
+summary: Computational structural biologist with 9+ years of research experience in protein
+  structure prediction, molecular dynamics simulation, and AI/ML-driven drug design.
+  Developer of multiple internationally benchmarked tools (IntFOLD, ReFOLD, FunFOLD,
+  MultiFOLD, ModFOLDdock2Q) that consistently rank among the top methods at CASP blind
+  prediction experiments. Published 14 peer-reviewed papers (H-index 9, 470+ citations)
+  in journals including Nucleic Acids Research, Blood, and Bioinformatics Advances.
+  Currently combining deep learning structure predictors (AlphaFold2/3, Boltz-2, Chai-1)
+  with physics-based methods for cancer vaccine design in collaboration with InstaDeep/BioNTech.
+  Experienced in Python, PyTorch, HPC/SLURM environments, and end-to-end bioinformatics
+  pipeline development.
+
 highlights:
-- 'ReFOLD3: top refinement server in CASP14; best-in-class MD restraint workflows.'
-- 'ReFOLD4: lifted model quality beyond AlphaFold2 using QA-guided recycling.'
-- 'FunFOLD5: top-10 affinity prediction; top-2 self-ranking ligand interaction method.'
+  - "ReFOLD3: top-5 CASP13; best server at CASP14 (NAR Web Server 2021)"
+  - "ReFOLD4: lifted models beyond AlphaFold2 with QA-guided MD recycling"
+  - "FunFOLD5: 2nd place CASP16 ligand-pose ranking; surpasses AlphaFold3 server"
+  - "MultiFOLD3: outperformed AlphaFold3 in quaternary structure prediction (CAMEO)"
+  - "ModFOLDdock2Q: 16,000+ engineered features for protein binder quality assessment"
+  - "IntFOLD server: 30,000+ users & 400,000+ jobs/year serving the research community"
+  - "OpenStructure contributor: --min-pep-length parameter for peptide QA accuracy"
+  - "InstaDeep/BioNTech: TCR-pMHC pipeline for personalised cancer vaccine programme"
+
 experience:
-- title: Collaborative Researcher (Part-Time)
-  org: InstaDeep
-  location: London, UK
-  period: "2023 \u2013 Present"
-  bullets:
-  - Built structural immunology pipeline with BioNTech to accelerate cancer vaccine
-    target discovery.
-  - Bridged experimental readouts and computational prediction for faster candidate
-    prioritisation.
-- title: Research Fellow
-  org: McGuffin Lab, University of Reading
-  location: Reading, UK
-  period: "2020 \u2013 Present"
-  bullets:
-  - Lead developer for IntFOLD/MultiFOLD refinement; integrated MD recycling to exceed
-    AlphaFold2 accuracy.
-  - Created FunFOLD5 for ligand interactions; blind + template docking outperform
-    AlphaFold3 in targeted tasks.
-  - Advanced ensemble prediction, QA, ligand site, disorder, and PPI pipelines for
-    deployable tools.
-- title: PhD Researcher
-  org: University of Reading
-  location: Reading, UK
-  period: "2016 \u2013 2020"
-  bullets:
-  - Developed ReFOLD2/3 MD restraint strategies; top-10 in CASP13 refinement, improving
-    structure and ligand-site fidelity.
-  - Published MD-based refinement and quality estimation work; co-led benchmarking
-    of refinement protocols.
-- title: Teaching Assistant
-  org: University of Reading
-  location: Reading, UK
-  period: "2016 \u2013 2020"
-  bullets:
-  - Delivered bioinformatics practicals (BLAST, PDB/CATH, PyMOL) to ~150 students
-    per cohort.
+  - title: Collaborative Researcher (Part-Time)
+    org: InstaDeep (BioNTech Group)
+    location: London, UK
+    period: "2023 – Present"
+    bullets:
+      - Designed and developed a protein structure prediction pipeline for structural immunology,
+        integrating TCR-pMHC modelling using AlphaFold2, Boltz-2, and Chai-1 to support
+        BioNTech's personalised cancer vaccine programme.
+      - Contributed the --min-pep-length parameter to the OpenStructure framework, improving
+        peptide quality assessment accuracy.
+      - Engineered a hybrid scoring system combining physics-based energy terms (FoldX,
+        Rosetta) with ML-based features (DockQ, QS, PatchDockQ, PatchQS, ilDDT, aa-local-lddt,
+        ics scores) for candidate ranking and selection.
+      - Collaborated with cross-functional teams spanning computational biology, experimental
+        immunology, and vaccine development.
+
+  - title: Research Fellow
+    org: McGuffin Lab, University of Reading
+    location: Reading, UK
+    period: "Sep 2020 – Present"
+    funding: "BBSRC-funded"
+    bullets:
+      - Co-led the development and maintenance of IntFOLD integrated server for 3D protein
+        model prediction, serving 30,000+ users and 400,000+ jobs every year.
+      - Built ModFOLDdock2Q, a model quality assessment method utilising over 16,000 engineered
+        features, achieving significant performance for identification of better protein binders.
+      - Led ReFOLD4 development — MD-based refinement protocol that improves 3D predictions
+        beyond AlphaFold2 accuracy by integrating local quality estimation with MD simulations
+        (Bioinformatics Advances, 2023).
+      - Led FunFOLD5 development for CASP16, achieving 2nd place in protein-ligand pose
+        ranking and surpassing AlphaFold3 server method in protein-ligand interaction prediction.
+      - Contributed to MultiFOLD3, which outperformed AlphaFold3 in quaternary structure
+        prediction by integrating Boltz-2, Chai-1, Protenix and geometric-based rescoring
+        in CAMEO.
+      - ReFOLD3 ranked top-5 in CASP13 for difficult refinement targets; became top-performing
+        refinement server at CASP14 (NAR Web Server Issue, 2021).
+      - Published 10+ papers across Nucleic Acids Research, Bioinformatics Advances,
+        Proteins, and Haematologica.
+
+  - title: Teaching Assistant
+    org: University of Reading
+    location: Reading, UK
+    period: "2017 – 2020"
+    bullets:
+      - Delivered practical demonstrations for undergraduate bioinformatics and programming
+        modules.
+      - Supported student learning in Python scripting, sequence analysis (BLAST, HHpred),
+        and structural biology concepts (PyMOL, ChimeraX).
+
+  - title: PhD Researcher
+    org: University of Reading
+    location: Reading, UK
+    period: "2017 – 2021"
+    bullets:
+      - Developed ReFOLD2 (top-10 CASP13) and ReFOLD3 (top-5 CASP13, best server CASP14)
+        using MD restraint strategies to lift predicted structures toward native.
+      - Extended refinement methods to protein-ligand binding site prediction; published
+        4 first-author papers.
+
 education:
-- degree: PhD, Biological Sciences
-  school: University of Reading
-  location: Reading, UK
-  period: "2017 \u2013 2021"
-  details: 'MD-based refinement of predicted 3D protein models with restraint strategies;
-    developed ReFOLD2/3 (CASP13 top-ranked). Supervisor: Prof. Liam McGuffin.'
-- degree: MSc, Bioengineering
-  school: Yildiz Technical University
-  location: Istanbul, Turkey
-  period: "2012 \u2013 2014"
-  details: 'GPA 3.86/4.00. In silico optimisation of zinc-binding proteins for biosensors
-    (Supervisors: Gundog Yucesan, Alper Yilmaz).'
-- degree: MSc, Physics
-  school: Trakya University
-  location: Edirne, Turkey
-  period: "2011 \u2013 2013"
-  details: Research on GaAs/GaAlAs quantum wells; GPA 67/100.
-- degree: BSc, Physics
-  school: Trakya University
-  location: Edirne, Turkey
-  period: "2007 \u2013 2011"
-  details: Coursework in classical mechanics, relativity, and quantum mechanics; GPA
-    2.78/4.00.
-publications:
-- title: Improvement of protein tertiary and quaternary structure predictions using
-    the ReFOLD refinement method and the AlphaFold2 recycling process
-  venue: Bioinformatics Advances, 2023
-  note: 'Citations: 9'
-  link: https://doi.org/10.1093/bioadv/vbad123
-- title: Using local protein model quality estimates to guide a molecular dynamics-based
-    refinement strategy
-  venue: 'Homology Modeling: Methods and Protocols (Springer US), 2023'
-  note: 'Citations: 1'
-  link: https://doi.org/10.1007/978-1-0716-2993-7_7
-- title: 'ReFOLD3: refinement of 3D protein models with gradual restraints based on
-    predicted local quality and residue contacts'
-  venue: Nucleic Acids Research, 2021
-  note: 'Citations: 16'
-  link: https://doi.org/10.1093/nar/gkab380
-- title: Methods for the Refinement of Protein Structure 3D Models
-  venue: International Journal of Molecular Sciences, 2019
-  note: 'Citations: 68'
-  link: https://doi.org/10.3390/ijms20092301
-- title: Prediction of protein structures, functions and interactions using the IntFOLD7,
-    MultiFOLD and ModFOLDdock servers
-  venue: Nucleic Acids Research, 2023
-  note: 'Citations: 38'
-  link: https://doi.org/10.1093/nar/gkad403
-- title: Estimation of model accuracy in CASP15 using the ModFOLDdock server
-  venue: 'Proteins: Structure, Function, and Bioinformatics, 2023'
-  note: 'Citations: 12'
-  link: https://doi.org/10.1002/prot.26564
-- title: 'IntFOLD: An integrated web resource for high-performance protein structure
-    and function prediction'
-  venue: Nucleic Acids Research, 2019
-  note: 'Citations: 130'
-  link: https://doi.org/10.1093/nar/gkz322
-- title: 'ModFOLD8: Accurate global and local quality estimates for 3D protein models'
-  venue: Nucleic Acids Research, 2021
-  note: 'Citations: 69'
-  link: https://doi.org/10.1093/nar/gkab505
-- title: Structural, functional, and mechanistic insights uncover the fundamental
-    role of orphan connexin-62 in platelets
-  venue: Blood, 2021
-  note: 'Citations: 11'
-  link: https://doi.org/10.1182/blood.2020008762
-- title: "Modelling SARS\u2010CoV\u20102 proteins in the CASP\u2010commons experiment"
-  venue: 'Proteins: Structure, Function, and Bioinformatics, 2021'
-  note: 'Citations: 19'
-  link: https://doi.org/10.1002/prot.26140
-- title: Design and synthesis of small peptide sequences to detect concentrations
-    of free transition metal ions
-  venue: Abstracts of Papers of the American Chemical Society, 2014
-  note: Conference abstract
-  link: https://doi.org/10.1021/acsomega.0c01234
+  - degree: PhD, Structural Bioinformatics
+    school: University of Reading
+    location: Reading, UK
+    period: "2017 – 2021"
+    details: "Thesis: 'The Molecular Dynamics Based Refinement of Predicted 3D Models
+      Using Different Restraint Strategies'. Developed ReFOLD2 (top-10 CASP13) and ReFOLD3
+      (top-5 CASP13, best server CASP14). 4 first-author papers. Supervisor: Prof. Liam
+      McGuffin."
+
+  - degree: MSc, Bioengineering
+    school: Yildiz Technical University
+    location: Istanbul, Turkey
+    period: "2012 – 2014"
+    details: "Thesis: 'In Silico Optimisation of Zinc Binding Proteins for Biosensor
+      Applications'. Computational protein engineering using molecular docking and mutagenesis.
+      GPA 3.86/4.00."
+
+  - degree: MSc, Physics
+    school: Trakya University
+    location: Edirne, Turkey
+    period: "2011 – 2013"
+    details: "Dissertation: 'GaAs/GaAlAs Quantum Well'. Research on semiconductor quantum
+      well structures."
+
+  - degree: BSc, Physics
+    school: Trakya University
+    location: Edirne, Turkey
+    period: "2007 – 2011"
+    details: "Coursework in classical mechanics, relativity, and quantum mechanics. Foundation
+      for computational physics and simulation methods."
+
 skills:
-- name: Protein / MD
-  items:
-  - MD refinement pipelines (restraints, ensembles)
-  - Structure prediction (Boltz-2, Chai-2, AlphaFold2, ReFOLD, IntFOLD/MultiFOLD)
-  - Ligand interactions (AlphaFold ligand workflows, Vina, gnina, SwissDock, DiffDock,
-    Rosetta)
-  - QA and docking evaluation (ModFOLD/quality estimation)
-- name: Data / ML
-  items:
-  - Python, R, shell for analysis and automation
-  - scikit-learn, TensorFlow, PyTorch for structural ML tasks
-  - Feature engineering for quality/affinity scoring
-  - Reproducible benchmarking and experiment tracking
-- name: Collaboration
-  items:
-  - AWS and HPC (MMM Hub Young Server-UCL)
-  - Code review, documentation, mentoring
-  - Teaching bioinformatics toolchains (BLAST, HHpred, PyMOL, Chimera)
+  - name: Protein Structure & MD
+    items:
+      - AlphaFold2/3, Boltz-2, Chai-1, ESMFold
+      - SWISS-MODEL, Modeller, HHpred
+      - AMBER, OpenMM, GROMACS
+      - MD refinement pipelines (restraints, ensembles)
+      - IntFOLD / MultiFOLD / ReFOLD
+
+  - name: Docking & Drug Design
+    items:
+      - AutoDock Vina, gnina, DiffDock
+      - SwissDock, Rosetta, FoldX
+      - TCR-pMHC modelling
+      - Protein-ligand interaction prediction
+      - FunFOLD5 (CASP16 2nd place)
+
+  - name: ML & AI
+    items:
+      - PyTorch, TensorFlow, scikit-learn, XGBoost
+      - Feature engineering (16,000+ features)
+      - Model quality estimation (ModFOLDdock2Q)
+      - DockQ, QS, PatchDockQ, ilDDT scoring
+      - Reproducible benchmarking & MLOps
+
+  - name: Programming & Infrastructure
+    items:
+      - Python, R, Bash/Shell, Perl
+      - Flask, CGI, web server deployment
+      - HPC (SLURM, PBS), AWS
+      - Linux server administration
+      - End-to-end bioinformatics pipelines
+
+  - name: Bioinformatics Tools
+    items:
+      - BLAST, NCBI, EMBOSS, HHpred
+      - PyMOL, ChimeraX, OpenStructure
+      - Sequence analysis & structural alignment
+      - CASP blind prediction benchmarking
+      - PDB / CATH / UniProt databases
+
+  - name: Collaboration & Impact
+    items:
+      - 14 peer-reviewed papers, H-index 9
+      - 470+ citations across leading journals
+      - InstaDeep / BioNTech cancer vaccine pipeline
+      - Teaching bioinformatics to 150+ students/cohort
+      - Code review, documentation, mentoring
+
+publications:
+  - title: "Improvement of protein tertiary and quaternary structure predictions using the ReFOLD refinement method and the AlphaFold2 recycling process"
+    authors: "Adiyaman, R., Edmunds, N. S., Genc, A. G., Alharbi, S. M. A., & McGuffin, L. J."
+    journal: "Bioinformatics Advances"
+    year: "2023"
+    citations: "19"
+    link: "https://doi.org/10.1093/bioadv/vbad078"
+
+  - title: "Using local protein model quality estimates to guide a molecular dynamics-based refinement strategy"
+    authors: "Adiyaman, R., & McGuffin, L. J."
+    journal: "Homology Modeling: Methods and Protocols (Springer US)"
+    year: "2023"
+    citations: "1"
+    link: "https://doi.org/10.1007/978-1-0716-2974-1_7"
+
+  - title: "ReFOLD3: Refinement of 3D protein models with gradual restraints based on predicted local quality and residue contacts"
+    authors: "Adiyaman, R., & McGuffin, L. J."
+    journal: "Nucleic Acids Research"
+    year: "2021"
+    citations: "22"
+    link: "https://doi.org/10.1093/nar/gkab300"
+
+  - title: "Methods for the Refinement of Protein Structure 3D Models"
+    authors: "Adiyaman, R., & McGuffin, L. J."
+    journal: "International Journal of Molecular Sciences"
+    year: "2019"
+    citations: "80"
+    link: "https://doi.org/10.3390/ijms20092301"
+
+  - title: "Inter-platelet communication driving thrombus formation is regulated by extracellular calpain-1 cleavage of connexin 62"
+    authors: "Taylor, K. A., Elgheznawy, A., Adiyaman, R., et al."
+    journal: "Haematologica"
+    year: "2025"
+    link: "https://doi.org/10.3324/haematol.2024.286466"
+
+  - title: "Prediction and quality assessment of protein quaternary structure models using the MultiFOLD2 and ModFOLDdock2 servers"
+    authors: "McGuffin, L. J., Alhaddad, S. N., Behzadi, B., Edmunds, N. S., Genc, A. G., & Adiyaman, R."
+    journal: "Nucleic Acids Research"
+    year: "2025"
+    link: "https://doi.org/10.1093/nar/gkaf336"
+
+  - title: "Highlights of model quality assessment in CASP16"
+    authors: "Fadini, A., Adiyaman, R., Alhaddad, S. N., et al."
+    journal: "Proteins: Structure, Function, and Bioinformatics"
+    year: "2025"
+    link: "https://doi.org/10.1002/prot.70035"
+
+  - title: "Prediction of protein structures, functions and interactions using the IntFOLD7, MultiFOLD and ModFOLDdock servers"
+    authors: "McGuffin, L. J., Edmunds, N. S., Genc, A. G., Alharbi, S. M. A., Salehe, B. R., & Adiyaman, R."
+    journal: "Nucleic Acids Research"
+    year: "2023"
+    citations: "67"
+    link: "https://doi.org/10.1093/nar/gkad297"
+
+  - title: "Estimation of model accuracy in CASP15 using the ModFOLDdock server"
+    authors: "Edmunds, N. S., Alharbi, S. M. A., Genc, A. G., Adiyaman, R., & McGuffin, L. J."
+    journal: "Proteins: Structure, Function, and Bioinformatics"
+    year: "2023"
+    citations: "20"
+    link: "https://doi.org/10.1002/prot.26532"
+
+  - title: "IntFOLD: An integrated web resource for high-performance protein structure and function prediction"
+    authors: "McGuffin, L. J., Adiyaman, R., Maghrabi, A. H. A., et al."
+    journal: "Nucleic Acids Research"
+    year: "2019"
+    citations: "145"
+    link: "https://doi.org/10.1093/nar/gkz322"
+
+  - title: "ModFOLD8: Accurate global and local quality estimates for 3D protein models"
+    authors: "McGuffin, L. J., Aldowsari, F. M. F., Alharbi, S. M. A., & Adiyaman, R."
+    journal: "Nucleic Acids Research"
+    year: "2021"
+    citations: "78"
+    link: "https://doi.org/10.1093/nar/gkab321"
+
+  - title: "Structural, functional, and mechanistic insights uncover the fundamental role of orphan connexin-62 in platelets"
+    authors: "Sahli, K. A., Flora, G. D., ... Adiyaman, R., et al."
+    journal: "Blood"
+    year: "2021"
+    citations: "12"
+    link: "https://doi.org/10.1182/blood.2019004575"
+
+  - title: "Modeling SARS-CoV-2 proteins in the CASP-commons experiment"
+    authors: "Kryshtafovych, A., ... Adiyaman, R. (CASP-COVID participants), et al."
+    journal: "Proteins: Structure, Function, and Bioinformatics"
+    year: "2021"
+    citations: "22"
+    link: "https://doi.org/10.1002/prot.26231"
+
+  - title: "Design and synthesis of small peptide sequences to detect concentrations of free transition metal ions"
+    authors: "Yucesan, G., Yilmaz, A., & Adiyaman, R."
+    journal: "Abstracts of Papers of the American Chemical Society"
+    year: "2014"
+    link: ""
+
 talks:
-- "ReFOLD4 for refinement of AlphaFold2 predictions \u2014 ISMB 2023 (3D-SIG)"
-- "MD-based refinement guided by local quality \u2014 University of Reading BioSci\
-  \ Symposium"
-- "ReFOLD2/3 refinement posters \u2014 CASP13/14/16, ISMB 2021, 3D-SIG"
-references:
-- name: Prof. Liam McGuffin
-  role: School of Biological Sciences, University of Reading
-  contact: l.j.mcguffin@reading.ac.uk
-- name: Assist. Prof. Alper Yilmaz
-  role: Yildiz Technical University Bioengineering Department
-  contact: alperyilmaz@gmail.com
+  - "ReFOLD4 for the refinement of AlphaFold2 predictions — ISMB 2023, 3D-SIG (Oral)"
+  - "MD-Based Refinement of Protein Models with Local Quality Assessment — University of Reading Symposium (Oral)"
+  - "Design of metal ion-binding small peptides — 1st National Biosensor Congress, Turkey (Oral)"
+  - "ReFOLD2/3 refinement posters — CASP13/14/16, ISMB 2021, 3D-SIG"
+
 projects:
-- name: Structural Immunology Pipeline
-  org: InstaDeep / BioNTech
-  period: "2023 \u2013 Present"
-  summary: End-to-end protein structure + ligand workflow to speed cancer vaccine
-    target discovery; bridges wet-lab readouts with computational prioritisation.
-  tags:
-  - Pipeline
-  - Structural immunology
-  - Docking
-- name: IntFOLD / MultiFOLD Refinement
-  org: University of Reading
-  period: "2020 \u2013 Present"
-  summary: Integrated MD recycling and QA to push models beyond AlphaFold2; shipped
-    ensemble prediction, ligand site, disorder, and PPI modules.
-  tags:
-  - MD recycling
-  - QA
-  - Ensemble
-- name: FunFOLD5
-  org: University of Reading
-  period: "2023 \u2013 2024"
-  summary: Ligand interaction prediction that outperforms AlphaFold3 on targeted docking
-    tasks via blind + template docking and affinity scoring.
-  tags:
-  - Ligand prediction
-  - Docking
-  - Benchmarking
-- name: ReFOLD2/3
-  org: University of Reading
-  period: "2016 \u2013 2020"
-  summary: Top-10 CASP13 refinement methods using MD restraint strategies to lift
-    predicted structures toward native and improve ligand-site fidelity.
-  tags:
-  - Refinement
-  - CASP
-  - MD
+  - name: Structural Immunology Pipeline
+    org: InstaDeep / BioNTech
+    period: "2023 – Present"
+    summary: "End-to-end TCR-pMHC structure prediction pipeline supporting BioNTech's personalised
+      cancer vaccine programme. Integrates AlphaFold2, Boltz-2, and Chai-1 with a hybrid
+      scoring system (FoldX, Rosetta, DockQ, PatchDockQ, ilDDT) for candidate ranking."
+    tags:
+      - TCR-pMHC Modelling
+      - Cancer Vaccines
+      - Hybrid Scoring
+      - AlphaFold2/Boltz-2
+
+  - name: IntFOLD / MultiFOLD3
+    org: University of Reading
+    period: "2020 – Present"
+    summary: "Co-led IntFOLD server (30,000+ users, 400,000+ jobs/yr). MultiFOLD3 outperformed
+      AlphaFold3 in quaternary structure prediction by integrating Boltz-2, Chai-1, Protenix
+      and geometric-based rescoring in CAMEO."
+    tags:
+      - Quaternary Prediction
+      - Outperforms AlphaFold3
+      - CAMEO Benchmark
+
+  - name: FunFOLD5
+    org: University of Reading
+    period: "2023 – 2024"
+    summary: "Led CASP16 submission achieving 2nd place in protein-ligand pose ranking.
+      Surpasses AlphaFold3 server method in protein-ligand interaction prediction via
+      blind + template docking and affinity scoring."
+    tags:
+      - CASP16 2nd Place
+      - Ligand Pose Ranking
+      - Beats AlphaFold3
+
+  - name: ModFOLDdock2Q
+    org: University of Reading
+    period: "2022 – Present"
+    summary: "Quality assessment system for protein binders engineered with 16,000+ features
+      combining physics-based and ML scores (DockQ, QS, PatchDockQ, PatchQS, ilDDT,
+      aa-local-lddt, ics). Contributed to CASP15/16 EMA rankings."
+    tags:
+      - 16,000+ Features
+      - Model Quality Assessment
+      - CASP15/16
+
+  - name: ReFOLD4
+    org: University of Reading
+    period: "2020 – 2023"
+    summary: "MD-based refinement protocol that improves 3D predictions beyond AlphaFold2
+      accuracy. Integrates local quality estimation with MD recycling; published in
+      Bioinformatics Advances 2023."
+    tags:
+      - Beyond AlphaFold2
+      - MD Refinement
+      - QA-guided
+
+  - name: ReFOLD2 / ReFOLD3
+    org: University of Reading
+    period: "2017 – 2021"
+    summary: "Top-10 (CASP13) and top-5 (CASP13) refinement methods; best server at CASP14.
+      MD restraint strategies lifted predicted structures toward native and improved
+      ligand-site fidelity. 4 first-author papers."
+    tags:
+      - CASP13 Top-5
+      - Best Server CASP14
+      - MD Restraints
+
+references:
+  - name: Prof. Liam McGuffin
+    role: School of Biological Sciences, University of Reading
+    contact: l.j.mcguffin@reading.ac.uk
+  - name: Assist. Prof. Alper Yilmaz
+    role: Yildiz Technical University, Bioengineering Department
+    contact: alyilmaz@yildiz.edu.tr
+
 blogs:
-- title: AlphaFold Solved Protein Folding, Right? Not So Fast.
-  summary: Five surprising truths about refinement, assembly, and validation in the
-    post-AlphaFold era.
-  link: blog/alphafold-not-so-fast
-  tags:
-  - AlphaFold2
-  - Refinement
-  - Validation
-- title: 'From Static to Dynamic: The Future of Protein Modelling'
-  summary: Why we need to move beyond static snapshots to capture the full range of
-    conformational dynamics.
-  link: blog/static-to-dynamic
-  tags:
-  - Protein Dynamics
-  - AlphaFold
-  - Modelling
-- title: 'Bridging the Gap: AI, MD, and De Novo Design'
-  summary: Integrating deep learning with molecular dynamics and local quality estimation
-    to model mutants and novel folds.
-  link: blog/bridging-gap-ai-md
-  tags:
-  - AI
-  - Molecular Dynamics
-  - De Novo Design
-- title: Impact on Drug Discovery & Synthetic Biology
-  summary: How dynamic modelling will accelerate therapeutic discovery and the design
-    of next-generation enzymes.
-  link: blog/impact-drug-discovery
-  tags:
-  - Drug Discovery
-  - Synthetic Biology
-  - Impact
+  - title: AlphaFold Solved Protein Folding, Right? Not So Fast.
+    summary: Five surprising truths about refinement, assembly, and validation in the
+      post-AlphaFold era.
+    link: blog/alphafold-not-so-fast
+    tags:
+      - AlphaFold2
+      - Refinement
+      - Validation
+  - title: "From Static to Dynamic: The Future of Protein Modelling"
+    summary: Why we need to move beyond static snapshots to capture the full range of
+      conformational dynamics.
+    link: blog/static-to-dynamic
+    tags:
+      - Protein Dynamics
+      - AlphaFold
+      - Modelling
+  - title: "Bridging the Gap: AI, MD, and De Novo Design"
+    summary: Integrating deep learning with molecular dynamics and local quality estimation
+      to model mutants and novel folds.
+    link: blog/bridging-gap-ai-md
+    tags:
+      - AI
+      - Molecular Dynamics
+      - De Novo Design
+  - title: Impact on Drug Discovery & Synthetic Biology
+    summary: How dynamic modelling will accelerate therapeutic discovery and the design
+      of next-generation enzymes.
+    link: blog/impact-drug-discovery
+    tags:
+      - Drug Discovery
+      - Synthetic Biology
+      - Impact
+
 podcasts:
-- title: Improvement of protein tertiary and quaternary...- Recep Adiyaman - 3D-SIG
-    - ISMB/ECCB 2023
-  description: Featured talk from ISCB.
-  youtube_url: https://www.youtube.com/watch?v=2gHcV4QCIGc
-  date: ''
-  duration: ''
-- title: The refinement of theoretical 3D models of... - Recep Adiyaman - 3DSIG -
-    Poster - ISMB/ECCB 2021
-  description: Featured talk from ISCB.
-  youtube_url: https://www.youtube.com/watch?v=AcdwUPXECwI
-  date: ''
-  duration: ''
-- title: 'Junior CASP: McGuffin group'
-  description: Featured talk from CASP.
-  youtube_url: https://www.youtube.com/watch?v=SrYzHV_ssXI
-  date: ''
-  duration: ''
-- title: Judging AI s Predictions
-  description: This research article presents the findings from the Evaluation of
-    Model Accuracy (EMA) category during the CASP16 competition, a premier event for
-    benchmarking protein structure prediction. The text details the methodologies
-    of leading research groups, such as MIEnsembles-Server, ModFOLDdock2, MULTICOM,
-    and GuijunLab, as they navigate challenges in estimating the quality of multimeric
-    protein assemblies. A central theme is the comparison between consensus methods,
-    which rely on comparing multiple models, and single-model methods that evaluate
-    structures independently using physical principles or machine learning. The authors
-    introduce the QMODE3 challenge, a new benchmark requiring the identification of
-    the most accurate structures from massive pools of thousands of generated models.
-    Ultimately, the paper serves to highlight how machine learning and structural
-    bioinformatics are evolving to provide more reliable confidence metrics for complex
-    biological molecules.
-  youtube_url: https://www.youtube.com/watch?v=1RLw3o5Ij-8
-  date: '2026-01-04'
-  duration: ''
-- title: The Quaternary Shift
-  description: ModFOLDdock at CASP15 In our first episode, we examine the paper "Estimation
-    of model accuracy in CASP15 using the ModFOLDdock server". For years, the community
-    focused on single protein chains, but CASP15 saw a massive surge in multimeric
-    assemblies, which nearly doubled in number. We explore how the McGuffin group
-    met this challenge by developing three specific variants of the ModFOLDdock server
-  youtube_url: https://www.youtube.com/watch?v=EJC_a6VVsCQ
-  date: '2026-01-04'
-  duration: ''
-- title: ReFOLD4 & AF2 Recycling
-  description: "The provided sources examine advanced computational frameworks designed\
-    \ to predict and refine the 3D structures of proteins and their multimeric assemblies.\
-    \ Central to this research is the McGuffin group\u2019s development of the MultiFOLD\
-    \ and ModFOLD suites, which automate the modelling of complex biological systems\
-    \ and provide critical Estimation of Model Accuracy (EMA). These tools integrate\
-    \ diverse sampling methods with stoichiometry prediction to outperform monolithic\
-    \ deep learning models in challenging scenarios, such as the SARS-CoV-2 proteome\
-    \ and human cellular processes. The texts also detail the ReFOLD refinement protocol,\
-    \ which utilises molecular dynamics simulations and quality estimates to correct\
-    \ local geometric errors and improve model precision. By offering democratised\
-    \ access through high-performance web servers and Dockerized software, these frameworks\
-    \ bridge the gap between theoretical predictions and experimental reality. Ultimately,\
-    \ the research underscores how combining deep learning with sophisticated quality\
-    \ assessment facilitates breakthroughs in drug discovery and functional bioinformatics."
-  youtube_url: https://www.youtube.com/watch?v=SRhW7rs823U
-  date: '2026-01-04'
-  duration: ''
+  - title: Improvement of protein tertiary and quaternary...- Recep Adiyaman - 3D-SIG - ISMB/ECCB 2023
+    description: Featured oral presentation at ISCB — ReFOLD4 and AlphaFold2 recycling results.
+    youtube_url: https://www.youtube.com/watch?v=2gHcV4QCIGc
+    date: ''
+    duration: ''
+  - title: The refinement of theoretical 3D models... - Recep Adiyaman - 3DSIG - Poster - ISMB/ECCB 2021
+    description: Poster presentation from ISCB — ReFOLD2/3 methodology and CASP benchmarking.
+    youtube_url: https://www.youtube.com/watch?v=AcdwUPXECwI
+    date: ''
+    duration: ''
+  - title: "Junior CASP: McGuffin group"
+    description: CASP group presentation covering MultiFOLD and ModFOLDdock results.
+    youtube_url: https://www.youtube.com/watch?v=SrYzHV_ssXI
+    date: ''
+    duration: ''
+  - title: Judging AI's Predictions
+    description: "Analysis of the CASP16 Evaluation of Model Accuracy category — comparing
+      consensus vs single-model methods, QMODE3 challenge, and how ML is advancing
+      confidence metrics for complex multimeric assemblies."
+    youtube_url: https://www.youtube.com/watch?v=1RLw3o5Ij-8
+    date: '2026-01-04'
+    duration: ''
+  - title: The Quaternary Shift
+    description: "ModFOLDdock at CASP15 — how the McGuffin group addressed the surge
+      in multimeric assemblies with three ModFOLDdock server variants."
+    youtube_url: https://www.youtube.com/watch?v=EJC_a6VVsCQ
+    date: '2026-01-04'
+    duration: ''
+  - title: ReFOLD4 & AF2 Recycling
+    description: "How ReFOLD4 uses MD simulations and quality estimates to correct local
+      geometric errors and improve model precision beyond AlphaFold2."
+    youtube_url: https://www.youtube.com/watch?v=SRhW7rs823U
+    date: '2026-01-04'
+    duration: ''
+
 podcasts_manual:
-- youtube_url: https://www.youtube.com/watch?v=2gHcV4QCIGc
-- youtube_url: https://www.youtube.com/watch?v=AcdwUPXECwI
-- youtube_url: https://www.youtube.com/watch?v=SrYzHV_ssXI
+  - youtube_url: https://www.youtube.com/watch?v=2gHcV4QCIGc
+  - youtube_url: https://www.youtube.com/watch?v=AcdwUPXECwI
+  - youtube_url: https://www.youtube.com/watch?v=SrYzHV_ssXI

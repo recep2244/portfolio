@@ -1,6 +1,10 @@
 {{ $cv := .Site.Data.cv }}
-<section id="work" class="py-20">
-    <div class="container mx-auto px-6 space-y-10">
+<section id="work" class="py-20 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute right-0 top-1/4 w-72 h-72 bg-blue-50/60 rounded-full blur-[90px]"></div>
+    </div>
+
+    <div class="container mx-auto px-6 space-y-10 relative z-10">
         <div class="flex flex-wrap items-center justify-between gap-4">
             <div>
                 <span class="eyebrow">Experience</span>
@@ -9,36 +13,61 @@
             <div class="pill">Industry & Academia</div>
         </div>
 
-        <div class="grid gap-6">
-            {{ range $cv.experience }}
-            <div class="glass-card p-6 md:p-7">
-                <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-                    <div class="space-y-2 md:max-w-3xl">
-                        <div class="flex flex-wrap items-center gap-3">
-                            <h3 class="text-xl font-semibold text-slate-900">{{ .title }}</h3>
-                            <span
-                                class="text-xs uppercase tracking-wide rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-slate-700">
-                                {{ .period }}
-                            </span>
-                        </div>
-                        <div class="text-slate-700 font-semibold">{{ .org }} • {{ .location }}</div>
-                        {{ if .bullets }}
-                        <ul class="text-slate-700 leading-relaxed text-sm md:text-base list-disc list-inside space-y-1.5">
-                            {{ range .bullets }}
-                            <li>{{ . }}</li>
+        <!-- Timeline -->
+        <div class="relative">
+            <!-- Vertical line -->
+            <div class="absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-accent via-blue-300 to-transparent hidden md:block"></div>
+
+            <div class="grid gap-6">
+                {{/* Tags matched to experience order in cv.yaml */}}
+                {{ $domainTags := slice
+                    (slice "TCR-pMHC" "Cancer Vaccines" "InstaDeep/BioNTech")
+                    (slice "IntFOLD Server" "CASP16 Results" "MultiFOLD3")
+                    (slice "Python" "Bioinformatics" "Teaching")
+                    (slice "ReFOLD2/3" "CASP13/14" "PhD Research")
+                }}
+                {{ range $i, $role := $cv.experience }}
+                {{ $tags := index $domainTags (mod $i (len $domainTags)) }}
+                <div class="glass-card p-6 md:p-7 md:ml-14 relative reveal-on-scroll">
+                    <!-- Timeline dot -->
+                    <div class="absolute -left-[3.15rem] top-7 w-4 h-4 rounded-full bg-accent border-2 border-white shadow-md shadow-accent/40 hidden md:block"></div>
+
+                    <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                        <div class="space-y-2 md:max-w-3xl">
+                            <div class="flex flex-wrap items-center gap-3">
+                                <h3 class="text-xl font-semibold text-slate-900">{{ .title }}</h3>
+                                <span class="text-xs uppercase tracking-wide rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-slate-700">
+                                    {{ .period }}
+                                </span>
+                                {{ if .funding }}
+                                <span class="text-xs rounded-full border border-green-200 bg-green-50 px-3 py-1 text-green-700 font-semibold">
+                                    {{ .funding }}
+                                </span>
+                                {{ end }}
+                            </div>
+                            <div class="text-slate-700 font-semibold">{{ .org }}
+                                <span class="text-slate-400 font-normal">•</span>
+                                {{ .location }}
+                            </div>
+                            {{ if .bullets }}
+                            <ul class="text-slate-700 leading-relaxed text-sm md:text-base list-disc list-inside space-y-1.5 mt-1">
+                                {{ range .bullets }}
+                                <li>{{ . }}</li>
+                                {{ end }}
+                            </ul>
                             {{ end }}
-                        </ul>
-                        {{ end }}
-                    </div>
-                    <div class="flex items-start gap-2 text-slate-600 text-sm md:flex-col md:items-end">
-                        <span
-                            class="rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-accent font-semibold">
-                            Structural biology
-                        </span>
+                        </div>
+                        <div class="flex flex-wrap md:flex-col items-start gap-2 shrink-0">
+                            {{ range $tags }}
+                            <span class="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-accent text-xs font-semibold whitespace-nowrap">
+                                {{ . }}
+                            </span>
+                            {{ end }}
+                        </div>
                     </div>
                 </div>
+                {{ end }}
             </div>
-            {{ end }}
         </div>
     </div>
 </section>

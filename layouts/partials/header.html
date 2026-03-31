@@ -6,16 +6,17 @@
             Recep Adiyaman
         </a>
 
-        <nav class="hidden md:flex space-x-6 items-center">
+        <nav class="hidden md:flex items-center" style="gap:0.75rem; flex-wrap:nowrap; overflow:visible;">
             {{ range .Site.Menus.main }}
             <a href="{{ .URL | relURL }}"
-                class="text-sm font-bold text-slate-500 hover:text-accent transition-colors relative group uppercase tracking-widest">
+                style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#64748b; white-space:nowrap; transition:color 0.2s; text-decoration:none;"
+                onmouseover="this.style.color='var(--accent,#2563eb)'" onmouseout="this.style.color='#64748b'">
                 {{ .Name }}
-                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all group-hover:w-full"></span>
             </a>
             {{ end }}
-            <a href="{{ "subscribe-form.html" | relURL }}"
-                class="px-5 py-2.5 bg-accent text-white rounded-full font-black text-xs uppercase tracking-widest shadow-lg shadow-accent/20 hover:scale-105 transition-all">
+            <a href="#newsletter"
+                style="padding:0.5rem 1rem; background:var(--accent,#2563eb); color:#fff; border-radius:9999px; font-weight:900; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.08em; white-space:nowrap; box-shadow:0 4px 14px rgba(37,99,235,0.25); transition:transform 0.2s; text-decoration:none; flex-shrink:0;"
+                onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                 Subscribe
             </a>
         </nav>
@@ -38,7 +39,7 @@
                 {{ .Name }}
             </a>
             {{ end }}
-            <a href="{{ "subscribe-form.html" | relURL }}" data-mobile-link
+            <a href="#newsletter" data-mobile-link
                 class="inline-flex items-center justify-center px-5 py-2.5 bg-accent text-white rounded-full font-black text-xs uppercase tracking-widest shadow-lg shadow-accent/20">
                 Subscribe
             </a>
