@@ -1,7 +1,5 @@
 ---
 title: "Protein Design Digest"
-description: "Subscribe to the Protein Design Digest."
-layout: "subscribe-redirect"
+description: "Daily curated research signals from arXiv, PubMed, and BioRxiv — hand-picked by Recep Adiyaman, PhD."
+layout: "list"
 ---
-
-Redirecting to the subscription form...
