@@ -19,6 +19,65 @@ SUBSCRIBE_LABEL = "Subnewsletter"
 TWITTER_LIMIT = 280
 BLUESKY_LIMIT = 300
 DEFAULT_BASE_URL = "https://recep2244.github.io/portfolio/#newsletter"
+DEFAULT_TWITTER_TEMPLATE = "{header}\n{title}\n{summary}\n{subscribe}\n{link}\n{tags}"
+DEFAULT_BLUESKY_TEMPLATE = "{header}\n{title}\n{summary}\n{engagement}\n{link}\n{subscribe}\n{tags}"
+DEFAULT_TWITTER_THREAD_TEMPLATE = "{header}\n{title}\n{summary}\n{engagement}\n{tags}"
+
+_HUMAN_OPENERS = [
+    "This one caught my eye today:",
+    "Worth your time if you work on proteins:",
+    "Came across this and had to share:",
+    "Today's most interesting result:",
+    "Something I keep thinking about:",
+    "This paper changed how I see the problem:",
+    "A result worth reading slowly:",
+    "From today's preprints — genuinely interesting:",
+    "Sharing what's on my desk today:",
+    "If you only read one paper today, make it this:",
+    "Hard to summarise briefly, but here's the gist:",
+    "This is the kind of work I find exciting:",
+    "Today's signal from the literature:",
+    "Filed this under: things I wish I'd seen sooner:",
+    "An underappreciated approach getting renewed attention:",
+]
+
+
+def pick_human_opener(seed_text=None):
+    import hashlib
+    if seed_text:
+        idx = int(hashlib.md5(seed_text.encode()).hexdigest(), 16) % len(_HUMAN_OPENERS)
+    else:
+        idx = datetime.now().day % len(_HUMAN_OPENERS)
+    return _HUMAN_OPENERS[idx]
+
+
+_ENGAGEMENT_HOOKS = [
+    "What's your take? 👇",
+    "Have you tried something similar?",
+    "Curious what the community thinks.",
+    "Worth testing in your pipeline?",
+    "Does this match what you're seeing?",
+    "Anyone working on something related?",
+    "Thoughts? Reply and let me know.",
+    "Would love to hear your experience with this.",
+    "What would you do differently?",
+    "Drop a 🧬 if this is relevant to your work.",
+    "Is this gap something you've run into?",
+    "Would this change your approach?",
+    "What are the limits you'd push next?",
+    "Have you benchmarked anything like this?",
+    "What's missing from this picture?",
+]
+
+
+def pick_engagement_hook(seed_text=None):
+    import hashlib
+    if seed_text:
+        h = int(hashlib.md5((seed_text + "_eng").encode()).hexdigest(), 16)
+        idx = h % len(_ENGAGEMENT_HOOKS)
+    else:
+        idx = (datetime.now().day + 7) % len(_ENGAGEMENT_HOOKS)
+    return _ENGAGEMENT_HOOKS[idx]
 
 def load_issue(issue_date, issues_dir):
     filename = f"{issue_date}.json"
@@ -95,7 +154,7 @@ def is_redundant_summary(title, summary):
 def build_external_embed(title, summary, url):
     if not url:
         return None
-    safe_title = shorten_text(title or "Paper of the day", 120)
+    safe_title = shorten_text(title or pick_human_opener(), 120)
     safe_summary = shorten_text(summary or "", 200)
     return {
         "$type": "app.bsky.embed.external",
@@ -136,9 +195,9 @@ def build_social_text(
             return len(text)
         return len(re.sub(r"https?://\S+", "x" * url_length, text))
 
-    header = header_label or "Paper of the day"
+    header = header_label or pick_human_opener(title)
     formatted_date = format_issue_date(issue_date)
-    if formatted_date:
+    if formatted_date and header_label:
         header = f"{header} · {formatted_date}"
     title = title or "Daily signal"
     tags_line = " ".join(SOCIAL_TAGS) if include_tags else ""
@@ -197,6 +256,9 @@ def build_social_text(
     if summary:
         if try_add_line(summary, insert_idx):
             insert_idx += 1
+    engagement_hook = pick_engagement_hook(title)
+    if engagement_hook:
+        try_add_line(engagement_hook, insert_idx)
 
     def measure(values):
         return measure_text("\n".join(values))
@@ -785,7 +847,7 @@ def main():
     bs_subscribe = os.getenv("BLUESKY_SUBSCRIBE_URL", DEFAULT_BASE_URL)
     bluesky_text = ensure_subscribe_label(bluesky_text, BLUESKY_LIMIT)
     main_link = signal_link or extract_first_url(tweet_text) or extract_first_url(bluesky_text)
-    main_title = signal_title or extract_title_line(tweet_text or bluesky_text, "Paper of the day")
+    main_title = signal_title or extract_title_line(tweet_text or bluesky_text, pick_human_opener())
     embed = build_external_embed(main_title, summary, main_link)
     post_to_bluesky(
         bluesky_text,

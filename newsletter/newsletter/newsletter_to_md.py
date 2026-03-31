@@ -44,20 +44,19 @@ def format_markdown(issue):
 title: "{safe_title}"
 date: {date_str}
 description: "{safe_description}"
-author: "Protein Design Digest"
+author: "Recep Adiyaman"
 tags: ["bioinformatics", "newsletter", "research"]
 ---
 
 {{{{< newsletter >}}}}
 
-## 🚀 Today's Top Signal
+## Signal of the Day
 
 ### [{issue.get('signal', {}).get('title')}]({issue.get('signal', {}).get('link')})
 
-#### 🧬 Abstract
 {issue.get('signal', {}).get('summary')}
 
-> **Why it matters:** {issue.get('signal', {}).get('why_it_matters')}
+> **Why this matters:** {issue.get('signal', {}).get('why_it_matters')}
 
 ---
 """
@@ -65,7 +64,7 @@ tags: ["bioinformatics", "newsletter", "research"]
     # Optional Additional Signals
     extras = issue.get('signal_extras') or []
     if extras:
-        md += "\n## ⭐ Additional Signals\n"
+        md += "\n## Also Worth Reading\n"
         for item in extras:
             md += f"\n### [{item.get('title', 'Untitled')}]({item.get('link', '#')})\n"
             md += f"{item.get('abstract', '')}\n"
@@ -73,15 +72,15 @@ tags: ["bioinformatics", "newsletter", "research"]
 
     md += f"""
 
-## 🧪 AI & Research News
+## Research & AI Updates
 {md_ai}
 
-## 🏢 Industry Insight & Applications
+## From the Industry
 {md_ind}
 
 ---
 
-## ⚡ Quick Reads
+## Quick Reads
 """
     
     for item in issue.get('quick_reads', []):
@@ -90,13 +89,13 @@ tags: ["bioinformatics", "newsletter", "research"]
 
     # Pipeline Tip
     if issue.get('pipeline_tip'):
-        md += f"\n## 💡 Pipeline Tip\n"
+        md += f"\n## Pipeline Tip\n"
         md += f"{issue.get('pipeline_tip')}\n"
 
     md += "\n---\n"
-    
+
     # Community / Tools
-    md += "## 🛠️ Resources\n"
+    md += "## Resources & Tools\n"
     
     datasets = coerce_list(issue.get('dataset'))
     tools = coerce_list(issue.get('tool'))

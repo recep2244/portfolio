@@ -34,10 +34,72 @@ BLUESKY_LIMIT = 300
 DEFAULT_BASE_URL = "https://recep2244.github.io/portfolio/subscribe-form.html"
 DEFAULT_ISSUE_BASE_URL = "https://recep2244.github.io/portfolio/newsletter/"
 DEFAULT_TWITTER_TEMPLATE = "{header}\n{title}\n{extras}\n{summary}\n{subscribe}\n{link}\n{tags}"
-DEFAULT_BLUESKY_TEMPLATE = "{header}\n{title}\n{extras}\n{summary}\n{link}\n{subscribe}\n{tags}"
+DEFAULT_BLUESKY_TEMPLATE = "{header}\n{title}\n{extras}\n{summary}\n{engagement}\n{link}\n{subscribe}\n{tags}"
 DEFAULT_SECTION_TEMPLATE = "{header}\n{title}\n{summary}\n{link}\n{subscribe}\n{tags}"
-DEFAULT_TWITTER_THREAD_TEMPLATE = "{header}\n{title}\n{extras}\n{summary}\n{tags}"
-DEFAULT_BLUESKY_THREAD_TEMPLATE = "{header}\n{title}\n{extras}\n{summary}\n{tags}"
+DEFAULT_TWITTER_THREAD_TEMPLATE = "{header}\n{title}\n{extras}\n{summary}\n{engagement}\n{tags}"
+DEFAULT_BLUESKY_THREAD_TEMPLATE = "{header}\n{title}\n{extras}\n{summary}\n{engagement}\n{tags}"
+
+# Human-sounding openers to replace the robotic "Paper of the day"
+# Selected deterministically from the title hash so the same issue always gets the same opener
+_HUMAN_OPENERS = [
+    "This one caught my eye today:",
+    "Worth your time if you work on proteins:",
+    "Came across this and had to share:",
+    "Today's most interesting result:",
+    "Something I keep thinking about:",
+    "This paper changed how I see the problem:",
+    "A result worth reading slowly:",
+    "From today's preprints — genuinely interesting:",
+    "Sharing what's on my desk today:",
+    "If you only read one paper today, make it this:",
+    "Hard to summarise briefly, but here's the gist:",
+    "This is the kind of work I find exciting:",
+    "Today's signal from the literature:",
+    "Filed this under: things I wish I'd seen sooner:",
+    "An underappreciated approach getting renewed attention:",
+]
+
+
+def pick_human_opener(seed_text=None):
+    """Return a human-sounding opener, chosen deterministically from seed_text."""
+    import hashlib
+    if seed_text:
+        idx = int(hashlib.md5(seed_text.encode()).hexdigest(), 16) % len(_HUMAN_OPENERS)
+    else:
+        idx = datetime.now().day % len(_HUMAN_OPENERS)
+    return _HUMAN_OPENERS[idx]
+
+
+# Short engagement prompts that invite replies — keeps the conversation going
+_ENGAGEMENT_HOOKS = [
+    "What's your take? 👇",
+    "Have you tried something similar?",
+    "Curious what the community thinks.",
+    "Worth testing in your pipeline?",
+    "Does this match what you're seeing?",
+    "Anyone working on something related?",
+    "Thoughts? Reply and let me know.",
+    "Would love to hear your experience with this.",
+    "What would you do differently?",
+    "Drop a 🧬 if this is relevant to your work.",
+    "Is this gap something you've run into?",
+    "Would this change your approach?",
+    "What are the limits you'd push next?",
+    "Have you benchmarked anything like this?",
+    "What's missing from this picture?",
+]
+
+
+def pick_engagement_hook(seed_text=None):
+    """Return a short engagement prompt, deterministically chosen from seed_text."""
+    import hashlib
+    if seed_text:
+        # Use a different hash offset from the opener so they don't always pair identically
+        h = int(hashlib.md5((seed_text + "_eng").encode()).hexdigest(), 16)
+        idx = h % len(_ENGAGEMENT_HOOKS)
+    else:
+        idx = (datetime.now().day + 7) % len(_ENGAGEMENT_HOOKS)
+    return _ENGAGEMENT_HOOKS[idx]
 
 
 def shorten_text(text, max_len):
@@ -177,7 +239,7 @@ def is_redundant_summary(title, summary):
 def build_external_embed(title, summary, url):
     if not url:
         return None
-    safe_title = shorten_text(title or "Paper of the day", 120)
+    safe_title = shorten_text(title or pick_human_opener(), 120)
     safe_summary = shorten_text(summary or "", 200)
     return {
         "$type": "app.bsky.embed.external",
@@ -214,15 +276,17 @@ def build_social_text(
     omit_long_links=False,
     template=None,
     subscribe_label=SUBSCRIBE_LABEL,
+    engagement=None,
 ):
     def measure_text(text):
         if not url_length:
             return len(text)
         return len(re.sub(r"https?://\S+", "x" * url_length, text))
 
-    header = header_label or "Paper of the day"
+    header = header_label or pick_human_opener(title)
     formatted_date = format_issue_date(issue_date)
-    if formatted_date:
+    if formatted_date and header_label:
+        # Only append the date when caller explicitly set a label (e.g. section headers)
         header = f"{header} · {formatted_date}"
     title = title or "Daily signal"
     tags_line = " ".join(SOCIAL_TAGS) if include_tags else ""
@@ -242,6 +306,8 @@ def build_social_text(
     if extra_lines is None:
         extra_lines = []
 
+    engagement_text = engagement if engagement is not None else pick_engagement_hook(title)
+
     if template:
         return build_social_text_from_template(
             template,
@@ -255,6 +321,7 @@ def build_social_text(
             limit,
             url_length,
             omit_long_links,
+            engagement=engagement_text,
         )
 
     base_lines = [header] + tail_lines
@@ -368,6 +435,7 @@ def build_social_text_from_template(
     limit,
     url_length,
     omit_long_links,
+    engagement="",
 ):
     def measure_text(text):
         if not url_length:
@@ -383,6 +451,7 @@ def build_social_text_from_template(
         "subscribe": subscribe_line,
         "link": signal_link or "",
         "tags": tags_line or "",
+        "engagement": engagement or "",
     }
 
     def render(values_map):
@@ -415,6 +484,13 @@ def build_social_text_from_template(
 
     if values.get("tags"):
         values["tags"] = ""
+        text = render(values)
+        if measure_text(text) <= limit:
+            return text
+
+    # Drop engagement hook before truncating the title
+    if values.get("engagement"):
+        values["engagement"] = ""
         text = render(values)
         if measure_text(text) <= limit:
             return text
