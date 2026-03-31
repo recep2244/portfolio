@@ -11,6 +11,10 @@ on:
 permissions:
   contents: write
 
+# Opt into Node.js 24 for all JavaScript actions (avoids Node 20 deprecation warning)
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   run-newsletter:
     runs-on: ubuntu-latest
