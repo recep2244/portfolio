@@ -1,6 +1,6 @@
 {{ $cv := .Site.Data.cv }}
 <section id="about" class="py-20 bg-secondary/30 relative overflow-hidden">
-    <div class="absolute right-0 top-0 w-80 h-80 bg-blue-50/50 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute right-0 top-0 w-80 h-80 bg-teal-50/40 rounded-full blur-[100px] pointer-events-none"></div>
 
     <div class="container mx-auto px-6 space-y-10 relative z-10">
         <div class="flex flex-wrap items-center justify-between gap-4">
@@ -14,8 +14,8 @@
         <!-- Key metrics strip -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 stagger-reveal">
             {{ $metrics := slice
-                (dict "value" "470+" "label" "Citations" "color" "text-accent")
-                (dict "value" "H-index 9" "label" "Scholar Impact" "color" "text-accent")
+                (dict "value" "30k+" "label" "Active Server Users" "color" "text-accent")
+                (dict "value" "470+" "label" "Citations · H-index 9" "color" "text-accent")
                 (dict "value" "14" "label" "Peer-reviewed Papers" "color" "text-accent")
                 (dict "value" "9+ yrs" "label" "Research Experience" "color" "text-accent")
             }}
@@ -43,7 +43,7 @@
                                 </div>
                             </div>
                             <div class="flex gap-3">
-                                <span class="mt-1 h-2.5 w-2.5 rounded-full bg-blue-500 flex-shrink-0"></span>
+                                <span class="mt-1 h-2.5 w-2.5 rounded-full bg-teal-400 flex-shrink-0"></span>
                                 <div>
                                     <p class="text-slate-900 font-semibold">Operational pipelines</p>
                                     <p class="text-slate-700">Ship pipelines teams can run, monitor, and extend across
@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                             <div class="flex gap-3">
-                                <span class="mt-1 h-2.5 w-2.5 rounded-full bg-purple-500 flex-shrink-0"></span>
+                                <span class="mt-1 h-2.5 w-2.5 rounded-full bg-cyan-500 flex-shrink-0"></span>
                                 <div>
                                     <p class="text-slate-900 font-semibold">Collaboration-first</p>
                                     <p class="text-slate-700">Work closely with domain experts so the science stays

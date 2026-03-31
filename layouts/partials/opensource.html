@@ -11,17 +11,17 @@
 
         <div class="grid lg:grid-cols-3 gap-8">
             {{ range $data.projects }}
-            {{ $borderColor := "border-blue-500" }}
-            {{ $bgColor := "bg-blue-100 text-blue-600" }}
-            {{ $textColor := "text-blue-600 hover:text-blue-700" }}
+            {{ $borderColor := "border-teal-600" }}
+            {{ $bgColor := "bg-teal-50 text-teal-700" }}
+            {{ $textColor := "text-teal-700 hover:text-teal-800" }}
             {{ if eq .name "ModFOLDdock2Q" }}
-            {{ $borderColor = "border-purple-500" }}
-            {{ $bgColor = "bg-purple-100 text-purple-600" }}
-            {{ $textColor = "text-purple-600 hover:text-purple-700" }}
+            {{ $borderColor = "border-slate-700" }}
+            {{ $bgColor = "bg-slate-100 text-slate-700" }}
+            {{ $textColor = "text-slate-700 hover:text-slate-900" }}
             {{ else if eq .name "FunFOLD5" }}
-            {{ $borderColor = "border-emerald-500" }}
-            {{ $bgColor = "bg-emerald-100 text-emerald-600" }}
-            {{ $textColor = "text-emerald-600 hover:text-emerald-700" }}
+            {{ $borderColor = "border-cyan-600" }}
+            {{ $bgColor = "bg-cyan-50 text-cyan-700" }}
+            {{ $textColor = "text-cyan-700 hover:text-cyan-800" }}
             {{ end }}
 
             <div
@@ -67,8 +67,8 @@
 
         <div class="mt-12 flex flex-wrap justify-center gap-4">
             <a href="https://hub.docker.com/u/radiyaman" target="_blank"
-                class="inline-flex items-center gap-2 px-8 py-4 bg-white border-2 border-slate-200 hover:border-blue-500 text-slate-900 font-bold rounded-xl transition-all shadow-sm hover:shadow-md">
-                <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                class="inline-flex items-center gap-2 px-8 py-4 bg-white border-2 border-slate-200 hover:border-teal-600 text-slate-900 font-bold rounded-xl transition-all shadow-sm hover:shadow-md">
+                <svg style="width:1.5rem;height:1.5rem" class="text-teal-700" fill="currentColor" viewBox="0 0 24 24">
                     <path
                         d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.119a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.186.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V3.574a.185.185 0 00-.184-.185h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.186.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V3.574a.185.185 0 00-.185-.185H2.136a.185.185 0 00-.186.185v1.888c0 .102.083.186.186.186m-2.93 5.43h2.12a.186.186 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.186.186 0 00.185-.185V9.006a.185.185 0 00-.185-.186H2.136a.186.186 0 00-.186.185v1.888c0 .102.083.185.186.185m-2.929 0h2.12a.186.186 0 00.185-.185V9.006a.185.185 0 00-.185-.186h-2.12a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185M8.018 3.575h2.119a.186.186 0 00.186-.185V1.502a.186.186 0 00-.186-.186H8.018a.185.185 0 00-.185.186v1.888c0 .102.083.185.185.185m-2.969 0h2.12a.186.186 0 00.184-.185V1.502a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.186v1.888c0 .102.083.185.184.185m6.905 5.636L11.32 9.212a.26.26 0 00-.097.133.262.262 0 00-.013.213l.258.847a.26.26 0 00.315.178l.835-.25a.266.266 0 00.17-.348l-.257-.843a.26.26 0 00-.58-.068zM24 11.078c0-2.843-2.292-5.152-5.115-5.152h-.825v-1.25c0-.102-.083-.185-.185-.185h-2.119a.185.185 0 00-.186.185v1.25h-2.924v-1.25a.186.186 0 00-.186-.185h-2.119a.185.185 0 00-.185.185v1.25H7.332v-1.25a.185.185 0 00-.185-.185H5.028a.185.185 0 00-.185.185v1.25H2.108v-1.25a.185.185 0 00-.185-.185H.804a.185.185 0 00-.186.185v1.25H.185A.185.185 0 000 6.11v12.923c0 .102.083.185.185.185h23.63c.102 0 .185-.083.185-.185V11.078z" />
                 </svg>
