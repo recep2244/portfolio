@@ -3,14 +3,14 @@
     <div class="absolute -left-12 top-6 orb orb-a"></div>
     <div class="absolute right-0 bottom-0 orb orb-b"></div>
     <!-- Hero Section -->
-    <div class="relative py-20 bg-slate-900 overflow-hidden">
+    <div class="relative py-20 overflow-hidden border-b border-[color:var(--color-panel)]">
         <div class="absolute inset-0 opacity-20">
             <div class="absolute top-0 left-0 w-full h-full bg-[url('/images/grid.svg')]"></div>
         </div>
 
         <div class="container mx-auto px-6 relative z-10">
             <a href="{{ .Site.BaseURL }}"
-                class="inline-flex items-center gap-2 text-blue-300 hover:text-white font-bold mb-8 transition-colors">
+                class="inline-flex items-center gap-2 text-blue-700 hover:text-slate-900 font-bold mb-8 transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -22,13 +22,13 @@
                 <div class="flex flex-wrap gap-3 mb-6">
                     {{ range .Params.tags }}
                     <span
-                        class="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-sm font-bold border border-blue-500/30">
+                        class="px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-bold border border-blue-200">
                         {{ . }}
                     </span>
                     {{ end }}
                 </div>
-                <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">{{ .Title }}</h1>
-                <p class="text-xl text-slate-300 font-medium leading-relaxed max-w-2xl">{{ .Summary }}</p>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">{{ .Title }}</h1>
+                <p class="text-xl text-slate-600 font-medium leading-relaxed max-w-2xl">{{ .Summary }}</p>
             </div>
         </div>
     </div>
