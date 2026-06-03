@@ -7,8 +7,8 @@
         <div class="absolute -left-32 top-0 orb orb-a"></div>
         <div class="absolute right-0 bottom-10 orb orb-b"></div>
 
-        <!-- Molecular schematic — top right, wire-only, scientific -->
-        <svg aria-hidden="true" class="absolute top-16 right-[8%] opacity-[0.14]"
+        <!-- Molecular schematic — top right, wire-only, scientific (slow drift) -->
+        <svg aria-hidden="true" class="absolute top-16 right-[8%] opacity-[0.14] animate-[float_16s_ease-in-out_infinite]"
             style="width:200px;height:200px;" viewBox="0 0 200 200" fill="none" stroke="#2dd4bf" stroke-width="1.5">
             <!-- Atoms (open circles = scientific style) -->
             <circle cx="100" cy="40"  r="8" />
@@ -25,7 +25,8 @@
             <line x1="52"  y1="142" x2="40"  y2="88" />
             <line x1="47"  y1="74"  x2="93"  y2="36" />
             <!-- Outer ring hint -->
-            <circle cx="100" cy="100" r="70" stroke-dasharray="4 6" opacity="0.4" />
+            <circle cx="100" cy="100" r="70" stroke-dasharray="4 6" opacity="0.4"
+                style="transform-origin:100px 100px;animation:spin 90s linear infinite" />
         </svg>
 
         <!-- DNA double helix — left, monochrome teal -->

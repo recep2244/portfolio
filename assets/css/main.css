@@ -442,6 +442,36 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* Opacity-only reveal for grid cells / list rows (no layout shift) */
+  .reveal-fade {
+    opacity: 0;
+    transition: opacity 0.7s cubic-bezier(0.5, 0, 0, 1);
+  }
+  .reveal-fade.is-visible { opacity: 1; }
+
+  /* Extend stagger cascade for larger grids */
+  .stagger-reveal > *:nth-child(7) { transition-delay: 600ms; }
+  .stagger-reveal > *:nth-child(8) { transition-delay: 700ms; }
+  .stagger-reveal > *:nth-child(9) { transition-delay: 800ms; }
+
+  /* Animated section-kicker rule (draws in on reveal) */
+  .sec-kicker .ln { transform: scaleX(0.4); transform-origin: left; transition: transform 0.6s ease; }
+  .sec-head.is-visible .sec-kicker .ln,
+  .sec-head:hover .sec-kicker .ln { transform: scaleX(1); }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll,
+  .reveal-fade {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .animate-pulse,
+  .animate-float,
+  [class*="animate-"] { animation: none !important; }
 }
 
 @keyframes spin {

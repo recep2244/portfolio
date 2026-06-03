@@ -15,7 +15,7 @@
             {{ range $i, $pub := $publications }}
             {{ $citNum := 0 }}{{ with $pub.citations }}{{ $citNum = int . }}{{ end }}
             {{ if $pub.link }}<a href="{{ $pub.link }}" target="_blank" rel="noreferrer"{{ else }}<div{{ end }}
-                class="row-rule group grid grid-cols-[2.2rem_1fr] md:grid-cols-[2.5rem_1fr_auto] gap-x-4 md:gap-x-6 items-start py-6 px-1 block">
+                class="row-rule reveal-fade group grid grid-cols-[2.2rem_1fr] md:grid-cols-[2.5rem_1fr_auto] gap-x-4 md:gap-x-6 items-start py-6 px-1 block">
                 <span class="mono-meta text-accent pt-1">{{ printf "%02d" (add $i 1) }}</span>
                 <div>
                     <h3 class="text-base md:text-lg font-semibold text-text group-hover:text-accent transition-colors leading-snug">{{ $pub.title }}</h3>

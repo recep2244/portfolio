@@ -17,9 +17,36 @@ document.addEventListener('DOMContentLoaded', () => {
         threshold: 0.08
     });
 
-    document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    document.querySelectorAll('.reveal-on-scroll, .reveal-fade, .sec-head').forEach(el => {
         revealObserver.observe(el);
     });
+
+    // ─── Animated stat count-up ───────────────────────────────────────────────
+    // Numbers with data-count-to animate from 0 → target when scrolled into view.
+    const fmt = (n) => n >= 1000 ? n.toLocaleString() : String(n);
+    const countObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            obs.unobserve(el);
+            const to = parseFloat(el.dataset.countTo);
+            const suffix = el.dataset.countSuffix || '';
+            if (reduceMotion || isNaN(to)) { el.textContent = fmt(to) + suffix; return; }
+            const duration = 1400;
+            let startTs = null;
+            const step = (ts) => {
+                if (startTs === null) startTs = ts;
+                const p = Math.min((ts - startTs) / duration, 1);
+                const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+                el.textContent = fmt(Math.round(to * eased)) + suffix;
+                if (p < 1) requestAnimationFrame(step);
+            };
+            requestAnimationFrame(step);
+        });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-count-to]').forEach(el => countObserver.observe(el));
 
     // ─── Reading Progress Bar ─────────────────────────────────────────────────
     const progressBar = document.querySelector('.reading-progress');

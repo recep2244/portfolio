@@ -4,11 +4,11 @@
         {{ partial "section_header.html" (dict "index" "04" "label" "Capabilities" "title" "Technical Skills" "tag" "ML · MD · Cloud") }}
 
         <!-- Capability matrix: hairline-separated cells, mono proficiency, no chrome -->
-        <div class="grid gap-px bg-[color:var(--color-panel)] border border-[color:var(--color-panel)] rounded-xl overflow-hidden md:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-px bg-[color:var(--color-panel)] border border-[color:var(--color-panel)] rounded-xl overflow-hidden md:grid-cols-2 lg:grid-cols-3 stagger-reveal">
             {{ $levels := slice "Expert" "Expert" "Expert" "Advanced" "Advanced" "Expert" }}
             {{ $yrs := slice "9+ yrs" "8+ yrs" "9+ yrs" "7+ yrs" "9+ yrs" "9+ yrs" }}
             {{ range $i, $skill := $cv.skills }}
-            <div class="bg-[color:var(--color-surface)] p-6 md:p-7 flex flex-col gap-4 hover:bg-[#141d28] transition-colors">
+            <div class="bg-[color:var(--color-surface)] p-6 md:p-7 flex flex-col gap-4 hover:bg-[#141d28] transition-colors reveal-fade">
                 <div class="flex items-baseline justify-between gap-3">
                     <h3 class="text-base font-semibold text-text">{{ index $skill "name" }}</h3>
                     <span class="mono-meta shrink-0">{{ index $levels (mod $i 6) }} · {{ index $yrs (mod $i 6) }}</span>
