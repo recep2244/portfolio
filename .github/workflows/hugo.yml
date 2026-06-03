@@ -69,7 +69,9 @@ jobs:
         run: |
           hugo \
             --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"          
+            --baseURL "${{ steps.pages.outputs.base_url }}/"
+      - name: Validate build (SEO / a11y / JSON-LD)
+        run: node scripts/test-build.mjs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
