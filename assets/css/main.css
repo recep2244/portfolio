@@ -346,7 +346,7 @@
   .stagger-reveal > *:nth-child(6) { transition-delay: 500ms; }
 
   .gradient-text {
-    background: linear-gradient(120deg, #1d4ed8 0%, #2563eb 45%, #0ea5e9 100%);
+    background: linear-gradient(120deg, #1d4ed8 0%, #2563eb 42%, #0d9488 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -526,7 +526,7 @@ html { scroll-behavior: smooth; }
   opacity: 0.5;
   background:
     radial-gradient(42% 52% at 18% 22%, rgba(37, 99, 235, 0.22), transparent 60%),
-    radial-gradient(38% 48% at 82% 18%, rgba(14, 165, 233, 0.18), transparent 60%),
+    radial-gradient(38% 48% at 82% 18%, rgba(13, 148, 136, 0.16), transparent 60%),
     radial-gradient(48% 58% at 68% 82%, rgba(37, 99, 235, 0.14), transparent 60%);
   animation: aurora-drift 18s ease-in-out infinite;
 }
