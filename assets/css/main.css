@@ -564,6 +564,34 @@ html { scroll-behavior: smooth; }
   will-change: transform;
 }
 
+/* Custom ring cursor (trailing) */
+.cursor-ring {
+  position: fixed; left: 0; top: 0;
+  width: 26px; height: 26px;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(45, 212, 191, 0.55);
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0;
+  transform: translate3d(var(--rx, -100px), var(--ry, -100px), 0) translate(-50%, -50%);
+  transition: width 0.22s ease, height 0.22s ease, border-color 0.22s ease,
+    background 0.22s ease, opacity 0.3s ease;
+  will-change: transform;
+}
+.cursor-ring.active {
+  width: 48px; height: 48px;
+  border-color: rgba(94, 234, 212, 0.9);
+  background: rgba(45, 212, 191, 0.08);
+}
+
+/* 3D tilt — preserve perspective on the big glass panels */
+.glass-card { transform-style: preserve-3d; }
+
+/* Hide the custom ring on touch / reduced motion */
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .cursor-ring { display: none !important; }
+}
+
 /* Kinetic research-themes marquee */
 .marquee { display: flex; width: max-content; animation: marquee-scroll 42s linear infinite; }
 .marquee:hover { animation-play-state: paused; }

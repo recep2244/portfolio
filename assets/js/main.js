@@ -88,6 +88,59 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             btn.addEventListener('pointerleave', () => { btn.style.transform = ''; });
         });
+
+        // Custom trailing ring cursor
+        const ring = document.querySelector('.cursor-ring');
+        if (ring) {
+            let rx = -100, ry = -100, tx = -100, ty = -100;
+            window.addEventListener('pointermove', (e) => {
+                tx = e.clientX; ty = e.clientY; ring.style.opacity = '1';
+            }, { passive: true });
+            const tickRing = () => {
+                rx += (tx - rx) * 0.18; ry += (ty - ry) * 0.18;
+                ring.style.setProperty('--rx', rx + 'px');
+                ring.style.setProperty('--ry', ry + 'px');
+                requestAnimationFrame(tickRing);
+            };
+            tickRing();
+            document.querySelectorAll('a, button, .glass-card, .glow-cell, input, textarea, select, [role="button"]').forEach(el => {
+                el.addEventListener('pointerenter', () => ring.classList.add('active'));
+                el.addEventListener('pointerleave', () => ring.classList.remove('active'));
+            });
+        }
+
+        // 3D tilt on the big glass panels
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('pointermove', (e) => {
+                const r = card.getBoundingClientRect();
+                const px = (e.clientX - r.left) / r.width - 0.5;
+                const py = (e.clientY - r.top) / r.height - 0.5;
+                card.style.transform = `perspective(900px) rotateX(${-py * 4.5}deg) rotateY(${px * 4.5}deg)`;
+            });
+            card.addEventListener('pointerleave', () => { card.style.transform = ''; });
+        });
+    }
+
+    // ─── Text scramble / decode (matrix-style) ────────────────────────────────
+    if (!reduceMotion) {
+        const SC = '01<>-_/[]{}=+*^?#abcdef';
+        const scramble = (el) => {
+            const final = el.dataset.scrambleText || el.textContent;
+            el.dataset.scrambleText = final;
+            let iter = 0;
+            clearInterval(el._sc);
+            el._sc = setInterval(() => {
+                el.textContent = final.split('').map((ch, i) =>
+                    ch === ' ' ? ' ' : (i < iter ? final[i] : SC[Math.floor(Math.random() * SC.length)])
+                ).join('');
+                iter += final.length / 18;
+                if (iter >= final.length) { clearInterval(el._sc); el.textContent = final; }
+            }, 35);
+        };
+        document.querySelectorAll('[data-scramble]').forEach(el => {
+            scramble(el);
+            el.addEventListener('pointerenter', () => scramble(el));
+        });
     }
 
     // ─── Hero protein/particle network (canvas) ───────────────────────────────
