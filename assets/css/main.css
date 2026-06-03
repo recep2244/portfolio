@@ -564,6 +564,28 @@ html { scroll-behavior: smooth; }
   will-change: transform;
 }
 
+/* Molecular portal — rotating scientific rings around a protein core */
+.molecular-portal { display: block; filter: drop-shadow(0 0 30px rgba(45, 212, 191, 0.18)); }
+.molecular-portal .mp-spin-slow,
+.molecular-portal .mp-spin-rev,
+.molecular-portal .mp-spin-med,
+.molecular-portal .mp-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.mp-spin-slow { animation: mp-spin 52s linear infinite; }
+.mp-spin-rev  { animation: mp-spin 36s linear infinite reverse; }
+.mp-spin-med  { animation: mp-spin 24s linear infinite; }
+.mp-pulse     { animation: mp-pulse 4.5s ease-in-out infinite; }
+@keyframes mp-spin { to { transform: rotate(360deg); } }
+@keyframes mp-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(0.95); }
+  50%      { opacity: 0.9;  transform: scale(1.05); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mp-spin-slow, .mp-spin-rev, .mp-spin-med, .mp-pulse { animation: none; }
+}
+
 /* Custom ring cursor (trailing) */
 .cursor-ring {
   position: fixed; left: 0; top: 0;

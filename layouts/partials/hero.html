@@ -100,92 +100,51 @@
             </div>
         </div>
 
-        <div class="grid gap-5">
-            <div class="glass-card p-6 md:p-7">
-                <div class="flex items-center justify-between gap-3 mb-4">
-                    <h3 class="text-xl font-semibold text-slate-900">Current roles</h3>
-                    <span class="pill py-1 px-3">Impact-driven</span>
-                </div>
-                <div class="grid gap-4">
-                    {{ $roles := $cv.experience }}
-                    {{ if gt (len $roles) 0 }}
-                    {{ with index $roles 0 }}
-                    <div class="rounded-2xl border border-slate-200 bg-white/[0.03] p-4">
-                        <div class="flex items-start justify-between gap-3">
-                            <p class="text-sm uppercase tracking-wide text-slate-500">{{ .period }}</p>
-                            <span
-                                class="text-xs px-2 py-1 rounded-full bg-accent/10 text-accent border border-accent/30">
-                                Current
-                            </span>
-                        </div>
-                        <div class="text-lg font-semibold text-slate-900 mt-1">{{ .title }}</div>
-                        <div class="text-slate-600 text-sm">{{ .org }} • {{ .location }}</div>
-                        {{ if .bullets }}
-                        <p class="text-slate-600 text-sm mt-2 leading-relaxed">{{ index .bullets 0 }}</p>
-                        {{ end }}
-                    </div>
-                    {{ end }}
-                    {{ end }}
-
-                    {{ if gt (len $roles) 1 }}
-                    {{ with index $roles 1 }}
-                    <div class="rounded-2xl border border-slate-200 bg-white/[0.03] p-4">
-                        <div class="flex items-start justify-between gap-3">
-                            <p class="text-sm uppercase tracking-wide text-slate-500">{{ .period }}</p>
-                            <span
-                                class="text-xs px-2 py-1 rounded-full bg-white text-slate-600 border border-slate-200">
-                                Research
-                            </span>
-                        </div>
-                        <div class="text-lg font-semibold text-slate-900 mt-1">{{ .title }}</div>
-                        <div class="text-slate-600 text-sm">{{ .org }} • {{ .location }}</div>
-                        {{ if .bullets }}
-                        <p class="text-slate-600 text-sm mt-2 leading-relaxed">{{ index .bullets 0 }}</p>
-                        {{ end }}
-                    </div>
-                    {{ end }}
-                    {{ end }}
-                </div>
-                <div class="flex flex-wrap gap-3 mt-5">
-                    <span class="pill">IntFOLD & FunFOLD optimisation</span>
-                    <span class="pill">Structural immunology pipelines</span>
-                    <span class="pill">Benchmarking vs. AlphaFold</span>
-                </div>
-            </div>
-
-            <div class="glass-card p-6 md:p-7 grid gap-4 md:grid-cols-2">
-                <div class="space-y-3">
-                    <div class="text-sm uppercase tracking-wide text-slate-500">Focus areas</div>
-                    <div class="space-y-2.5">
-                        <div class="flex gap-3">
-                            <span class="mt-1 h-2.5 w-2.5 rounded-full bg-accent"></span>
-                            <div>
-                                <p class="text-slate-900 font-semibold">Dynamic Ensembles</p>
-                                <p class="text-slate-600 text-sm leading-relaxed">Capturing conformational diversity
-                                    beyond static snapshots.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-3">
-                            <span class="mt-1 h-2.5 w-2.5 rounded-full bg-cyan-400"></span>
-                            <div>
-                                <p class="text-slate-900 font-semibold">De Novo Design</p>
-                                <p class="text-slate-600 text-sm leading-relaxed">Modelling novel folds where
-                                    evolutionary history is silent.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="space-y-3">
-                    <div class="text-sm uppercase tracking-wide text-slate-500">Tooling</div>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="pill">AlphaFold & ReFOLD</span>
-                        <span class="pill">MD engines</span>
-                        <span class="pill">ML & MLOps</span>
-                        <span class="pill">Cloud pipelines</span>
-                    </div>
-                    <p class="text-slate-600 text-sm leading-relaxed">
-                        Blending physics-based methods with modern ML to de-risk translational biology projects.
-                    </p>
+        <div class="relative flex flex-col items-center justify-center">
+            <svg viewBox="0 0 400 400" class="molecular-portal w-full max-w-[440px]" role="img"
+                aria-label="Animated molecular portal: rotating scientific rings and orbiting atoms around a protein double-helix core">
+                <defs>
+                    <radialGradient id="mpCore" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#5eead4" stop-opacity="0.85" />
+                        <stop offset="45%" stop-color="#2dd4bf" stop-opacity="0.30" />
+                        <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0" />
+                    </radialGradient>
+                    <linearGradient id="mpRing" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#2dd4bf" />
+                        <stop offset="100%" stop-color="#38bdf8" />
+                    </linearGradient>
+                </defs>
+                <circle cx="200" cy="200" r="92" fill="url(#mpCore)" class="mp-pulse" />
+                <g class="mp-spin-slow" fill="none">
+                    <circle cx="200" cy="200" r="186" stroke="#244a4a" stroke-width="1" stroke-dasharray="2 10" />
+                    <circle cx="200" cy="14" r="3" fill="#2dd4bf" stroke="none" />
+                    <circle cx="200" cy="386" r="2.5" fill="#38bdf8" stroke="none" />
+                </g>
+                <g class="mp-spin-rev" fill="none">
+                    <circle cx="200" cy="200" r="140" stroke="url(#mpRing)" stroke-width="1.2" stroke-opacity="0.55" />
+                    <circle cx="200" cy="60" r="5" fill="#5eead4" stroke="none" />
+                    <circle cx="321" cy="270" r="4" fill="#38bdf8" stroke="none" />
+                    <circle cx="79" cy="270" r="4" fill="#2dd4bf" stroke="none" />
+                </g>
+                <g class="mp-spin-med" fill="none">
+                    <circle cx="200" cy="200" r="96" stroke="#2dd4bf" stroke-width="1" stroke-opacity="0.4" stroke-dasharray="5 6" />
+                    <circle cx="296" cy="200" r="3.5" fill="#a855f7" stroke="none" />
+                    <circle cx="104" cy="200" r="3.5" fill="#5eead4" stroke="none" />
+                </g>
+                <g fill="none" stroke-linecap="round" class="mp-helix">
+                    <path d="M172,152 Q232,178 172,204 Q232,230 172,256" stroke="#2dd4bf" stroke-width="2.5" />
+                    <path d="M228,152 Q168,178 228,204 Q168,230 228,256" stroke="#5eead4" stroke-width="2.5" />
+                    <line x1="174" y1="166" x2="226" y2="166" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.5" />
+                    <line x1="172" y1="204" x2="228" y2="204" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.5" />
+                    <line x1="174" y1="242" x2="226" y2="242" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.5" />
+                </g>
+            </svg>
+            <div class="text-center mt-1">
+                <p class="mono-meta">// now · InstaDeep / BioNTech — TCR-pMHC cancer-vaccine pipeline</p>
+                <div class="flex flex-wrap justify-center gap-2 mt-3">
+                    <span class="chip">IntFOLD · MultiFOLD</span>
+                    <span class="chip">ReFOLD · FunFOLD</span>
+                    <span class="chip">ModFOLDdock2Q</span>
                 </div>
             </div>
         </div>
