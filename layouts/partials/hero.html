@@ -1,112 +1,72 @@
 {{ $cv := .Site.Data.cv }}
-<section class="relative overflow-hidden py-24 sm:py-32">
-    <div class="absolute inset-0 pointer-events-none overflow-hidden">
-        {{ partial "bg_molecular.html" . }}
-        <div class="absolute inset-0" style="background-image:radial-gradient(rgba(37,99,235,0.06) 1px,transparent 1px);background-size:42px 42px;opacity:0.5;"></div>
+<section class="relative overflow-hidden">
+    <div class="container mx-auto px-6 pt-28 md:pt-32 pb-10 text-center max-w-4xl relative z-10">
+        <p class="eyebrow justify-center mb-6">Computational Structural Biologist · PhD</p>
+        <h1 class="font-bold tracking-tight leading-[0.98]" style="font-size:clamp(2.75rem,7.5vw,6rem)">
+            <span class="block text-slate-900">Recep Adiyaman</span>
+            <span class="gradient-text">Beyond Static Structure.</span>
+        </h1>
+        <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mt-8 leading-relaxed">
+            Production-grade protein structure prediction pipelines that outperform AlphaFold3.
+            CASP top-ranked, 530+ citations, 30,000+ users, currently accelerating cancer vaccine
+            design at InstaDeep / BioNTech.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 mt-10">
+            <a href="{{ "vision/" | relURL }}" class="btn-primary">Read the Vision</a>
+            <a href="/cv/recep-adiyaman-cv.pdf" target="_blank" class="btn-secondary">Download CV</a>
+        </div>
+        <div class="flex flex-wrap justify-center gap-2 mt-7">
+            <span class="chip chip-accent">Open to senior roles in AI drug discovery</span>
+            <span class="chip">Coventry, UK</span>
+            <span class="chip">UK work authorization</span>
+        </div>
     </div>
 
-    <div class="container mx-auto px-6 relative z-10 grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-        <div class="space-y-6">
-            <div class="eyebrow w-fit">
-                Computational Structural Biologist · PhD
-            </div>
-            <h1 class="font-bold leading-[0.92] tracking-tight mt-2" style="font-size:clamp(2.75rem,7vw,5.75rem)">
-                <span class="block text-slate-900 mb-1">Recep Adiyaman</span>
-                <span class="gradient-text">Beyond Static Structure.</span>
-            </h1>
-            <p class="text-lg md:text-xl text-slate-600 max-w-2xl font-medium">
-                Building <span class="text-slate-900 font-bold">production-grade</span> protein structure prediction pipelines that outperform AlphaFold3.
-                CASP top-ranked · 530+ citations · 30,000+ active users -
-                currently accelerating <span class="text-slate-900 font-bold">cancer vaccine design</span> at InstaDeep/BioNTech.
-            </p>
-
-            <div class="flex flex-wrap gap-3">
-                <span class="pill">Python · PyTorch · HPC</span>
-                <span class="pill">AlphaFold2/3 · MD Engines</span>
-                <span class="pill">MLOps · Cloud Pipelines</span>
-            </div>
-
-            <!-- Availability signal -->
-            <div class="flex flex-wrap items-center gap-2.5">
-                <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-sm font-medium"
-                    style="background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.3);color:var(--color-accent)">
-                    <span class="h-2 w-2 rounded-full bg-accent animate-pulse"></span>
-                    Open to senior roles in AI drug discovery &amp; structural biology
-                </span>
-                <span class="chip">Coventry, UK</span>
-                <span class="chip">UK work authorization</span>
-            </div>
-
-            <div class="flex flex-wrap items-center gap-4 pt-1">
-                <a href="{{ "vision/" | relURL }}" class="btn-primary">
-                    Read the Vision
-                    <svg style="width:1rem;height:1rem" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                </a>
-                <a href="/cv/recep-adiyaman-cv.pdf" target="_blank" class="btn-secondary">
-                    Download CV
-                    <svg style="width:1rem;height:1rem" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                </a>
-                <a href="#opensource" class="btn-secondary">
-                    View Tools
-                </a>
-            </div>
-        </div>
-
-        <div class="relative">
-            <div class="flex items-center justify-center">
-                <svg viewBox="0 0 400 400" class="molecular-portal w-full max-w-[430px]" role="img"
-                    aria-label="Rotating molecular sphere - scientific rings and orbiting atoms around a protein double-helix core">
-                    <defs>
-                        <radialGradient id="mpCore" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.55" />
-                            <stop offset="45%" stop-color="#2563eb" stop-opacity="0.18" />
-                            <stop offset="100%" stop-color="#2563eb" stop-opacity="0" />
-                        </radialGradient>
-                        <linearGradient id="mpRing" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stop-color="#2563eb" />
-                            <stop offset="100%" stop-color="#0d9488" />
-                        </linearGradient>
-                    </defs>
-                    <circle cx="200" cy="200" r="94" fill="url(#mpCore)" class="mp-pulse" />
-                    <g class="mp-spin-slow" fill="none">
-                        <circle cx="200" cy="200" r="186" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2 10" />
-                        <circle cx="200" cy="14" r="3.5" fill="#2563eb" stroke="none" />
-                        <circle cx="200" cy="386" r="3" fill="#0d9488" stroke="none" />
-                    </g>
-                    <g class="mp-spin-rev" fill="none">
-                        <circle cx="200" cy="200" r="140" stroke="url(#mpRing)" stroke-width="1.6" stroke-opacity="0.75" />
-                        <circle cx="200" cy="60" r="5.5" fill="#2563eb" stroke="none" />
-                        <circle cx="321" cy="270" r="4.5" fill="#0d9488" stroke="none" />
-                        <circle cx="79" cy="270" r="4.5" fill="#2563eb" stroke="none" />
-                    </g>
-                    <g class="mp-spin-med" fill="none">
-                        <circle cx="200" cy="200" r="96" stroke="#2563eb" stroke-width="1" stroke-opacity="0.45" stroke-dasharray="5 6" />
-                        <circle cx="296" cy="200" r="4" fill="#0d9488" stroke="none" />
-                        <circle cx="104" cy="200" r="4" fill="#2563eb" stroke="none" />
-                    </g>
-                    <g fill="none" stroke-linecap="round" class="mp-helix">
-                        <path d="M172,152 Q232,178 172,204 Q232,230 172,256" stroke="#2563eb" stroke-width="3" />
-                        <path d="M228,152 Q168,178 228,204 Q168,230 228,256" stroke="#0d9488" stroke-width="3" />
-                        <line x1="174" y1="166" x2="226" y2="166" stroke="#60a5fa" stroke-width="1.3" stroke-opacity="0.7" />
-                        <line x1="172" y1="204" x2="228" y2="204" stroke="#60a5fa" stroke-width="1.3" stroke-opacity="0.7" />
-                        <line x1="174" y1="242" x2="226" y2="242" stroke="#60a5fa" stroke-width="1.3" stroke-opacity="0.7" />
-                    </g>
-                </svg>
-            </div>
-            <div class="mt-4 text-center">
-                <p class="text-sm text-slate-500">Currently - InstaDeep / BioNTech · TCR-pMHC cancer-vaccine pipeline</p>
-                <div class="flex flex-wrap justify-center gap-2 mt-3">
-                    <span class="chip">IntFOLD · MultiFOLD</span>
-                    <span class="chip">ReFOLD · FunFOLD</span>
-                    <span class="chip">ModFOLDdock2Q</span>
-                </div>
-            </div>
+    <!-- Supporting graphic, positioned lower (Isomorphic-style) -->
+    <div class="container mx-auto px-6 pb-24 flex flex-col items-center relative z-10">
+        <svg viewBox="0 0 400 400" class="molecular-portal w-full max-w-[360px]" role="img"
+            aria-label="Rotating molecular sphere with a protein double-helix core">
+            <defs>
+                <radialGradient id="mpCore" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.5" />
+                    <stop offset="45%" stop-color="#2563eb" stop-opacity="0.16" />
+                    <stop offset="100%" stop-color="#2563eb" stop-opacity="0" />
+                </radialGradient>
+                <linearGradient id="mpRing" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#2563eb" />
+                    <stop offset="100%" stop-color="#0d9488" />
+                </linearGradient>
+            </defs>
+            <circle cx="200" cy="200" r="94" fill="url(#mpCore)" class="mp-pulse" />
+            <g class="mp-spin-slow" fill="none">
+                <circle cx="200" cy="200" r="186" stroke="#dbe2ee" stroke-width="1" stroke-dasharray="2 10" />
+                <circle cx="200" cy="14" r="3.5" fill="#2563eb" stroke="none" />
+                <circle cx="200" cy="386" r="3" fill="#0d9488" stroke="none" />
+            </g>
+            <g class="mp-spin-rev" fill="none">
+                <circle cx="200" cy="200" r="140" stroke="url(#mpRing)" stroke-width="1.6" stroke-opacity="0.7" />
+                <circle cx="200" cy="60" r="5.5" fill="#2563eb" stroke="none" />
+                <circle cx="321" cy="270" r="4.5" fill="#0d9488" stroke="none" />
+                <circle cx="79" cy="270" r="4.5" fill="#2563eb" stroke="none" />
+            </g>
+            <g class="mp-spin-med" fill="none">
+                <circle cx="200" cy="200" r="96" stroke="#2563eb" stroke-width="1" stroke-opacity="0.4" stroke-dasharray="5 6" />
+                <circle cx="296" cy="200" r="4" fill="#0d9488" stroke="none" />
+                <circle cx="104" cy="200" r="4" fill="#2563eb" stroke="none" />
+            </g>
+            <g fill="none" stroke-linecap="round" class="mp-helix">
+                <path d="M172,152 Q232,178 172,204 Q232,230 172,256" stroke="#2563eb" stroke-width="3" />
+                <path d="M228,152 Q168,178 228,204 Q168,230 228,256" stroke="#0d9488" stroke-width="3" />
+                <line x1="174" y1="166" x2="226" y2="166" stroke="#60a5fa" stroke-width="1.3" stroke-opacity="0.7" />
+                <line x1="172" y1="204" x2="228" y2="204" stroke="#60a5fa" stroke-width="1.3" stroke-opacity="0.7" />
+                <line x1="174" y1="242" x2="226" y2="242" stroke="#60a5fa" stroke-width="1.3" stroke-opacity="0.7" />
+            </g>
+        </svg>
+        <p class="text-sm text-slate-500 mt-6">Currently at InstaDeep / BioNTech · TCR-pMHC cancer-vaccine pipeline</p>
+        <div class="flex flex-wrap justify-center gap-2 mt-3">
+            <span class="chip">IntFOLD · MultiFOLD</span>
+            <span class="chip">ReFOLD · FunFOLD</span>
+            <span class="chip">ModFOLDdock2Q</span>
         </div>
     </div>
 </section>
