@@ -37,7 +37,7 @@
                     </p>
                     <div class="flex gap-5 mono-meta">
                         <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#3b82f6]"></span>Ensemble State A</div>
-                        <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#a855f7]"></span>Ensemble State B</div>
+                        <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#0ea5e9]"></span>Ensemble State B</div>
                     </div>
                 </div>
                 <div class="relative h-80 flex items-center justify-center rounded-2xl border border-[color:var(--color-panel)] overflow-hidden" style="background:#0a0f14">
@@ -52,7 +52,7 @@
                         </div>
                         <div class="absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100">
                             <svg viewBox="0 0 300 300" class="w-full h-full">
-                                <defs><linearGradient id="gradB" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#a855f7" /><stop offset="100%" stop-color="#ec4899" /></linearGradient></defs>
+                                <defs><linearGradient id="gradB" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0ea5e9" /><stop offset="100%" stop-color="#ec4899" /></linearGradient></defs>
                                 <path d="M80,150 C80,80 220,80 220,150 C220,220 80,220 80,150" fill="none" stroke="url(#gradB)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />
                                 <text x="150" y="260" text-anchor="middle" fill="#c084fc" style="font-family:var(--font-mono);font-size:12px">STATE B · OPEN</text>
                             </svg>
@@ -87,7 +87,7 @@
                             {{ else if eq $s.viz "ensemble" }}
                             <svg viewBox="0 0 200 200" class="w-full h-full absolute opacity-30 animate-[spin_12s_linear_infinite]"><path d="M50,100 C50,50 150,50 150,100" stroke="#38bdf8" stroke-width="4" fill="none" stroke-dasharray="5,5" /></svg>
                             <svg viewBox="0 0 200 200" class="w-full h-full absolute opacity-30 animate-[spin_16s_linear_infinite_reverse]"><path d="M50,100 C50,150 150,150 150,100" stroke="#818cf8" stroke-width="4" fill="none" stroke-dasharray="5,5" /></svg>
-                            <svg viewBox="0 0 200 200" class="w-full h-full relative z-10"><defs><linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#2dd4bf" /><stop offset="100%" stop-color="#a855f7" /></linearGradient></defs><path d="M50,100 C50,50 150,50 150,100 C150,150 50,150 50,100" stroke="url(#hg)" stroke-width="10" fill="none" stroke-linecap="round" class="animate-[pulse_3s_ease-in-out_infinite]" /></svg>
+                            <svg viewBox="0 0 200 200" class="w-full h-full relative z-10"><defs><linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#2dd4bf" /><stop offset="100%" stop-color="#0ea5e9" /></linearGradient></defs><path d="M50,100 C50,50 150,50 150,100 C150,150 50,150 50,100" stroke="url(#hg)" stroke-width="10" fill="none" stroke-linecap="round" class="animate-[pulse_3s_ease-in-out_infinite]" /></svg>
                             {{ else }}
                             <div class="absolute inset-0 transition-opacity duration-500 group-hover:opacity-0">
                                 <svg viewBox="0 0 200 200" class="w-full h-full"><path d="M50,100 Q100,100 150,100" stroke="#2dd4bf" stroke-width="20" stroke-linecap="round" /><text x="100" y="160" text-anchor="middle" fill="#5eead4" style="font-family:var(--font-mono);font-size:10px">POCKET CLOSED</text></svg>

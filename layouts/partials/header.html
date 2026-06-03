@@ -1,6 +1,6 @@
 <header
     class="fixed top-0 w-full z-50 transition-all duration-300 backdrop-blur-md border-b"
-    style="background:rgba(10,15,20,0.78);border-color:var(--color-panel)">
+    style="background:rgba(255,255,255,0.82);border-color:var(--color-panel)">
     <div class="container mx-auto px-6 py-3.5 flex justify-between items-center">
         <a href="{{ .Site.BaseURL }}"
             class="flex items-center gap-2 font-medium hover:opacity-80 transition-opacity"
@@ -27,7 +27,7 @@
 
     <div id="mobile-menu"
         class="md:hidden border-t backdrop-blur-md overflow-hidden"
-        style="max-height:0;transition:max-height 0.3s ease;border-color:var(--color-panel);background:rgba(10,15,20,0.95)">
+        style="max-height:0;transition:max-height 0.3s ease;border-color:var(--color-panel);background:rgba(255,255,255,0.97)">
         <div class="container mx-auto px-6 py-4 flex flex-col gap-4">
             {{ range .Site.Menus.main }}
             <a href="{{ .URL | relURL }}" data-mobile-link
