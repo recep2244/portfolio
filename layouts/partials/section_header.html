@@ -1,9 +1,6 @@
 {{/* Editorial section header. Params: index, label, title, tag (optional) */}}
 <div class="sec-head">
     <div>
-        <div class="sec-kicker">
-            <span class="lbl">{{ .label }}</span>
-        </div>
         <h2 class="sec-title">{{ .title }}</h2>
     </div>
     {{ with .tag }}<span class="chip hidden md:inline-flex shrink-0">{{ . }}</span>{{ end }}
