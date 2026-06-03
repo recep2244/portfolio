@@ -1,206 +1,27 @@
-<section class="py-24 relative overflow-hidden">
+<section id="research-figures" class="py-24 md:py-28 relative overflow-hidden">
     <div class="container mx-auto px-6">
-        <div class="mb-20 md:text-center max-w-3xl mx-auto">
-            <h2 class="section-heading mb-4">Research Simulations</h2>
-            <p class="text-slate-600 text-lg">Visualizing complex biological systems through computational modeling and
-                design.</p>
-        </div>
+        {{ partial "section_header.html" (dict "index" "07" "label" "Research" "title" "Figures from the work" "tag" "Real results") }}
 
-        <div class="space-y-24">
-            <!-- Protein Design (Zigzag Item 1) -->
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div
-                    class="glass-card p-8 h-80 relative flex items-center justify-center rounded-2xl overflow-hidden border border-slate-200 order-2 md:order-1 group">
-                    <!-- Full Protein Fold Animation -->
-                    <div class="relative w-full h-full flex items-center justify-center">
-                        <svg width="260" height="260" viewBox="0 0 200 200"
-                            class="animate-[float_8s_ease-in-out_infinite]">
-                            <defs>
-                                <linearGradient id="proteinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#3b82f6" />
-                                    <stop offset="50%" stop-color="#8b5cf6" />
-                                    <stop offset="100%" stop-color="#ec4899" />
-                                </linearGradient>
-                                <filter id="glow-protein">
-                                    <feGaussianBlur stdDeviation="2" result="coloredBlur" />
-                                    <feMerge>
-                                        <feMergeNode in="coloredBlur" />
-                                        <feMergeNode in="SourceGraphic" />
-                                    </feMerge>
-                                </filter>
-                            </defs>
-
-                            <!-- Beta Sheet Representation -->
-                            <path d="M40,140 L80,140 L70,110 L30,110 Z" fill="none" stroke="#cbd5e1" stroke-width="2"
-                                opacity="0.5" />
-                            <path d="M50,160 L90,160 L80,130 L40,130 Z" fill="none" stroke="#cbd5e1" stroke-width="2"
-                                opacity="0.5" />
-
-                            <!-- Complex Protein Backbone (Alpha Helices + Loops) -->
-                            <path
-                                d="M40,150 C40,120 20,100 50,80 C80,60 100,40 120,70 C140,100 160,80 150,50 C140,20 100,20 80,40 C60,60 80,100 110,120 C140,140 170,120 160,90"
-                                fill="none" stroke="url(#proteinGradient)" stroke-width="6" stroke-linecap="round"
-                                stroke-linejoin="round" filter="url(#glow-protein)"
-                                class="animate-[pulse_4s_ease-in-out_infinite]" />
-
-                            <!-- Secondary Structure Elements -->
-                            <path d="M120,70 C130,85 135,90 140,80" stroke="#fff" stroke-width="2" fill="none"
-                                opacity="0.6" />
-                            <path d="M50,80 C60,70 65,65 70,75" stroke="#fff" stroke-width="2" fill="none"
-                                opacity="0.6" />
-                        </svg>
-
-                        <!-- Stability Indicator -->
-                        <div
-                            class="absolute bottom-4 left-4 bg-[#0f1620]/90 backdrop-blur px-3 py-2 rounded-lg border border-slate-200 shadow-sm">
-                            <div class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Stability</div>
-                            <div class="flex items-center gap-2 mt-1">
-                                <div class="h-1.5 w-24 bg-slate-100 rounded-full overflow-hidden">
-                                    <div
-                                        class="h-full bg-gradient-to-r from-blue-500 to-purple-500 w-[92%] animate-[grow-width_3s_ease-out]">
-                                    </div>
-                                </div>
-                                <span class="text-xs font-bold text-slate-700">High</span>
-                            </div>
-                        </div>
-                    </div>
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 stagger-reveal">
+            {{ $figs := slice
+                (dict "img" "images/research/fig3_refold4.jpg" "title" "ReFOLD4 refinement" "cap" "MD-based refinement guided by per-residue local quality estimation — CASP14 target T1095.")
+                (dict "img" "images/research/fig1_pipeline.jpg" "title" "ModFOLDdock pipeline" "cap" "End-to-end quality-assessment pipeline for protein-complex models.")
+                (dict "img" "images/research/fig5_1_funfold.jpg" "title" "FunFOLD5 ligand prediction" "cap" "Template-based vs template-free protocols — CASP16 target L2000.")
+                (dict "img" "images/research/fig4_sars_cov2.jpg" "title" "SARS-CoV-2 modelling" "cap" "Protein modelling in the CASP-Commons COVID experiment.")
+                (dict "img" "images/research/fig5_binding_site.jpg" "title" "Ligand-binding site" "cap" "Predicted ligand-binding residues from structural alignment.")
+            }}
+            {{ range $figs }}
+            <figure class="glass-card overflow-hidden reveal-fade group">
+                <div class="overflow-hidden border-b border-[color:var(--color-panel)]">
+                    <img src="{{ .img | relURL }}" alt="{{ .title }}" loading="lazy"
+                        class="w-full h-52 object-cover group-hover:scale-[1.04] transition-transform duration-700" />
                 </div>
-                <div class="order-1 md:order-2 space-y-4">
-                    <h3 class="text-2xl font-semibold text-slate-900">Protein Design</h3>
-                    <p class="text-slate-600 leading-relaxed text-lg">
-                        Designing novel protein folds with high stability. I use deep learning to hallucinate new
-                        backbones
-                        and sequence design to stabilize them, creating proteins that don't exist in nature.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Protein Engineering (Zigzag Item 2) -->
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="space-y-4 order-1">
-                    <h3 class="text-2xl font-bold text-slate-900">Protein Engineering</h3>
-                    <p class="text-slate-600 leading-relaxed text-lg font-semibold">
-                        Interactive mutational analysis. Select a variant below to see how specific residue changes
-                        impact local packing and stability scores in real-time.
-                    </p>
-
-                    <!-- Interactive Controls -->
-                    <div class="flex flex-wrap gap-2 mt-4">
-                        <button
-                            class="mutation-btn active px-4 py-2 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-900 font-bold text-sm transition-colors"
-                            data-mutation="Wild Type">Wild Type</button>
-                        <button
-                            class="mutation-btn px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-colors"
-                            data-mutation="Y33W">Y33W</button>
-                        <button
-                            class="mutation-btn px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-colors"
-                            data-mutation="S52F">S52F</button>
-                        <button
-                            class="mutation-btn px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-colors"
-                            data-mutation="T28A">T28A</button>
-                    </div>
-                </div>
-                <div
-                    class="glass-card p-8 h-80 relative flex items-center justify-center rounded-2xl overflow-hidden border border-slate-200 order-2">
-                    <!-- Mutation Effect Simulation -->
-                    <div class="relative w-full h-full flex items-center justify-center">
-                        <svg width="280" height="240" viewBox="0 0 200 150">
-                            <!-- Protein Surface/Backbone (More realistic ribbon) -->
-                            <defs>
-                                <linearGradient id="backboneGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="#94a3b8" />
-                                    <stop offset="50%" stop-color="#cbd5e1" />
-                                    <stop offset="100%" stop-color="#94a3b8" />
-                                </linearGradient>
-                            </defs>
-                            <path d="M20,80 C40,40 60,100 80,60 C100,20 120,100 140,70 C160,40 180,80 180,80"
-                                fill="none" stroke="url(#backboneGradient)" stroke-width="12" stroke-linecap="round" />
-                            <path d="M20,80 C40,40 60,100 80,60 C100,20 120,100 140,70 C160,40 180,80 180,80"
-                                fill="none" stroke="white" stroke-width="2" stroke-opacity="0.3"
-                                stroke-linecap="round" />
-
-                            <!-- Residue Visualization Area -->
-                            <g id="residue-visual">
-                                <!-- Dynamic content injected by JS, default is Wild Type -->
-                                <circle cx="100" cy="65" r="8" fill="#64748b" />
-                                <text x="100" y="50" text-anchor="middle" fill="#475569" font-size="10"
-                                    font-weight="bold">WT</text>
-                            </g>
-                        </svg>
-
-                        <div
-                            class="absolute top-4 left-4 bg-[#0f1620]/90 backdrop-blur px-3 py-2 rounded-xl border border-slate-200 shadow-sm">
-                            <div class="text-xs font-bold text-slate-500 uppercase">Current State</div>
-                            <div id="mutation-label" class="text-lg font-bold text-slate-900">Wild Type</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Antibody Engineering (Zigzag Item 3) -->
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div
-                    class="glass-card p-8 h-80 relative flex items-center justify-center rounded-2xl overflow-hidden border border-slate-200 order-2 md:order-1">
-                    <!-- Dynamic Scoring Dashboard -->
-                    <div class="w-full h-full flex flex-col justify-between">
-                        <!-- Visual Representation -->
-                        <div class="flex-1 flex items-center justify-center relative">
-                            <svg width="150" height="120" viewBox="0 0 100 80">
-                                <!-- Antibody -->
-                                <path d="M30,10 L50,50 L70,10" fill="none" stroke="#6366f1" stroke-width="6"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M50,50 L50,80" fill="none" stroke="#6366f1" stroke-width="6"
-                                    stroke-linecap="round" />
-                                <!-- Antigen -->
-                                <circle cx="50" cy="25" r="10" fill="#f472b6" class="animate-[bounce_2s_infinite]" />
-                                <!-- Interaction Sparks -->
-                                <g class="animate-[pulse_1s_infinite]">
-                                    <line x1="40" y1="25" x2="30" y2="25" stroke="#fbbf24" stroke-width="2" />
-                                    <line x1="60" y1="25" x2="70" y2="25" stroke="#fbbf24" stroke-width="2" />
-                                </g>
-                            </svg>
-                        </div>
-
-                        <!-- Live Metrics Panel -->
-                        <div
-                            class="grid grid-cols-2 gap-3 bg-[#0f1620]/70 backdrop-blur p-4 rounded-xl border border-slate-200">
-                            <div class="space-y-1">
-                                <div class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">DockQ</div>
-                                <div data-score="dockq"
-                                    class="text-xl font-mono font-bold text-slate-900 animate-[score-update_4s_infinite]">
-                                    0.85</div>
-                            </div>
-                            <div class="space-y-1">
-                                <div class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">QS Score
-                                </div>
-                                <div data-score="qs"
-                                    class="text-xl font-mono font-bold text-blue-600 animate-[score-update_4s_infinite_1s]">
-                                    0.92</div>
-                            </div>
-                            <div class="space-y-1">
-                                <div class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">ICS</div>
-                                <div data-score="ics"
-                                    class="text-xl font-mono font-bold text-purple-600 animate-[score-update_4s_infinite_2s]">
-                                    0.88</div>
-                            </div>
-                            <div class="space-y-1">
-                                <div class="text-[10px] uppercase text-slate-500 font-bold tracking-wider">ModFOLD</div>
-                                <div data-score="modfold"
-                                    class="text-xl font-mono font-bold text-green-600 animate-[score-update_4s_infinite_3s]">
-                                    0.76</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="order-1 md:order-2 space-y-4">
-                    <h3 class="text-2xl font-semibold text-slate-900">Antibody Engineering</h3>
-                    <p class="text-slate-600 leading-relaxed text-lg">
-                        Real-time scoring of antibody-antigen interfaces. I optimize sequences to maximize
-                        <strong>DockQ</strong> (structural quality), <strong>QS</strong> (quaternary structure),
-                        and <strong>ICS</strong> (interface contact score) metrics.
-                    </p>
-                </div>
-            </div>
+                <figcaption class="p-5">
+                    <h3 class="text-lg font-semibold text-text">{{ .title }}</h3>
+                    <p class="text-sm text-slate-500 mt-1.5 leading-relaxed">{{ .cap }}</p>
+                </figcaption>
+            </figure>
+            {{ end }}
         </div>
     </div>
 </section>
