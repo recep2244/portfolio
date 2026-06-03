@@ -47,13 +47,14 @@
                         class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200">
                         <span class="w-2 h-2 rounded-full {{ if eq .type " Web Server" }}bg-green-500{{ else
                             }}bg-blue-500{{ end }}"></span>
-                        Deployed on {{ if eq .type "Web Server" }}Web Server{{ else }}Docker & GitHub{{ end }}
+                        {{ if eq .type "Web Server" }}Deployed on Web Server{{ else if eq .type "Open Source" }}Open source on GitHub{{ else }}Deployed on Docker & GitHub{{ end }}
                     </div>
                 </div>
                 <div class="mt-auto pt-6 border-t border-slate-100">
-                    <a href="{{ .page_url | relURL }}"
+                    <a href="{{ if .page_url }}{{ .page_url | relURL }}{{ else }}{{ .url }}{{ end }}"
+                        {{ if not .page_url }}target="_blank" rel="noopener"{{ end }}
                         class="flex items-center justify-between {{ $textColor }} font-bold group">
-                        View Documentation
+                        {{ if .page_url }}View Documentation{{ else }}View on GitHub{{ end }}
                         <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
