@@ -1,5 +1,5 @@
 {{ define "main" }}
-<article class="bg-gradient-to-br from-slate-50 via-white to-sky-50 min-h-screen relative overflow-hidden">
+<article class="bg-gradient-to-br from-primary via-primary to-secondary min-h-screen relative overflow-hidden">
     <div class="absolute -left-12 top-6 orb orb-a"></div>
     <div class="absolute right-0 bottom-0 orb orb-b"></div>
     <!-- Hero Section -->
@@ -42,5 +42,51 @@
             </div>
         </div>
     </div>
+
+    {{/* Key Publications — rendered from front-matter `publications` */}}
+    {{ with .Params.publications }}
+    <div class="container mx-auto px-6 mt-16 relative z-20">
+        <div class="max-w-5xl">
+            <p class="eyebrow">&gt; key_publications</p>
+            <h2 class="section-heading mb-6">Peer-reviewed foundations</h2>
+            <div class="grid gap-4">
+                {{ range . }}
+                <a href="{{ .doi }}" target="_blank" rel="noopener noreferrer"
+                    class="glass-card p-5 md:p-6 block group transition-transform hover:-translate-y-1">
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <h3 class="font-semibold text-slate-900 group-hover:text-accent transition-colors">{{ .title }}</h3>
+                            <p class="text-sm text-slate-500 mt-1" style="font-family:var(--font-mono)">
+                                {{ .journal }} · {{ .year }}{{ with .citations }} · {{ . }} citations{{ end }}
+                            </p>
+                        </div>
+                        <span class="text-accent shrink-0 text-lg" aria-hidden="true">&#8599;</span>
+                    </div>
+                </a>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+    {{ end }}
+
+    {{/* Related tools — other pages in the tools section */}}
+    {{ $cur := .RelPermalink }}
+    {{ $others := where (where .Site.RegularPages "Section" "tools") "RelPermalink" "!=" $cur }}
+    {{ with $others }}
+    <div class="container mx-auto px-6 mt-16 mb-24 relative z-20">
+        <div class="max-w-5xl">
+            <p class="eyebrow">&gt; related_tools</p>
+            <div class="grid sm:grid-cols-3 gap-4 mt-4">
+                {{ range . }}
+                <a href="{{ .RelPermalink }}"
+                    class="glass-card p-5 block group hover:-translate-y-1 transition-transform">
+                    <p class="font-semibold text-slate-900 group-hover:text-accent transition-colors">{{ .Title }}</p>
+                    <p class="text-sm text-slate-500 mt-1">{{ .Summary | truncate 70 }}</p>
+                </a>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+    {{ end }}
 </article>
 {{ end }}

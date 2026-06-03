@@ -1,15 +1,15 @@
 {{ $cv := .Site.Data.cv }}
 <section class="relative overflow-hidden py-24 sm:py-32">
     <div class="absolute inset-0 pointer-events-none overflow-hidden">
-        <!-- Subtle scientific grid -->
-        <div class="absolute inset-0" style="background-image:radial-gradient(#e2e8f0 1px,transparent 1px);background-size:40px 40px;opacity:0.45;"></div>
-        <!-- Soft teal glow — very restrained -->
+        <!-- Subtle scientific dot grid -->
+        <div class="absolute inset-0" style="background-image:radial-gradient(rgba(45,212,191,0.10) 1px,transparent 1px);background-size:40px 40px;opacity:0.6;"></div>
+        <!-- Soft cyan glow — very restrained -->
         <div class="absolute -left-32 top-0 orb orb-a"></div>
         <div class="absolute right-0 bottom-10 orb orb-b"></div>
 
         <!-- Molecular schematic — top right, wire-only, scientific -->
-        <svg aria-hidden="true" class="absolute top-16 right-[8%] opacity-[0.08]"
-            style="width:200px;height:200px;" viewBox="0 0 200 200" fill="none" stroke="#0f766e" stroke-width="1.5">
+        <svg aria-hidden="true" class="absolute top-16 right-[8%] opacity-[0.14]"
+            style="width:200px;height:200px;" viewBox="0 0 200 200" fill="none" stroke="#2dd4bf" stroke-width="1.5">
             <!-- Atoms (open circles = scientific style) -->
             <circle cx="100" cy="40"  r="8" />
             <circle cx="160" cy="80"  r="8" />
@@ -31,11 +31,11 @@
         <!-- DNA double helix — left, monochrome teal -->
         <svg aria-hidden="true" class="absolute bottom-10 left-[6%] opacity-[0.07]"
             style="width:60px;height:160px;" viewBox="0 0 60 160" fill="none">
-            <path d="M10,0 Q30,20 50,40 Q30,60 10,80 Q30,100 50,120 Q30,140 10,160" stroke="#0f766e" stroke-width="2" />
-            <path d="M50,0 Q30,20 10,40 Q30,60 50,80 Q30,100 10,120 Q30,140 50,160" stroke="#0d9488" stroke-width="2" />
-            <line x1="10" y1="40"  x2="50" y2="40"  stroke="#0f766e" stroke-width="1" opacity="0.5" />
-            <line x1="10" y1="80"  x2="50" y2="80"  stroke="#0f766e" stroke-width="1" opacity="0.5" />
-            <line x1="10" y1="120" x2="50" y2="120" stroke="#0f766e" stroke-width="1" opacity="0.5" />
+            <path d="M10,0 Q30,20 50,40 Q30,60 10,80 Q30,100 50,120 Q30,140 10,160" stroke="#2dd4bf" stroke-width="2" />
+            <path d="M50,0 Q30,20 10,40 Q30,60 50,80 Q30,100 10,120 Q30,140 50,160" stroke="#38bdf8" stroke-width="2" />
+            <line x1="10" y1="40"  x2="50" y2="40"  stroke="#2dd4bf" stroke-width="1" opacity="0.5" />
+            <line x1="10" y1="80"  x2="50" y2="80"  stroke="#2dd4bf" stroke-width="1" opacity="0.5" />
+            <line x1="10" y1="120" x2="50" y2="120" stroke="#2dd4bf" stroke-width="1" opacity="0.5" />
         </svg>
     </div>
 
@@ -46,6 +46,7 @@
                     class="h-2 w-2 rounded-full bg-accent shadow-[0_0_0_6px_rgba(34,211,238,0.15)] animate-pulse"></span>
                 Computational Structural Biologist · PhD
             </div>
+            <p class="font-mono text-sm text-accent/80 mb-1" style="font-family:var(--font-mono)">&gt; protein_structure_prediction --beyond-static</p>
             <h1 class="text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.05]">
                 <span class="block text-slate-900 mb-2">Recep Adiyaman</span>
                 <span class="gradient-text">Beyond Static Structure.</span>
@@ -69,24 +70,21 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-4 pt-1">
-                <a href="{{ "vision/" | relURL }}"
-                    class="px-8 py-4 rounded-full bg-slate-900 text-white font-bold shadow-lg hover:bg-slate-800 hover:-translate-y-1 transition-all flex items-center gap-2">
+                <a href="{{ "vision/" | relURL }}" class="btn-primary">
                     Read the Vision
                     <svg style="width:1rem;height:1rem" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                 </a>
-                <a href="/cv/recep-adiyaman-cv.pdf" target="_blank"
-                    class="px-8 py-4 rounded-full bg-teal-600 text-white font-bold shadow-lg shadow-teal-100 hover:bg-teal-700 hover:-translate-y-1 transition-all flex items-center gap-2">
+                <a href="/cv/recep-adiyaman-cv.pdf" target="_blank" class="btn-secondary">
                     Download CV
                     <svg style="width:1rem;height:1rem" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                     </svg>
                 </a>
-                <a href="#opensource"
-                    class="px-8 py-4 rounded-full border-2 border-slate-200 text-slate-700 font-bold hover:border-accent hover:text-accent transition-colors">
+                <a href="#opensource" class="btn-secondary">
                     View Tools
                 </a>
             </div>
@@ -102,7 +100,7 @@
                     {{ $roles := $cv.experience }}
                     {{ if gt (len $roles) 0 }}
                     {{ with index $roles 0 }}
-                    <div class="rounded-2xl border border-slate-200 bg-slate-50/50 p-4">
+                    <div class="rounded-2xl border border-slate-200 bg-white/[0.03] p-4">
                         <div class="flex items-start justify-between gap-3">
                             <p class="text-sm uppercase tracking-wide text-slate-500">{{ .period }}</p>
                             <span
@@ -121,7 +119,7 @@
 
                     {{ if gt (len $roles) 1 }}
                     {{ with index $roles 1 }}
-                    <div class="rounded-2xl border border-slate-200 bg-slate-50/50 p-4">
+                    <div class="rounded-2xl border border-slate-200 bg-white/[0.03] p-4">
                         <div class="flex items-start justify-between gap-3">
                             <p class="text-sm uppercase tracking-wide text-slate-500">{{ .period }}</p>
                             <span

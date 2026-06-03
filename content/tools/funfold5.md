@@ -6,6 +6,16 @@ tags: ["Docker", "Ligand Binding", "Structure Prediction"]
 casp_rank: "2nd Place CASP16"
 stat: "Surpasses AlphaFold3 Server"
 color: "emerald"
+publications:
+  - title: "Prediction of protein structures, functions and interactions using the IntFOLD7, MultiFOLD and ModFOLDdock servers"
+    journal: "Nucleic Acids Research"
+    year: "2023"
+    citations: "67"
+    doi: "https://doi.org/10.1093/nar/gkad297"
+  - title: "Highlights of model quality assessment in CASP16"
+    journal: "Proteins: Structure, Function, and Bioinformatics"
+    year: "2025"
+    doi: "https://doi.org/10.1002/prot.70035"
 ---
 
 <div class="grid md:grid-cols-2 gap-8 mb-12">

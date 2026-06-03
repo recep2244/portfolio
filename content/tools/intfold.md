@@ -6,6 +6,22 @@ tags: ["Structure Prediction", "Function Prediction", "Web Server"]
 casp_rank: "CASP Validated"
 stat: "30K+ users · 400K+ jobs/yr"
 color: "indigo"
+publications:
+  - title: "Prediction of protein structures, functions and interactions using the IntFOLD7, MultiFOLD and ModFOLDdock servers"
+    journal: "Nucleic Acids Research"
+    year: "2023"
+    citations: "67"
+    doi: "https://doi.org/10.1093/nar/gkad297"
+  - title: "IntFOLD: An integrated web resource for high-performance protein structure and function prediction"
+    journal: "Nucleic Acids Research"
+    year: "2019"
+    citations: "145"
+    doi: "https://doi.org/10.1093/nar/gkz322"
+  - title: "ModFOLD8: Accurate global and local quality estimates for 3D protein models"
+    journal: "Nucleic Acids Research"
+    year: "2021"
+    citations: "78"
+    doi: "https://doi.org/10.1093/nar/gkab321"
 ---
 
 <div class="grid md:grid-cols-2 gap-8 mb-12">

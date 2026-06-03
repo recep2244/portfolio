@@ -6,6 +6,20 @@ tags: ["Docker", "Protein-Protein Docking", "Quality Assessment"]
 casp_rank: "CASP Validated"
 stat: "16,000+ engineered features"
 color: "purple"
+publications:
+  - title: "Prediction and quality assessment of protein quaternary structure models using the MultiFOLD2 and ModFOLDdock2 servers"
+    journal: "Nucleic Acids Research"
+    year: "2025"
+    doi: "https://doi.org/10.1093/nar/gkaf336"
+  - title: "Estimation of model accuracy in CASP15 using the ModFOLDdock server"
+    journal: "Proteins: Structure, Function, and Bioinformatics"
+    year: "2023"
+    citations: "20"
+    doi: "https://doi.org/10.1002/prot.26532"
+  - title: "Highlights of model quality assessment in CASP16"
+    journal: "Proteins: Structure, Function, and Bioinformatics"
+    year: "2025"
+    doi: "https://doi.org/10.1002/prot.70035"
 ---
 
 <div class="grid md:grid-cols-2 gap-8 mb-12">

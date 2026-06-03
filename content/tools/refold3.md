@@ -6,6 +6,22 @@ tags: ["Protein Refinement", "MD Simulations", "Web Server"]
 casp_rank: "Best Server CASP14"
 stat: "Top-5 CASP13 Refinement"
 color: "blue"
+publications:
+  - title: "ReFOLD3: Refinement of 3D protein models with gradual restraints based on predicted local quality and residue contacts"
+    journal: "Nucleic Acids Research"
+    year: "2021"
+    citations: "22"
+    doi: "https://doi.org/10.1093/nar/gkab300"
+  - title: "Improvement of protein tertiary and quaternary structure predictions using the ReFOLD refinement method and the AlphaFold2 recycling process"
+    journal: "Bioinformatics Advances"
+    year: "2023"
+    citations: "19"
+    doi: "https://doi.org/10.1093/bioadv/vbad078"
+  - title: "Methods for the Refinement of Protein Structure 3D Models"
+    journal: "International Journal of Molecular Sciences"
+    year: "2019"
+    citations: "80"
+    doi: "https://doi.org/10.3390/ijms20092301"
 ---
 
 <div class="grid md:grid-cols-2 gap-8 mb-12">
