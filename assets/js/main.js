@@ -179,13 +179,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     const a = nodes[i], b = nodes[j];
                     const d = Math.hypot(a.x - b.x, a.y - b.y);
                     if (d < LINK) {
-                        ctx.strokeStyle = `rgba(45,212,191,${(1 - d / LINK) * 0.45})`;
+                        ctx.strokeStyle = `rgba(167,139,250,${(1 - d / LINK) * 0.45})`;
                         ctx.lineWidth = 1;
                         ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
                     }
                 }
             }
-            ctx.fillStyle = 'rgba(94,234,212,0.9)';
+            ctx.fillStyle = 'rgba(216,180,254,0.9)';
             for (const n of nodes) { ctx.beginPath(); ctx.arc(n.x, n.y, 1.7, 0, 6.2832); ctx.fill(); }
             animId = requestAnimationFrame(draw);
         };

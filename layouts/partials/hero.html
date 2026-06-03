@@ -6,14 +6,14 @@
         <!-- Interactive protein/particle network -->
         <canvas id="hero-net" class="absolute inset-0 h-full w-full opacity-70" aria-hidden="true"></canvas>
         <!-- Subtle scientific dot grid -->
-        <div class="absolute inset-0" style="background-image:radial-gradient(rgba(45,212,191,0.10) 1px,transparent 1px);background-size:40px 40px;opacity:0.6;"></div>
+        <div class="absolute inset-0" style="background-image:radial-gradient(rgba(167,139,250,0.10) 1px,transparent 1px);background-size:40px 40px;opacity:0.6;"></div>
         <!-- Soft cyan glow — very restrained -->
         <div class="absolute -left-32 top-0 orb orb-a"></div>
         <div class="absolute right-0 bottom-10 orb orb-b"></div>
 
         <!-- Molecular schematic — top right, wire-only, scientific (slow drift) -->
         <svg aria-hidden="true" class="absolute top-16 right-[8%] opacity-[0.14] animate-[float_16s_ease-in-out_infinite]"
-            style="width:200px;height:200px;" viewBox="0 0 200 200" fill="none" stroke="#2dd4bf" stroke-width="1.5">
+            style="width:200px;height:200px;" viewBox="0 0 200 200" fill="none" stroke="#a78bfa" stroke-width="1.5">
             <!-- Atoms (open circles = scientific style) -->
             <circle cx="100" cy="40"  r="8" />
             <circle cx="160" cy="80"  r="8" />
@@ -36,11 +36,11 @@
         <!-- DNA double helix — left, monochrome teal -->
         <svg aria-hidden="true" class="absolute bottom-10 left-[6%] opacity-[0.07]"
             style="width:60px;height:160px;" viewBox="0 0 60 160" fill="none">
-            <path d="M10,0 Q30,20 50,40 Q30,60 10,80 Q30,100 50,120 Q30,140 10,160" stroke="#2dd4bf" stroke-width="2" />
-            <path d="M50,0 Q30,20 10,40 Q30,60 50,80 Q30,100 10,120 Q30,140 50,160" stroke="#38bdf8" stroke-width="2" />
-            <line x1="10" y1="40"  x2="50" y2="40"  stroke="#2dd4bf" stroke-width="1" opacity="0.5" />
-            <line x1="10" y1="80"  x2="50" y2="80"  stroke="#2dd4bf" stroke-width="1" opacity="0.5" />
-            <line x1="10" y1="120" x2="50" y2="120" stroke="#2dd4bf" stroke-width="1" opacity="0.5" />
+            <path d="M10,0 Q30,20 50,40 Q30,60 10,80 Q30,100 50,120 Q30,140 10,160" stroke="#a78bfa" stroke-width="2" />
+            <path d="M50,0 Q30,20 10,40 Q30,60 50,80 Q30,100 10,120 Q30,140 50,160" stroke="#e879f9" stroke-width="2" />
+            <line x1="10" y1="40"  x2="50" y2="40"  stroke="#a78bfa" stroke-width="1" opacity="0.5" />
+            <line x1="10" y1="80"  x2="50" y2="80"  stroke="#a78bfa" stroke-width="1" opacity="0.5" />
+            <line x1="10" y1="120" x2="50" y2="120" stroke="#a78bfa" stroke-width="1" opacity="0.5" />
         </svg>
     </div>
 
@@ -48,7 +48,7 @@
         <div class="space-y-6">
             <div class="eyebrow w-fit">
                 <span
-                    class="h-2 w-2 rounded-full bg-accent shadow-[0_0_0_6px_rgba(34,211,238,0.15)] animate-pulse"></span>
+                    class="h-2 w-2 rounded-full bg-accent shadow-[0_0_0_6px_rgba(167,139,250,0.18)] animate-pulse"></span>
                 Computational Structural Biologist · PhD
             </div>
             <p class="font-mono text-sm text-accent/80 mb-1" style="font-family:var(--font-mono)" data-scramble>&gt; protein_structure_prediction --beyond-static</p>
@@ -71,7 +71,7 @@
             <!-- Availability signal -->
             <div class="flex flex-wrap items-center gap-2.5">
                 <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-sm font-medium"
-                    style="background:rgba(45,212,191,0.1);border:1px solid rgba(45,212,191,0.3);color:var(--color-accent)">
+                    style="background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.3);color:var(--color-accent)">
                     <span class="h-2 w-2 rounded-full bg-accent animate-pulse"></span>
                     Open to senior roles in AI drug discovery &amp; structural biology
                 </span>
@@ -105,38 +105,38 @@
                 aria-label="Animated molecular portal: rotating scientific rings and orbiting atoms around a protein double-helix core">
                 <defs>
                     <radialGradient id="mpCore" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stop-color="#5eead4" stop-opacity="0.85" />
-                        <stop offset="45%" stop-color="#2dd4bf" stop-opacity="0.30" />
-                        <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0" />
+                        <stop offset="0%" stop-color="#d8b4fe" stop-opacity="0.85" />
+                        <stop offset="45%" stop-color="#a78bfa" stop-opacity="0.30" />
+                        <stop offset="100%" stop-color="#a78bfa" stop-opacity="0" />
                     </radialGradient>
                     <linearGradient id="mpRing" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stop-color="#2dd4bf" />
-                        <stop offset="100%" stop-color="#38bdf8" />
+                        <stop offset="0%" stop-color="#a78bfa" />
+                        <stop offset="100%" stop-color="#e879f9" />
                     </linearGradient>
                 </defs>
                 <circle cx="200" cy="200" r="92" fill="url(#mpCore)" class="mp-pulse" />
                 <g class="mp-spin-slow" fill="none">
-                    <circle cx="200" cy="200" r="186" stroke="#244a4a" stroke-width="1" stroke-dasharray="2 10" />
-                    <circle cx="200" cy="14" r="3" fill="#2dd4bf" stroke="none" />
-                    <circle cx="200" cy="386" r="2.5" fill="#38bdf8" stroke="none" />
+                    <circle cx="200" cy="200" r="186" stroke="#2a2442" stroke-width="1" stroke-dasharray="2 10" />
+                    <circle cx="200" cy="14" r="3" fill="#a78bfa" stroke="none" />
+                    <circle cx="200" cy="386" r="2.5" fill="#e879f9" stroke="none" />
                 </g>
                 <g class="mp-spin-rev" fill="none">
                     <circle cx="200" cy="200" r="140" stroke="url(#mpRing)" stroke-width="1.2" stroke-opacity="0.55" />
-                    <circle cx="200" cy="60" r="5" fill="#5eead4" stroke="none" />
-                    <circle cx="321" cy="270" r="4" fill="#38bdf8" stroke="none" />
-                    <circle cx="79" cy="270" r="4" fill="#2dd4bf" stroke="none" />
+                    <circle cx="200" cy="60" r="5" fill="#d8b4fe" stroke="none" />
+                    <circle cx="321" cy="270" r="4" fill="#e879f9" stroke="none" />
+                    <circle cx="79" cy="270" r="4" fill="#a78bfa" stroke="none" />
                 </g>
                 <g class="mp-spin-med" fill="none">
-                    <circle cx="200" cy="200" r="96" stroke="#2dd4bf" stroke-width="1" stroke-opacity="0.4" stroke-dasharray="5 6" />
+                    <circle cx="200" cy="200" r="96" stroke="#a78bfa" stroke-width="1" stroke-opacity="0.4" stroke-dasharray="5 6" />
                     <circle cx="296" cy="200" r="3.5" fill="#a855f7" stroke="none" />
-                    <circle cx="104" cy="200" r="3.5" fill="#5eead4" stroke="none" />
+                    <circle cx="104" cy="200" r="3.5" fill="#d8b4fe" stroke="none" />
                 </g>
                 <g fill="none" stroke-linecap="round" class="mp-helix">
-                    <path d="M172,152 Q232,178 172,204 Q232,230 172,256" stroke="#2dd4bf" stroke-width="2.5" />
-                    <path d="M228,152 Q168,178 228,204 Q168,230 228,256" stroke="#5eead4" stroke-width="2.5" />
-                    <line x1="174" y1="166" x2="226" y2="166" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.5" />
-                    <line x1="172" y1="204" x2="228" y2="204" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.5" />
-                    <line x1="174" y1="242" x2="226" y2="242" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.5" />
+                    <path d="M172,152 Q232,178 172,204 Q232,230 172,256" stroke="#a78bfa" stroke-width="2.5" />
+                    <path d="M228,152 Q168,178 228,204 Q168,230 228,256" stroke="#d8b4fe" stroke-width="2.5" />
+                    <line x1="174" y1="166" x2="226" y2="166" stroke="#e879f9" stroke-width="1" stroke-opacity="0.5" />
+                    <line x1="172" y1="204" x2="228" y2="204" stroke="#e879f9" stroke-width="1" stroke-opacity="0.5" />
+                    <line x1="174" y1="242" x2="226" y2="242" stroke="#e879f9" stroke-width="1" stroke-opacity="0.5" />
                 </g>
             </svg>
             <div class="text-center mt-1">
