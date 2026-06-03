@@ -6,3 +6,7 @@ pyyaml
 feedparser
 beautifulsoup4
 atproto
+
+# Optional extras (kept separate to keep the base install light):
+#   requirements-semantic.txt  — numpy + sentence-transformers for embedding-based dedup
+#   requirements-dev.txt       — pytest for the test suite

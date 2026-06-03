@@ -68,6 +68,7 @@ def find_semantic_duplicates(
     threshold: float = 0.80,
     cache_dir: Optional[Path] = None,
     verbose: bool = False,
+    embeddings: Optional[np.ndarray] = None,
 ) -> Tuple[List[Set[int]], np.ndarray]:
     """
     Find groups of semantically similar papers.
@@ -95,21 +96,20 @@ def find_semantic_duplicates(
     if verbose:
         print(f"Computing embeddings for {len(texts)} papers...")
 
-    # Get embeddings
-    embeddings = get_embeddings_batch(texts, cache_dir=cache_dir, show_progress=verbose)
+    # Get embeddings (skip the model entirely if caller injected precomputed vectors)
+    if embeddings is None:
+        embeddings = get_embeddings_batch(texts, cache_dir=cache_dir, show_progress=verbose)
 
     # Compute similarity matrix
     sim_matrix = cosine_similarity_matrix(embeddings)
 
-    # Find pairs above threshold
+    # Find above-threshold pairs in the upper triangle (vectorized — avoids the
+    # O(n^2) Python loop; only the union() calls iterate, over actual duplicates).
     uf = UnionFind(len(papers))
-    duplicate_pairs = []
-
-    for i in range(len(papers)):
-        for j in range(i + 1, len(papers)):
-            if sim_matrix[i, j] >= threshold:
-                uf.union(i, j)
-                duplicate_pairs.append((i, j, sim_matrix[i, j]))
+    rows, cols = np.triu_indices(len(papers), k=1)
+    mask = sim_matrix[rows, cols] >= threshold
+    for i, j in zip(rows[mask].tolist(), cols[mask].tolist()):
+        uf.union(i, j)
 
     groups = uf.get_groups()
 
@@ -128,6 +128,7 @@ def semantic_dedupe_papers(
     score_fn: Optional[callable] = None,
     cache_dir: Optional[Path] = None,
     verbose: bool = False,
+    embeddings: Optional[np.ndarray] = None,
 ) -> Tuple[List[Any], List[Set[int]]]:
     """
     Remove semantic duplicates from a list of papers.
@@ -152,6 +153,7 @@ def semantic_dedupe_papers(
         threshold=threshold,
         cache_dir=cache_dir,
         verbose=verbose,
+        embeddings=embeddings,
     )
 
     if not groups:

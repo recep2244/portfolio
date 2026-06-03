@@ -1,0 +1,6 @@
+# Optional dependencies for semantic (embedding-based) deduplication.
+# The pipeline runs without these — semantic dedup degrades gracefully to
+# exact/title dedup if they are absent (see generate_issue.semantic_dedupe_papers).
+#   pip install -r requirements-semantic.txt
+numpy
+sentence-transformers
