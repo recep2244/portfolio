@@ -90,6 +90,73 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ─── Hero protein/particle network (canvas) ───────────────────────────────
+    const heroCanvas = document.getElementById('hero-net');
+    if (heroCanvas) {
+        const ctx = heroCanvas.getContext('2d');
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const COUNT = window.innerWidth < 768 ? 26 : 52;
+        const LINK = 140;
+        const mouse = { x: -999, y: -999 };
+        let w = 0, h = 0, nodes = [], animId = null;
+
+        const resize = () => {
+            const r = heroCanvas.getBoundingClientRect();
+            w = r.width; h = r.height;
+            heroCanvas.width = w * dpr; heroCanvas.height = h * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        };
+        const seed = () => {
+            nodes = Array.from({ length: COUNT }, () => ({
+                x: Math.random() * w, y: Math.random() * h,
+                vx: (Math.random() - 0.5) * 0.32, vy: (Math.random() - 0.5) * 0.32,
+            }));
+        };
+        const draw = () => {
+            ctx.clearRect(0, 0, w, h);
+            for (const n of nodes) {
+                n.x += n.vx; n.y += n.vy;
+                if (n.x < 0 || n.x > w) n.vx *= -1;
+                if (n.y < 0 || n.y > h) n.vy *= -1;
+                const dx = mouse.x - n.x, dy = mouse.y - n.y;
+                if (dx * dx + dy * dy < 40000) { n.x += dx * 0.0009; n.y += dy * 0.0009; }
+            }
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const a = nodes[i], b = nodes[j];
+                    const d = Math.hypot(a.x - b.x, a.y - b.y);
+                    if (d < LINK) {
+                        ctx.strokeStyle = `rgba(45,212,191,${(1 - d / LINK) * 0.45})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+                    }
+                }
+            }
+            ctx.fillStyle = 'rgba(94,234,212,0.9)';
+            for (const n of nodes) { ctx.beginPath(); ctx.arc(n.x, n.y, 1.7, 0, 6.2832); ctx.fill(); }
+            animId = requestAnimationFrame(draw);
+        };
+
+        window.addEventListener('pointermove', (e) => {
+            const r = heroCanvas.getBoundingClientRect();
+            mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+        }, { passive: true });
+        window.addEventListener('resize', () => { resize(); seed(); }, { passive: true });
+
+        resize(); seed();
+        if (reduceMotion) {
+            draw(); cancelAnimationFrame(animId); animId = null;
+        } else {
+            const heroSection = heroCanvas.closest('section') || heroCanvas;
+            new IntersectionObserver((entries) => {
+                entries.forEach(en => {
+                    if (en.isIntersecting && animId === null) draw();
+                    else if (!en.isIntersecting && animId !== null) { cancelAnimationFrame(animId); animId = null; }
+                });
+            }, { threshold: 0 }).observe(heroSection);
+        }
+    }
+
     // ─── Reading Progress Bar ─────────────────────────────────────────────────
     const progressBar = document.querySelector('.reading-progress');
     if (progressBar) {
