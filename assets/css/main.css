@@ -13,7 +13,7 @@
   --color-grid: #e9edf5;        /* faint grid lines */
   --font-sans: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
-  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-display: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
   --font-label: "Hanken Grotesk", system-ui, sans-serif;
 
   --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
@@ -180,11 +180,11 @@
   h5,
   h6 {
     font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: -0.02em;
+    font-weight: 800;
+    letter-spacing: -0.025em;
     color: var(--color-text);
   }
-  h4, h5, h6 { font-family: var(--font-sans); letter-spacing: -0.01em; }
+  h4, h5, h6 { font-weight: 700; letter-spacing: -0.01em; }
 
   /* Site-wide grain for editorial tactility */
   body::after {

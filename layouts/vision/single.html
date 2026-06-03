@@ -31,7 +31,7 @@
                     <p class="mono-meta text-accent">&gt; simulation.run()</p>
                     <h2 class="text-3xl font-bold text-text leading-tight">The Breathing Protein</h2>
                     <p class="text-lg text-slate-400 leading-relaxed">
-                        Proteins are not static statues — they vibrate, shift, and breathe.
+                        Proteins are not static statues - they vibrate, shift, and breathe.
                         <span class="text-accent font-semibold">Hover the visualization</span> to trigger a
                         conformational shift from a closed (inactive) to an open (active) state.
                     </p>
@@ -68,7 +68,7 @@
         <div class="grid gap-20">
             {{ $steps := slice
                 (dict "n" "01" "title" "Limitations of rigid-body assumptions" "lead" "Conventional algorithms rely on static crystal structures, ignoring thermodynamic fluctuations." "body" "This leads to false negatives in mutation-impact analysis, as steric clashes and entropy changes are overlooked." "viz" "clash")
-                (dict "n" "02" "title" "Enhanced sampling & ensemble generation" "lead" "We integrate deep-learning potentials with molecular dynamics to sample the conformational landscape." "body" "Boltzmann-weighted ensembles capture transient states critical for function — not just the lowest-energy snapshot." "viz" "ensemble")
+                (dict "n" "02" "title" "Enhanced sampling & ensemble generation" "lead" "We integrate deep-learning potentials with molecular dynamics to sample the conformational landscape." "body" "Boltzmann-weighted ensembles capture transient states critical for function - not just the lowest-energy snapshot." "viz" "ensemble")
                 (dict "n" "03" "title" "Cryptic pocket identification & ligand docking" "lead" "We identify cryptic allosteric sites that only open in specific conformational states." "body" "This enables rational small-molecule design for 'undruggable' targets and de novo enzyme engineering." "viz" "pocket")
             }}
             {{ range $i, $s := $steps }}

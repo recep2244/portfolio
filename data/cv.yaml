@@ -35,7 +35,7 @@ experience:
 - title: Collaborative Researcher (Part-Time)
   org: InstaDeep (BioNTech Group)
   location: London, UK
-  period: 2023 – Present
+  period: 2023 - Present
   bullets:
   - Designed and developed a protein structure prediction pipeline for structural
     immunology, integrating TCR-pMHC modelling using AlphaFold2, Boltz-2, and Chai-1
@@ -50,7 +50,7 @@ experience:
 - title: Research Fellow
   org: McGuffin Lab, University of Reading
   location: Reading, UK
-  period: Sep 2020 – Present
+  period: Sep 2020 - Present
   funding: BBSRC-funded
   bullets:
   - Co-led the development and maintenance of IntFOLD integrated server for 3D protein
@@ -58,7 +58,7 @@ experience:
   - Built ModFOLDdock2Q, a model quality assessment method utilising over 16,000 engineered
     features, achieving significant performance for identification of better protein
     binders.
-  - Led ReFOLD4 development — MD-based refinement protocol that improves 3D predictions
+  - Led ReFOLD4 development - MD-based refinement protocol that improves 3D predictions
     beyond AlphaFold2 accuracy by integrating local quality estimation with MD simulations
     (Bioinformatics Advances, 2023).
   - Led FunFOLD5 development for CASP16, achieving 2nd place in protein-ligand pose
@@ -74,7 +74,7 @@ experience:
 - title: Teaching Assistant
   org: University of Reading
   location: Reading, UK
-  period: 2017 – 2020
+  period: 2017 - 2020
   bullets:
   - Delivered practical demonstrations for undergraduate bioinformatics and programming
     modules.
@@ -83,7 +83,7 @@ experience:
 - title: PhD Researcher
   org: University of Reading
   location: Reading, UK
-  period: 2017 – 2021
+  period: 2017 - 2021
   bullets:
   - Developed ReFOLD2 (top-10 CASP13) and ReFOLD3 (top-5 CASP13, best server CASP14)
     using MD restraint strategies to lift predicted structures toward native.
@@ -93,7 +93,7 @@ education:
 - degree: PhD, Structural Bioinformatics
   school: University of Reading
   location: Reading, UK
-  period: 2017 – 2021
+  period: 2017 - 2021
   details: 'Thesis: ''The Molecular Dynamics Based Refinement of Predicted 3D Models
     Using Different Restraint Strategies''. Developed ReFOLD2 (top-10 CASP13) and
     ReFOLD3 (top-5 CASP13, best server CASP14). 4 first-author papers. Supervisor:
@@ -101,20 +101,20 @@ education:
 - degree: MSc, Bioengineering
   school: Yildiz Technical University
   location: Istanbul, Turkey
-  period: 2012 – 2014
+  period: 2012 - 2014
   details: 'Thesis: ''In Silico Optimisation of Zinc Binding Proteins for Biosensor
     Applications''. Computational protein engineering using molecular docking and
     mutagenesis. GPA 3.86/4.00.'
 - degree: MSc, Physics
   school: Trakya University
   location: Edirne, Turkey
-  period: 2011 – 2013
+  period: 2011 - 2013
   details: 'Dissertation: ''GaAs/GaAlAs Quantum Well''. Research on semiconductor
     quantum well structures.'
 - degree: BSc, Physics
   school: Trakya University
   location: Edirne, Turkey
-  period: 2007 – 2011
+  period: 2007 - 2011
   details: Coursework in classical mechanics, relativity, and quantum mechanics. Foundation
     for computational physics and simulation methods.
 skills:
@@ -255,16 +255,16 @@ publications:
   year: '2014'
   link: ''
 talks:
-- ReFOLD4 for the refinement of AlphaFold2 predictions — ISMB 2023, 3D-SIG (Oral)
-- MD-Based Refinement of Protein Models with Local Quality Assessment — University
+- ReFOLD4 for the refinement of AlphaFold2 predictions - ISMB 2023, 3D-SIG (Oral)
+- MD-Based Refinement of Protein Models with Local Quality Assessment - University
   of Reading Symposium (Oral)
-- Design of metal ion-binding small peptides — 1st National Biosensor Congress, Turkey
+- Design of metal ion-binding small peptides - 1st National Biosensor Congress, Turkey
   (Oral)
-- ReFOLD2/3 refinement posters — CASP13/14/16, ISMB 2021, 3D-SIG
+- ReFOLD2/3 refinement posters - CASP13/14/16, ISMB 2021, 3D-SIG
 projects:
 - name: Structural Immunology Pipeline
   org: InstaDeep / BioNTech
-  period: 2023 – Present
+  period: 2023 - Present
   summary: End-to-end TCR-pMHC structure prediction pipeline supporting BioNTech's
     personalised cancer vaccine programme. Integrates AlphaFold2, Boltz-2, and Chai-1
     with a hybrid scoring system (FoldX, Rosetta, DockQ, PatchDockQ, ilDDT) for candidate
@@ -276,7 +276,7 @@ projects:
   - AlphaFold2/Boltz-2
 - name: IntFOLD / MultiFOLD3
   org: University of Reading
-  period: 2020 – Present
+  period: 2020 - Present
   summary: Co-led IntFOLD server (30,000+ users, 400,000+ jobs/yr). MultiFOLD3 outperformed
     AlphaFold3 in quaternary structure prediction by integrating Boltz-2, Chai-1,
     Protenix and geometric-based rescoring in CAMEO.
@@ -286,7 +286,7 @@ projects:
   - CAMEO Benchmark
 - name: FunFOLD5
   org: University of Reading
-  period: 2023 – 2024
+  period: 2023 - 2024
   summary: Led CASP16 submission achieving 2nd place in protein-ligand pose ranking.
     Surpasses AlphaFold3 server method in protein-ligand interaction prediction via
     blind + template docking and affinity scoring.
@@ -296,7 +296,7 @@ projects:
   - Beats AlphaFold3
 - name: ModFOLDdock2Q
   org: University of Reading
-  period: 2022 – Present
+  period: 2022 - Present
   summary: Quality assessment system for protein binders engineered with 16,000+ features
     combining physics-based and ML scores (DockQ, QS, PatchDockQ, PatchQS, ilDDT,
     aa-local-lddt, ics). Contributed to CASP15/16 EMA rankings.
@@ -306,7 +306,7 @@ projects:
   - CASP15/16
 - name: ReFOLD4
   org: University of Reading
-  period: 2020 – 2023
+  period: 2020 - 2023
   summary: MD-based refinement protocol that improves 3D predictions beyond AlphaFold2
     accuracy. Integrates local quality estimation with MD recycling; published in
     Bioinformatics Advances 2023.
@@ -316,7 +316,7 @@ projects:
   - QA-guided
 - name: ReFOLD2 / ReFOLD3
   org: University of Reading
-  period: 2017 – 2021
+  period: 2017 - 2021
   summary: Top-10 (CASP13) and top-5 (CASP13) refinement methods; best server at CASP14.
     MD restraint strategies lifted predicted structures toward native and improved
     ligand-site fidelity. 4 first-author papers.
