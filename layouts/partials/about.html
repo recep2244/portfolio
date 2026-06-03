@@ -1,28 +1,20 @@
 {{ $cv := .Site.Data.cv }}
-<section id="about" class="py-20 bg-secondary/30 relative overflow-hidden">
-    <div class="absolute right-0 top-0 w-80 h-80 bg-teal-50/40 rounded-full blur-[100px] pointer-events-none"></div>
+<section id="about" class="py-24 md:py-28 relative overflow-hidden">
+    <div class="container mx-auto px-6 relative z-10">
+        {{ partial "section_header.html" (dict "index" "01" "label" "About" "title" "Translating protein science into deployable tools" "tag" "Physics → Bioengineering → Biology") }}
 
-    <div class="container mx-auto px-6 space-y-10 relative z-10">
-        <div class="flex flex-wrap items-center justify-between gap-4">
-            <div>
-                <span class="eyebrow">About</span>
-                <h2 class="section-heading mt-3">Translating protein science into deployable tools</h2>
-            </div>
-            <div class="pill">Physics & Bioengineering background</div>
-        </div>
-
-        <!-- Key metrics strip -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 stagger-reveal">
-            {{ $metrics := slice
-                (dict "value" "30k+" "label" "Active Server Users" "color" "text-accent")
-                (dict "value" "470+" "label" "Citations · H-index 9" "color" "text-accent")
-                (dict "value" "14" "label" "Peer-reviewed Papers" "color" "text-accent")
-                (dict "value" "9+ yrs" "label" "Research Experience" "color" "text-accent")
-            }}
-            {{ range $metrics }}
-            <div class="glass-card p-5 text-center reveal-on-scroll">
-                <div class="text-2xl font-black {{ .color }}">{{ .value }}</div>
-                <div class="text-xs text-slate-500 font-semibold uppercase tracking-wider mt-1">{{ .label }}</div>
+        <!-- Key metrics — single hairline-divided strip -->
+        {{ $metrics := slice
+            (dict "value" "30k+" "label" "Active server users")
+            (dict "value" "470+" "label" "Citations · h-index 9")
+            (dict "value" "14" "label" "Peer-reviewed papers")
+            (dict "value" "9+ yrs" "label" "Research experience")
+        }}
+        <div class="grid grid-cols-2 md:grid-cols-4 border border-[color:var(--color-panel)] rounded-xl overflow-hidden mb-14">
+            {{ range $i, $m := $metrics }}
+            <div class="p-6 md:p-7 border-[color:var(--color-panel)] {{ if gt $i 0 }}border-l{{ end }} {{ if ge $i 2 }}border-t md:border-t-0{{ end }}">
+                <div class="text-3xl md:text-4xl font-bold gradient-text leading-none">{{ .value }}</div>
+                <div class="mono-meta mt-2.5">{{ .label }}</div>
             </div>
             {{ end }}
         </div>

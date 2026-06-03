@@ -377,6 +377,60 @@
     animation: float 20s ease-in-out infinite;
   }
 
+  /* ── Editorial section system ─────────────────────────────────────── */
+  .sec-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-bottom: 1.4rem;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--color-panel);
+  }
+  .sec-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .sec-kicker .idx { color: var(--color-accent); }
+  .sec-kicker .ln { height: 1px; width: 2rem; background: linear-gradient(90deg, var(--color-accent), transparent); }
+  .sec-kicker .lbl { color: #8696a6; }
+  .sec-title {
+    font-size: clamp(1.9rem, 4vw, 3.25rem);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    color: var(--color-text);
+    max-width: 22ch;
+  }
+
+  /* Hairline list rows (work, publications, education) */
+  .row-rule { border-top: 1px solid var(--color-panel); transition: background 0.2s; }
+  .row-rule:hover { background: rgba(255, 255, 255, 0.015); }
+
+  /* Monospace data label */
+  .mono-meta { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.02em; color: #8696a6; }
+
+  /* Refined tag chip */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.01em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 0.3rem;
+    color: #b9c6d2;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-panel);
+  }
+  .chip-accent { color: var(--color-accent); border-color: rgba(45, 212, 191, 0.3); background: rgba(45, 212, 191, 0.08); }
+
   /* Scroll Reveal Animation */
   .reveal-on-scroll {
     opacity: 0;

@@ -1,13 +1,10 @@
 {{ $data := .Site.Data.opensource }}
-<section id="opensource" class="py-24 bg-slate-50 relative">
+<section id="opensource" class="py-24 relative">
     <div class="container mx-auto px-6">
-        <div class="mb-16">
-            <span class="eyebrow">Open Source & Tools</span>
-            <h2 class="section-heading mt-3">Scientific Software</h2>
-            <p class="text-slate-600 text-lg mt-4 max-w-3xl font-semibold">
-                Next-generation tools for structure prediction, refinement, and quality assessment.
-            </p>
-        </div>
+        {{ partial "section_header.html" (dict "index" "06" "label" "Open Source & Tools" "title" "Scientific Software" "tag" "CASP-assessed") }}
+        <p class="text-slate-600 text-lg -mt-6 mb-12 max-w-3xl">
+            Next-generation tools for structure prediction, refinement, and quality assessment.
+        </p>
 
         <div class="grid lg:grid-cols-3 gap-8">
             {{ range $data.projects }}

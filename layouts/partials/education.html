@@ -1,15 +1,8 @@
 {{ $cv := .Site.Data.cv }}
 <section id="education" class="py-20 bg-secondary/30 relative overflow-hidden">
-    <div class="absolute right-0 top-0 w-72 h-72 bg-indigo-50/60 rounded-full blur-[90px] pointer-events-none"></div>
 
     <div class="container mx-auto px-6 space-y-10 relative z-10">
-        <div class="flex flex-wrap items-center justify-between gap-4">
-            <div>
-                <span class="eyebrow">Education</span>
-                <h2 class="section-heading mt-3">Academic Foundation</h2>
-            </div>
-            <div class="pill">Physics → Bioengineering → Biology</div>
-        </div>
+        {{ partial "section_header.html" (dict "index" "03" "label" "Education" "title" "Academic Foundation" "tag" "Physics → Bioengineering → Biology") }}
 
         {{ $achievements := slice
             (dict "badge" "PhD" "highlight" "Best Server CASP14" "color" "bg-blue-600" "ring" "ring-blue-100")

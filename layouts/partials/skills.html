@@ -1,48 +1,20 @@
 {{ $cv := .Site.Data.cv }}
-<section id="skills" class="py-20 bg-secondary/30 relative overflow-hidden">
-    <div class="absolute top-0 right-0 w-80 h-80 bg-teal-100/30 rounded-full blur-[100px] pointer-events-none"></div>
-    <div class="absolute bottom-0 left-0 w-80 h-80 bg-teal-50/30 rounded-full blur-[100px] pointer-events-none"></div>
+<section id="skills" class="py-24 md:py-28 relative overflow-hidden">
+    <div class="container mx-auto px-6 relative z-10">
+        {{ partial "section_header.html" (dict "index" "04" "label" "Capabilities" "title" "Technical Skills" "tag" "ML · MD · Cloud") }}
 
-    <div class="container mx-auto px-6 space-y-10 relative z-10">
-        <div class="flex flex-wrap items-center justify-between gap-4">
-            <div>
-                <span class="eyebrow">Capabilities</span>
-                <h2 class="section-heading mt-3">Technical Skills</h2>
-            </div>
-            <div class="pill">ML + MD + Cloud</div>
-        </div>
-
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {{ $tiers := slice
-                (dict "label" "Expert" "color" "bg-cyan-500" "ring" "ring-cyan-200" "text" "text-cyan-700" "bg2" "bg-cyan-50" "bar" "from-cyan-400 to-cyan-600" "yrs" "9+ yrs" "pct" "95%")
-                (dict "label" "Expert" "color" "bg-blue-500" "ring" "ring-blue-200" "text" "text-blue-700" "bg2" "bg-blue-50" "bar" "from-blue-400 to-blue-600" "yrs" "8+ yrs" "pct" "90%")
-                (dict "label" "Expert" "color" "bg-purple-500" "ring" "ring-purple-200" "text" "text-purple-700" "bg2" "bg-purple-50" "bar" "from-purple-400 to-purple-600" "yrs" "9+ yrs" "pct" "92%")
-                (dict "label" "Advanced" "color" "bg-indigo-500" "ring" "ring-indigo-200" "text" "text-indigo-700" "bg2" "bg-indigo-50" "bar" "from-indigo-400 to-indigo-600" "yrs" "7+ yrs" "pct" "85%")
-                (dict "label" "Advanced" "color" "bg-teal-500" "ring" "ring-teal-200" "text" "text-teal-700" "bg2" "bg-teal-50" "bar" "from-teal-400 to-teal-600" "yrs" "9+ yrs" "pct" "88%")
-                (dict "label" "Expert" "color" "bg-rose-500" "ring" "ring-rose-200" "text" "text-rose-700" "bg2" "bg-rose-50" "bar" "from-rose-400 to-rose-600" "yrs" "9+ yrs" "pct" "93%")
-            }}
+        <!-- Capability matrix: hairline-separated cells, mono proficiency, no chrome -->
+        <div class="grid gap-px bg-[color:var(--color-panel)] border border-[color:var(--color-panel)] rounded-xl overflow-hidden md:grid-cols-2 lg:grid-cols-3">
+            {{ $levels := slice "Expert" "Expert" "Expert" "Advanced" "Advanced" "Expert" }}
+            {{ $yrs := slice "9+ yrs" "8+ yrs" "9+ yrs" "7+ yrs" "9+ yrs" "9+ yrs" }}
             {{ range $i, $skill := $cv.skills }}
-            {{ $tier := index $tiers (mod $i (len $tiers)) }}
-            <div class="glass-card p-7 flex flex-col gap-5 hover:-translate-y-1 transition-transform duration-300 reveal-on-scroll">
-                <div class="flex items-center justify-between gap-3">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl {{ index $tier "bg2" }} flex items-center justify-center ring-1 {{ index $tier "ring" }}">
-                            <span class="w-3.5 h-3.5 rounded-full {{ index $tier "color" }}"></span>
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900">{{ index $skill "name" }}</h3>
-                    </div>
-                    <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full {{ index $tier "bg2" }} {{ index $tier "text" }} ring-1 {{ index $tier "ring" }}">
-                        {{ index $tier "label" }}
-                    </span>
+            <div class="bg-[color:var(--color-surface)] p-6 md:p-7 flex flex-col gap-4 hover:bg-[#141d28] transition-colors">
+                <div class="flex items-baseline justify-between gap-3">
+                    <h3 class="text-base font-semibold text-text">{{ index $skill "name" }}</h3>
+                    <span class="mono-meta shrink-0">{{ index $levels (mod $i 6) }} · {{ index $yrs (mod $i 6) }}</span>
                 </div>
-                <div class="flex flex-wrap gap-2">
-                    {{ range index $skill "items" }}
-                    <span class="pill text-xs font-medium">{{ . }}</span>
-                    {{ end }}
-                </div>
-                <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
-                    <span class="text-xs text-slate-400">Experience</span>
-                    <span class="text-xs font-bold {{ index $tier "text" }} {{ index $tier "bg2" }} px-2 py-0.5 rounded-full">{{ index $tier "yrs" }}</span>
+                <div class="flex flex-wrap gap-1.5">
+                    {{ range index $skill "items" }}<span class="chip">{{ . }}</span>{{ end }}
                 </div>
             </div>
             {{ end }}
