@@ -1,0 +1,16 @@
+{{ $themes := slice
+    "Protein Structure Prediction" "MD-Based Refinement" "Model Quality Assessment"
+    "De Novo Design" "CASP Benchmarking" "Cancer Vaccine Design" "AlphaFold & ESMFold"
+    "Cryptic Pocket Discovery" "TCR-pMHC Modelling" "Conformational Ensembles" }}
+<div class="py-7 border-y border-[color:var(--color-panel)] overflow-hidden relative">
+    <div class="marquee">
+        {{ range seq 2 }}
+        <div class="marquee-set" aria-hidden="{{ if gt . 1 }}true{{ end }}">
+            {{ range $themes }}
+            <span class="marquee-item">{{ . }}</span>
+            <span class="marquee-dot">◆</span>
+            {{ end }}
+        </div>
+        {{ end }}
+    </div>
+</div>
