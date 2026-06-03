@@ -4,44 +4,23 @@
     <div class="container mx-auto px-6 space-y-10 relative z-10">
         {{ partial "section_header.html" (dict "index" "03" "label" "Education" "title" "Academic Foundation" "tag" "Physics → Bioengineering → Biology") }}
 
-        {{ $achievements := slice
-            (dict "badge" "PhD" "highlight" "Best Server CASP14" "color" "bg-blue-600" "ring" "ring-blue-100")
-            (dict "badge" "MSc" "highlight" "GPA 3.86 / 4.00" "color" "bg-purple-600" "ring" "ring-purple-100")
-            (dict "badge" "MSc" "highlight" "Quantum Wells Research" "color" "bg-teal-600" "ring" "ring-teal-100")
-            (dict "badge" "BSc" "highlight" "Physics Foundation" "color" "bg-slate-600" "ring" "ring-slate-100")
-        }}
+        {{ $badges := slice "PhD" "MSc" "MSc" "BSc" }}
+        {{ $highlights := slice "Best Server CASP14" "GPA 3.86 / 4.00" "Quantum Wells Research" "Physics Foundation" }}
 
-        <div class="grid gap-6">
+        <!-- Academic timeline -->
+        <div class="border-t border-[color:var(--color-panel)]">
             {{ range $i, $edu := $cv.education }}
-            {{ $ach := index $achievements (mod $i (len $achievements)) }}
-            <div class="glass-card p-6 md:p-7 reveal-on-scroll">
-                <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-                    <div class="space-y-2 md:max-w-3xl">
-                        <div class="flex flex-wrap items-center gap-3">
-                            <!-- Degree badge -->
-                            <span class="text-xs font-black uppercase tracking-widest px-2.5 py-1 rounded-lg {{ index $ach "color" }} text-white">
-                                {{ index $ach "badge" }}
-                            </span>
-                            <h3 class="text-xl font-semibold text-slate-900">{{ .degree }}</h3>
-                            <span class="text-xs uppercase tracking-wide rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-slate-700">
-                                {{ .period }}
-                            </span>
-                        </div>
-                        <div class="text-slate-700 font-semibold">{{ .school }}
-                            <span class="text-slate-400 font-normal mx-1">•</span>
-                            {{ .location }}
-                        </div>
-                        <p class="text-slate-600 leading-relaxed text-sm md:text-base">{{ .details }}</p>
+            <div class="row-rule reveal-fade grid md:grid-cols-[8.5rem_1fr_auto] gap-x-6 gap-y-2 py-7 px-1 items-start">
+                <div class="mono-meta pt-1.5">{{ .period }}</div>
+                <div>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <span class="chip chip-accent">{{ index $badges (mod $i (len $badges)) }}</span>
+                        <h3 class="text-lg font-semibold text-text">{{ .degree }}</h3>
                     </div>
-                    <div class="flex items-start gap-2 text-slate-600 text-sm md:flex-col md:items-end shrink-0">
-                        <span class="rounded-full border {{ index $ach "ring" }} bg-white px-3 py-1 text-xs font-bold text-slate-700 ring-1">
-                            {{ index $ach "highlight" }}
-                        </span>
-                        <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs text-slate-500">
-                            Research-focused
-                        </span>
-                    </div>
+                    <p class="mono-meta mt-2">{{ .school }} · {{ .location }}</p>
+                    <p class="text-slate-400 text-sm mt-2.5 leading-relaxed max-w-2xl">{{ .details }}</p>
                 </div>
+                <span class="hidden md:inline-flex chip self-start mt-1">{{ index $highlights (mod $i (len $highlights)) }}</span>
             </div>
             {{ end }}
         </div>

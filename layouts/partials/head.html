@@ -1,6 +1,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{/* Mark JS-enabled early so scroll-reveal styles only hide content when JS can reveal it */}}
+  <script>document.documentElement.classList.add('js')</script>
 
   {{/* Page title */}}
   <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
