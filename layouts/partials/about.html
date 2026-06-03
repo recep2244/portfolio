@@ -12,7 +12,7 @@
         }}
         <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-[color:var(--color-panel)] border border-[color:var(--color-panel)] rounded-xl overflow-hidden mb-14 stagger-reveal">
             {{ range $i, $m := $metrics }}
-            <div class="bg-[color:var(--color-surface)] p-6 md:p-7 reveal-fade">
+            <div class="bg-[color:var(--color-surface)] glow-cell p-6 md:p-7 reveal-fade">
                 <div class="text-3xl md:text-4xl font-bold gradient-text leading-none" data-count-to="{{ .to }}" data-count-suffix="{{ .suffix }}">{{ .value }}</div>
                 <div class="mono-meta mt-2.5">{{ .label }}</div>
             </div>

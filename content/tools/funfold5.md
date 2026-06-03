@@ -26,15 +26,15 @@ publications:
 
 <!-- Highlights -->
 <div class="grid sm:grid-cols-3 gap-px bg-[color:var(--color-panel)] border border-[color:var(--color-panel)] rounded-xl overflow-hidden my-10">
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="text-2xl font-bold gradient-text leading-none">2nd</div>
     <div class="mono-meta mt-2">CASP16 ligand</div>
   </div>
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="text-2xl font-bold gradient-text leading-none">&gt; AF3</div>
     <div class="mono-meta mt-2">Server baseline</div>
   </div>
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="text-2xl font-bold gradient-text leading-none">Template</div>
     <div class="mono-meta mt-2">Structure-based</div>
   </div>
@@ -50,17 +50,17 @@ publications:
 
 <!-- Methodology -->
 <div class="grid gap-px bg-[color:var(--color-panel)] border border-[color:var(--color-panel)] rounded-xl overflow-hidden sm:grid-cols-3 my-10">
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="mono-meta text-accent mb-3">01</div>
     <h3 class="text-base font-semibold text-text">Structural alignment</h3>
     <p class="text-sm text-slate-400 mt-2 leading-relaxed">Superpose the target structure against a library of ligand-bound templates.</p>
   </div>
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="mono-meta text-accent mb-3">02</div>
     <h3 class="text-base font-semibold text-text">Binding-site transfer</h3>
     <p class="text-sm text-slate-400 mt-2 leading-relaxed">Map contacting residues from aligned templates onto the target sequence.</p>
   </div>
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="mono-meta text-accent mb-3">03</div>
     <h3 class="text-base font-semibold text-text">Confidence scoring</h3>
     <p class="text-sm text-slate-400 mt-2 leading-relaxed">Cluster and rank predicted sites by template agreement and reliability.</p>

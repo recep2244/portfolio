@@ -48,6 +48,48 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.4 });
     document.querySelectorAll('[data-count-to]').forEach(el => countObserver.observe(el));
 
+    // ─── Interactive pointer effects ──────────────────────────────────────────
+    // Cursor-following ambient glow, per-card spotlight, magnetic buttons.
+    // Skipped on touch devices and when the user prefers reduced motion.
+    const finePointer = window.matchMedia('(pointer: fine)').matches;
+    if (finePointer && !reduceMotion) {
+        const glow = document.querySelector('.cursor-glow');
+        const spotlights = document.querySelectorAll('.glass-card, .cv-card, .glow-cell');
+        const magnets = document.querySelectorAll('.btn-primary, .btn-secondary, .nav-pill');
+
+        let gx = 0, gy = 0, raf = null;
+        window.addEventListener('pointermove', (e) => {
+            gx = e.clientX; gy = e.clientY;
+            if (glow && raf === null) {
+                raf = requestAnimationFrame(() => {
+                    raf = null;
+                    glow.style.opacity = '1';
+                    glow.style.setProperty('--cx', gx + 'px');
+                    glow.style.setProperty('--cy', gy + 'px');
+                });
+            }
+        }, { passive: true });
+        document.addEventListener('mouseleave', () => { if (glow) glow.style.opacity = '0'; });
+
+        spotlights.forEach(card => {
+            card.addEventListener('pointermove', (e) => {
+                const r = card.getBoundingClientRect();
+                card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+                card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+            }, { passive: true });
+        });
+
+        magnets.forEach(btn => {
+            btn.addEventListener('pointermove', (e) => {
+                const r = btn.getBoundingClientRect();
+                const mx = e.clientX - (r.left + r.width / 2);
+                const my = e.clientY - (r.top + r.height / 2);
+                btn.style.transform = `translate(${mx * 0.22}px, ${my * 0.32}px)`;
+            });
+            btn.addEventListener('pointerleave', () => { btn.style.transform = ''; });
+        });
+    }
+
     // ─── Reading Progress Bar ─────────────────────────────────────────────────
     const progressBar = document.querySelector('.reading-progress');
     if (progressBar) {

@@ -30,15 +30,15 @@ publications:
 
 <!-- Highlights -->
 <div class="grid sm:grid-cols-3 gap-px bg-[color:var(--color-panel)] border border-[color:var(--color-panel)] rounded-xl overflow-hidden my-10">
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="text-2xl font-bold gradient-text leading-none">16K+</div>
     <div class="mono-meta mt-2">Engineered features</div>
   </div>
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="text-2xl font-bold gradient-text leading-none">Quaternary</div>
     <div class="mono-meta mt-2">Complex QA</div>
   </div>
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="text-2xl font-bold gradient-text leading-none">CASP15/16</div>
     <div class="mono-meta mt-2">EMA benchmarked</div>
   </div>
@@ -54,17 +54,17 @@ publications:
 
 <!-- Capabilities -->
 <div class="grid gap-px bg-[color:var(--color-panel)] border border-[color:var(--color-panel)] rounded-xl overflow-hidden sm:grid-cols-3 my-10">
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="mono-meta text-accent mb-3">01</div>
     <h3 class="text-base font-semibold text-text">Deep-learning QA</h3>
     <p class="text-sm text-slate-400 mt-2 leading-relaxed">Networks trained on CASP complex targets predict per-interface and global accuracy.</p>
   </div>
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="mono-meta text-accent mb-3">02</div>
     <h3 class="text-base font-semibold text-text">Multi-signal scoring</h3>
     <p class="text-sm text-slate-400 mt-2 leading-relaxed">Combines structural, statistical and energetic features (DockQ, QS, iLDDT, …).</p>
   </div>
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="mono-meta text-accent mb-3">03</div>
     <h3 class="text-base font-semibold text-text">Reproducible</h3>
     <p class="text-sm text-slate-400 mt-2 leading-relaxed">Containerised so results are identical across machines and pipelines.</p>

@@ -33,15 +33,15 @@ publications:
 
 <!-- Benchmark strip -->
 <div class="grid sm:grid-cols-3 gap-px bg-[color:var(--color-panel)] border border-[color:var(--color-panel)] rounded-xl overflow-hidden my-10">
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="text-2xl font-bold gradient-text leading-none">Top&nbsp;5</div>
     <div class="mono-meta mt-2">CASP13 refinement</div>
   </div>
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="text-2xl font-bold gradient-text leading-none">Best</div>
     <div class="mono-meta mt-2">Server · CASP14</div>
   </div>
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="text-2xl font-bold gradient-text leading-none">+AF2</div>
     <div class="mono-meta mt-2">Recycling protocol</div>
   </div>
@@ -55,17 +55,17 @@ publications:
 
 <!-- Capabilities -->
 <div class="grid gap-px bg-[color:var(--color-panel)] border border-[color:var(--color-panel)] rounded-xl overflow-hidden sm:grid-cols-3 my-10">
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="mono-meta text-accent mb-3">01</div>
     <h3 class="text-base font-semibold text-text">MD-based refinement</h3>
     <p class="text-sm text-slate-400 mt-2 leading-relaxed">Restrained molecular dynamics relaxes and optimises the model toward the native state.</p>
   </div>
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="mono-meta text-accent mb-3">02</div>
     <h3 class="text-base font-semibold text-text">Quality-guided restraints</h3>
     <p class="text-sm text-slate-400 mt-2 leading-relaxed">ModFOLD per-residue scores decide where to restrain tightly and where to let regions move.</p>
   </div>
-  <div class="bg-[color:var(--color-surface)] p-6">
+  <div class="bg-[color:var(--color-surface)] glow-cell p-6">
     <div class="mono-meta text-accent mb-3">03</div>
     <h3 class="text-base font-semibold text-text">Automated selection</h3>
     <p class="text-sm text-slate-400 mt-2 leading-relaxed">Upload a PDB model; the server runs the protocol and returns the best-scoring refined structure.</p>

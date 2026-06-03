@@ -472,6 +472,84 @@
   .animate-pulse,
   .animate-float,
   [class*="animate-"] { animation: none !important; }
+  .cursor-glow { display: none !important; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   Interactivity layer — cursor spotlights, magnetic buttons, aurora, grain
+   ══════════════════════════════════════════════════════════════════════ */
+html { scroll-behavior: smooth; }
+
+/* Site-wide cursor-following ambient glow */
+.cursor-glow {
+  position: fixed;
+  left: 0; top: 0;
+  width: 520px; height: 520px;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(circle, rgba(45, 212, 191, 0.10), rgba(56, 189, 248, 0.05) 40%, transparent 65%);
+  transform: translate3d(var(--cx, -300px), var(--cy, -300px), 0) translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  will-change: transform;
+}
+
+/* Animated aurora behind the hero */
+@keyframes aurora-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(6%, -4%) scale(1.1); }
+  66%  { transform: translate(-5%, 5%) scale(0.95); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+.aurora {
+  position: absolute;
+  inset: -25%;
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(60px);
+  opacity: 0.9;
+  background:
+    radial-gradient(42% 52% at 18% 22%, rgba(45, 212, 191, 0.38), transparent 60%),
+    radial-gradient(38% 48% at 82% 18%, rgba(56, 189, 248, 0.32), transparent 60%),
+    radial-gradient(48% 58% at 68% 82%, rgba(139, 92, 246, 0.26), transparent 60%);
+  animation: aurora-drift 18s ease-in-out infinite;
+}
+
+/* Cursor-reactive spotlight on cards + matrix cells */
+.glass-card, .cv-card, .glow-cell {
+  position: relative;
+}
+.glass-card::after, .cv-card::after, .glow-cell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(45, 212, 191, 0.22), transparent 45%);
+  z-index: 0;
+}
+.glass-card:hover::after, .cv-card:hover::after, .glow-cell:hover::after { opacity: 1; }
+/* clear hover feedback: accent hairline ring that tracks the theme */
+.glass-card, .cv-card, .glow-cell { transition: box-shadow 0.3s ease, border-color 0.3s ease; }
+.glass-card:hover, .cv-card:hover {
+  border-color: rgba(45, 212, 191, 0.35);
+  box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.25), 0 14px 40px rgba(0, 0, 0, 0.55), 0 0 40px rgba(45, 212, 191, 0.06);
+}
+.glow-cell:hover { box-shadow: inset 0 0 0 1px rgba(45, 212, 191, 0.25); }
+/* keep inner content above the glow */
+.glass-card > *, .cv-card > *, .glow-cell > * { position: relative; z-index: 1; }
+
+/* Magnetic / springy interactive controls */
+.btn-primary, .btn-secondary, .nav-pill {
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .aurora { animation: none; }
 }
 
 @keyframes spin {
