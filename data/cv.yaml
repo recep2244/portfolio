@@ -17,7 +17,7 @@ summary: Computational structural biologist with 9+ years of research experience
   design. Developer of multiple internationally benchmarked tools (IntFOLD, ReFOLD,
   FunFOLD, MultiFOLD, ModFOLDdock2Q) that consistently rank among the top methods
   at CASP blind prediction experiments. Published 14 peer-reviewed papers (H-index
-  9, 470+ citations) in journals including Nucleic Acids Research, Blood, and Bioinformatics
+  9, 530+ citations) in journals including Nucleic Acids Research, Blood, and Bioinformatics
   Advances. Currently combining deep learning structure predictors (AlphaFold2/3,
   Boltz-2, Chai-1) with physics-based methods for cancer vaccine design in collaboration
   with InstaDeep/BioNTech. Experienced in Python, PyTorch, HPC/SLURM environments,
@@ -156,7 +156,7 @@ skills:
 - name: Collaboration & Impact
   items:
   - 14 peer-reviewed papers, H-index 9
-  - 470+ citations across leading journals
+  - 530+ citations across leading journals
   - InstaDeep / BioNTech cancer vaccine pipeline
   - Teaching bioinformatics to 150+ students/cohort
   - Code review, documentation, mentoring

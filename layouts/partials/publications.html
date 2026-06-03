@@ -1,9 +1,7 @@
 {{ $publications := .Site.Data.publications }}
 <section id="publications" class="py-24 md:py-28 relative overflow-hidden">
     <div class="container mx-auto px-6 relative z-10">
-        {{ $totalCitations := 0 }}
-        {{ range $publications }}{{ with .citations }}{{ $totalCitations = add $totalCitations (int .) }}{{ end }}{{ end }}
-        {{ partial "section_header.html" (dict "index" "05" "label" "Research Output" "title" "Selected Publications" "tag" (printf "%d+ citations" $totalCitations)) }}
+        {{ partial "section_header.html" (dict "index" "05" "label" "Research Output" "title" "Selected Publications" "tag" "530+ citations · h-index 9") }}
 
         <div class="flex flex-wrap gap-3 mb-4 -mt-4">
             <a href="https://scholar.google.com/citations?user=4UUzdMsAAAAJ&hl=en" target="_blank" rel="noreferrer"
