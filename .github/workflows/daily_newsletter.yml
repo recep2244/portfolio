@@ -86,5 +86,11 @@ jobs:
           git add newsletter/ content/newsletter/
           git diff --cached --quiet && echo "No changes to commit" && exit 0
           git commit -m "Sync newsletter archive ($(date +%Y-%m-%d))"
-          git pull --rebase origin main
-          git push
+          # Retry pull-rebase + push so concurrent automation (podcast sync) cannot diverge main
+          for attempt in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            echo "Push attempt $attempt failed, retrying after fetch..."
+            git fetch origin main
+          done
+          echo "Failed to push after 3 attempts" >&2
+          exit 1

@@ -26,3 +26,6 @@ newsletter/newsletter/run_daily.lock
 newsletter/newsletter/run_daily.lockdir/
 newsletter/newsletter/daily_run.status
 newsletter/newsletter/run_catchup.lockdir/
+
+# Local hugo server log (runtime, never commit)
+hugo_server.log
