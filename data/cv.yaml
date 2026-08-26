@@ -382,6 +382,50 @@ podcasts:
   youtube_url: https://www.youtube.com/watch?v=SrYzHV_ssXI
   date: ''
   duration: ''
+- title: Judging AI s Predictions
+  description: This research article presents the findings from the Evaluation of
+    Model Accuracy (EMA) category during the CASP16 competition, a premier event for
+    benchmarking protein structure prediction. The text details the methodologies
+    of leading research groups, such as MIEnsembles-Server, ModFOLDdock2, MULTICOM,
+    and GuijunLab, as they navigate challenges in estimating the quality of multimeric
+    protein assemblies. A central theme is the comparison between consensus methods,
+    which rely on comparing multiple models, and single-model methods that evaluate
+    structures independently using physical principles or machine learning. The authors
+    introduce the QMODE3 challenge, a new benchmark requiring the identification of
+    the most accurate structures from massive pools of thousands of generated models.
+    Ultimately, the paper serves to highlight how machine learning and structural
+    bioinformatics are evolving to provide more reliable confidence metrics for complex
+    biological molecules.
+  youtube_url: https://www.youtube.com/watch?v=1RLw3o5Ij-8
+  date: '2026-01-04'
+  duration: ''
+- title: The Quaternary Shift
+  description: ModFOLDdock at CASP15 In our first episode, we examine the paper "Estimation
+    of model accuracy in CASP15 using the ModFOLDdock server". For years, the community
+    focused on single protein chains, but CASP15 saw a massive surge in multimeric
+    assemblies, which nearly doubled in number. We explore how the McGuffin group
+    met this challenge by developing three specific variants of the ModFOLDdock server
+  youtube_url: https://www.youtube.com/watch?v=EJC_a6VVsCQ
+  date: '2026-01-04'
+  duration: ''
+- title: ReFOLD4 & AF2 Recycling
+  description: The provided sources examine advanced computational frameworks designed
+    to predict and refine the 3D structures of proteins and their multimeric assemblies.
+    Central to this research is the McGuffin group’s development of the MultiFOLD
+    and ModFOLD suites, which automate the modelling of complex biological systems
+    and provide critical Estimation of Model Accuracy (EMA). These tools integrate
+    diverse sampling methods with stoichiometry prediction to outperform monolithic
+    deep learning models in challenging scenarios, such as the SARS-CoV-2 proteome
+    and human cellular processes. The texts also detail the ReFOLD refinement protocol,
+    which utilises molecular dynamics simulations and quality estimates to correct
+    local geometric errors and improve model precision. By offering democratised access
+    through high-performance web servers and Dockerized software, these frameworks
+    bridge the gap between theoretical predictions and experimental reality. Ultimately,
+    the research underscores how combining deep learning with sophisticated quality
+    assessment facilitates breakthroughs in drug discovery and functional bioinformatics.
+  youtube_url: https://www.youtube.com/watch?v=SRhW7rs823U
+  date: '2026-01-04'
+  duration: ''
 podcasts_manual:
 - youtube_url: https://www.youtube.com/watch?v=2gHcV4QCIGc
 - youtube_url: https://www.youtube.com/watch?v=AcdwUPXECwI
