@@ -5,7 +5,7 @@ import os
 import re
 import subprocess
 from datetime import datetime, timedelta
-from html import unescape
+from html import escape, unescape
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
@@ -228,8 +228,118 @@ class CurationServer(BaseHTTPRequestHandler):
             json.dump(data, f, indent=2, sort_keys=True)
             f.write("\n")
 
+    def _weekly_week(self, query):
+        import send_weekly_digest as weekly
+
+        tz = self.server.timezone
+        date_text = (query.get("date") or [""])[0].strip()
+        anchor = datetime.strptime(date_text, "%Y-%m-%d").replace(tzinfo=tz) if date_text else datetime.now(tz)
+        start_date, end_date = weekly.get_week_range(anchor)
+        issues = weekly.collect_issues(str(self.server.issues_dir), start_date, end_date)
+        approved = self.server.issues_dir / f"{end_date.isoformat()}.weekly.approved"
+        sent = self.server.issues_dir / f"{end_date.isoformat()}.weekly.sent"
+        return weekly, start_date, end_date, issues, approved, sent
+
+    @staticmethod
+    def _marker_time(path, key):
+        try:
+            return json.loads(path.read_text(encoding="utf-8")).get(key, "")[:16].replace("T", " ")
+        except (OSError, ValueError, AttributeError):
+            return ""
+
+    def _weekly_page(self, query):
+        try:
+            weekly, start_date, end_date, issues, approved, sent = self._weekly_week(query)
+        except ValueError:
+            self._send(400, {"error": "date must be YYYY-MM-DD"})
+            return
+        from generate_weekly_digest import generate_digest_md
+
+        week = end_date.isoformat()
+        date_range = f"{start_date.strftime('%b %d')} - {end_date.strftime('%b %d, %Y')}"
+        recipients = len(weekly.load_subscribers(str(self.server.subscribers_list), None))
+        if issues:
+            markdown = weekly.strip_frontmatter(generate_digest_md(issues, start_date, end_date))
+            preview = weekly.build_html_from_markdown(markdown)
+        else:
+            preview = "<p>No daily issues were generated this week, so there is nothing to send.</p>"
+        if sent.exists():
+            status = f"Sent on {self._marker_time(sent, 'sent_at')}."
+            actions = ""
+        elif approved.exists() and not weekly.approval_matches(
+            str(approved), str(self.server.issues_dir), start_date, end_date
+        ):
+            status = "Approved earlier, but the issues changed since, so it will not be sent. Approve it again."
+            actions = (f'<button class="primary" onclick="act(\'approve\')">'
+                       f"Approve again: send to {recipients} subscribers on Saturday at 09:00</button>")
+        elif approved.exists():
+            status = (f"Approved on {self._marker_time(approved, 'approved_at')}. "
+                      f"It goes to {recipients} subscribers on Saturday at 09:00.")
+            actions = f'<button onclick="act(\'withdraw\')">Withdraw approval</button>'
+        else:
+            status = "Not approved yet. Without approval this week is not sent."
+            disabled = "" if issues else " disabled"
+            actions = (f'<button class="primary" onclick="act(\'approve\')"{disabled}>'
+                       f"Approve: send to {recipients} subscribers on Saturday at 09:00</button>")
+        page = f"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weekly digest approval</title>
+<style>
+body {{ font-family: system-ui, sans-serif; max-width: 860px; margin: 24px auto; padding: 0 16px; color: #0f172a; }}
+.bar {{ background: #f1f5f9; border-radius: 10px; padding: 14px 18px; margin-bottom: 18px; }}
+.bar p {{ margin: 6px 0; }}
+button {{ font-size: 15px; padding: 9px 16px; border-radius: 8px; border: 1px solid #94a3b8; background: #fff; cursor: pointer; }}
+button.primary {{ background: #0e7490; color: #fff; border-color: #0e7490; }}
+button[disabled] {{ opacity: .5; cursor: default; }}
+.preview {{ border: 1px solid #cbd5e1; border-radius: 10px; padding: 18px 22px; }}
+</style></head><body>
+<div class="bar">
+<p><strong>Protein Design Digest, weekly issue for {escape(date_range)}</strong> ({len(issues)} daily issues)</p>
+<p id="status">{escape(status)}</p>
+<p>{actions}</p>
+</div>
+<div class="preview">{preview}</div>
+<script>
+async function act(action) {{
+  const response = await fetch('/weekly/' + action + '?date={week}', {{method: 'POST'}});
+  const body = await response.json();
+  if (!response.ok) {{ alert(body.error || 'Failed'); return; }}
+  location.reload();
+}}
+</script>
+</body></html>"""
+        self._send(200, page.encode("utf-8"), content_type="text/html; charset=utf-8")
+
+    def _weekly_action(self, action, query):
+        try:
+            weekly, start_date, end_date, issues, approved, sent = self._weekly_week(query)
+        except ValueError:
+            self._send(400, {"error": "date must be YYYY-MM-DD"})
+            return
+        if sent.exists():
+            self._send(409, {"error": "This week was already sent."})
+            return
+        if action == "approve":
+            if not issues:
+                self._send(409, {"error": "No daily issues this week, so there is nothing to approve."})
+                return
+            payload = {
+                "issue_date": end_date.isoformat(),
+                "approved_at": datetime.now(self.server.timezone).isoformat(),
+                "content_sha256": weekly.week_fingerprint(str(self.server.issues_dir), start_date, end_date),
+            }
+            approved.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+            self._send(200, {"status": "approved", "week_ending": end_date.isoformat()})
+            return
+        if approved.exists():
+            approved.unlink()
+        self._send(200, {"status": "withdrawn", "week_ending": end_date.isoformat()})
+
     def do_GET(self):
         parsed = urlparse(self.path)
+        if parsed.path == "/weekly":
+            self._weekly_page(parse_qs(parsed.query or ""))
+            return
         if parsed.path == "/":
             html_path = self.server.html_path
             if not html_path.exists():
@@ -265,6 +375,9 @@ class CurationServer(BaseHTTPRequestHandler):
 
     def do_POST(self):
         parsed = urlparse(self.path)
+        if parsed.path in ("/weekly/approve", "/weekly/withdraw"):
+            self._weekly_action(parsed.path.rsplit("/", 1)[1], parse_qs(parsed.query or ""))
+            return
         length = int(self.headers.get("Content-Length", "0"))
         raw = self.rfile.read(length) if length else b""
         try:

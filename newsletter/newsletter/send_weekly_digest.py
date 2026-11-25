@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import hashlib
 import html
 import re
 import json
@@ -20,6 +21,31 @@ def get_week_range(today):
     end_date = today.date() - timedelta(days=days_since_friday)
     start_date = end_date - timedelta(days=4)
     return start_date, end_date
+
+
+def week_fingerprint(issues_dir, start_date, end_date):
+    digest = hashlib.sha256()
+    for name in sorted(os.listdir(issues_dir)):
+        if not name.endswith(".json"):
+            continue
+        try:
+            file_date = datetime.strptime(name[: -len(".json")], "%Y-%m-%d").date()
+        except ValueError:
+            continue
+        if start_date <= file_date <= end_date:
+            digest.update(name.encode("utf-8"))
+            with open(os.path.join(issues_dir, name), "rb") as f:
+                digest.update(f.read())
+    return digest.hexdigest()
+
+
+def approval_matches(marker_path, issues_dir, start_date, end_date):
+    try:
+        with open(marker_path, encoding="utf-8") as f:
+            approved = json.load(f).get("content_sha256")
+    except (OSError, ValueError, AttributeError):
+        return True
+    return not approved or approved == week_fingerprint(issues_dir, start_date, end_date)
 
 
 def collect_issues(issues_dir, start_date, end_date):
@@ -141,10 +167,15 @@ def main():
         help="Send mode: bcc (single message) or per-recipient (individual).",
     )
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--date",
+        default="",
+        help="YYYY-MM-DD inside the week to send (default: today); the week runs Monday to Friday.",
+    )
     args = parser.parse_args()
 
     tz = ZoneInfo(args.timezone)
-    today = datetime.now(tz)
+    today = datetime.strptime(args.date, "%Y-%m-%d").replace(tzinfo=tz) if args.date else datetime.now(tz)
     start_date, end_date = get_week_range(today)
     issues_dir = args.issues_dir
 
@@ -212,6 +243,8 @@ def main():
         approval_marker = os.path.join(args.issues_dir, f"{today.date().isoformat()}.weekly.approved")
     if not os.path.exists(approval_marker):
         raise ValueError(f"Weekly approval marker missing: {approval_marker}")
+    if not approval_matches(approval_marker, issues_dir, start_date, end_date):
+        raise ValueError("The issues for this week changed after approval; approve the digest again.")
 
     if args.dry_run:
         print(f"Dry run: would send '{subject}' to {len(subscribers)} subscribers via {send_mode}.")

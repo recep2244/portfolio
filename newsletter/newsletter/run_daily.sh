@@ -455,7 +455,7 @@ PY
         PORT="${NEWSLETTER_CURATION_PORT:-5050}"
         CURATION_URL="${NEWSLETTER_CURATION_URL:-http://127.0.0.1:${PORT}}"
         WEEKLY_SUBJECT="${NEWSLETTER_WEEKLY_CURATION_SUBJECT:-Protein Design Digest: weekly curation ready [${TODAY_DATE}]}"
-        WEEKLY_BODY="${NEWSLETTER_WEEKLY_CURATION_BODY:-Weekly curation is ready. Open ${CURATION_URL} to curate and approve the weekly digest.}"
+        WEEKLY_BODY="${NEWSLETTER_WEEKLY_CURATION_BODY:-The digest for this week is ready. Review it and approve it at ${CURATION_URL}/weekly (Friday 09:00 is the plan). Once approved it goes to all subscribers on Saturday at 09:00; without approval it is not sent.}"
         if "$PYTHON_BIN" "$ROOT_DIR/newsletter/send_reminder.py" \
           --preview-list "$PREVIEW_LIST" \
           --subject "$WEEKLY_SUBJECT" \
