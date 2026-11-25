@@ -3,7 +3,7 @@ set -e
 
 # Define paths
 NEWSLETTER_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-HUGO_DIR="/home/recep/Desktop/Machine_Learning/projects/hugo"
+HUGO_DIR="/home/recep/Desktop/hugo"
 
 echo "🚀 Installing Newsletter components to Hugo site at: $HUGO_DIR"
 

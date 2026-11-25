@@ -1,9 +1,9 @@
 #!/bin/bash
 # Weekly Analytics Report - Run every Sunday at 5 PM
 # Add to crontab with: crontab -e
-# 0 17 * * 0 /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter/analytics/weekly_report_cron.sh
+# 0 17 * * 0 /home/recep/Desktop/hugo/newsletter/newsletter/analytics/weekly_report_cron.sh
 
-cd /home/recep/Desktop/Machine_Learning/projects/hugo/newsletter/newsletter
+cd /home/recep/Desktop/hugo/newsletter/newsletter
 
 # Load environment variables
 if [ -f .env ]; then
